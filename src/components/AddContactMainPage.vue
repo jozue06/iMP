@@ -1,9 +1,6 @@
 <template>
-	<section class="add-contact-main-page">
-		<h1>add-contact-main-page Component</h1>
-		<router-link to="/">
-			<h1>Home</h1>
-		</router-link>
+	<section class="add-contact">
+		<h1>add-contact</h1>
 		<ValidationObserver ref="observer" v-slot="{ }">
 			<b-form novalidate>
 			<b-form-group label="First Name">
@@ -18,71 +15,77 @@
 				></b-form-input>
 				<b-form-invalid-feedback :state="errors.length == 0">First name is requied.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Last Name">
+			</b-form-group> 
+			<b-form-group label="Last Name">
 				<ValidationProvider name="lastName" rules="required" v-slot="{ errors }">
-				<b-form-input
-					type="text"
-					:state="errors.length == 0"
-					v-model="form.lastName"
-					required
-					placeholder="Last Name"
-					name="lastName"
-				></b-form-input>
-				<b-form-invalid-feedback :state="errors.length == 0">Last name is requied.</b-form-invalid-feedback>
+					<b-form-input
+						type="text"
+						:state="errors.length == 0"
+						v-model="form.lastName"
+						required
+						placeholder="Last Name"
+						name="lastName"
+					></b-form-input>
+					<b-form-invalid-feedback :state="errors.length == 0">Last name is requied.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Address">
+			</b-form-group> 
+			<b-form-group label="Address">
 				<ValidationProvider name="addressLineOne" rules="required" v-slot="{ errors }">
-				<b-form-input
-					type="text"
-					:state="errors.length == 0"
-					v-model="form.addressLineOne"
-					required
-					placeholder="Address"
-					name="addressLineOne"
-				></b-form-input>
-				<b-form-invalid-feedback :state="errors.length == 0">Address is required.</b-form-invalid-feedback>
+					<b-form-input
+						type="text"
+						:state="errors.length == 0"
+						v-model="form.addressLineOne"
+						required
+						placeholder="Address"
+						name="addressLineOne"
+					></b-form-input>
+					<b-form-invalid-feedback :state="errors.length == 0">Address is required.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="City">
+			</b-form-group> 
+			<b-form-group label="City">
 				<ValidationProvider name="city" rules="required" v-slot="{ errors }">
-				<b-form-input
-					type="text"
-					:state="errors.length == 0"
-					v-model="form.city"
-					required
-					placeholder="City"
-					name="city"
-				></b-form-input>
-				<b-form-invalid-feedback :state="errors.length == 0">City is required.</b-form-invalid-feedback>
+					<b-form-input
+						type="text"
+						:state="errors.length == 0"
+						v-model="form.city"
+						required
+						placeholder="City"
+						name="city"
+					></b-form-input>
+					<b-form-invalid-feedback :state="errors.length == 0">City is required.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Postal Code">
+			</b-form-group> 
+			<b-form-group label="Postal Code">
 				<ValidationProvider
 				name="postalCode"
 				rules="required|postal_code:country"
 				v-slot="{ errors }"
 				>
-				<b-form-input
-					type="text"
-					:state="errors.length == 0"
-					v-model="form.postalCode"
-					required
-					placeholder="Postal Code"
-					name="postalCode"
-				></b-form-input>
-				<b-form-invalid-feedback :state="errors.length == 0">Postal code is requied.</b-form-invalid-feedback>
+					<b-form-input
+						type="text"
+						:state="errors.length == 0"
+						v-model="form.postalCode"
+						required
+						placeholder="Postal Code"
+						name="postalCode"
+					></b-form-input>
+					<b-form-invalid-feedback :state="errors.length == 0">Postal code is requied.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Country">
+			</b-form-group> 
+			<b-form-group label="Country">
 				<ValidationProvider name="country" rules="required" v-slot="{ errors }">
-				<b-form-select
-					:options="countries"
-					:state="errors.length == 0"
-					v-model="form.country"
-					required
-					placeholder="Country"
-					name="country"
-				></b-form-select>
-				<b-form-invalid-feedback :state="errors.length == 0">Country is requied.</b-form-invalid-feedback>
+					<b-form-select
+						:options="countries"
+						:state="errors.length == 0"
+						v-model="form.country"
+						required
+						placeholder="Country"
+						name="country"
+					></b-form-select>
+					<b-form-invalid-feedback :state="errors.length == 0">Country is requied.</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Email">
+			</b-form-group> 
+			<b-form-group label="Email">
 				<ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
 				<b-form-input
 					type="text"
@@ -94,7 +97,8 @@
 				></b-form-input>
 				<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Phone">
+			</b-form-group> 
+			<b-form-group label="Phone">
 				<ValidationProvider name="phone" rules="required|phone:country" v-slot="{ errors }">
 				<b-form-input
 					type="text"
@@ -106,7 +110,8 @@
 				></b-form-input>
 				<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group> <b-form-group label="Age">
+			</b-form-group> 
+			<b-form-group label="Age">
 				<ValidationProvider
 				name="age"
 				rules="required|min_value:0|max_value:200"
@@ -122,8 +127,9 @@
 				></b-form-input>
 				<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 				</ValidationProvider>
-			</b-form-group><b-button type="submit" variant="primary">Submit</b-button>
-			<!-- <b-button type="reset" variant="danger" click="cancel()">Cancel</b-button> -->
+			</b-form-group>
+				<b-button type="submit" variant="primary">Submit</b-button>
+				<!-- <b-button type="reset" variant="danger" click="cancel()">Cancel</b-button> -->
 			</b-form>
 		</ValidationObserver>
 	</section>
@@ -131,54 +137,70 @@
 
 
 <script>
-import { COUNTRIES } from "@/helpers/exports";
-import { requestsMixin } from "@/mixins/requestsMixin";
-import { ValidationProvider, ValidationObserver } from 'vee-validate';
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-export default {
-	components: {
-		ValidationProvider,
-		ValidationObserver
-	},
-  name: "AddContactMainPage",
-  mixins: [requestsMixin],
-  props: {
-    edit: Boolean,
-    contact: Object
-  },
-  methods: {
-    async onSubmit() {
-      const isValid = await this.$refs.observer.validate();
-      if (!isValid) {
-        return;
-      }if (this.edit) {
-        await this.editContact(this.form);
-      } else {
-        await this.addContact(this.form);
-      }
-      const response = await this.getContacts();
-      this.$store.commit("setContacts", response.data);
-      this.$emit("saved");
-    },
-    cancel() {
-      this.$emit("cancelled");
-    }
-  },
-  data() {
-    return {
-      form: {},
-      countries: COUNTRIES.map(c => ({ value: c.name, text: c.name }))
-    };
-  },
-  watch: {
-    contact: {
-      handler(c) {
-        this.form = c || {};
-      },
-      deep: true,
-      immediate: true
-    }
-  }
-};
+	import { COUNTRIES } from "@/helpers/exports";
+	import { requestsMixin } from "@/mixins/requestsMixin";
+	import { ValidationProvider, ValidationObserver } from 'vee-validate';
+	import "bootstrap/dist/css/bootstrap.css";
+	import "bootstrap-vue/dist/bootstrap-vue.css";
+
+	export default {
+		components: {
+			ValidationProvider,
+			ValidationObserver
+		},
+
+		name: "AddContactMainPage",
+		mixins: [requestsMixin],
+		props: {
+			edit: Boolean,
+			contact: Object
+		},
+
+		methods: {
+			async onSubmit() {
+				const isValid = await this.$refs.observer.validate();
+
+				if (!isValid) {
+					return;
+				}
+				if (this.edit) {
+					await this.editContact(this.form);
+				} else {
+					await this.addContact(this.form);
+				}
+
+				const response = await this.getContacts();
+				this.$store.commit("setContacts", response.data);
+				this.$emit("saved");
+			},
+
+			cancel() {
+				this.$emit("cancelled");
+			}
+		},
+
+		data() {
+			return {
+				form: {},
+				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name }))
+			};
+		},
+
+		watch: {
+			contact: {
+				handler(c) {
+					this.form = c || {};
+				},
+				deep: true,
+				immediate: true
+			}
+		}
+	};
 </script>
+
+
+<style scoped>
+	section {
+		display: inline-block;
+	}
+</style>

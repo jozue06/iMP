@@ -1,15 +1,15 @@
 <template>
-
 	<div id="app">
-		<router-view />
+		<Container titleToPass="Welcome" />
 	</div>
 </template>
 
-<script>	
+<script>
+	import Container from './components/Container.vue'
 	export default {
 		name: 'App',
 		components: {
-
+			Container
 		}
 	}
 </script>

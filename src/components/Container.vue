@@ -1,20 +1,21 @@
 <template>
-	<div class="title">
-		<router-link to="/">
-			<h1>{{ title }}</h1>
-		</router-link>
+	<div class="container">
+		<Header v-bind:title=titleToPass />
 		<Sidebar />
+		<router-view />
 	</div>
 </template>
 <script>
+	import Header from './Header.vue'
 	import Sidebar from './Sidebar.vue'
 
 	export default {
-		name: "Title",
+		name: "Container",
 		props: {
-			title: String
+			titleToPass: String
 		},
 		components: {
+			Header,
 			Sidebar,
 		}
 	};

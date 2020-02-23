@@ -1,7 +1,7 @@
-import Title from './components/Title.vue';
+// import Container from './components/Container.vue';
 import AddContactMainPage from './components/AddContactMainPage.vue';
 export default [
-    { path: "/", component: Title, props: { title: "Welcome" } },
+    { path: "/", },
     { 
         path: "/addContact", 
         name: "addContact",
