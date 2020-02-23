@@ -1,17 +1,15 @@
 <template>
 
 	<div id="app">
-		<Title title="Welcome"/>
+		<router-view />
 	</div>
 </template>
 
-<script>
-	import Title from './components/Title.vue'
-
+<script>	
 	export default {
 		name: 'App',
 		components: {
-			Title
+
 		}
 	}
 </script>

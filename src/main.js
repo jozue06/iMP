@@ -5,7 +5,7 @@ import Routes from './routes';
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
-
+Vue.prototype.$log = console.log;
 const router = new VueRouter({
   routes: Routes,
 });
@@ -13,4 +13,7 @@ const router = new VueRouter({
 new Vue({
   render: h => h(App), 
   router,
+  mounted() {
+    this.$router.push("/");
+  }
 }).$mount('#app');

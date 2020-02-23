@@ -1,5 +1,10 @@
-import App from './App.vue';
-
+import Title from './components/Title.vue';
+import AddContactMainPage from './components/AddContactMainPage.vue';
 export default [
-    { path: "/", component: App},
-]
+    { path: "/", component: Title, props: { title: "Welcome" } },
+    { 
+        path: "/addContact", 
+        name: "addContact",
+        component: AddContactMainPage
+    }
+];

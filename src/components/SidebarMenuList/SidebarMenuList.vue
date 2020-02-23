@@ -1,23 +1,25 @@
-<template lang="html">
+<template>
 	<section class="sidebar-menu-list">
 		<ul id="sidebar">
 			<li
 				v-for="(item) in items"
 				v-bind:item="item"
 				v-bind:key="item.report"
+				v-bind:route="item.route"
 			>
-				<router-link to="/item.route">
-				+ <span class="normal-text">{{ item.childMsg }}</span>
+				<router-link to="/addContact">
+					+ <span class="normal-text">{{ item.childMsg }}</span>
 				</router-link>
 			</li>
 		</ul>
+
 	</section>
 </template>
 
 <script>
 
 	export default  {
-		name: 'sidebar-menu-list',
+
 		props: [],
 		mounted () {
 		},
@@ -28,7 +30,7 @@
 				items: [
 					{
 						report: 1,
-						route: "/reportName",
+						route: "/addContact",
 						childMsg: 'add contact' 
 					},
 					{
@@ -58,7 +60,7 @@
 		methods: {
 			onClick: function (report, childMsg) {
 				alert(`going to report # ${report} - ${childMsg}`)
-			}
+			},
 		},
 
 		computed: {

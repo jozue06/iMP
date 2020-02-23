@@ -1,18 +1,21 @@
 <template>
 	<div class="title">
-	<h1>{{ title }}</h1>
+		<router-link to="/">
+			<h1>{{ title }}</h1>
+		</router-link>
 		<Sidebar />
 	</div>
 </template>
 <script>
 	import Sidebar from './Sidebar.vue'
+
 	export default {
 		name: "Title",
 		props: {
 			title: String
 		},
 		components: {
-			Sidebar
+			Sidebar,
 		}
 	};
 </script>
