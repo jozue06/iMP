@@ -3,6 +3,7 @@ import { format } from 'url';
 import { join } from 'path';
 import { topMenuTemplates } from './topMenuTemplates';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+
 let window;
 function createMainWindow(width, height, titleName) {
 	window = new BrowserWindow({
