@@ -1,6 +1,7 @@
 <template>
 	<div id="app">
 		<Container titleToPass="Welcome" />
+
 	</div>
 </template>
 

@@ -1,7 +1,14 @@
 <template>
 	<section class="add-contact">
 		<h1>add-contact</h1>
+		{{ $log("stufss " , contacts)}}
+		<!-- {{ $log("counts " , countries)}} -->
 		<ValidationObserver ref="observer" v-slot="{ }">
+				<b-form-select
+					:options="contacts"
+					placeholder="Contact?"
+					name="concant"
+				></b-form-select>
 			<form v-on:submit.prevent="onSubmit">
 			<b-form-group label="First Name">
 				<ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
@@ -142,7 +149,13 @@
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
-	import { insertContact } from '../data/data'
+	import { insertContact, findAllContacts } from '../data/data'
+	
+	let contacts = []; 
+
+	findAllContacts( (data) => {	
+		data.forEach(c => contacts.push({ value: c.record.firstName, text: c.record.lastName }));
+	});
 
 	export default {
 		components: {
@@ -159,36 +172,17 @@
 
 		methods: {
 			onSubmit() {
-
-
-				// const isValid = await this.$refs.observer.validate();
-
-				// if (!isValid) {
-				// 	return;
-				// }
-				// if (this.edit) {
-				// 	await this.editContact(this.form);
-				// } else {
-				// 	await this.addContact(this.form);
-				// }
-
-				// const response = await this.getContacts();
-				console.log('whawt is insertContact ? ', typeof insertContact);
-				
 				insertContact(this.form);
-
-				// // this.$store.commit("setContacts", response.data);
-				
 			},
 
 			cancel() {
-
 				this.$emit("cancelled");
 			}
 		},
 
 		data() {
 			return {
+				contacts: contacts,
 				form: {},
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name }))
 			};

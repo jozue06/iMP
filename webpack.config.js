@@ -4,11 +4,15 @@
 var path = require("path");
 
 module.exports = {
+  target:"electron-main",
   entry: "./main.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     publicPath: "/dist"
+  },
+  externals: {
+    nedb: 'nedb'
   },
   module: {
     rules: [
