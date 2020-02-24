@@ -2,7 +2,7 @@
 	<section class="add-contact">
 		<h1>add-contact</h1>
 		<ValidationObserver ref="observer" v-slot="{ }">
-			<b-form novalidate>
+			<form v-on:submit.prevent="onSubmit">
 			<b-form-group label="First Name">
 				<ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
 				<b-form-input
@@ -30,14 +30,14 @@
 				</ValidationProvider>
 			</b-form-group> 
 			<b-form-group label="Address">
-				<ValidationProvider name="addressLineOne" rules="required" v-slot="{ errors }">
+				<ValidationProvider name="street" rules="required" v-slot="{ errors }">
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="form.addressLineOne"
+						v-model="form.street"
 						required
 						placeholder="Address"
-						name="addressLineOne"
+						name="street"
 					></b-form-input>
 					<b-form-invalid-feedback :state="errors.length == 0">Address is required.</b-form-invalid-feedback>
 				</ValidationProvider>
@@ -128,9 +128,9 @@
 				<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 				</ValidationProvider>
 			</b-form-group>
-				<b-button type="submit" variant="primary">Submit</b-button>
-				<!-- <b-button type="reset" variant="danger" click="cancel()">Cancel</b-button> -->
-			</b-form>
+				<!-- <b-button type="submit" v-on:submit.prevent variant="primary">Submit??</b-button> -->
+				<button type="submit">submit?</button>
+			</form>
 		</ValidationObserver>
 	</section>
 </template>
@@ -142,6 +142,7 @@
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
+	import { insertContact } from '../data/data'
 
 	export default {
 		components: {
@@ -157,24 +158,31 @@
 		},
 
 		methods: {
-			async onSubmit() {
-				const isValid = await this.$refs.observer.validate();
+			onSubmit() {
 
-				if (!isValid) {
-					return;
-				}
-				if (this.edit) {
-					await this.editContact(this.form);
-				} else {
-					await this.addContact(this.form);
-				}
 
-				const response = await this.getContacts();
-				this.$store.commit("setContacts", response.data);
-				this.$emit("saved");
+				// const isValid = await this.$refs.observer.validate();
+
+				// if (!isValid) {
+				// 	return;
+				// }
+				// if (this.edit) {
+				// 	await this.editContact(this.form);
+				// } else {
+				// 	await this.addContact(this.form);
+				// }
+
+				// const response = await this.getContacts();
+				console.log('whawt is insertContact ? ', typeof insertContact);
+				
+				insertContact(this.form);
+
+				// // this.$store.commit("setContacts", response.data);
+				
 			},
 
 			cancel() {
+
 				this.$emit("cancelled");
 			}
 		},
@@ -197,7 +205,6 @@
 		}
 	};
 </script>
-
 
 <style scoped>
 	section {
