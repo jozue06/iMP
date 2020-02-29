@@ -13,7 +13,7 @@ extend("max_value", max_value);
 extend("phone", {
 	validate: (value, { country }) => {
 		if (["United States", "Canada"].includes(country)) {
-			return /^((d{3})|d{3})-?d{3}-?d{4}$/.test(value);
+			return /^[0-9]{3}-[0-9]{3}-([0-9]{4})?$/.test(value);
 		}
 		return true;
 	},
@@ -30,8 +30,8 @@ extend("postal_code", {
 		}
 		return true;
 	},
-	message: "Phone number is invalid.",
-	params: [{ name: "country", isTarget: true }]
+	message: "Postal Code is invalid.",
+	params: [{ name: "phone", isTarget: true }]
 });
 
 Vue.use(VueRouter);

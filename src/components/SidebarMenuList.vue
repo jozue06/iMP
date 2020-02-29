@@ -9,16 +9,15 @@
 		>
 			{{ title }}
 		</h5>
-
+		<hr />
 		<b-collapse v-bind:id="accordianId">
 			<ul id="sidebar">
 				<li
 					v-for="(item) in itemList.items"
 					v-bind:item="item"
 					v-bind:key="item.report"
-					v-bind:route="item.route"
 				>
-					<router-link to="/addContact">
+					<router-link :to="{ path: item.route}">
 						+ <span class="normal-text">{{ item.childMsg }}</span>
 					</router-link>
 				</li>
@@ -43,7 +42,7 @@
 </script>
 
 <style scoped lang="scss">
-	.chevron-toggle:after {
+	/* .chevron-toggle:after {
 		content: "X";
 		float: left;
 		padding-left: 10px;
@@ -55,14 +54,16 @@
 
 	.chevron-toggle.collapsed:after {
 		transform: rotateZ(90deg);
-	}
+	} */
 
 	.sidebar-menu-list {
 		padding-top: 2%;
+		
 		text-align: left;
 
 		ul {
 			list-style: none;
+			padding-left: 30%;
 		}
 
 		a {
