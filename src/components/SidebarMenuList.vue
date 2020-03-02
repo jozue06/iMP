@@ -10,9 +10,9 @@
 			{{ title }}
 		</h5>
 		<hr />
-		<b-collapse v-bind:id="accordianId">
+		<b-collapse v-bind:id="accordianId" accordion="my-accordion">
 			<ul id="sidebar">
-				<li
+				<li 
 					v-for="(item) in itemList.items"
 					v-bind:item="item"
 					v-bind:key="item.report"
