@@ -93,6 +93,7 @@
 						const index = this.contacts.findIndex(c => c.id === selected.id)
 						this.contacts.splice(index, 1)
 					});
+					this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
 				});
 			},
 
@@ -102,6 +103,7 @@
 
 			handlSubmit() {				
 				this.contacts = this.findAllContacts();
+				this.$Notification("Success!", "Successfully Added the Contact");
 			},
 
 			findAllContacts() {

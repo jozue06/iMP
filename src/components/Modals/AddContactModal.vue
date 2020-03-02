@@ -1,6 +1,6 @@
 <template>
 	<section class="add-contact">
-        <b-modal ref="addContactModal">
+        <b-modal ref="addContactModal" hide-footer>
 		<h1>Add Contacts</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
 			<form  @submit.prevent="onSubmit">
@@ -126,7 +126,7 @@
 					<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group> 
-				<b-button type="submit" variant="primary">Submit</b-button>
+				<b-button class="float-right" type="submit" variant="primary">Submit</b-button>
 			</form>
 		</ValidationObserver>
         </b-modal>
@@ -135,7 +135,6 @@
 
 <script>
 	import { COUNTRIES, STATES } from "@/helpers/exports";
-	import { requestsMixin } from "@/mixins/requestsMixin";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -148,7 +147,6 @@
 		},
 
 		name: "AddContact",
-		mixins: [requestsMixin],
 		props: {
 			edit: Boolean,
 			contact: Object
@@ -164,9 +162,6 @@
                 this.$refs.addContactModal.hide();
                 this.$emit("submit");
 			},
-			cancel() {
-				this.$emit("cancelled");
-			}
 		},
 
 		data() {

@@ -5,7 +5,7 @@ import Routes from './routes';
 import BootstrapVue from "bootstrap-vue";
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
-
+import { notification } from "./mixins/notifications"
 extend("required", required);
 extend("email", email);
 extend("min_value", min_value);
@@ -14,8 +14,9 @@ extend("phone", {
 	validate: (value, { country }) => {
 		if (["United States", "Canada"].includes(country)) {
 			return /^[0-9]{3}-[0-9]{3}-([0-9]{4})?$/.test(value);
+		} else {
+			return /\d{1,}/.test(value);
 		}
-		return true;
 	},
 	message: "Phone number is invalid.",
 	params: [{ name: "country", isTarget: true }]
@@ -41,6 +42,7 @@ Vue.component("ValidationObserver", ValidationObserver);
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$Notification = notification;
 Vue.prototype.$log = console.log;
 
 const router = new VueRouter({

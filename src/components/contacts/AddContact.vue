@@ -133,7 +133,6 @@
 
 <script>
 	import { COUNTRIES, STATES } from "@/helpers/exports";
-	import { requestsMixin } from "@/mixins/requestsMixin";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -146,7 +145,6 @@
 		},
 
 		name: "AddContact",
-		mixins: [requestsMixin],
 		props: {
 			edit: Boolean,
 			contact: Object
@@ -157,12 +155,10 @@
 				insertContact(this.form);
 				this.form = {};
 				this.$nextTick(() => {
+					this.$Notification("Success!", "Successfully Added the Contact");
 					this.$refs.form.reset();
 				});
 			},
-			cancel() {
-				this.$emit("cancelled");
-			}
 		},
 
 		data() {
