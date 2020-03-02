@@ -1,54 +1,82 @@
 <template>
 	<section class="contacts">
 		<h1>Contacts</h1>
-		<!-- <b-form-group label="Selection mode:" label-cols-md="4">
-			<b-form-select v-model="selectMode" :options="modes" class="mb-3"></b-form-select>
-		</b-form-group> -->
-		<b-table  
-			striped 
-			hover 
-			ref="selectableTable"
-			selectable
-			:items="contacts" 
-			:fields="fields"
-			:sort-by.sync="sortBy"
-			:sort-desc.sync="sortDesc"
-			:select-mode="selectMode"
-			@row-selected="onRowSelected"
-			selected-variant="danger"
-			sort-icon-left
-			responsive="sm"
-			>
-			<template v-slot:cell(selected)="{ rowSelected }">
-				<template v-if="rowSelected">
-					<span aria-hidden="true">&check;</span>
-					<span variant="danger" class="sr-only">Selected</span>
+		<div v-if="contacts.length > 0">
+			<!-- <b-form-group label="Selection mode:" label-cols-md="4">
+				<b-form-select v-model="selectMode" :options="modes" class="mb-3"></b-form-select>
+			</b-form-group> -->
+			<b-table
+				striped 
+				hover 
+				ref="selectableTable"
+				selectable
+				:items="contacts" 
+				:fields="fields"
+				:sort-by.sync="sortBy"
+				:sort-desc.sync="sortDesc"
+				:select-mode="selectMode"
+				@row-selected="onRowSelected"
+				selected-variant="danger"
+				sort-icon-left
+				responsive="sm"
+				>
+				<template v-slot:cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span variant="danger" class="sr-only"></span>
+					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+					</template>
 				</template>
-				<template v-else>
-					<span aria-hidden="true">&nbsp;</span>
-					<span class="sr-only">Not selected</span>
-				</template>
-			</template>
 			</b-table>
-			<b-button size="sm" @click="selectAllRows">Select all</b-button>
-			<b-button size="sm" @click="clearSelected">Clear selected</b-button>
-			<b-button variant="danger" size="sm" @click="deleteSelected">Delete selected</b-button>
+			<b-button class="mx-2"  size="sm" @click="selectAllRows">Select all</b-button>
+			<b-button class="mx-2" size="sm" @click="clearSelected">Clear selected</b-button>
+			<b-button 
+				class="mx-2" 
+				variant="danger" 
+				size="sm" 
+				:disabled="selected == 0" 
+				v-bind:selected="selected"
+				v-b-modal.confirmModal>
+					Delete selected
+			</b-button>
+		</div>
+		<NoResults 
+			linkTo="/addContact" 
+			message="No Contacts Found" 
+			subtitle="Click here to Create a Contact" 
+			v-else-if="contacts.length == 0" 
+			@handleBtnClick="handleBtnClick"
+		/>
+		<ConfirmModal 
+			id="confirmModal" 
+			title="Delete?" 
+			v-bind:message="confirmDeleteMessage" 
+			@handleConfirm="handleConfirmDelete" 
+		/>
+		<AddContactModal ref="addContactModal" @submit="handlSubmit"/>
 	</section>
-	
 </template>
 
 <script>
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
 	import { findAllContacts, deleteContacts } from '@/data/data'
+	import ConfirmModal from '../Modals/ConfirmModal'
+	import NoResults from '../NoResults'
+	import AddContactModal from '../Modals/AddContactModal'
 	
 	export default {
 		components: {
+			ConfirmModal,
+			NoResults,
+			AddContactModal
 		},
 		name: "Contacts",
 		methods: {
 			onRowSelected(contacts) {
-				this.selected = contacts;
+				this.selected = contacts;				
 			},
 
 			selectAllRows() {
@@ -59,32 +87,45 @@
 				this.$refs.selectableTable.clearSelected()
 			},
 
-			deleteSelected() {
+			handleConfirmDelete() {				
 				deleteContacts(this.selected).then(() => {
 					this.selected.forEach(selected => {
 						const index = this.contacts.findIndex(c => c.id === selected.id)
 						this.contacts.splice(index, 1)
 					});
 				});
+			},
+
+			handleBtnClick() {				
+				this.$refs.addContactModal.$refs.addContactModal.show()
+			},
+
+			handlSubmit() {				
+				this.contacts = this.findAllContacts();
+			},
+
+			findAllContacts() {
+				let contacts = []; 
+				findAllContacts().then((data) => {	
+					data.forEach(c => {
+						if (c.record.firstName && c.record.lastName) {
+							c.record.id = c._id;
+							contacts.push({...c.record});
+						}
+					});
+				});
+				return contacts;
 			}
 		},
 
-		data() {
-			let contacts = []; 
-			findAllContacts().then((data) => {	
-				data.forEach(c => {
-					if (c.record.firstName && c.record.lastName) {
-						c.record.id = c._id;
-						contacts.push({...c.record});
-					}
-				});
-			});
-
+		data() {		
 			return {
 				sortBy: 'firstName',
 				sortDesc: false,
-				contacts: contacts,
+				contacts: this.findAllContacts(),
+				selected: "",
 				selectMode: 'multi',
+				confirmDeleteMessage: "Are you sure you want to delete the selected contacts?",
 			};
 		},
 		
@@ -111,5 +152,9 @@
 	section {
 		float: right;
 		width: 80%;
+	}
+	.noResults {
+		float: right;
+		width: 100%;
 	}
 </style>
