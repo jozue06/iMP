@@ -2,7 +2,7 @@
 	<section class="add-contact">
 		<h1>Add Contacts</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
-			<form  @submit.prevent="onSubmit">
+			<form @submit.prevent="onSubmit">
 				<b-form-group label="First Name">
 					<ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
 					<b-form-input
@@ -132,7 +132,7 @@
 </template>
 
 <script>
-	import { COUNTRIES, STATES } from "@/helpers/exports";
+	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";

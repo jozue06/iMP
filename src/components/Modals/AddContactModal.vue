@@ -134,7 +134,7 @@
 </template>
 
 <script>
-	import { COUNTRIES, STATES } from "@/helpers/exports";
+	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";

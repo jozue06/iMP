@@ -3,9 +3,12 @@ import { createMainWindow } from './utils/windowCreation';
 import { app, protocol, } from 'electron';
 import { join } from 'path';
 
-var Datastore = require('nedb'), db = new Datastore({ filename: join(app.getPath("userData"), "collections.db"), autoload: true });
+var Datastore = require('nedb');
+let contacts = new Datastore({ filename: join(app.getPath("userData"), "collections.contacts"), autoload: true });
+let quarterlyReports = new Datastore({ filename: join(app.getPath("userData"), "collections.quarterlyReports"), autoload: true });
 
-global.db = db;
+global.contacts = contacts;
+global.quarterlyReports = quarterlyReports;
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -29,7 +32,6 @@ app.on('activate', () => {
 	// dock icon is clicked and there are no other windows open.
 	if (win === null) {
 		createMainWindow(1400, 700, "Welcome");
-		db.loadDatabase();
 	}
 });
 
@@ -38,8 +40,6 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
 	createMainWindow(1400, 700, "Welcome");
-
-	db.loadDatabase();
 });
 
 // Exit cleanly on request from parent process in development mode.

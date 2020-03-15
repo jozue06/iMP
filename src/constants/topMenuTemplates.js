@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import { createWindow } from './windowCreation';
+import { createWindow } from '../utils/windowCreation';
 const topMenuTemplates = [
     {
         label: 'File',

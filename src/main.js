@@ -6,6 +6,8 @@ import BootstrapVue from "bootstrap-vue";
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
+import YearSelector from './components/Modals/YearSelector'
+
 extend("required", required);
 extend("email", email);
 extend("min_value", min_value);
@@ -39,6 +41,7 @@ Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
+Vue.component('YearSelector', YearSelector);
 
 Vue.config.productionTip = false;
 

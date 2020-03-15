@@ -493,4 +493,4 @@ const STATES = [
     }
 ];
 
-  export { COUNTRIES, STATES}
+  export { COUNTRIES, STATES }

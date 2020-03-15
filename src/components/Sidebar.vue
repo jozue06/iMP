@@ -9,7 +9,7 @@
 
 <script>
 	import SidebarMenuList from './SidebarMenuList.vue';
-	import { sidebarSections } from '@/helpers/sidebarSections';
+	import { sidebarSections } from '@/constants/sidebarSections';
 	export default {
 		name: "sidebar",
 		props: {

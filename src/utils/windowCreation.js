@@ -1,7 +1,7 @@
 import { BrowserWindow, Menu, } from 'electron';
 import { format } from 'url';
 import { join } from 'path';
-import { topMenuTemplates } from './topMenuTemplates';
+import { topMenuTemplates } from '../constants/topMenuTemplates';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 
 let window;

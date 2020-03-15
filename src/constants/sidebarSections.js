@@ -39,7 +39,7 @@ export const sidebarSections = {
             },
             {
                 report: 2,
-                route: "/reportName",
+                route: "/addQuarterlyReport",
                 childMsg: 'Start qtr report' 
             },
             {
