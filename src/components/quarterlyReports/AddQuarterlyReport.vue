@@ -1,18 +1,24 @@
 <template>
 	<section class="add-quarterly-report">
 		<h1>add</h1>
-		<b-form-select v-model="form.quarter">
-			<b-form-select-option :value="null">Please select an Quarter</b-form-select-option>
-			<b-form-select-option value="1">1st Quarter</b-form-select-option>
-			<b-form-select-option value="2">2nd Quarter</b-form-select-option>
-			<b-form-select-option value="3">3rd Quarter</b-form-select-option>
-			<b-form-select-option value="4">4th Quarter</b-form-select-option>
-		</b-form-select>
-		<yearSelector v-model="form.selectedYear" />
-		{{ form.selectedYear }}
+		<div class="qtr-container">
+			<div class="small-grouping">
+				<b-form-select v-model="form.quarter">
+					<b-form-select-option :value="null">Please select a Quarter</b-form-select-option>
+					<b-form-select-option value="1">1st Quarter</b-form-select-option>
+					<b-form-select-option value="2">2nd Quarter</b-form-select-option>
+					<b-form-select-option value="3">3rd Quarter</b-form-select-option>
+					<b-form-select-option value="4">4th Quarter</b-form-select-option>
+				</b-form-select>
+			</div>
+			<div class="small-grouping">
+				<!-- (!!!) MUST convert moment object to just year string after select before saving -->
+				<yearSelector v-model="form.selectedYear" placeHolder="Please Select A Year"/>
+			</div>	
+		</div>
 		<h3 class="mr-0">income</h3>
 		<form @submit.prevent="onSubmit">
-			<div class="top-qtr-container">
+			<div class="qtr-container">
 				<div class="small-grouping">
 					<b-form-group label="Statement Dates">
 						<b-form-datepicker
@@ -135,7 +141,7 @@
 	/* .add-quarterly-report {
 		display: inline;
 	} */
-	.top-qtr-container {
+	.qtr-container {
 		display: flex;
 		margin-left: 2px;
 	}
