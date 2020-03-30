@@ -119,7 +119,7 @@
 				<h1>other misc</h1>
 				<div class="sub-section">
 					<div class="small-grouping ml-2">
-						<b-form-group label="from donar">
+						<b-form-group label="from donor">
 							<p>small table1</p>
 
 							<b-table
@@ -131,7 +131,7 @@
 								responsive="sm"
 							>
 							</b-table>
-							<b-button type="add" class="sm float-left" variant="primary">+</b-button>
+							<b-button v-on:click="$emit('showAddDirectDonorModal')" type="add" class="sm float-left" variant="primary">+</b-button>
 						</b-form-group> 
 					</div>	
 					<div class="small-grouping ml-2">
@@ -146,7 +146,7 @@
 								responsive="sm"
 							>
 							</b-table>
-							<b-button type="add" class="sm float-left" variant="primary">+</b-button>
+							<b-button v-on:click="$emit('showAddPersonalOfferingModal')" type="add" class="sm float-left" variant="primary">+</b-button>
 						</b-form-group> 
 					</div>
 				</div>
@@ -253,7 +253,7 @@
 				</div>
 			</div>
 		</div>  
-	</div>  
+	</div>
 </template>        
 
 
@@ -281,7 +281,7 @@
 				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
 
 				return value;
-			},			
+			},
 		},
 
 		data() {

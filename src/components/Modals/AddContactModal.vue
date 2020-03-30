@@ -1,6 +1,6 @@
 <template>
 	<section class="add-contact">
-        <b-modal ref="addContactModal" hide-footer>
+		<b-modal ref="addContactModal" hide-footer>
 		<h1>Add Contacts</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
 			<form  @submit.prevent="onSubmit">
@@ -129,7 +129,7 @@
 				<b-button class="float-right" type="submit" variant="primary">Submit</b-button>
 			</form>
 		</ValidationObserver>
-        </b-modal>
+		</b-modal>
 	</section>
 </template>
 
@@ -158,9 +158,9 @@
 				this.form = {};
 				this.$nextTick(() => {
 					this.$refs.form.reset();
-                });
-                this.$refs.addContactModal.hide();
-                this.$emit("submit");
+				});
+				this.$refs.addContactModal.hide();
+				this.$emit("submit");
 			},
 		},
 

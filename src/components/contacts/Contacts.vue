@@ -55,7 +55,7 @@
 			v-bind:message="confirmDeleteMessage" 
 			@handleConfirm="handleConfirmDelete" 
 		/>
-		<AddContactModal ref="addContactModal" @submit="handlSubmit"/>
+		<AddContactModal ref="addContactModal" @submit="handleSubmit"/>
 	</section>
 </template>
 
@@ -75,8 +75,8 @@
 		},
 		name: "Contacts",
 		methods: {
-			onRowSelected(contacts) {
-				this.selected = contacts;				
+			onRowSelected(contact) {
+				this.selected = contact;
 			},
 
 			selectAllRows() {
@@ -87,7 +87,7 @@
 				this.$refs.selectableTable.clearSelected()
 			},
 
-			handleConfirmDelete() {				
+			handleConfirmDelete() {
 				deleteContacts(this.selected).then(() => {
 					this.selected.forEach(selected => {
 						const index = this.contacts.findIndex(c => c.id === selected.id)
@@ -97,11 +97,11 @@
 				});
 			},
 
-			handleBtnClick() {				
+			handleBtnClick() {
 				this.$refs.addContactModal.$refs.addContactModal.show()
 			},
 
-			handlSubmit() {				
+			handleSubmit() {
 				this.contacts = this.findAllContacts();
 				this.$Notification("Success!", "Successfully Added the Contact");
 			},
@@ -122,9 +122,9 @@
 
 		data() {		
 			return {
+				contacts: this.findAllContacts(),
 				sortBy: 'firstName',
 				sortDesc: false,
-				contacts: this.findAllContacts(),
 				selected: "",
 				selectMode: 'multi',
 				confirmDeleteMessage: "Are you sure you want to delete the selected contacts?",

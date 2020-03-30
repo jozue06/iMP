@@ -1,9 +1,12 @@
 <template>
 	<section class="add-quarterly-report">
 		<QuarterlyReportTop />
-		<QuarterlyReportMid />
+		<QuarterlyReportMid 
+			v-on:showAddDirectDonorModal='showAddDirectDonorModal()'
+			v-on:showAddPersonalOfferingModal='showAddPersonalOfferingModal()'
+		/>
 		<!-- BREAK -->
-
+		<AddDirectDonorModal ref="addDirectDonorModal"/>
 		<b-button type="submit" variant="primary">Submit</b-button>
 	</section>
 </template>
@@ -14,11 +17,14 @@
 	import "bootstrap-vue/dist/bootstrap-vue.css";
 	import QuarterlyReportTop from './QuarterlyReportTop'
 	import QuarterlyReportMid from './QuarterlyReportMid'
+	import AddDirectDonorModal from "../Modals/AddDirectDonorModal";
+
 
 	export default {
 		components: {
 			QuarterlyReportTop,
-			QuarterlyReportMid
+			QuarterlyReportMid,
+			AddDirectDonorModal
 		},
 
 		methods: {
@@ -30,7 +36,13 @@
 			// 		this.$refs.form.reset();
 			// 	});
 			},
+			showAddDirectDonorModal() {
+				this.$refs.addDirectDonorModal.$refs.addDirectDonorModal.show()
+			},
 
+			showAddPersonalOfferingModal() {
+
+			}
 			
 		},
 
