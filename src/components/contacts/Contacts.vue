@@ -19,7 +19,7 @@
 				selected-variant="danger"
 				sort-icon-left
 				responsive="sm"
-				>
+			>
 				<template v-slot:cell(selected)="{ rowSelected }">
 					<template v-if="rowSelected">
 						<span aria-hidden="true">&check;</span>

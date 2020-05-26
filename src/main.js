@@ -6,7 +6,7 @@ import BootstrapVue from "bootstrap-vue";
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
-import YearSelector from './components/Modals/YearSelector'
+import YearSelector from './components/YearSelector'
 
 extend("required", required);
 extend("email", email);

@@ -209,12 +209,8 @@
 				return contacts;
 			},
 
-			onRowSelected(contact) {
-				console.log('contact', contact[0]);
-				console.log('this.form before', this.form);
-				
+			onRowSelected(contact) {				
 				this.form = contact[0];
-				console.log('this.form after', this.form);
 			},
 
 			formatMoney(amount) {

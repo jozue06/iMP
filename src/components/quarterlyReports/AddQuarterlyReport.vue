@@ -1,13 +1,18 @@
 <template>
 	<section class="add-quarterly-report">
-		<QuarterlyReportTop />
-		<QuarterlyReportMid 
+		<!-- <QuarterlyReportTop /> -->
+		<QuarterlyReportCard 
+			v-on:showAddLineModal='showAddLineModal()'
+			v-on:showDeleteLineModal='showDeleteLineModal()'
+		/>
+		<AddLineModal ref="addLineModal"/>
+		<!-- <QuarterlyReportMid 
 			v-on:showAddDirectDonorModal='showAddDirectDonorModal()'
 			v-on:showAddPersonalOfferingModal='showAddPersonalOfferingModal()'
-		/>
+		/> -->
 		<!-- BREAK -->
-		<AddDirectDonorModal ref="addDirectDonorModal"/>
-		<b-button type="submit" variant="primary">Submit</b-button>
+		<!-- <AddDirectDonorModal ref="addDirectDonorModal"/> -->
+		<!-- <b-button type="submit" variant="primary">Submit</b-button> -->
 	</section>
 </template>
 
@@ -16,14 +21,18 @@
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
 	import QuarterlyReportTop from './QuarterlyReportTop'
+	import QuarterlyReportCard from './QuarterlyReportCard'
 	import QuarterlyReportMid from './QuarterlyReportMid'
 	import AddDirectDonorModal from "../Modals/AddDirectDonorModal";
-
+	import AddLineModal from "../Modals/AddLineModal"
+	import { findAllQuarterlyReports } from '@/data/data'
 
 	export default {
 		components: {
 			QuarterlyReportTop,
+			QuarterlyReportCard,
 			QuarterlyReportMid,
+			AddLineModal,
 			AddDirectDonorModal
 		},
 
@@ -36,18 +45,36 @@
 			// 		this.$refs.form.reset();
 			// 	});
 			},
+
 			showAddDirectDonorModal() {
 				this.$refs.addDirectDonorModal.$refs.addDirectDonorModal.show()
 			},
-
+			
 			showAddPersonalOfferingModal() {
+				
+			},
 
+			showAddLineModal() {
+				this.$refs.addLineModal.$refs.addLineModal.show()
+			},
+
+			showDeleteLineModal() {
+				// console.log('here showDeleteLineModal');
+			},
+
+			findAllQuarterlyReports() {
+				findAllQuarterlyReports().then((data) => {	
+					// console.log('data ' , data);
+					
+				});
+				return "";
 			}
 			
 		},
 
 		data() {
 			return {
+				reports: this.findAllQuarterlyReports(),
 				form: {},
 				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				// states: STATES.map(c => ({ value: c.name, text: c.name }))

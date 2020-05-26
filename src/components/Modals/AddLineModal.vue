@@ -1,0 +1,260 @@
+<template>
+	<section class="add-line-modal">
+		<b-modal size="lg" centered ref="addLineModal" title="add-line-modal Component" hide-footer>
+
+			<b-tabs content-class="mt-3">
+				<b-tab title="First" active>
+					<div class="row sub-section text-center">
+						<b-form-group class="mr-1" label="date">
+							<b-form-datepicker
+								v-model="expenseLine.date"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="firstDate"
+							></b-form-datepicker>
+						</b-form-group> 
+
+						<b-form-group class="mr-1" label="method">
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.paymentMethod" 
+									required
+									name="paymentMethod"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</div>
+
+					<div class="row sub-section text-center">
+						<b-form-group class="mr-1" label="code">
+						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF NUMBER CODE AND DESCRIPTION -->
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.code" 
+									name="code"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+
+						<b-form-group class="mr-1" label="code description">
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.codeDescription" 
+									required
+									name="codeDescription"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</div>
+
+					<div class="row sub-section text-center">
+						<b-form-group class="mr-1" label="currency">
+							<b-form-select 
+								v-model="expenseLine.currency" 
+								:options="currencyOptions"
+							>
+							</b-form-select>
+						</b-form-group>
+
+						<b-form-group class="mr-1" label="exchange rate">
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.exchangeRate" 
+									required
+									placeholder="0.00"
+									name="exchangeRate"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</div>
+
+					<div class="row sub-section text-center">
+					<b-form-group class="mr-1" label="foreign moneys">
+							<b-input-group prepend="$">
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.foreignAmount" 
+									required
+									placeholder="0.00"
+									name="foreignAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+
+						<b-form-group class="mr-1" label="merica moneys">
+							<b-input-group prepend="$">
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="expenseLine.dollarAmout" 
+									required
+									placeholder="0.00"
+									name="dollarAmout"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</div>
+
+					<div class="row sub-section text-center" >
+						<b-form-group class="mr-1 description" label="description">
+							<b-form-textarea
+								v-model="expenseLine.description"
+								rows="3"
+								max-rows="6"
+							>
+							</b-form-textarea>
+						</b-form-group> 
+					</div>
+							
+				</b-tab>
+
+				<b-tab title="Second">
+					<div class="row sub-section text-center">
+						<b-form-group class="mr-1" label="multiPart">
+							<b-form-select 
+								v-model="expenseLine.multiPart" 
+								:options="['No', 'Yes']"
+							>
+							</b-form-select>
+						</b-form-group>
+						<b-form-group class="mr-1" label="is req">
+							<b-form-select 
+								v-model="expenseLine.receiptReq" 
+								:options="['No', 'Yes']"
+							>
+							</b-form-select>
+						</b-form-group>
+					</div>
+				</b-tab>
+
+				<b-tab 
+					title="Image" 
+					:disabled="expenseLine.receiptReq == 'No'"
+				>
+					<div class="row sub-section">
+						<b-form-group class="mr-1" label="image">
+							<b-form-file 
+								@change="fileSelected"
+								v-model="expenseReceiptFile"
+								accept=".jpg, .png">
+							</b-form-file>
+
+							<img v-if="previewPath" src="previewPath" alt="Responsive image">
+						</b-form-group>	
+					</div>
+				</b-tab>
+			</b-tabs>
+		</b-modal>
+	</section>
+</template>
+
+<script>
+	import "bootstrap/dist/css/bootstrap.css";
+	import "bootstrap-vue/dist/bootstrap-vue.css";
+	import { remote } from 'electron';
+	var path = require('path');
+    var fs = require('fs');
+	export default  {
+		// 
+		name: 'add-line-modal',
+		props: [],
+		mounted () {
+
+		},
+		data () {
+			return {
+				expenseReceiptFile: null,
+				previewPath: "",
+				expenseLine: {
+					receiptReq: "No",
+				},
+
+				currencyOptions: [
+					{ value: "USD", text: 'USD' },
+					{ value: 'CAN', text: 'CAN' },
+				]
+						
+				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
+				// states: STATES.map(c => ({ value: c.name, text: c.name }))
+			};
+		},
+		
+		methods: {
+			fileSelected(evt) {
+				let file = evt.target.files[0];
+				this.expenseReceiptFile = file;
+				let outPutString = "";
+				outPutString = `data:image/jpg;base64, ${fs.readFileSync(file.path).toString('base64')}`;
+				this.previewPath = outPutString;
+			},
+
+			onSubmit() {
+				// insertQuarterlyReport(this.form);
+			// 	this.form = {};
+			// 	this.$nextTick(() => {
+			// 		this.$Notification("Success!", "Successfully Added the Contact");
+			// 		this.$refs.expenseLine.reset();
+			// 	});
+			},
+
+			formatMoney(amount) {
+
+				if (isNaN(Number(amount))) {
+					return 0;
+				}
+
+				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+
+				return value;
+			},
+		},
+
+		computed: {
+
+		},
+
+		watch: {
+			// quarterlyReport: {
+			// 	handler(c) {
+			// 		this.form = c || {};
+			// 	},
+			// 	deep: true,
+			// 	immediate: true
+			// }
+		},
+	}
+</script>
+
+<style scoped lang="scss">
+	.sub-section {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+
+		.description {
+			width: 500px;
+		}
+	} 
+</style>
