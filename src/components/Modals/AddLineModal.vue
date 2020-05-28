@@ -154,15 +154,14 @@
 					:disabled="expenseLine.receiptReq == 'No'"
 				>
 					<div class="row sub-section">
-						<b-form-group class="mr-1" label="image">
+						<b-form-group class="mr-1" label="Receipt Image">
 							<b-form-file 
 								@change="fileSelected"
 								v-model="expenseReceiptFile"
 								accept=".jpg, .png">
 							</b-form-file>
-
-							<img v-if="previewPath" src="previewPath" alt="Responsive image">
-						</b-form-group>	
+							<img v-if="previewPath" src="previewPath">
+						</b-form-group>
 					</div>
 				</b-tab>
 			</b-tabs>
@@ -175,18 +174,22 @@
 	import "bootstrap-vue/dist/bootstrap-vue.css";
 	import { remote } from 'electron';
 	var path = require('path');
-    var fs = require('fs');
+	var fs = require('fs');
+	const URL = require('url');
+
 	export default  {
-		// 
 		name: 'add-line-modal',
+		
 		props: [],
+
 		mounted () {
 
 		},
+
 		data () {
 			return {
 				expenseReceiptFile: null,
-				previewPath: "",
+				previewPath: null,
 				expenseLine: {
 					receiptReq: "No",
 				},
@@ -205,10 +208,21 @@
 			fileSelected(evt) {
 				let file = evt.target.files[0];
 				this.expenseReceiptFile = file;
-				let outPutString = "";
-				outPutString = `data:image/jpg;base64, ${fs.readFileSync(file.path).toString('base64')}`;
-				this.previewPath = outPutString;
+
+				let oldPath = file.path
+				let fileName = path.basename(oldPath);
+				let newPath = remote.app.getPath('userData') + '-' + fileName;
+
+				var readStream = fs.createReadStream(oldPath);
+				var writeStream = fs.createWriteStream(newPath);
+				readStream.on('close', function () {
+					let fileName = path.basename(newPath);			
+				});
+				readStream.pipe(writeStream);
+
+				this.previewPath = URL.pathToFileURL(newPath);
 			},
+
 
 			onSubmit() {
 				// insertQuarterlyReport(this.form);
