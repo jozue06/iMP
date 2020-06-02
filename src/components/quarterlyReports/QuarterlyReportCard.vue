@@ -4,48 +4,28 @@
 			<h1>card header</h1>
 		</div>
 		<div class="card-body text-center">
-			<h2>card body</h2>
-			<!-- <div class="card-block"> -->
-				<b-table-simple
-					@row-clicked="$emit('showAddLineModal')"
-				>
-					<b-thead>
-						<b-tr>
-							<b-th></b-th>
-							<b-th>date</b-th>
-							<b-th>code</b-th>
-							<b-th>description</b-th>
-							<b-th>currency</b-th>
-							<b-th>foreign amount</b-th>
-							<b-th>exchange rate</b-th>
-							<b-th>Dollar amt</b-th>
-						</b-tr>
-					</b-thead>
-					<b-tbody>
-						<b-tr>
-							<b-td>
-								<b-badge variant="danger">
-									<b-link v-on:click="$emit('showDeleteLineModal')" class="text">
-										(trashcan)
-									</b-link>
-								</b-badge>	
-							</b-td>
-							<b-td class="point">date</b-td>
-							<b-td class="point">code</b-td>
-							<b-td class="point">
-								<b-link v-on:click="$emit('showAddLineModal')">
-									description
-								</b-link>
-							</b-td>
-							<b-td class="point">currency</b-td>
-							<b-td class="point">foreign amount</b-td>
-							<b-td class="point">exchange rate</b-td>
-							<b-td class="point">Dollar amt</b-td>
-						</b-tr>
-					</b-tbody>
-				</b-table-simple>
-			<!-- </div>	 -->
+			<!-- <h2>card body</h2> -->
+			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal"> add Line </b-button>
+			<b-table
+				striped 
+				hover 
+				ref="reportTable"
+				:items="lines" 
+				responsive="sm"
+			>
+				<template v-slot:cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">&check;</span>
+						<span variant="danger" class="sr-only"></span>
+					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+					</template>
+				</template>
+			</b-table>
 		</div>
+		{{ $log(lines) }}
+		<AddLineModal ref="addLineModal"/>
 	</div>
 </template>
 
@@ -53,15 +33,17 @@
 	import moment from 'moment';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
+	import AddLineModal from "../Modals/AddLineModal";
+	import { findAllQuarterlyReports } from "../../data/data.js"
+
 	export default {
+		components: {
+			AddLineModal,
+		},
+
 		methods: {
-			onSubmit() {
-				// insertQuarterlyReport(this.form);
-			// 	this.form = {};
-			// 	this.$nextTick(() => {
-			// 		this.$Notification("Success!", "Successfully Added the Contact");
-			// 		this.$refs.form.reset();
-			// 	});
+			showAddLineModal() {
+				this.$refs.addLineModal.$refs.addLineModal.show()
 			},
 
 			formatMoney(amount) {
@@ -91,14 +73,40 @@
 						return "4th Quarter"
 
 					default: "No Quarter Selected"
-					
 				}
+			},
+
+			findAllQuarterlyReports() {
+				let lines = [];
+				findAllQuarterlyReports().then((data) => {
+					data.forEach(da => {
+						da.record.expenseLines.forEach(el =>{
+							lines.push(el);
+						});				
+					});				
+				});
+				return lines;
 			}
 		},
 		
 		data() {
+			console.log('return ? ' , this.findAllQuarterlyReports());
+			
 			return {
-				form: {},
+				// fields:[	
+				// 	"",
+				// 	"date",
+				// 	"code",
+				// 	"description",
+				// 	"currency",
+				// 	"foreign amount",
+				// 	"exchange rate",
+				// 	"Dollar amt",
+				// ],
+
+				lines: this.findAllQuarterlyReports(),
+				
+				quarterlyReport: {},
 				quarterOptions: [
 					{ value: null, text: 'Please Select a Quarter' },
 					{ value: 1, text: 'First Quarter' },
@@ -107,7 +115,6 @@
 					{ value: 4, text: 'Fourth Quarter' },
 					
 				],
-				selectedQuarterOption: null,
 				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				// states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};

@@ -35,11 +35,11 @@ function deleteContacts(contactsToDelete) {
 
 function findAllQuarterlyReports() {
 	return new Promise((resolve, reject) => {
-		quarterlyReports.find({}, (err, docs) => {
-			if (err) {
-				reject( err);
+		quarterlyReports.find({}, (err, reports) => {
+			if (err) {				
+				reject(err);
 			} else {
-				resolve(docs);
+				resolve(reports);
 			}
 		});
 	});
