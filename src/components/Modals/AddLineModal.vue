@@ -5,7 +5,7 @@
 				<b-tab title="First" active>
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="date">
-								{{ $log(expenseLine) }}
+								<!-- {{ $log(expenseLine) }} -->
 							<b-form-datepicker
 								v-model="expenseLine.date"
 								required
@@ -171,8 +171,7 @@
 </template>
 
 <script>
-	import "bootstrap/dist/css/bootstrap.css";
-	import "bootstrap-vue/dist/bootstrap-vue.css";
+	
 	import { insertQuarterlyReport } from '@/data/data';
 	import { remote } from 'electron';
 

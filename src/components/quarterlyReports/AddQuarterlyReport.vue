@@ -15,8 +15,7 @@
 
 <script>
 	import { insertQuarterlyReport } from '@/data/data';
-	import "bootstrap/dist/css/bootstrap.css";
-	import "bootstrap-vue/dist/bootstrap-vue.css";
+	
 	import QuarterlyReportTop from './QuarterlyReportTop'
 	import QuarterlyReportCard from './QuarterlyReportCard'
 	import QuarterlyReportMid from './QuarterlyReportMid'

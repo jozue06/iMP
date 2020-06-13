@@ -1,11 +1,8 @@
 <template>
 	<section class="contacts">
 		<h1>Contacts</h1>
-		<b-button variant="primary" class="float-right m-2" size="sm" @click="showAddContactModal">Add Contact</b-button>
+		<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
 		<div v-if="contacts.length > 0">
-			<!-- <b-form-group label="Selection mode:" label-cols-md="4">
-				<b-form-select v-model="selectMode" :options="modes" class="mb-3"></b-form-select>
-			</b-form-group> -->
 			<b-table
 				striped 
 				hover 
@@ -21,14 +18,8 @@
 				sort-icon-left
 				responsive="sm"
 			>
-				<template v-slot:cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span variant="danger" class="sr-only"></span>
-					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-					</template>
+				<template v-slot:cell(firstName)="data">
+					<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
 				</template>
 			</b-table>
 			<b-button class="mx-2"  size="sm" @click="selectAllRows">Select all</b-button>
@@ -47,7 +38,7 @@
 			message="No Contacts Found" 
 			subtitle="Click here to Create a Contact" 
 			v-else-if="contacts.length == 0" 
-			@handleBtnClick="showAddContactModal"
+			@handleBtnClick="showContactModal(null)"
 		/>
 		<ConfirmModal 
 			id="confirmModal" 
@@ -55,25 +46,26 @@
 			v-bind:message="confirmDeleteMessage" 
 			@handleConfirm="handleConfirmDelete" 
 		/>
-		<AddContactModal ref="addContactModal"/>
+		<ContactModal ref="contactModal" v-bind:contact="selectedContact" />
 	</section>
 </template>
 
 <script>
-	import "bootstrap/dist/css/bootstrap.css";
-	import "bootstrap-vue/dist/bootstrap-vue.css";
+	
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
-	import AddContactModal from '../Modals/AddContactModal'
+	import ContactModal from '../Modals/ContactModal'
 	import { Contact } from '../../data/models/contactModel'
 	
 	export default {
 		components: {
 			ConfirmModal,
 			NoResults,
-			AddContactModal
+			ContactModal
 		},
+
 		name: "Contacts",
+
 		methods: {
 			onRowSelected(contact) {
 				this.selected = contact;
@@ -97,13 +89,20 @@
 				});
 			},
 
-			showAddContactModal() {
-				this.$refs.addContactModal.$refs.addContactModal.show()
+			showContactModal(item) {			
+				if (item) {				
+					Contact.findOne({ _id: item._id }).then((res) => {		
+						this.selectedContact = res;
+					});
+				} else {
+					this.selectedContact = Contact.create();
+				}
+				this.$refs.contactModal.$refs.contactModal.show()
 			},
 
 			findAllContacts() {
 				let contacts = []; 
-				Contact.find({}).then((data) => {						
+				Contact.find({}).then((data) => {	
 					data.forEach(c => {
 						if (c.firstName && c.lastName) {
 							c.id = c._id;
@@ -123,6 +122,7 @@
 				sortDesc: false,
 				selected: "",
 				selectMode: 'multi',
+				selectedContact: {},
 				confirmDeleteMessage: "Are you sure you want to delete the selected contacts?",
 			};
 		},

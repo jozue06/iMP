@@ -7,6 +7,9 @@ import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
 import YearSelector from './components/YearSelector'
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import "./assets/scss/globalCustoms.scss";
 
 extend("required", required);
 extend("email", email);
@@ -46,7 +49,7 @@ Vue.component('YearSelector', YearSelector);
 Vue.config.productionTip = false;
 
 Vue.prototype.$Notification = notification;
-Vue.prototype.$log = console.log;
+Vue.prototype.$consoleLog = console.log;
 
 const router = new VueRouter({
 	routes: Routes,

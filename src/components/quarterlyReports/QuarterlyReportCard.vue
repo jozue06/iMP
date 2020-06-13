@@ -26,8 +26,7 @@
 
 <script>
 	import moment from 'moment';
-	import "bootstrap/dist/css/bootstrap.css";
-	import "bootstrap-vue/dist/bootstrap-vue.css";
+	
 	import AddLineModal from "../Modals/AddLineModal";
 	import { findAllQuarterlyReports } from "../../data/data.js"
 

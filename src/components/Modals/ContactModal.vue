@@ -1,6 +1,6 @@
 <template>
-	<section class="add-contact">
-		<b-modal ref="addContactModal" hide-footer>
+	<section class="contact">
+		<b-modal ref="contactModal" hide-footer v-bind:contact="contact">
 		<h1>Add Contacts</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
 			<form  @submit.prevent="onSubmit">
@@ -35,7 +35,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="contact.street"
+							v-model="contact.address"
 							required
 							placeholder="Address"
 							name="street"
@@ -128,7 +128,10 @@
 					<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group> 
-				<b-button class="float-right" type="submit" variant="primary">Submit</b-button>
+				<b-button class="float-right" type="submit" :disabled="loading" variant="primary">
+					Submit
+					<b-spinner v-if="loading" small type="grow"></b-spinner>				
+				</b-button>
 			</form>
 		</ValidationObserver>
 		</b-modal>
@@ -138,8 +141,7 @@
 <script>
 	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
-	import "bootstrap/dist/css/bootstrap.css";
-	import "bootstrap-vue/dist/bootstrap-vue.css";
+	
 	// import { insertContact } from '@/data/data'
 	import { Contact } from '../../data/models/contactModel'
 	
@@ -149,16 +151,22 @@
 			ValidationObserver
 		},
 
-		name: "AddContact",
+		props: {
+			contact: Object,
+		},
+
+		name: "contactModal",
 
 		methods: {
 			onSubmit() {
-				this.contact.save().then(() => {
-					// this.$nextTick(() => {
-					// 	this.$refs.contact.reset();
-					// });
-					this.$refs.addContactModal.hide();
+				this.loading = true;
+				this.contact.save().then((res) => {
+					this.$refs.contactModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
+					this.loading = false;
+				}).catch(e => {
+					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 3000);
+					this.loading = false;
 				});
 			},
 
@@ -169,7 +177,7 @@
 
 		data() {
 			return {
-				contact: Contact.create(),
+				loading: false,
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};
