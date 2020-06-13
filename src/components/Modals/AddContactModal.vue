@@ -9,7 +9,7 @@
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="form.firstName"
+						v-model="contact.firstName"
 						required
 						placeholder="First Name"
 						name="firstName"
@@ -22,7 +22,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="form.lastName"
+							v-model="contact.lastName"
 							required
 							placeholder="Last Name"
 							name="lastName"
@@ -35,7 +35,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="form.street"
+							v-model="contact.street"
 							required
 							placeholder="Address"
 							name="street"
@@ -48,7 +48,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="form.city"
+							v-model="contact.city"
 							required
 							placeholder="City"
 							name="city"
@@ -56,12 +56,12 @@
 						<b-form-invalid-feedback :state="errors.length == 0">City is required.</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group>
-				<b-form-group v-if="form.country == 'Canada' || form.country == 'United States'" label="State/Provence">
-					<ValidationProvider name="state" :rules="form.country == 'Canada' ? 'required' : form.country == 'United States' ? 'required' : ''" v-slot="{ errors }">
+				<b-form-group v-if="contact.country == 'Canada' || contact.country == 'United States'" label="State/Provence">
+					<ValidationProvider name="state" :rules="contact.country == 'Canada' ? 'required' : contact.country == 'United States' ? 'required' : ''" v-slot="{ errors }">
 						<b-form-select
-							:options="form.country == 'Canada' ? provences : form.country == 'United States' ? states : '' "
+							:options="contact.country == 'Canada' ? provences : contact.country == 'United States' ? states : '' "
 							:state="errors.length == 0"
-							v-model="form.state"
+							v-model="contact.state"
 							required
 							placeholder="State"
 							name="state"
@@ -78,10 +78,12 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="form.postalCode"
+							v-model="contact.postalCode"
 							required
 							placeholder="Postal Code"
 							name="postalCode"
+							lazy-formatter
+							:formatter="formatNumber"
 						></b-form-input>
 						<b-form-invalid-feedback :state="errors.length == 0">Postal code is required.</b-form-invalid-feedback>
 					</ValidationProvider>
@@ -91,7 +93,7 @@
 						<b-form-select
 							:options="countries"
 							:state="errors.length == 0"
-							v-model="form.country"
+							v-model="contact.country"
 							required
 							placeholder="Country"
 							name="country"
@@ -104,7 +106,7 @@
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="form.email"
+						v-model="contact.email"
 						required
 						placeholder="Email"
 						name="email"
@@ -112,12 +114,12 @@
 					<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group> 
-				<b-form-group label="Phone" :description="form.country == 'Canada' ? '000-000-0000' : form.country == 'United States' ? '000-000-0000' : ''">
+				<b-form-group label="Phone" :description="contact.country == 'Canada' ? '000-000-0000' : contact.country == 'United States' ? '000-000-0000' : ''">
 					<ValidationProvider name="phone" rules="required|phone:country" v-slot="{ errors }">
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="form.phone"
+						v-model="contact.phone"
 						required
 						placeholder="Phone"
 						name="phone"
@@ -138,7 +140,8 @@
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
-	import { insertContact } from '@/data/data'
+	// import { insertContact } from '@/data/data'
+	import { Contact } from '../../data/models/contactModel'
 	
 	export default {
 		components: {
@@ -147,40 +150,30 @@
 		},
 
 		name: "AddContact",
-		props: {
-			edit: Boolean,
-			contact: Object
-		},
 
 		methods: {
 			onSubmit() {
-				insertContact(this.form);
-				this.form = {};
-				this.$nextTick(() => {
-					this.$refs.form.reset();
+				this.contact.save().then(() => {
+					// this.$nextTick(() => {
+					// 	this.$refs.contact.reset();
+					// });
+					this.$refs.addContactModal.hide();
+					this.$Notification("Success!", "Successfully Added the Contact");
 				});
-				this.$refs.addContactModal.hide();
-				this.$emit("submit");
 			},
+
+			formatNumber(string) {
+				return Number(string);
+			}
 		},
 
 		data() {
 			return {
-				form: {},
+				contact: Contact.create(),
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};
 		},
-
-		watch: {
-			contact: {
-				handler(c) {
-					this.form = c || {};
-				},
-				deep: true,
-				immediate: true
-			}
-		}
 	};
 </script>
 

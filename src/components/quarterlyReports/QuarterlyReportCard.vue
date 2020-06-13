@@ -4,28 +4,23 @@
 			<h1>card header</h1>
 		</div>
 		<div class="card-body text-center">
-			<!-- <h2>card body</h2> -->
-			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal"> add Line </b-button>
+
+			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal(null)"> add Line </b-button>
 			<b-table
+				@row-clicked="showAddLineModal"
 				striped 
 				hover 
 				ref="reportTable"
 				:items="lines" 
 				responsive="sm"
 			>
-				<template v-slot:cell(selected)="{ rowSelected }">
-					<template v-if="rowSelected">
-						<span aria-hidden="true">&check;</span>
-						<span variant="danger" class="sr-only"></span>
-					</template>
-					<template v-else>
-						<span aria-hidden="true">&nbsp;</span>
-					</template>
-				</template>
 			</b-table>
 		</div>
-		{{ $log(lines) }}
-		<AddLineModal ref="addLineModal"/>
+		<AddLineModal 
+			v-bind:expenseLine="selectedLine" 
+			ref="addLineModal"
+			@submitExpenseLine="handleSubmitExpenseLine"
+		/>
 	</div>
 </template>
 
@@ -42,7 +37,10 @@
 		},
 
 		methods: {
-			showAddLineModal() {
+			showAddLineModal(rowItem) {
+				if (rowItem) {
+					this.selectedLine = rowItem;
+				}
 				this.$refs.addLineModal.$refs.addLineModal.show()
 			},
 
@@ -59,6 +57,16 @@
 
 			formatDate(dateTimeObject) {
 				return moment(dateTimeObject).format('YYYY');
+			},
+
+			handleSubmitExpenseLine(expenseLine) {
+				console.log('handler in paretn arg: ', expenseLine);
+				
+				// insertQuarterlyReport(this.quarterlyReport);
+				// this.$nextTick(() => {
+				// 	this.$Notification("Success!", "Successfully Added the Contact");
+				// 	this.$refs.addLineModal.hide();
+				// });
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -90,7 +98,7 @@
 		},
 		
 		data() {
-			console.log('return ? ' , this.findAllQuarterlyReports());
+			// console.log('return ? ' , this.findAllQuarterlyReports());
 			
 			return {
 				// fields:[	
@@ -105,7 +113,7 @@
 				// ],
 
 				lines: this.findAllQuarterlyReports(),
-				
+				selectedLine: {},
 				quarterlyReport: {},
 				quarterOptions: [
 					{ value: null, text: 'Please Select a Quarter' },
@@ -122,6 +130,7 @@
 
 	}
 </script>
+
 <style scoped>
 	section {
 		float: right;

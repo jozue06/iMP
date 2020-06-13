@@ -1,6 +1,7 @@
 <template>
 	<section class="contacts">
 		<h1>Contacts</h1>
+		<b-button variant="primary" class="float-right m-2" size="sm" @click="showAddContactModal">Add Contact</b-button>
 		<div v-if="contacts.length > 0">
 			<!-- <b-form-group label="Selection mode:" label-cols-md="4">
 				<b-form-select v-model="selectMode" :options="modes" class="mb-3"></b-form-select>
@@ -43,11 +44,10 @@
 			</b-button>
 		</div>
 		<NoResults 
-			linkTo="/addContact" 
 			message="No Contacts Found" 
 			subtitle="Click here to Create a Contact" 
 			v-else-if="contacts.length == 0" 
-			@handleBtnClick="handleBtnClick"
+			@handleBtnClick="showAddContactModal"
 		/>
 		<ConfirmModal 
 			id="confirmModal" 
@@ -55,17 +55,17 @@
 			v-bind:message="confirmDeleteMessage" 
 			@handleConfirm="handleConfirmDelete" 
 		/>
-		<AddContactModal ref="addContactModal" @submit="handleSubmit"/>
+		<AddContactModal ref="addContactModal"/>
 	</section>
 </template>
 
 <script>
 	import "bootstrap/dist/css/bootstrap.css";
 	import "bootstrap-vue/dist/bootstrap-vue.css";
-	import { findAllContacts, deleteContacts } from '@/data/data'
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
 	import AddContactModal from '../Modals/AddContactModal'
+	import { Contact } from '../../data/models/contactModel'
 	
 	export default {
 		components: {
@@ -97,30 +97,26 @@
 				});
 			},
 
-			handleBtnClick() {
+			showAddContactModal() {
 				this.$refs.addContactModal.$refs.addContactModal.show()
-			},
-
-			handleSubmit() {
-				this.contacts = this.findAllContacts();
-				this.$Notification("Success!", "Successfully Added the Contact");
 			},
 
 			findAllContacts() {
 				let contacts = []; 
-				findAllContacts().then((data) => {	
+				Contact.find({}).then((data) => {						
 					data.forEach(c => {
-						if (c.record.firstName && c.record.lastName) {
-							c.record.id = c._id;
-							contacts.push({...c.record});
+						if (c.firstName && c.lastName) {
+							c.id = c._id;
+							contacts.push({...c});
 						}
 					});
 				});
+
 				return contacts;
 			}
 		},
 
-		data() {		
+		data() {
 			return {
 				contacts: this.findAllContacts(),
 				sortBy: 'firstName',
@@ -136,13 +132,13 @@
 				return Object.keys(this.contacts[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
-
-					if (f == "id"){
+					
+					if (f == "_id" || f == "_schema") {
 						tmp.key = "";
 					} else {
 						tmp.key = f;
-
 					}
+
 					return tmp;
 				});
 			}

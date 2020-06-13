@@ -3,12 +3,9 @@ import { createMainWindow } from './utils/windowCreation';
 import { app, protocol, } from 'electron';
 import { join } from 'path';
 
-var Datastore = require('nedb');
-let contacts = new Datastore({ filename: join(app.getPath("userData"), "collections.contacts"), autoload: true });
-let quarterlyReports = new Datastore({ filename: join(app.getPath("userData"), "collections.quarterlyReports"), autoload: true });
+var uri = "nedb://" + join(app.getPath("userData"), "collections");
+global.databaseUri = uri
 
-global.contacts = contacts;
-global.quarterlyReports = quarterlyReports;
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will

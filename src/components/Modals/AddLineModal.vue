@@ -1,13 +1,13 @@
 <template>
 	<section class="add-line-modal">
-		<b-modal size="lg" centered ref="addLineModal" title="add-line-modal Component" hide-footer>
-
+		<b-modal size="lg" centered ref="addLineModal" title="add-line-modal Component" hide-footer v-bind:expenseLine="expenseLine">
 			<b-tabs content-class="mt-3">
 				<b-tab title="First" active>
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="date">
+								{{ $log(expenseLine) }}
 							<b-form-datepicker
-								v-model="quarterlyReport.expenseLine.date"
+								v-model="expenseLine.date"
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
@@ -20,7 +20,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.paymentMethod" 
+									v-model="expenseLine.paymentMethod" 
 									required
 									name="paymentMethod"
 								>
@@ -36,7 +36,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.code" 
+									v-model="expenseLine.code" 
 									name="code"
 								>
 								</b-form-input>
@@ -48,7 +48,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.codeDescription" 
+									v-model="expenseLine.codeDescription" 
 									required
 									name="codeDescription"
 								>
@@ -60,7 +60,7 @@
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="currency">
 							<b-form-select 
-								v-model="quarterlyReport.expenseLine.currency" 
+								v-model="expenseLine.currency" 
 								:options="currencyOptions"
 							>
 							</b-form-select>
@@ -71,7 +71,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.exchangeRate" 
+									v-model="expenseLine.exchangeRate" 
 									required
 									placeholder="0.00"
 									name="exchangeRate"
@@ -89,7 +89,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.foreignAmount" 
+									v-model="expenseLine.foreignAmount" 
 									required
 									placeholder="0.00"
 									name="foreignAmount"
@@ -105,7 +105,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="quarterlyReport.expenseLine.dollarAmout" 
+									v-model="expenseLine.dollarAmout" 
 									required
 									placeholder="0.00"
 									name="dollarAmout"
@@ -120,7 +120,7 @@
 					<div class="row sub-section text-center" >
 						<b-form-group class="mr-1 description" label="description">
 							<b-form-textarea
-								v-model="quarterlyReport.expenseLine.description"
+								v-model="expenseLine.description"
 								rows="3"
 								max-rows="6"
 							>
@@ -134,14 +134,14 @@
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="multiPart">
 							<b-form-select 
-								v-model="quarterlyReport.expenseLine.multiPart" 
+								v-model="expenseLine.multiPart" 
 								:options="['No', 'Yes']"
 							>
 							</b-form-select>
 						</b-form-group>
 						<b-form-group class="mr-1" label="is req">
 							<b-form-select 
-								v-model="quarterlyReport.expenseLine.receiptReq" 
+								v-model="expenseLine.receiptReq" 
 								:options="['No', 'Yes']"
 							>
 							</b-form-select>
@@ -151,7 +151,7 @@
 
 				<b-tab 
 					title="Image" 
-					:disabled="quarterlyReport.expenseLine.receiptReq == 'No'"
+					:disabled="expenseLine.receiptReq == 'No'"
 				>
 					<div class="row sub-section">
 						<b-form-group class="mr-1" label="Receipt Image">
@@ -165,7 +165,7 @@
 					</div>
 				</b-tab> -->
 			</b-tabs>
-			<b-button type="submit" @click="onSubmit" variant="primary">Submit</b-button>
+			<b-button class="float-right" type="submit" @click="onSubmit" variant="primary">Submit</b-button>
 		</b-modal>
 	</section>
 </template>
@@ -182,23 +182,17 @@
 
 	export default  {
 		name: 'add-line-modal',
-
+		props: {
+			expenseLine: Object,
+		},
 		mounted () {
-			
+
 		},
 
 		data () {
 			return {
 				expenseReceiptFile: null,
 				previewPath: null,
-				quarterlyReport: {
-					expenseLine: {
-						receiptReq: "No",
-						
-						date: "",
-
-					},
-				},
 
 				currencyOptions: [
 					{ value: "USD", text: 'USD' },
@@ -230,11 +224,8 @@
 			},
 
 			onSubmit() {
-				insertQuarterlyReport(this.quarterlyReport);
-				this.$nextTick(() => {
-					this.$Notification("Success!", "Successfully Added the Contact");
-					this.$refs.addLineModal.hide();
-				});
+				console.log('on submit quarterlyReport ', this.expenseLine);
+				this.$emit("submitExpenseLine", this.expenseLine);
 			},
 
 			formatMoney(amount) {
