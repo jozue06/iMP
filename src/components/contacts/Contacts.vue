@@ -46,7 +46,11 @@
 			v-bind:message="confirmDeleteMessage" 
 			@handleConfirm="handleConfirmDelete" 
 		/>
-		<ContactModal ref="contactModal" v-bind:contact="selectedContact" />
+		<ContactModal 
+			ref="contactModal" 
+			v-bind:contact="selectedContact" 
+			@refresh="refresh"
+		/>
 	</section>
 </template>
 
@@ -72,20 +76,22 @@
 			},
 
 			selectAllRows() {
-				this.$refs.selectableTable.selectAllRows()
+				this.$refs.selectableTable.selectAllRows();
 			},
 
 			clearSelected() {
-				this.$refs.selectableTable.clearSelected()
+				this.$refs.selectableTable.clearSelected();
 			},
 
 			handleConfirmDelete() {
-				deleteContacts(this.selected).then(() => {
-					this.selected.forEach(selected => {
-						const index = this.contacts.findIndex(c => c.id === selected.id)
-						this.contacts.splice(index, 1)
-					});
+				let ids = this.selected.map(ele => ele._id);
+				
+				Contact.deleteMany({ _id: { $in: ids} }).then(res => {					
+					this.refresh();
 					this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
+				}).catch(e => {
+					console.log('e', e);
+					throw e;
 				});
 			},
 
@@ -97,7 +103,7 @@
 				} else {
 					this.selectedContact = Contact.create();
 				}
-				this.$refs.contactModal.$refs.contactModal.show()
+				this.$refs.contactModal.$refs.contactModal.show();
 			},
 
 			findAllContacts() {
@@ -112,6 +118,10 @@
 				});
 
 				return contacts;
+			},
+
+			refresh() {
+				this.contacts = this.findAllContacts();
 			}
 		},
 

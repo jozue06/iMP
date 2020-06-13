@@ -164,6 +164,7 @@
 					this.$refs.contactModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
 					this.loading = false;
+					this.$emit("refresh");
 				}).catch(e => {
 					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 3000);
 					this.loading = false;
