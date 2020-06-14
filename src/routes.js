@@ -2,6 +2,8 @@
 import AddContact from './components/contacts/AddContact.vue';
 import Contacts from './components/contacts/Contacts.vue';
 import AddQuarterlyReport from './components/quarterlyReports/AddQuarterlyReport.vue';
+import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
+
 export default [
     { path: "/", },
     { 
@@ -18,5 +20,10 @@ export default [
         path: "/addQuarterlyReport",
         name: "addQuarterlyReport",
         component: AddQuarterlyReport
+    },
+    {
+        path: "/quarterlyReports",
+        name: "quarterlyReports",
+        component: QuerterlyReportsList
     }
 ];

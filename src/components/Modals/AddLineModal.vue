@@ -38,6 +38,8 @@
 									type="text" 
 									v-model="expenseLine.code" 
 									name="code"
+									lazy-formatter
+									:formatter="formatToNumber"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -105,7 +107,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="expenseLine.dollarAmout" 
+									v-model="expenseLine.dollarAmount" 
 									required
 									placeholder="0.00"
 									name="dollarAmout"
@@ -234,8 +236,12 @@
 				}
 
 				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+				
+				return  Number(value);
+			},
 
-				return value;
+			formatToNumber(string) {
+				return Number(string);
 			},
 		},
 

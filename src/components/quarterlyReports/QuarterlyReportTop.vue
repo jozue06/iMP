@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>add {{ formatQuarterToView(selectedQuarterOption) }} - {{ formatDate(form.selectedYear) }} </h1>
+		<h1>add {{ formatQuarterToView(selectedQuarterOption) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h1>
 		<div class="top-qtr-container">
 			<div class="small-grouping">
 				<b-form-group label="Quarter">
@@ -11,7 +11,7 @@
 			<div class="small-grouping">
 				<b-form-group label="Year">
 					<!-- (!!!) MUST convert moment object to just year string after select before saving -->
-					<yearSelector v-model="form.selectedYear" placeHolder="Please Select A Year"/>
+					<yearSelector v-model="quarterlyReport.selectedYear" placeHolder="Please Select A Year"/>
 				</b-form-group>
 			</div>
 			<div class="bass-amount mr-2">
@@ -20,7 +20,7 @@
 						<b-form-input
 							class="text-right"
 							type="text" 
-							v-model="form.baseAmount" 
+							v-model="quarterlyReport.baseAmount" 
 							required
 							placeholder="0.00"
 							name="baseAmount"
@@ -41,13 +41,17 @@
 	import moment from 'moment';
 	
 	export default {
+		props: {
+			quarterlyReport: Object,
+		},
+
 		methods: {
 			onSubmit() {
 				// insertQuarterlyReport(this.form);
 			// 	this.form = {};
 			// 	this.$nextTick(() => {
 			// 		this.$Notification("Success!", "Successfully Added the Contact");
-			// 		this.$refs.form.reset();
+			// 		this.$refs.quarterlyReport.reset();
 			// 	});
 			},
 
@@ -87,7 +91,6 @@
 		
 		data() {
 			return {
-				form: {},
 				quarterOptions: [
 					{ value: null, text: 'Please Select a Quarter' },
 					{ value: 1, text: 'First Quarter' },

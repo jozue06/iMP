@@ -1,10 +1,9 @@
 <template>
 	<div class="card mx-2">
 		<div class="card-header">
-			<h1>card header</h1>
+			<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
 		</div>
 		<div class="card-body text-center">
-
 			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal(null)"> add Line </b-button>
 			<b-table
 				@row-clicked="showAddLineModal"
@@ -26,19 +25,26 @@
 
 <script>
 	import moment from 'moment';
-	
 	import AddLineModal from "../Modals/AddLineModal";
-	import { findAllQuarterlyReports } from "../../data/data.js"
+	import { QuarterlyReport as Report, ExpenseLine } from '../../data/models/quarterlyReportModel'
+	import QuarterlyReportTop from './QuarterlyReportTop'
 
 	export default {
+		props: {
+			quarterlyReport: Object,
+		},
+
 		components: {
 			AddLineModal,
+			QuarterlyReportTop,
 		},
 
 		methods: {
 			showAddLineModal(rowItem) {
 				if (rowItem) {
 					this.selectedLine = rowItem;
+				} else {
+					this.selectedLine = ExpenseLine.create();
 				}
 				this.$refs.addLineModal.$refs.addLineModal.show()
 			},
@@ -58,14 +64,15 @@
 				return moment(dateTimeObject).format('YYYY');
 			},
 
-			handleSubmitExpenseLine(expenseLine) {
-				console.log('handler in paretn arg: ', expenseLine);
-				
-				// insertQuarterlyReport(this.quarterlyReport);
-				// this.$nextTick(() => {
-				// 	this.$Notification("Success!", "Successfully Added the Contact");
-				// 	this.$refs.addLineModal.hide();
-				// });
+			handleSubmitExpenseLine(expenseLine) {				
+				this.currentReport.expenseLines.push(expenseLine);
+				this.currentReport.save().then(res => {
+					this.$refs.addLineModal.$refs.addLineModal.hide();
+					this.$Notification("Success!", "Successfully Added the Contact");
+				}).catch(e => {
+					console.log('eeek ', e);
+					throw e;
+				});
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -83,22 +90,22 @@
 				}
 			},
 
-			findAllQuarterlyReports() {
-				let lines = [];
-				findAllQuarterlyReports().then((data) => {
-					data.forEach(da => {
-						da.record.expenseLines.forEach(el =>{
-							lines.push(el);
-						});				
-					});				
-				});
-				return lines;
+			getQuarterlyReport() {
+				if (this.quarterlyReport && this.quarterlyReport._id) {
+					return Report.find( { _id: this.quarterlyReport._id} ).then(res => {
+						console.log(' Report.find res ' , res);
+						
+					}).catch(e => {
+						console.log(' Report.find eek ', e);
+					});
+				} else {
+					let report = Report.create()					
+					return report;
+				}
 			}
 		},
 		
-		data() {
-			// console.log('return ? ' , this.findAllQuarterlyReports());
-			
+		data() {			
 			return {
 				// fields:[	
 				// 	"",
@@ -111,9 +118,9 @@
 				// 	"Dollar amt",
 				// ],
 
-				lines: this.findAllQuarterlyReports(),
+				lines: [],
 				selectedLine: {},
-				quarterlyReport: {},
+				currentReport: this.getQuarterlyReport(),
 				quarterOptions: [
 					{ value: null, text: 'Please Select a Quarter' },
 					{ value: 1, text: 'First Quarter' },
@@ -122,8 +129,6 @@
 					{ value: 4, text: 'Fourth Quarter' },
 					
 				],
-				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
-				// states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};
 		},
 

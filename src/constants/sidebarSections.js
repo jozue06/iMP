@@ -5,12 +5,12 @@ export const sidebarSections = {
             {
                 report: 1,
                 route: "/contacts",
-                childMsg: 'contacts' 
+                childMsg: 'Contacts' 
             },
             {
                 report: 2,
-                route: "/reportName",
-                childMsg: 'to' 
+                route: "/quarterlyReports",
+                childMsg: 'Quarterly Reports' 
             },
             {
                 report: 3,
