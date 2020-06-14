@@ -119,4 +119,8 @@
 	/* .querterly-reports-list {
 
 	} */
+	section {
+		float: right;
+		width: 80%;
+	}
 </style>
