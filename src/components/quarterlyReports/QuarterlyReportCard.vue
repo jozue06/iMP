@@ -4,7 +4,6 @@
 			<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
 		</div>
 		<div class="card-body text-center">
-			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal(null)"> add Line </b-button>
 			<b-table
 				@row-clicked="showAddLineModal"
 				striped 
@@ -15,6 +14,7 @@
 				responsive="sm"
 			>
 			</b-table>
+			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal(null)"> add Line </b-button>
 		</div>
 		<AddLineModal 
 			v-bind:expenseLine="selectedLine" 
@@ -59,10 +59,11 @@
 
 			handleSubmitExpenseLine(expenseLine) {
 				this.currentReport.expenseLines.push(expenseLine);
-				
+				this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
 				this.currentReport.save().then(res => {
 					this.$refs.addLineModal.$refs.addLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
+					this.lines.push(expenseLine);
 				}).catch(e => {
 					console.log('eeek ', e);
 					throw e;
@@ -107,6 +108,7 @@
 				this.currentReport = report;
 			}
 		},
+
 		computed: {
 			fields() {
 				if (this.lines[0]) {

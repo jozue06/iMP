@@ -1,6 +1,8 @@
 <template>
 	<section class="contacts">
-		<h1>Contacts</h1>
+		<router-link to="/">
+			<h1>Contacts</h1>
+		</router-link>	
 		<div v-if="contacts.length > 0">
 			<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
 			<b-table

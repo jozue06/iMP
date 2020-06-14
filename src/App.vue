@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Header title="Welcome"/>
+		<!-- <Header title="Welcome"/> -->
 		<Sidebar sidebarTitle="iMP"/>
 		<Container />
 	</div>

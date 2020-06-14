@@ -1,5 +1,4 @@
 .b-table-sort-icon-left, .b-table-sort-icon-right {
-	
 	background-image: none !important;
 }
 
@@ -10,4 +9,22 @@
 
 :focus {
 	outline: none !important;
+}
+
+a {
+	color: #42b983;
+	&:hover {
+		color: darkcyan;
+		text-decoration: none;
+	}
+
+}
+
+.router-link-exact-active {
+	color: darkcyan;
+}
+
+.not-green {
+	color: coral !important;
+	text-decoration: none;
 }

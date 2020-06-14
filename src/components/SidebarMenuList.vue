@@ -17,8 +17,8 @@
 					v-bind:item="item"
 					v-bind:key="item.report"
 				>
-					<router-link :to="{ path: item.route}">
-						+ <span class="normal-text">{{ item.childMsg }}</span>
+					<router-link exact :to="{ path: item.route}">
+						<span class="not-green">+</span> <span>{{ item.childMsg }}</span>
 					</router-link>
 				</li>
 			</ul>
@@ -65,15 +65,7 @@
 			list-style: none;
 			padding-left: 30%;
 		}
-
-		a {
-			text-decoration : none;
-		}
-
-		.normal-text {
-			color: #42b983;
-		}
-
+		
 		h5 {
 			text-align: center;
 		}

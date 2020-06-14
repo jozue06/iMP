@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<h1>add {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h1>
+		<router-link to="/quarterlyReports">
+			<h3>Report for {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h3>
+		</router-link>
 		<div class="top-qtr-container">
 			<div class="small-grouping">
 				<b-form-group label="Quarter">
@@ -27,7 +29,7 @@
 							:formatter="formatMoney"
 						></b-form-input>
 						<b-input-group-append>
-							<b-button variant="outline-secondary">get funds</b-button>
+							<b-button variant="outline-secondary" :disabled="true">get funds</b-button>
 						</b-input-group-append>
 					</b-input-group>
 				</b-form-group>
@@ -57,8 +59,8 @@
 				if (isNaN(Number(amount))) {
 					return 0;
 				}
-				
-				return Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+				return value;
 			},
 
 			formatDate(dateTimeObject) {

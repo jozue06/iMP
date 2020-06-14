@@ -1,6 +1,8 @@
 <template>
 	<div class="sidebar clearfix">
-		<h1>{{ sidebarTitle }}</h1>
+		<router-link to="/">
+			<h1 class="no-active">{{ sidebarTitle }}</h1>
+		</router-link>	
 		<SidebarMenuList title="Records" v-bind:itemList=sections.mainSection accordianId="collapse-1" />
 		<SidebarMenuList title="New Records" v-bind:itemList=sections.newRecordsSection accordianId="collapse-2" />
 		<SidebarMenuList title="Import & Export" v-bind:itemList=sections.importExportSection accordianId="collapse-3" />
@@ -26,12 +28,20 @@
 	};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.sidebar{
 		position: fixed;
 		float: left;
 		width: 20%;
 		height: 100%;
 		border-right: 0.1em solid #42b983;
+	}
+	
+	.router-link-exact-active {
+		color: #42b983 !important;
+		&:hover {
+			color: darkcyan;
+			text-decoration: none;
+		}
 	}
 </style>

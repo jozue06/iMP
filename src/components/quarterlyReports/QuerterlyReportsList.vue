@@ -1,8 +1,17 @@
 <template>
 	<section class="querterly-reports-list">
-		<h1>Querterly Reports</h1>
+		<router-link to="/">
+			<h1>Querterly Reports</h1>
+		</router-link>
 		<div v-if="reports.length > 0">
-			<b-button variant="primary" class="float-right m-2" size="sm" @click="showReportModal(null)">New Quarterly Report</b-button>
+			<router-link
+				to="/addQuarterlyReport"
+				v-slot="{ href, route, navigate}"
+			>
+				<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
+					New Quarterly Report
+				</b-button>
+			</router-link>
 			<b-table
 				striped 
 				hover 
@@ -79,7 +88,7 @@
 		data () {
 			return {
 				reports: this.loadReports(),
-				confirmDeleteMessage: "???",
+				confirmDeleteMessage: "Are you sure you want to delete this Quarterly Report? This cannot be un-done",
 				selected: "",
 				sortBy: '',
 				sortDesc: false,
@@ -96,7 +105,7 @@
 				this.selected = report;
 			},
 
-				selectAllRows() {
+			selectAllRows() {
 				this.$refs.selectableTable.selectAllRows();
 			},
 
@@ -108,7 +117,7 @@
 				let ids = this.selected.map(ele => ele._id);
 				
 				Report.deleteMany({ _id: { $in: ids} }).then(res => {					
-					this.loadReports();
+					this.refresh();
 					this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
 				}).catch(e => {
 					console.log('e', e);
@@ -128,6 +137,10 @@
 				});
 				return reports;
 			},
+
+			refresh() {
+				this.reports = this.loadReports();
+			}
 		},
 
 		computed: {
