@@ -5,7 +5,6 @@
 				<b-tab title="First" active>
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="date">
-								<!-- {{ $log(expenseLine) }} -->
 							<b-form-datepicker
 								v-model="expenseLine.date"
 								required
@@ -225,7 +224,6 @@
 			},
 
 			onSubmit() {
-				console.log('on submit quarterlyReport ', this.expenseLine);
 				this.$emit("submitExpenseLine", this.expenseLine);
 			},
 

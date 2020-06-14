@@ -36,7 +36,8 @@ class QuarterlyReport extends Schema {
 	constructor() {
 		super();
 		this.quarterNumber = Number;
-		this.reportDate = String;
+		this.year = String;
+		this.baseAmount = Number;
 		this.expenseLines = [ExpenseLine]
 	}
 

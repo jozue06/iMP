@@ -43,23 +43,30 @@
 
 <script>
 	import moment from "moment";
+
 	export default {
+		
 		name: "YearSelector",
+		
 		props: {
 			value: {
 				default: null
 			},
+			
 			disabled: {
 				type: Boolean,
 				default: false
 			},
+			
 			inputClass: {
 				default: "input"
 			},
+			
 			placeHolder: {
 				type: String,
 				default: "Select a Year"
 			},
+			
 			alignment: {
 				type: String,
 				default: "center",
@@ -68,20 +75,25 @@
 					return ["left", "right", "center"].indexOf(value) !== -1;
 				}
 			},
+			
 			selectedBackgroundColor: {
 				type: String,
 				default: "#007bff"
 			},
+			
 			min: {
 				default: null
 			},
+			
 			max: {
 				default: null
 			},
+			
 			dateFormat: {
 				type: String,
 				default: "YYYY"
 			},
+			
 			clearOption: {
 				type: Boolean,
 				default: true
@@ -131,11 +143,11 @@
 				};
 			},
 
-			displayText() {
+			displayText() {			
 				if (this.value) {
 					let valueMoment = null;
 					if (typeof this.value === "string") {
-						valueMoment = moment(this.value);
+						valueMoment = moment(this.value, "YYYY");
 					} else {
 						valueMoment = this.value;
 					}

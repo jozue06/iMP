@@ -1,9 +1,8 @@
 <template>
 	<section class="querterly-reports-list">
 		<h1>Querterly Reports</h1>
-		{{ $consoleLog("we got reports??? ", reports)}}
 		<div v-if="reports.length > 0">
-		<b-button variant="primary" class="float-right m-2" size="sm" @click="showReportModal(null)">New Quarterly Report</b-button>
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showReportModal(null)">New Quarterly Report</b-button>
 			<b-table
 				striped 
 				hover 
@@ -19,8 +18,13 @@
 				sort-icon-left
 				responsive="sm"
 			>
-				<template v-slot:cell(firstName)="data">
-					<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
+				<template v-slot:cell()="data">
+					<router-link
+						:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
+						v-slot="{ href, route, navigate}"
+					>
+						<span :href="href" @click="navigate"> {{ data.value }} </span>
+					 </router-link>
 				</template>
 			</b-table>
 			<b-button class="mx-2"  size="sm" @click="selectAllRows">Select all</b-button>
@@ -63,24 +67,53 @@
 			ConfirmModal,
 			NoResults,
 		},
+
 		name: 'querterlyReportsList',
+
 		props: [],
+
 		mounted () {
 
 		},
+
 		data () {
 			return {
 				reports: this.loadReports(),
 				confirmDeleteMessage: "???",
+				selected: "",
+				sortBy: '',
+				sortDesc: false,
+				selectMode: 'multi',
 			}
 		},
+
 		methods: {
 			showReportModal() {
 
 			},
 
-			handleConfirmDelete() {
+			onRowSelected(report) {
+				this.selected = report;
+			},
 
+				selectAllRows() {
+				this.$refs.selectableTable.selectAllRows();
+			},
+
+			clearSelected() {
+				this.$refs.selectableTable.clearSelected();
+			},
+			
+			handleConfirmDelete() {
+				let ids = this.selected.map(ele => ele._id);
+				
+				Report.deleteMany({ _id: { $in: ids} }).then(res => {					
+					this.loadReports();
+					this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
+				}).catch(e => {
+					console.log('e', e);
+					throw e;
+				});
 			},
 
 			loadReports() {
@@ -92,11 +125,11 @@
 							reports.push({...report});
 						}
 					});
-					reports.push(res)
 				});
 				return reports;
 			},
 		},
+
 		computed: {
 			fields() {
 				return Object.keys(this.reports[0]).map(f => {
@@ -115,10 +148,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
-	/* .querterly-reports-list {
-
-	} */
+<style scoped>
 	section {
 		float: right;
 		width: 80%;

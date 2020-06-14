@@ -9,6 +9,7 @@
 				@row-clicked="showAddLineModal"
 				striped 
 				hover 
+				:fields="fields"
 				ref="reportTable"
 				:items="lines" 
 				responsive="sm"
@@ -19,7 +20,7 @@
 			v-bind:expenseLine="selectedLine" 
 			ref="addLineModal"
 			@submitExpenseLine="handleSubmitExpenseLine"
-		/>
+		/>		
 	</div>
 </template>
 
@@ -30,10 +31,6 @@
 	import QuarterlyReportTop from './QuarterlyReportTop'
 
 	export default {
-		props: {
-			quarterlyReport: Object,
-		},
-
 		components: {
 			AddLineModal,
 			QuarterlyReportTop,
@@ -50,22 +47,19 @@
 			},
 
 			formatMoney(amount) {
-
 				if (isNaN(Number(amount))) {
 					return 0;
 				}
-
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-
-				return value;
+				return Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");;
 			},
 
 			formatDate(dateTimeObject) {
 				return moment(dateTimeObject).format('YYYY');
 			},
 
-			handleSubmitExpenseLine(expenseLine) {				
+			handleSubmitExpenseLine(expenseLine) {
 				this.currentReport.expenseLines.push(expenseLine);
+				
 				this.currentReport.save().then(res => {
 					this.$refs.addLineModal.$refs.addLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
@@ -78,60 +72,60 @@
 			formatQuarterToView(quarterNumber) {
 				switch (quarterNumber) {
 					case 1: 
-						return "1st Quarter"
+						return "1st Quarter";
 					case 2: 
-						return "2nd Quarter"
+						return "2nd Quarter";
 					case 3: 
-						return "3rd Quarter"
+						return "3rd Quarter";
 					case 4: 
-						return "4th Quarter"
-
-					default: "No Quarter Selected"
+						return "4th Quarter";
+					default: "No Quarter Selected";
 				}
 			},
-
-			getQuarterlyReport() {
-				if (this.quarterlyReport && this.quarterlyReport._id) {
-					return Report.find( { _id: this.quarterlyReport._id} ).then(res => {
-						console.log(' Report.find res ' , res);
-						
-					}).catch(e => {
-						console.log(' Report.find eek ', e);
-					});
-				} else {
-					let report = Report.create()					
-					return report;
-				}
-			}
 		},
 		
-		data() {			
+		data() {
 			return {
-				// fields:[	
-				// 	"",
-				// 	"date",
-				// 	"code",
-				// 	"description",
-				// 	"currency",
-				// 	"foreign amount",
-				// 	"exchange rate",
-				// 	"Dollar amt",
-				// ],
-
 				lines: [],
 				selectedLine: {},
-				currentReport: this.getQuarterlyReport(),
-				quarterOptions: [
-					{ value: null, text: 'Please Select a Quarter' },
-					{ value: 1, text: 'First Quarter' },
-					{ value: 2, text: 'Second Quarter' },
-					{ value: 3, text: 'Third Quarter' },
-					{ value: 4, text: 'Fourth Quarter' },
-					
-				],
+				currentReport: {},
 			};
 		},
 
+		created() {
+			let report
+			if (this.$router.currentRoute.params.reportId) {
+				Report.find( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
+					report = res[0];
+					this.currentReport = report;
+					this.lines = report.expenseLines;
+				}).catch(e => {
+					console.log(' Report.find eek ', e);
+				});
+			} else {
+				report = Report.create();
+				this.currentReport = report;
+			}
+		},
+		computed: {
+			fields() {
+				if (this.lines[0]) {
+					return Object.keys(this.lines[0]).map(f => {
+						let tmp = {};
+						tmp.sortable = false;
+						
+						if (f == "_id" || f == "_schema" || f == "expenseLines") {
+							tmp.key = "";
+						} else {
+							tmp.key = f;
+						}
+						return tmp;
+					});
+				} else {
+					return [];
+				}
+			}
+		}
 	}
 </script>
 
