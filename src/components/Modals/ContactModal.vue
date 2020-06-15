@@ -114,20 +114,20 @@
 					<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group> 
-				<b-form-group label="Phone" :description="contact.country == 'Canada' ? '000-000-0000' : contact.country == 'United States' ? '000-000-0000' : ''">
-					<ValidationProvider name="phone" rules="required|phone:country" v-slot="{ errors }">
+
+				
+				<!-- REMOVE THIS NOTE STUFF JUST FOR TEST -->
+				<b-form-group label="note">
 					<b-form-input
 						type="text"
-						:state="errors.length == 0"
-						v-model="contact.phone"
+						v-model="note"
 						required
-						placeholder="Phone"
-						name="phone"
-						
-					></b-form-input>
-					<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
-					</ValidationProvider>
+						placeholder="note"
+						name="note"
+					></b-form-input>					
 				</b-form-group> 
+
+
 				<b-button class="float-right" type="submit" :disabled="loading" variant="primary">
 					Submit
 					<b-spinner v-if="loading" small type="grow"></b-spinner>				
@@ -143,7 +143,7 @@
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	
 	// import { insertContact } from '@/data/data'
-	import { Contact } from '../../data/models/contactModel'
+	import { Contact, ContactNotes } from '../../data/models/contactModel'
 	
 	export default {
 		components: {
@@ -160,6 +160,17 @@
 		methods: {
 			onSubmit() {
 				this.loading = true;
+
+				/*** REMOVE THIS NOTE STUFF JUST FOR TEST  */
+				if (this.note != null) {
+					console.log('note?? ', this.note);
+					
+					let newNote = ContactNotes.create();
+					newNote.text = this.note;
+					this.contact.notes = newNote;
+				}
+
+
 				this.contact.save().then((res) => {
 					this.$refs.contactModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
@@ -178,6 +189,9 @@
 
 		data() {
 			return {
+				/*** REMOVE THIS NOTE STUFF JUST FOR TEST  */
+				note: null,
+				
 				loading: false,
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				states: STATES.map(c => ({ value: c.name, text: c.name }))

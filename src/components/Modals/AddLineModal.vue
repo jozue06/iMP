@@ -172,8 +172,7 @@
 </template>
 
 <script>
-	
-	import { insertQuarterlyReport } from '@/data/data';
+	// import { insertQuarterlyReport } from '@/data/data';
 	import { remote } from 'electron';
 
 	var path = require('path');

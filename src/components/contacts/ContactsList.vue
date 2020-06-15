@@ -24,6 +24,14 @@
 					<template v-slot:cell(firstName)="data">
 						<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
 					</template>
+					<template v-slot:cell(lastName)="data">
+						<router-link
+							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
+							v-slot="{ href, route, navigate}"
+						>
+							<span :href="href" @click="navigate"> {{ data.value }} </span>
+						</router-link>
+					</template>
 				</b-table>
 				<b-button class="m-2"  size="sm" @click="selectAllRows">Select all</b-button>
 				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
@@ -59,11 +67,11 @@
 </template>
 
 <script>
-	
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
 	import { Contact } from '../../data/models/contactModel'
+	import { allowedFields } from '@/constants/tableFields';
 	
 	export default {
 		components: {
@@ -146,11 +154,10 @@
 				return Object.keys(this.contacts[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
-					
-					if (f == "_id" || f == "_schema") {
-						tmp.key = "";
-					} else {
+					if (allowedFields.contactsList.includes(f)) {
 						tmp.key = f;
+					} else { 
+						tmp.key = "";
 					}
 
 					return tmp;

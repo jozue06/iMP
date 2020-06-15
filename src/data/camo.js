@@ -1,5 +1,4 @@
 import { remote } from 'electron';
-
 let uri = remote.getGlobal('databaseUri');
 
 var Camo = require('camo');
@@ -8,7 +7,7 @@ Camo.connect(uri).then(function(db) {
 	database = db;
 });
 
-function getDb() {
+function getDb() {	
 	return database;
 }
 

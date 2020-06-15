@@ -7,7 +7,6 @@ import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
 import YearSelector from './components/YearSelector'
-// import "./assets/scss/custom-vars.scss";
 import "./assets/scss/globalCustoms.scss";
 
 extend("required", required);

@@ -135,7 +135,7 @@
 	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
 	
-	import { insertContact } from '@/data/data'
+	// import { insertContact } from '@/data/data'
 	
 	export default {
 		components: {
@@ -151,12 +151,12 @@
 
 		methods: {
 			onSubmit() {
-				insertContact(this.form);
-				this.form = {};
-				this.$nextTick(() => {
-					this.$Notification("Success!", "Successfully Added the Contact");
-					this.$refs.form.reset();
-				});
+				// insertContact(this.form);
+				// this.form = {};
+				// this.$nextTick(() => {
+				// 	this.$Notification("Success!", "Successfully Added the Contact");
+				// 	this.$refs.form.reset();
+				// });
 			},
 		},
 
