@@ -1,9 +1,39 @@
+$primary: darkcyan !default;
+$secondary: #42b983 !default;
+$success: #fcd7c7 !default;
+$danger: #ff7f50 !default;
+
+// $warning: $yellow !default;
+// $info: $cyan !default;
+// $light: $gray-100 !default;
+// $dark: $gray-800 !default;
+
+body {
+	background: #ebf1f4 !important;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+a {
+	color: $primary;
+	&:hover {
+		color: $secondary;
+		text-decoration: none;
+	}
+}
+
+section {
+	float: right;
+	width: 82%;
+}
+
 .b-table-sort-icon-left, .b-table-sort-icon-right {
 	background-image: none !important;
 }
 
 [aria-sort="ascending"], [aria-sort="descending"] {
-	color: red;
+	color: $danger;
 	font-style: italic;
 }
 
@@ -11,20 +41,22 @@
 	outline: none !important;
 }
 
-a {
-	color: #42b983;
+.router-link, .router-link-active {
+	color: $primary;
 	&:hover {
-		color: darkcyan;
+		color: $secondary;
 		text-decoration: none;
 	}
-
-}
-
-.router-link-exact-active {
-	color: darkcyan;
 }
 
 .not-green {
-	color: coral !important;
+	color: $danger !important;
 	text-decoration: none;
+}
+
+.main-card {
+	margin: 20px;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+	border-radius: 0.25em !important;
+	background-color: #FFF;
 }

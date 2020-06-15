@@ -27,3 +27,10 @@
 
 	}
 </script>
+
+<style scoped>
+	.noResults {
+		float: right;
+		width: 100%;
+	}
+</style>

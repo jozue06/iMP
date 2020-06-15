@@ -1,6 +1,6 @@
 <template>
-	<section class="sidebar-menu-list">
-		<h5 class="chevron-toggle"
+	<div class="sidebar-menu-list">
+		<h5
 			v-b-toggle="accordianId" 
 			:class="visible ? null : 'collapsed'"
 			:aria-expanded="visible ? 'true' : 'false'"
@@ -23,7 +23,7 @@
 				</li>
 			</ul>
 		</b-collapse>
-	</section>
+	</div>
 </template>
 
 <script>
@@ -42,32 +42,17 @@
 </script>
 
 <style scoped lang="scss">
-	/* .chevron-toggle:after {
-		content: "X";
-		float: left;
-		padding-left: 10px;
-		padding-right: 0;
-		color: red;
-		transition: transform 0.5s;
-		transform-origin: -10px -10px;
-	}
-
-	.chevron-toggle.collapsed:after {
-		transform: rotateZ(90deg);
-	} */
-
 	.sidebar-menu-list {
 		padding-top: 2%;
-		
 		text-align: left;
 
 		ul {
 			list-style: none;
-			padding-left: 30%;
+			padding-left: 20%;
 		}
 		
 		h5 {
-			text-align: center;
+			padding-left: 10%;
 		}
 	}
 </style>

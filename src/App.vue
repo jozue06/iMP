@@ -27,9 +27,8 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
-		color: #2c3e50;
-		margin-top: 60px;
 	}
+
 	.side-bar ul {
 		list-style-type: none;
 		padding: 0;
@@ -38,9 +37,5 @@
 	.side-bar li {
 		display: inline-block;
 		margin: 0 10px;
-	}
-	
-	.side-bar a {
-		color: #42b983;
 	}
 </style>

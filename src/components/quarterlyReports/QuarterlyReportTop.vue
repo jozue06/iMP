@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<router-link to="/quarterlyReports">
-			<h3>Report for {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h3>
+			<h3 class="pt-2">Report for {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h3>
 		</router-link>
 		<div class="top-qtr-container">
-			<div class="small-grouping">
+			<div class="small-grouping mr-2">
 				<b-form-group label="Quarter">
 					<b-form-select v-model="quarterlyReport.quarterNumber" :options="quarterOptions" @change="formatQuarterForSave">
 					</b-form-select>
@@ -15,7 +15,7 @@
 					<yearSelector v-model="quarterlyReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
 				</b-form-group>
 			</div>
-			<div class="bass-amount mr-2">
+			<div class="bass-amount">
 				<b-form-group label="Base Amount">
 					<b-input-group prepend="$">
 						<b-form-input
@@ -102,20 +102,16 @@
 	}
 </script>
 <style scoped>
-	section {
-		float: right;
-		width: 80%;
-	}
-
 	.top-qtr-container {
 		display: flex;
 		flex-direction: row;
-		margin-left: 2px;
+		margin-left: 10px;
+		margin-right: 10px;
 	}	
 
 	.small-grouping {
 		max-width: 200px;
-		margin-right: 10px;
+		/* margin-right: 10px; */
 	}
 	.bass-amount {
 		margin-left: 40%;

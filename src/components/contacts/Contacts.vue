@@ -1,58 +1,60 @@
 <template>
 	<section class="contacts">
-		<router-link to="/">
-			<h1>Contacts</h1>
-		</router-link>	
-		<div v-if="contacts.length > 0">
-			<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
-			<b-table
-				striped 
-				hover 
-				ref="selectableTable"
-				selectable
-				:items="contacts" 
-				:fields="fields"
-				:sort-by.sync="sortBy"
-				:sort-desc.sync="sortDesc"
-				:select-mode="selectMode"
-				@row-selected="onRowSelected"
-				selected-variant="danger"
-				sort-icon-left
-				responsive="sm"
-			>
-				<template v-slot:cell(firstName)="data">
-					<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
-				</template>
-			</b-table>
-			<b-button class="mx-2"  size="sm" @click="selectAllRows">Select all</b-button>
-			<b-button class="mx-2" size="sm" @click="clearSelected">Clear selected</b-button>
-			<b-button 
-				class="mx-2" 
-				variant="danger" 
-				size="sm" 
-				:disabled="selected == 0" 
-				v-bind:selected="selected"
-				v-b-modal.confirmModal>
-					Delete selected
-			</b-button>
+		<div class="main-card">
+			<router-link to="/">
+				<h1 class="pt-2">Contacts</h1>
+			</router-link>	
+			<div v-if="contacts.length > 0">
+				<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
+				<b-table
+					striped 
+					hover 
+					ref="selectableTable"
+					selectable
+					:items="contacts" 
+					:fields="fields"
+					:sort-by.sync="sortBy"
+					:sort-desc.sync="sortDesc"
+					:select-mode="selectMode"
+					@row-selected="onRowSelected"
+					selected-variant="danger"
+					sort-icon-left
+					responsive="sm"
+				>
+					<template v-slot:cell(firstName)="data">
+						<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
+					</template>
+				</b-table>
+				<b-button class="m-2"  size="sm" @click="selectAllRows">Select all</b-button>
+				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
+				<b-button 
+					class="mx-2" 
+					variant="danger" 
+					size="sm" 
+					:disabled="selected == 0" 
+					v-bind:selected="selected"
+					v-b-modal.confirmModal>
+						Delete selected
+				</b-button>
+			</div>
+			<NoResults 
+				message="No Contacts Found" 
+				subtitle="Click here to Create a Contact" 
+				v-else-if="contacts.length == 0" 
+				@handleBtnClick="showContactModal(null)"
+			/>
+			<ConfirmModal 
+				id="confirmModal" 
+				title="Delete?" 
+				v-bind:message="confirmDeleteMessage" 
+				@handleConfirm="handleConfirmDelete" 
+			/>
+			<ContactModal 
+				ref="contactModal" 
+				v-bind:contact="selectedContact" 
+				@refresh="refresh"
+			/>
 		</div>
-		<NoResults 
-			message="No Contacts Found" 
-			subtitle="Click here to Create a Contact" 
-			v-else-if="contacts.length == 0" 
-			@handleBtnClick="showContactModal(null)"
-		/>
-		<ConfirmModal 
-			id="confirmModal" 
-			title="Delete?" 
-			v-bind:message="confirmDeleteMessage" 
-			@handleConfirm="handleConfirmDelete" 
-		/>
-		<ContactModal 
-			ref="contactModal" 
-			v-bind:contact="selectedContact" 
-			@refresh="refresh"
-		/>
 	</section>
 </template>
 
@@ -157,14 +159,3 @@
 		},
 	};
 </script>
-
-<style scoped>
-	section {
-		float: right;
-		width: 80%;
-	}
-	.noResults {
-		float: right;
-		width: 100%;
-	}
-</style>

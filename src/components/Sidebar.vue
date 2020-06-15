@@ -29,16 +29,17 @@
 </script>
 
 <style scoped lang="scss">
-	.sidebar{
+	.sidebar {
 		position: fixed;
 		float: left;
-		width: 20%;
+		width: 18%;
 		height: 100%;
-		border-right: 0.1em solid #42b983;
+		border-right: 0.1em solid darkcyan;
+		background: linear-gradient(to bottom right, #fcd7c7 30%, #42b983 100%);
 	}
 	
 	.router-link-exact-active {
-		color: #42b983 !important;
+		color: darkcyan !important;
 		&:hover {
 			color: darkcyan;
 			text-decoration: none;

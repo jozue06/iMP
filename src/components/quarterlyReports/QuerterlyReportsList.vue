@@ -1,9 +1,9 @@
 <template>
-	<section class="querterly-reports-list">
-		<router-link to="/">
-			<h1>Querterly Reports</h1>
-		</router-link>
-		<div v-if="reports.length > 0">
+	<section>
+		<div class="main-card">
+			<router-link to="/">
+				<h1 class="pt-2">Querterly Reports</h1>
+			</router-link>
 			<router-link
 				to="/addQuarterlyReport"
 				v-slot="{ href, route, navigate}"
@@ -12,57 +12,59 @@
 					New Quarterly Report
 				</b-button>
 			</router-link>
-			<b-table
-				striped 
-				hover 
-				ref="selectableTable"
-				selectable
-				:items="reports" 
-				:fields="fields"
-				:sort-by.sync="sortBy"
-				:sort-desc.sync="sortDesc"
-				:select-mode="selectMode"
-				@row-selected="onRowSelected"
-				selected-variant="danger"
-				sort-icon-left
-				responsive="sm"
+			<div v-if="reports.length > 0">
+				<b-table
+					striped 
+					hover 
+					ref="selectableTable"
+					selectable
+					:items="reports" 
+					:fields="fields"
+					:sort-by.sync="sortBy"
+					:sort-desc.sync="sortDesc"
+					:select-mode="selectMode"
+					@row-selected="onRowSelected"
+					selected-variant="danger"
+					sort-icon-left
+					responsive="sm"
+				>
+					<template v-slot:cell()="data">
+						<router-link
+							:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
+							v-slot="{ href, route, navigate}"
+						>
+							<span :href="href" @click="navigate"> {{ data.value }} </span>
+						</router-link>
+					</template>
+				</b-table>
+				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
+				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
+				<b-button 
+					class="m-2" 
+					variant="danger" 
+					size="sm" 
+					:disabled="selected == 0" 
+					v-bind:selected="selected"
+					v-b-modal.confirmModal>
+						Delete selected
+				</b-button>
+			</div>
+			<router-link
+				v-else-if="reports.length == 0" 
+				to="/addQuarterlyReport"
+				v-slot="{ href, route, navigate}"
 			>
-				<template v-slot:cell()="data">
-					<router-link
-						:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
-						v-slot="{ href, route, navigate}"
-					>
-						<span :href="href" @click="navigate"> {{ data.value }} </span>
-					 </router-link>
-				</template>
-			</b-table>
-			<b-button class="mx-2"  size="sm" @click="selectAllRows">Select all</b-button>
-			<b-button class="mx-2" size="sm" @click="clearSelected">Clear selected</b-button>
-			<b-button 
-				class="mx-2" 
-				variant="danger" 
-				size="sm" 
-				:disabled="selected == 0" 
-				v-bind:selected="selected"
-				v-b-modal.confirmModal>
-					Delete selected
-			</b-button>
+				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
+					New Quarterly Report
+				</b-button>
+			</router-link>
+			<ConfirmModal 
+				id="confirmModal" 
+				title="Delete?" 
+				v-bind:message="confirmDeleteMessage" 
+				@handleConfirm="handleConfirmDelete" 
+			/>
 		</div>
-		<router-link
-			v-else-if="reports.length == 0" 
-			to="/addQuarterlyReport"
-			v-slot="{ href, route, navigate}"
-		>
-			<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
-				New Quarterly Report
-			</b-button>
-		</router-link>
-		<ConfirmModal 
-			id="confirmModal" 
-			title="Delete?" 
-			v-bind:message="confirmDeleteMessage" 
-			@handleConfirm="handleConfirmDelete" 
-		/>
 	</section>
 </template>
 
@@ -160,10 +162,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	section {
-		float: right;
-		width: 80%;
-	}
-</style>

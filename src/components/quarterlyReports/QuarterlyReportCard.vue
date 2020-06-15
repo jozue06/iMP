@@ -1,27 +1,58 @@
 <template>
-	<div class="card mx-2">
-		<div class="card-header">
-			<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
-		</div>
-		<div class="card-body text-center">
-			<b-table
-				@row-clicked="showAddLineModal"
-				striped 
-				hover 
-				:fields="fields"
-				ref="reportTable"
-				:items="lines" 
-				responsive="sm"
+	<section>
+		<div class="main-card">
+			<div>
+				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
+			</div>
+			<div v-if="lines.length > 0">
+				<b-table
+					striped 
+					hover 
+					:fields="fields"
+					:items="lines" 
+					ref="reportTable"
+					responsive="sm"
+					selectable
+					@row-selected="onRowSelected"
+				>
+					<template v-slot:cell(date)="data">
+						<b @click="showAddLineModal()" class="text-info">{{ data.value }}</b>
+					</template>
+				</b-table>
+				<b-button 
+					class="m-2" 
+					variant="danger" 
+					size="sm" 
+					:disabled="selected == 0" 
+					v-bind:selected="selected"
+					v-b-modal.confirmModal>
+						Delete selected
+				</b-button>
+				<b-button class="float-right m-2" size="sm" variant="primary" @click="showAddLineModal(null)"> add Line </b-button>
+			</div>
+			<router-link
+				v-else-if="lines.length == 0" 
+				to="/addQuarterlyReport"
+				v-slot="{ href, route, navigate}"
 			>
-			</b-table>
-			<b-button class="float-right mb-2" variant="success" @click="showAddLineModal(null)"> add Line </b-button>
+				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
+					New Quarterly Report
+				</b-button>
+			</router-link>
+
+			<AddLineModal 
+				v-bind:expenseLine="selectedLine" 
+				ref="addLineModal"
+				@submitExpenseLine="handleSubmitExpenseLine"
+			/>
+			<ConfirmModal 
+				id="confirmModal" 
+				title="Delete?" 
+				v-bind:message="confirmDeleteMessage" 
+				@handleConfirm="handleConfirmDelete" 
+			/>
 		</div>
-		<AddLineModal 
-			v-bind:expenseLine="selectedLine" 
-			ref="addLineModal"
-			@submitExpenseLine="handleSubmitExpenseLine"
-		/>		
-	</div>
+	</section>
 </template>
 
 <script>
@@ -29,11 +60,13 @@
 	import AddLineModal from "../Modals/AddLineModal";
 	import { QuarterlyReport as Report, ExpenseLine } from '../../data/models/quarterlyReportModel'
 	import QuarterlyReportTop from './QuarterlyReportTop'
+	import ConfirmModal from '../Modals/ConfirmModal'
 
 	export default {
 		components: {
 			AddLineModal,
 			QuarterlyReportTop,
+			ConfirmModal,
 		},
 
 		methods: {
@@ -63,7 +96,23 @@
 				this.currentReport.save().then(res => {
 					this.$refs.addLineModal.$refs.addLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact");
-					this.lines.push(expenseLine);
+				}).catch(e => {
+					console.log('eeek ', e);
+					throw e;
+				});
+			},
+
+			onRowSelected(report) {
+				this.selected = report;
+			},
+
+			handleConfirmDelete() {
+				this.selected.forEach(sel => {
+					this.currentReport.expenseLines.pop(sel);
+				})
+				this.currentReport.save().then(res => {
+					this.$refs.addLineModal.$refs.addLineModal.hide();
+					this.$Notification("Success!", "Successfully Added the Contact");
 				}).catch(e => {
 					console.log('eeek ', e);
 					throw e;
@@ -87,9 +136,11 @@
 		
 		data() {
 			return {
+				selected: "",
 				lines: [],
 				selectedLine: {},
 				currentReport: {},
+				confirmDeleteMessage: "Are you sure you want to delete this Expense LIne? This cannot be un-done",
 			};
 		},
 
@@ -130,27 +181,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	section {
-		float: right;
-		width: 80%;
-	}
-
-	.top-qtr-container {
-		display: flex;
-		flex-direction: row;
-		margin-left: 2px;
-	}	
-
-	.small-grouping {
-		max-width: 200px;
-		margin-right: 10px;
-	}
-	.bass-amount {
-		margin-left: 40%;
-	}
-	.point {
-		cursor: pointer;
-	}
-</style>
