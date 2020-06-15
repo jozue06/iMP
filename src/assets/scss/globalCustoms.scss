@@ -31,6 +31,7 @@ section {
 label {
 	font-size: x-small;
 	font-style: italic;
+	margin: 0;
 }
 
 .b-table-sort-icon-left, .b-table-sort-icon-right {
@@ -70,4 +71,22 @@ label {
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.address {
+	font-size: small;
+}
+
+.note-container {
+	border: solid 1px #ced4da;
+	border-radius: .25em;
+}
+
+.mid-cards {
+	margin: 20px;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+	border-radius: 0.25em !important;
+	min-height: 155px;
+	max-height: 155px;
+	border-top: solid 1px $primary;
 }

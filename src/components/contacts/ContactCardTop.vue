@@ -1,9 +1,9 @@
-<template lang="html">
+<template>
 	<div class="main-card">
-		<b-row  @click="showContactModal" class="mx-2">
+		<b-row class="mx-2">
 			<b-col class="my-2" style="border-right: solid 1px #ced4da;">
 				<p>
-					primary address
+					Primary Info
 				</p>
 				<div class="text-center mr-2">
 					<b-form-checkbox
@@ -20,24 +20,18 @@
 						</label>
 					</b-form-checkbox>
 				</div>
-				<b-row class="align-items-center custom-hover">
+				<b-row @click="showContactModal" class="align-items-center custom-hover">
 					<b-col>
-						<br>
-						<label> first name: </label>
-						<br>
-						{{ currentContact.firstName }}
-						<br>
-						<label> last name: </label>
-						<br>
-						{{ currentContact.lastName }}
+						<label> Name: </label>
+						<div>
+							{{ currentContact.firstName }} {{ currentContact.lastName }}
+						</div>
 					</b-col>	
-					<b-col>
+					<b-col class="address">
 						<label> address: </label>
 						<br>
-						{{ currentContact.address }}
-						<br>
-						{{ currentContact.city }}
-						<br>
+						{{ currentContact.address }},
+						{{ currentContact.city }}, 
 						{{ currentContact.postalCode }}
 						<br>
 						{{ currentContact.country }}
@@ -45,6 +39,7 @@
 					</b-col>
 					<b-col>
 						<label> email: </label>
+						<br>
 						{{ currentContact.email }}
 						<br>
 						<label> phone: </label>
@@ -55,8 +50,15 @@
 			</b-col>
 			<b-col class="my-2">
 				<div v-if="!currentContact.isIndividual">
-					church or org name
-					{{ currentContact.orgName }}
+					<b-form-group label="Organization or Church name">
+						<b-form-input
+							type="text"
+							v-model="currentContact.orgName"
+							required
+							placeholder=""
+							name="orgName"
+						></b-form-input>
+					</b-form-group> 
 				</div>
 				<b-row>
 					<b-col>
@@ -94,19 +96,12 @@
 				</div>
 			</b-col>
 		</b-row>
-		<ContactModal ref="contactModal" v-bind:contact="currentContact" @refresh="saveContact" />
 	</div>
 </template>
 
 <script>
-	import ContactModal from '../Modals/ContactModal';
-
 	export default  {
 		name: 'contact-card-top',
-
-		components: {
-			ContactModal,
-		},
 
 		props: {
 			currentContact: Object,
@@ -120,7 +115,7 @@
 
 		methods: {
 			showContactModal() {
-				this.$refs.contactModal.$refs.contactModal.show();
+				this.$emit("showContactModal");
 			},
 			
 			isIndividualChanged(isIndividual) {
@@ -137,10 +132,3 @@
 		},
 	}
 </script>
-
-<style scoped lang="scss">
-	.note-container {
-		border: solid 1px #ced4da;
-		border-radius: .25em;
-	}
-</style>

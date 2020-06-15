@@ -4,72 +4,14 @@
 			<router-link to="/contacts">
 				<h1>{{ currentContact.firstName }}</h1>
 			</router-link>	
-
-			<ContactTopCard v-bind:currentContact="currentContact" @saveContact="saveContact"/>
 			
-			<b-row class="mr-2 ml-2" align-v="center">
-				<b-col class="test-class">
-					<div class="mt-2">
-						<p>
-							secondary address
-						</p>
-					</div>
-					<b-row @click="showAddAddressModal" v-if="currentContact.secondAddress" class="custom-hover align-items-center mb-2">	
-						<b-col>
-							<label> address: </label>
-							<br>
-							{{ currentContact.secondAddress }}
-							<br>
-							{{ currentContact.secondCity }}
-							<br>
-							{{ currentContact.secondPostalCode }}
-							<br>
-							{{ currentContact.secondCountry }}
-							<br>
-						</b-col>
-						<b-col>
-							<label> email: </label>
-							{{ currentContact.secondEmail }}
-							<br>
-							<label> phone: </label>
-							<br>
-							{{ currentContact.secondPhone }}
-						</b-col>
-					</b-row>
-					<b-row v-else class="align-items-center mb-2">
-						<b-col cols="12">
-							<b-button variant="primary" class="m-2" size="sm" @click="showAddAddressModal">+ Add Secondary Address</b-button>
-						</b-col>
-					</b-row>
-				</b-col>
-				<b-col cols="6" class="test-class">
-					<b-tabs class="mt-3" content-class="mt-3">
-						<b-tab title="District" active>
-							<b-form-group label="District">
-								<b-form-input
-									type="text"
-									v-model="currentContact.district"
-									required
-									placeholder="District?"
-									name="disctrict"
-								></b-form-input>
-							</b-form-group> 
-						</b-tab>
-						<b-tab title="Section">
-							<b-form-group label="Section">
-								<b-form-input
-									type="text"
-									v-model="currentContact.section"
-									required
-									placeholder="Section?"
-									name="section"
-								></b-form-input>
-							</b-form-group> 
-						</b-tab>
-					</b-tabs>	
-				</b-col>
-			</b-row>
+			<router-link to="/getDistricts">
+				<h1>GET IT SON</h1>
+			</router-link>	
 
+			<ContactTopCard v-bind:currentContact="currentContact" @showContactModal="showContactModal"/>
+			<ContactMidCards v-bind:currentContact="currentContact" @showAddAddressModal="showAddAddressModal"/>
+			
 			<!-- <b-row class="mr-2 ml-2" align-v="center">
 				<b-col class="test-class">
 
@@ -125,18 +67,23 @@
 			<b-button variant="primary" class="m-2" size="lg" @click="saveContact">Save Changes</b-button>
 		</div>
 		<AddAddressModal ref="addAddressModal" v-bind:currentContact="currentContact" @saveContact="saveContact" />
+		<ContactModal ref="contactModal" v-bind:contact="currentContact" @refresh="saveContact" />
 	</section>
 </template>
 
 <script>
 	import { Contact } from "../../data/models/contactModel";
 	import ContactTopCard from "./ContactCardTop";
+	import ContactMidCards from "./ContactMidCards";
 	import AddAddressModal from "../Modals/AddAddressModal";
+	import ContactModal from '../Modals/ContactModal';
 
 	export default  {
 		components: {
 			ContactTopCard,
 			AddAddressModal,
+			ContactModal,
+			ContactMidCards,
 		},
 
 		name: 'contact-full-view',
@@ -175,6 +122,10 @@
 				});
 			},
 
+			showContactModal() {
+				this.$refs.contactModal.$refs.contactModal.show();
+			},
+
 			showAddAddressModal() {				
 				this.$refs.addAddressModal.$refs.addAddressModal.show();
 			}
@@ -187,10 +138,10 @@
 </script>
 
 <style lang="scss" scoped>
-	.test-class {
+	/* .test-class {
 		margin: 20px;
 		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 		border-radius: 0.25em !important;
 
-	}
+	} */
 </style>

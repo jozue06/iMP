@@ -3,6 +3,7 @@ import ContactsList from './components/contacts/ContactsList.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
 import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
+import GetDistricts from "../GetDistricts.vue"
 
 export default [
 	{ path: "/", },
@@ -30,5 +31,10 @@ export default [
 		path: "/contactFullView",
 		name: "contactFullView",
 		component: ContactFullView
+	},
+	{
+		path: "/getDistricts",
+		name: "getDistricts",
+		component: GetDistricts
 	}
 ];

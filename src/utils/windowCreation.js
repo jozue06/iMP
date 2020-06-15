@@ -5,10 +5,12 @@ import { topMenuTemplates } from '../constants/topMenuTemplates';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 
 let window;
-function createMainWindow(width, height, titleName) {
+function createMainWindow(height, width, minHeight, minWidth, titleName) {
 	window = new BrowserWindow({
 		width: width,
 		height: height,
+		minHeight: minHeight,
+		minWidth: minWidth,
 		title: titleName,
 		webPreferences: {
 			nodeIntegration: true
