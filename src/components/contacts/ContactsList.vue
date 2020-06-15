@@ -21,15 +21,15 @@
 					sort-icon-left
 					responsive="sm"
 				>
-					<template v-slot:cell(firstName)="data">
-						<b @click="showContactModal(data.item)" class="text-info">{{ data.value }}</b>
+					<template v-slot:cell(edit)="data">
+						<span @click="showContactModal(data.item)" class="text-info">edit</span>
 					</template>
-					<template v-slot:cell(lastName)="data">
+					<template v-slot:cell()="data">
 						<router-link
 							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
 							v-slot="{ href, route, navigate}"
 						>
-							<span :href="href" @click="navigate"> {{ data.value }} </span>
+							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
 					</template>
 				</b-table>
@@ -151,9 +151,10 @@
 		
 		computed: {
 			fields() {
-				return Object.keys(this.contacts[0]).map(f => {
+				let keys = Object.keys(this.contacts[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
+
 					if (allowedFields.contactsList.includes(f)) {
 						tmp.key = f;
 					} else { 
@@ -162,6 +163,10 @@
 
 					return tmp;
 				});
+
+				keys.unshift("edit");
+
+				return keys;
 			}
 		},
 	};

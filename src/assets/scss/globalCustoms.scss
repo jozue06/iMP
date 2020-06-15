@@ -65,3 +65,9 @@ label {
 	border-radius: 0.25em !important;
 	background-color: #FFF;
 }
+
+.custom-hover {
+	&:hover {
+		cursor: pointer;
+	}
+}

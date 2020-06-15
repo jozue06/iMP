@@ -49,32 +49,32 @@ class Contact extends Schema {
 			required: false,
 		}
 
-		this.secondaddress = {
+		this.secondAddress = {
 			type: String,
 			required: false,
 		}
 
-		this.secondcity = {
+		this.secondCity = {
 			type: String,
 			required: false,
 		}
 
-		this.secondcountry = {
+		this.secondCountry = {
 			type: String,
 			required: false,
 		}
 
-		this.secondemail = {
+		this.secondEmail = {
 			type: String,
 			required: false,
 		}
 
-		this.secondphone = {
+		this.secondPhone = {
 			type: String,
 			required: false,
 		}
 
-		this.secondpostalCode = {
+		this.secondPostalCode = {
 			type: Number,
 			required: false,
 		}

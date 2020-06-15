@@ -1,7 +1,10 @@
 <template lang="html">
 	<div class="main-card">
-		<b-row class="mx-2">
-			<b-col class="my-2">
+		<b-row  @click="showContactModal" class="mx-2">
+			<b-col class="my-2" style="border-right: solid 1px #ced4da;">
+				<p>
+					primary address
+				</p>
 				<div class="text-center mr-2">
 					<b-form-checkbox
 						size="sm"
@@ -15,9 +18,9 @@
 						<label class="mt-1"> 
 							This is and Individaul Contact
 						</label>
-					</b-form-checkbox>					
+					</b-form-checkbox>
 				</div>
-				<b-row class="align-items-center" style="border-right: solid 1px #ced4da;">
+				<b-row class="align-items-center custom-hover">
 					<b-col>
 						<br>
 						<label> first name: </label>
@@ -35,7 +38,7 @@
 						<br>
 						{{ currentContact.city }}
 						<br>
-						{{ currentContact.zip }}
+						{{ currentContact.postalCode }}
 						<br>
 						{{ currentContact.country }}
 						<br>
@@ -91,27 +94,35 @@
 				</div>
 			</b-col>
 		</b-row>
+		<ContactModal ref="contactModal" v-bind:contact="currentContact" @refresh="saveContact" />
 	</div>
 </template>
 
-<script lang="js">
+<script>
+	import ContactModal from '../Modals/ContactModal';
 
 	export default  {
 		name: 'contact-card-top',
+
+		components: {
+			ContactModal,
+		},
 
 		props: {
 			currentContact: Object,
 		},
 
-		mounted () {
-
-		},
 		data () {
 			return {
 				isIndividual: "",
 			}
 		},
+
 		methods: {
+			showContactModal() {
+				this.$refs.contactModal.$refs.contactModal.show();
+			},
+			
 			isIndividualChanged(isIndividual) {
 				if (isIndividual == "true") {
 					this.currentContact.isIndividual = true;
@@ -119,14 +130,12 @@
 					this.currentContact.isIndividual = false
 				}
 			},
+
+			saveContact() {
+				this.$emit("saveContact");
+			}
 		},
-
-		computed: {
-
-		}
-}
-
-
+	}
 </script>
 
 <style scoped lang="scss">

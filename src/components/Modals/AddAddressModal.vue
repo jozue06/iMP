@@ -1,41 +1,15 @@
 <template>
 	<section class="contact">
-		<b-modal ref="contactModal" hide-footer v-bind:contact="contact">
+		<b-modal ref="addAddressModal" hide-footer v-bind:currentContact="currentContact">
 		<h1>Add Contacts</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
-			<form  @submit.prevent="onSubmit">
-				<b-form-group label="First Name">
-					<ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
-					<b-form-input
-						type="text"
-						:state="errors.length == 0"
-						v-model="contact.firstName"
-						required
-						placeholder="First Name"
-						name="firstName"
-					></b-form-input>
-					<b-form-invalid-feedback :state="errors.length == 0">First name is required.</b-form-invalid-feedback>
-					</ValidationProvider>
-				</b-form-group> 
-				<b-form-group label="Last Name">
-					<ValidationProvider name="lastName" rules="required" v-slot="{ errors }">
-						<b-form-input
-							type="text"
-							:state="errors.length == 0"
-							v-model="contact.lastName"
-							required
-							placeholder="Last Name"
-							name="lastName"
-						></b-form-input>
-						<b-form-invalid-feedback :state="errors.length == 0">Last name is required.</b-form-invalid-feedback>
-					</ValidationProvider>
-				</b-form-group> 
+			<form @submit.prevent="onSubmit">
 				<b-form-group label="Address">
 					<ValidationProvider name="street" rules="required" v-slot="{ errors }">
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="contact.address"
+							v-model="currentContact.secondAddress"
 							required
 							placeholder="Address"
 							name="street"
@@ -48,7 +22,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="contact.city"
+							v-model="currentContact.secondCity"
 							required
 							placeholder="City"
 							name="city"
@@ -56,12 +30,12 @@
 						<b-form-invalid-feedback :state="errors.length == 0">City is required.</b-form-invalid-feedback>
 					</ValidationProvider>
 				</b-form-group>
-				<b-form-group v-if="contact.country == 'Canada' || contact.country == 'United States'" label="State/Provence">
-					<ValidationProvider name="state" :rules="contact.country == 'Canada' ? 'required' : contact.country == 'United States' ? 'required' : ''" v-slot="{ errors }">
+				<b-form-group v-if="currentContact.secondCountry == 'Canada' || currentContact.secondCountry == 'United States'" label="State/Provence">
+					<ValidationProvider name="state" :rules="currentContact.secondCountry == 'Canada' ? 'required' : currentContact.secondCountry == 'United States' ? 'required' : ''" v-slot="{ errors }">
 						<b-form-select
-							:options="contact.country == 'Canada' ? provences : contact.country == 'United States' ? states : '' "
+							:options="currentContact.secondCountry == 'Canada' ? provences : currentContact.secondCountry == 'United States' ? states : '' "
 							:state="errors.length == 0"
-							v-model="contact.state"
+							v-model="currentContact.secondState"
 							required
 							placeholder="State"
 							name="state"
@@ -78,7 +52,7 @@
 						<b-form-input
 							type="text"
 							:state="errors.length == 0"
-							v-model="contact.postalCode"
+							v-model="currentContact.secondPostalCode"
 							required
 							placeholder="Postal Code"
 							name="postalCode"
@@ -93,7 +67,7 @@
 						<b-form-select
 							:options="countries"
 							:state="errors.length == 0"
-							v-model="contact.country"
+							v-model="currentContact.secondCountry"
 							required
 							placeholder="Country"
 							name="country"
@@ -106,7 +80,7 @@
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="contact.email"
+						v-model="currentContact.secondEmail"
 						required
 						placeholder="Email"
 						name="email"
@@ -115,12 +89,12 @@
 					</ValidationProvider>
 				</b-form-group> 
 				
-				<b-form-group label="Phone" :description="contact.country == 'Canada' ? '000-000-0000' : contact.country == 'United States' ? '000-000-0000' : ''">
+				<b-form-group label="Phone" :description="currentContact.secondCountry == 'Canada' ? '000-000-0000' : currentContact.secondCountry == 'United States' ? '000-000-0000' : ''">
 					<ValidationProvider name="phone" rules="required|phone:country" v-slot="{ errors }">
 					<b-form-input
 						type="text"
 						:state="errors.length == 0"
-						v-model="contact.phone"
+						v-model="currentContact.secondPhone"
 						required
 						placeholder="Phone"
 						name="phone"
@@ -142,52 +116,49 @@
 <script>
 	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
-	import { Contact } from '../../data/models/contactModel'
-	
-	export default {
-		components: {
-			ValidationProvider,
-			ValidationObserver
-		},
+
+	export default  {
+		name: 'addAddressModal',
 
 		props: {
-			contact: Object,
+			currentContact: Object
 		},
 
-		name: "contactModal",
+		mounted () {
+
+		},
+
+		data () {
+			return {
+				loading: false,
+				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
+				states: STATES.map(c => ({ value: c.name, text: c.name }))
+			}
+		},
 
 		methods: {
 			onSubmit() {
 				this.loading = true;
-				this.contact.save().then((res) => {
-					this.$refs.contactModal.hide();
-					this.$Notification("Success!", "Successfully Added the Contact", "primary");
+				this.currentContact.save().then((res) => {
+					this.$refs.addAddressModal.hide();
 					this.loading = false;
-					this.$emit("refresh");
+					this.$emit("saveContact");
 				}).catch(e => {
 					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 3000);
 					this.loading = false;
 					throw e;
 				});
-			},
 
+			},
+			
 			formatNumber(string) {
 				return Number(string);
 			}
+
 		},
 
-		data() {
-			return {
-				loading: false,
-				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
-				states: STATES.map(c => ({ value: c.name, text: c.name }))
-			};
-		},
-	};
-</script>
+		computed: {
 
-<style scoped>
-	section {
-		display: inline-block;
+		}
 	}
-</style>
+</script>
