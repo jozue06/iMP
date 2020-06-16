@@ -14,8 +14,8 @@ export const sidebarSections = {
             },
             {
                 report: 3,
-                route: "/reportName",
-                childMsg: 'here' 
+                route: "/contactGroups",
+                childMsg: 'Groups' 
             },
             {
                 report: 4,
@@ -32,11 +32,6 @@ export const sidebarSections = {
     newRecordsSection: {
         el: '#sidebar',
         items: [
-            {
-                report: 1,
-                route: "/addContact",
-                childMsg: 'add contact' 
-            },
             {
                 report: 2,
                 route: "/addQuarterlyReport",
@@ -62,11 +57,6 @@ export const sidebarSections = {
     importExportSection: {
         el: '#sidebar',
         items: [
-            {
-                report: 1,
-                route: "/addContact",
-                childMsg: 'go' 
-            },
             {
                 report: 2,
                 route: "/reportName",

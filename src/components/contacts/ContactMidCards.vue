@@ -35,39 +35,21 @@
 				</b-row>
 			</b-col>
 			<b-col class="mid-cards">
-				<b-tabs class="mt-3" content-class="mt-2">
-					<b-tab title="District" active>
-						<b-form-group label="District">
-							<b-form-input
-								type="text"
-								v-model="currentContact.district"
-								required
-								placeholder="District?"
-								name="disctrict"
-							></b-form-input>
-						</b-form-group> 
-					</b-tab>
-					<b-tab title="Section">
-						<b-form-group label="Section">
-							<b-form-input
-								type="text"
-								v-model="currentContact.section"
-								required
-								placeholder="Section?"
-								name="section"
-							></b-form-input>
-						</b-form-group> 
-					</b-tab>
-				</b-tabs>	
+				<DistrictSelector v-bind:currentContact="currentContact"/>
 			</b-col>
 		</b-row>
 	</div>	
 </template>
 
 <script>
+	import DistrictSelector from '../DistrictSelector';
 
 	export default  {
 		name: 'contact-mid-cards',
+
+		components: {
+			DistrictSelector
+		},
 
 		props: {
 			currentContact: Object,

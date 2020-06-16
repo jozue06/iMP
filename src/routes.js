@@ -1,16 +1,11 @@
-import AddContact from './components/contacts/AddContact.vue';
 import ContactsList from './components/contacts/ContactsList.vue';
+import ContactGroupsList from './components/contacts/ContactGroupsList.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
 import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
 
 export default [
 	{ path: "/", },
-	{
-		path: "/addContact", 
-		name: "addContact",
-		component: AddContact
-	},
 	{
 		path: "/contacts", 
 		name: "contacts",
@@ -30,5 +25,10 @@ export default [
 		path: "/contactFullView",
 		name: "contactFullView",
 		component: ContactFullView
+	},
+	{
+		path: "/contactGroups",
+		name: "contactGroups",
+		component: ContactGroupsList
 	}
 ];

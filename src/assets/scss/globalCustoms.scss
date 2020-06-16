@@ -90,3 +90,7 @@ label {
 	max-height: 155px;
 	border-top: solid 1px $primary;
 }
+
+.no-border {
+	border-top: none !important;
+}

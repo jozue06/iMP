@@ -80,6 +80,24 @@ class Contact extends Schema {
 		}
 
 		this.notes = ContactNotes;
+
+		this.contactStatus = {
+			type: Number,
+			required: true,
+			default: 0
+		}
+
+		this.commitmentAmt = {
+			type: Number,
+			required: false,
+			default: 0
+		}
+
+		this.accountNumber = {
+			type: String,
+			required: false,
+			default: ""
+		}
 	}
 
 	static collectionName() {
