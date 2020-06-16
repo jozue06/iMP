@@ -113,11 +113,11 @@
 		methods: {
 			toggleGroupAssign(clickedGroup) {
 				this.loading = true;
-				if (clickedGroup.contacts.includes(this.currentContact._id)) {			
-					clickedGroup.contacts.pop(this.currentContact._id);
+				if (clickedGroup.contacts.includes(this.currentContact)) {			
+					clickedGroup.contacts.pop(this.currentContact);
 					this.currentContact.contactGroupIds.pop(clickedGroup._id);
 				} else {
-					clickedGroup.contacts.push(this.currentContact._id);
+					clickedGroup.contacts.push(this.currentContact);
 					this.currentContact.contactGroupIds.push(clickedGroup._id);
 				}
 				
