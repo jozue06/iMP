@@ -137,7 +137,10 @@
 				this.$refs.groupModal.$refs.groupModal.show()
 			},
 
-			handleConfirmDelete() {
+			handleConfirmDelete() {				
+				if (this.selected.find(sel => sel.contacts.length > 0)) {
+					return this.$Notification("Deleted", "Cannot delte the Selected Contact Groups", "warning", "There are contacts assigned to one or more of the selected Groups", 3000);
+				}
 				let ids = this.selected.map(ele => ele._id);
 				
 				ContactGroup.deleteMany({ _id: { $in: ids} }).then(res => {

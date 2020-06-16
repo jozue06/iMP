@@ -23,7 +23,7 @@ class Contact extends Schema {
 		}
 		
 		this.phone = String;
-		this.postalCode = Number;
+		this.postalCode = String;
 		
 		this.orgName = String;
 		this.isIndividual = Boolean;
@@ -74,7 +74,7 @@ class Contact extends Schema {
 		}
 
 		this.secondPostalCode = {
-			type: Number,
+			type: String,
 			required: false,
 		}
 

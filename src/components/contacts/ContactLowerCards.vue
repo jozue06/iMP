@@ -1,6 +1,8 @@
 <template>
 	<div>
 		<b-row align-v="center">
+			{{ $consoleLog('contact ', currentContact) }}
+			
 			<b-col class="mid-cards">
 
 				checkbox for individual []
@@ -113,29 +115,34 @@
 		methods: {
 			toggleGroupAssign(clickedGroup) {
 				this.loading = true;
-				if (clickedGroup.contacts.includes(this.currentContact)) {			
-					clickedGroup.contacts.pop(this.currentContact);
-					this.currentContact.contactGroupIds.pop(clickedGroup._id);
-				} else {
-					clickedGroup.contacts.push(this.currentContact);
-					this.currentContact.contactGroupIds.push(clickedGroup._id);
-				}
-				
-				ContactGroup.findOneAndUpdate({ _id: clickedGroup._id }, clickedGroup).then(res => {					
-				}).catch(e => {
-					console.log('uho' , e);
-					this.loading = false;
-					throw e;
-				});
+				let foundGroup
+				ContactGroup.findOne({ _id: clickedGroup._id }).then(res => {
+					foundGroup = res;									
+					if (clickedGroup.contacts.includes(this.currentContact._id)) {			
+						clickedGroup.contacts.pop(this.currentContact._id);
+						this.currentContact.contactGroupIds.pop(foundGroup._id);
+					} else {
+						clickedGroup.contacts.push(this.currentContact._id);
+						this.currentContact.contactGroupIds.push(clickedGroup._id);
+					}
+					
+					foundGroup.contacts = clickedGroup.contacts;
+					foundGroup.save().then(res => {						
+						this.currentContact.save().then(res => {
+							this.$Notification("Success", "Saved the contact and gruoping", "primary", "", 6000);
+							this.loading = false;
+						}).catch(e => {
+							console.log('eeek ', e);
+							this.loading = false;
+							throw e;
+						});
+						
+					}).catch(e => {
+						console.log('eeek ', e);
+					})
+				});			
 
-				this.currentContact.save().then(res => {					
-					this.$Notification("Success", "Saved the contact and gruoping", "primary", "", 6000);
-					this.loading = false;
-				}).catch(e => {
-					console.log('eeek ', e);
-					this.loading = false;
-					throw e;
-				});
+				
 			}
 		},
 

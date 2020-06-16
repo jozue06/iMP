@@ -69,25 +69,6 @@
 							<b-form-invalid-feedback :state="errors.length == 0">Country is required.</b-form-invalid-feedback>
 						</ValidationProvider>
 					</b-form-group> 
-					<b-form-group label="Postal Code">
-						<ValidationProvider
-						name="postalCode"
-						rules="required|postal_code:country"
-						v-slot="{ errors }"
-						>
-							<b-form-input
-								type="text"
-								:state="errors.length == 0"
-								v-model="contact.postalCode"
-								required
-								placeholder="Postal Code"
-								name="postalCode"
-								lazy-formatter
-								:formatter="formatNumber"
-							></b-form-input>
-							<b-form-invalid-feedback :state="errors.length == 0">Postal code is required.</b-form-invalid-feedback>
-						</ValidationProvider>
-					</b-form-group> 
 					<b-form-group label="Country">
 						<ValidationProvider name="country" rules="required" v-slot="{ errors }">
 							<b-form-select
@@ -101,6 +82,24 @@
 							<b-form-invalid-feedback :state="errors.length == 0">Country is required.</b-form-invalid-feedback>
 						</ValidationProvider>
 					</b-form-group> 
+					<b-form-group label="Postal Code">
+						<ValidationProvider
+							name="postalCode"
+							rules="required|postal_code:country"
+							v-slot="{ errors }"
+						>
+							<b-form-input
+								type="text"
+								:state="errors.length == 0"
+								v-model="contact.postalCode"
+								required
+								placeholder="Postal Code"
+								name="postalCode"
+							></b-form-input>
+							<b-form-invalid-feedback :state="errors.length == 0">Postal code is required.</b-form-invalid-feedback>
+						</ValidationProvider>
+					</b-form-group> 
+			
 					<b-form-group label="Email">
 						<ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
 						<b-form-input
@@ -124,7 +123,6 @@
 							required
 							placeholder="Phone"
 							name="phone"
-							
 						></b-form-input>
 						<b-form-invalid-feedback :state="errors.length == 0">{{errors.join('. ')}}</b-form-invalid-feedback>
 						</ValidationProvider>

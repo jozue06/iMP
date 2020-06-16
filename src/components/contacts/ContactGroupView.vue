@@ -42,6 +42,7 @@
 
 <script>
 	import { ContactGroup } from '../../data/models/contactGroupModel';
+	import { Contact } from '../../data/models/contactModel';
 	import { allowedFields } from '@/constants/tableFields';
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
@@ -61,9 +62,9 @@
 
 		created() {
 			if (this.$router.currentRoute.params.groupId) {
-				ContactGroup.find( { _id: this.$router.currentRoute.params.groupId }, { populate: true } ).then(res => {
-					this.currentGroup = res[0];
-					this.contactLines = this.currentGroup.contacts;
+				ContactGroup.findOne( { _id: this.$router.currentRoute.params.groupId }, { populate: true } ).then(res => {
+					this.currentGroup = res;					
+					Contact.find({_id: {$in: this.currentGroup.contacts}}).then(res => this.contactLines = res);
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 					throw e;

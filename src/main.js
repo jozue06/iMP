@@ -14,7 +14,7 @@ extend("email", email);
 extend("min_value", min_value);
 extend("max_value", max_value);
 extend("phone", {
-	validate: (value, { country }) => {
+	validate: (value, { country }) => {		
 		if (["United States", "Canada"].includes(country)) {
 			return /^[0-9]{3}-[0-9]{3}-([0-9]{4})?$/.test(value);
 		} else {
@@ -26,13 +26,16 @@ extend("phone", {
 });
 
 extend("postal_code", {
-	validate: (value, { country }) => {
-		if ("United States" == country) {
-			return /^[0-9]{5}(?:-[0-9]{4})?$/.test(value);
-		} else if ("Canada" == country) {
-			return /^[A-Za-z]d[A-Za-z][ -]?d[A-Za-z]d$/.test(value);
+	validate: (value, { country }) => {		
+		if (["United States", "Canada"].includes(country)) {
+			if ("United States" == country) {
+				return /^[0-9]{5}(?:-[0-9]{4})?$/.test(value);
+			} else if ("Canada" == country) {
+				return /^[A-Za-z]d[A-Za-z][ -]?d[A-Za-z]d$/.test(value);
+			} 
+		} else {
+			return /\d{1,}/.test(value);
 		}
-		return true;
 	},
 	message: "Postal Code is invalid.",
 	params: [{ name: "country", isTarget: true }]
