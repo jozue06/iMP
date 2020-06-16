@@ -7,5 +7,13 @@ export const allowedFields = {
 		"country",
 		"email",
 		"phone",
+	],
+	groupContactList: [
+		"orgName",
+		"firstName",
+		"lastName",
+		"district",
+		"section",
+		"contactStatus",
 	]
 }
