@@ -107,7 +107,7 @@
 			currentContact: Object,
 		},
 
-		data () {
+		data() {
 			return {
 				isIndividual: "",
 			}

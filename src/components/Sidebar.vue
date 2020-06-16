@@ -20,7 +20,7 @@
 		components: {
 			SidebarMenuList
 		},
-		data () {
+		data() {
 			return {
 				sections: sidebarSections,
 			}

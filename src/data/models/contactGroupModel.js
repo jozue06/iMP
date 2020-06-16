@@ -1,6 +1,5 @@
 import { Document as Schema } from 'camo';
 import { EmbeddedDocument } from 'camo';
-import Contact from "./contactModel"
 import { getDb } from "../camo.js"
 getDb();
 
@@ -9,19 +8,11 @@ class ContactGroup extends Schema {
 		super();
 		this.groupName = String;
 
-		this.contacts = [EmbeddedContact];
-
+		this.contacts = [];
 	}
 
 	static collectionName() {
 		return 'contactGroups';
-	}
-}
-
-class EmbeddedContact extends EmbeddedDocument {
-	constructor() {
-		super();
-		Contact.Contact;
 	}
 }
 

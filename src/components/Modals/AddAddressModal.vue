@@ -128,7 +128,7 @@
 
 		},
 
-		data () {
+		data() {
 			return {
 				loading: false,
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),

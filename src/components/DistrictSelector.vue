@@ -39,7 +39,7 @@
 
 		},
 
-		data () {
+		data() {
 			return {
 				// selectedDistrict: currentContact.district || null,
 				// selectedSection: currentContact.section || null,

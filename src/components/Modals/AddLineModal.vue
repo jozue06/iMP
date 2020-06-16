@@ -188,7 +188,7 @@
 
 		},
 
-		data () {
+		data() {
 			return {
 				expenseReceiptFile: null,
 				previewPath: null,

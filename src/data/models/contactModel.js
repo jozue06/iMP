@@ -1,7 +1,6 @@
 import { Document as Schema } from 'camo';
 import { EmbeddedDocument } from 'camo';
-
-import { getDb } from "../camo.js"
+import { getDb } from "../camo.js";
 getDb();
 
 class Contact extends Schema {
@@ -98,6 +97,8 @@ class Contact extends Schema {
 			required: false,
 			default: ""
 		}
+
+		this.contactGroupIds = [];
 	}
 
 	static collectionName() {

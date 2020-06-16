@@ -35,7 +35,7 @@ extend("postal_code", {
 		return true;
 	},
 	message: "Postal Code is invalid.",
-	params: [{ name: "phone", isTarget: true }]
+	params: [{ name: "country", isTarget: true }]
 });
 
 Vue.use(VueRouter);

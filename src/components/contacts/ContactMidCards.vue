@@ -59,7 +59,7 @@
 
 		},
 
-		data () {
+		data() {
 			return {
 
 			}

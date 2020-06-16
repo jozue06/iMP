@@ -87,7 +87,7 @@
 
 		},
 
-		data () {
+		data() {
 			return {
 				reports: this.loadReports(),
 				confirmDeleteMessage: "Are you sure you want to delete this Quarterly Report? This cannot be un-done",

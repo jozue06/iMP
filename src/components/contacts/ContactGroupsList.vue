@@ -4,7 +4,6 @@
 			<router-link to="/">
 				<h1 class="pt-2">Groups</h1>
 			</router-link>	
-			{{ $consoleLog('groups ', groups) }}
 			
 			<div v-if="groups.length > 0">
 				<b-button variant="primary" class="float-right m-2" size="sm" @click="showGroupModal(null)">Add Group</b-button>
@@ -21,21 +20,24 @@
 					sort-icon-left
 					responsive="sm"
 				>
-					<template v-slot:cell(edit)="data">
-						{{ $consoleLog('data.item', data.item) }}
-						
+					<template v-slot:cell(edit)="data">	
 						<span @click="showGroupModal(data.item)" class="text-info">edit</span>
 					</template>
-					<!-- <template v-slot:cell()="data">
+					<template v-slot:cell(groupName)="data">	
 						<router-link
-							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
+							:to="{ name: 'groupView', params: { groupId: data.item._id } }"
 							v-slot="{ href, route, navigate}"
 						>
-							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
+							<span :href="href" @click="navigate" class="text-info"> {{ data.item.groupName  }} </span>
 						</router-link>
-					</template> -->
+					</template>
+					<template v-slot:cell(contacts)="data">
+						<p>
+							{{ data.item.contacts.length }}
+						</p>
+					</template>
 				</b-table>
-				<b-button class="m-2"  size="sm" @click="selectAllRows">Select all</b-button>
+				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
 				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
 				<b-button 
 					class="mx-2" 
@@ -92,10 +94,14 @@
 		mounted () {
 
 		},
+		
+		created() {
+			this.findAllGroups();
+		},
 
-		data () {
+		data() {
 			return {
-				groups: this.findAllGroups(),
+				groups: [],
 				sortBy: 'groupName',
 				sortDesc: false,
 				selected: "",
@@ -108,9 +114,7 @@
 		methods: {
 			findAllGroups() {
 				let groups = []; 
-				ContactGroup.find({}).then((data) => {	
-					console.log('data from db ' , data);
-					
+				ContactGroup.find({}).then((data) => {
 					data.forEach(g => {
 						if (g && g.groupName) {
 							g.id = g._id;
@@ -119,16 +123,14 @@
 					});
 				});
 
-				return groups;
+				this.groups = groups;
 			},
 
-			showGroupModal(group) {				
+			showGroupModal(group) {
 				if (group == null ) {
-					group = ContactGroup.create();
-					this.selectedGroup = group;
-					
+					this.selectedGroup = ContactGroup.create();
 				} else {
-					ContactGroup.findOne({ _id: group._id }).then((res) => {		
+					ContactGroup.findOne({ _id: group._id }).then((res) => {
 						this.selectedGroup = res;
 					});
 				}
@@ -138,7 +140,7 @@
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
 				
-				ContactGroup.deleteMany({ _id: { $in: ids} }).then(res => {					
+				ContactGroup.deleteMany({ _id: { $in: ids} }).then(res => {
 					this.refresh();
 					this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
 				}).catch(e => {
@@ -160,9 +162,7 @@
 			},
 
 			refresh() {
-				console.log('refreshing ?? ', );
-				
-				this.groups = this.findAllGroups();
+				this.findAllGroups();
 			}
 		},
 
@@ -171,10 +171,11 @@
 				let keys = Object.keys(this.groups[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
-
 					if (f == "groupName") {
 						tmp.key = f;
-					} else { 
+					} else if (f == "contacts") {
+						tmp.key = f;
+					}  else { 
 						tmp.key = "";
 					}
 
