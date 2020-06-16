@@ -33,7 +33,7 @@
 							:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
 							v-slot="{ href, route, navigate}"
 						>
-							<span :href="href" @click="navigate"> {{ data.value }} </span>
+							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
 					</template>
 				</b-table>

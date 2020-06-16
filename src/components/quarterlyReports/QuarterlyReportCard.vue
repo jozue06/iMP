@@ -13,10 +13,11 @@
 					ref="reportTable"
 					responsive="sm"
 					selectable
+					selected-variant="danger"
 					@row-selected="onRowSelected"
 				>
-					<template v-slot:cell(date)="data">
-						<b @click="showAddLineModal()" class="text-info">{{ data.value }}</b>
+					<template v-slot:cell()="data">
+						<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
 					</template>
 				</b-table>
 				<b-button 
@@ -28,7 +29,7 @@
 					v-b-modal.confirmModal>
 						Delete selected
 				</b-button>
-				<b-button class="float-right m-2" size="sm" variant="primary" @click="showAddLineModal(null)"> add Line </b-button>
+				<b-button class="float-right m-2" size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
 			</div>
 			<router-link
 				v-else-if="lines.length == 0" 

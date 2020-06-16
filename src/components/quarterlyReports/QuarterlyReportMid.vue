@@ -5,116 +5,114 @@
 			<b-button variant="outline-secondary">Import hsit</b-button>
 		</div>
 		<div class="mid-section mr-2 mb-2">
-			<!-- <form @submit.prevent="onSubmit"> -->
-				<div class="qtr-statements-container mr-2">
-					<div class="sub-section">
-						<div class="small-grouping ml-2">
-							<b-form-group label="Statement Dates">
-								<b-form-datepicker
-									v-model="form.firstDate"
-									required
-									:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-									locale="en"
-									name="firstDate"
-								></b-form-datepicker>
-								<b-form-datepicker
-									v-model="form.secondDate"
-									required
-									:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-									locale="en"
-									name="secondDate"
-								></b-form-datepicker>
-								<b-form-datepicker
-									v-model="form.thirdDate"
-									required
-									:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-									locale="en"
-									name="thirdDate"
-								></b-form-datepicker>
-							</b-form-group> 
-						</div>	
-						<div class="small-grouping ml-2">
-							<b-form-group label="Statement Amounts">
-								<b-input-group prepend="$">
-									<b-form-input 
-										class="text-right"
-										type="text" 
-										v-model="form.firstAmount" 
-										required
-										placeholder="0.00"
-										name="firstAmount"
-										lazy-formatter
-										:formatter="formatMoney"
-									>
-									</b-form-input>
-								</b-input-group>
-								<b-input-group prepend="$">
-									<b-form-input
-										class="text-right"
-										type="text" 
-										v-model="form.secondAmount" 
-										required
-										placeholder="0.00"
-										name="secondAmount"
-										lazy-formatter
-										:formatter="formatMoney"
-									>
-									</b-form-input>
-								</b-input-group>
-								<b-input-group prepend="$">
-									<b-form-input
-										class="text-right"
-										type="text" 
-										v-model="form.thirdAmount" 
-										required
-										placeholder="0.00"
-										name="thirdAmount"
-										lazy-formatter
-										:formatter="formatMoney"
-									>
-									</b-form-input>
-								</b-input-group>
-							</b-form-group> 
-						</div>
-					</div>
-					<div class="sub-section border-top">
-						<div class="small-grouping ml-2">
-							<b-form-group label="Def Reimbursement">
-								<b-input-group prepend="$">
-									<b-form-input 
-										class="text-right"
-										type="text" 
-										v-model="form.firstAmount" 
-										required
-										placeholder="0.00"
-										name="firstAmount"
-										lazy-formatter
-										:formatter="formatMoney"
-									>
-									</b-form-input>
-								</b-input-group>
-							</b-form-group>
-						</div>
-						<div class="small-grouping ml-2">
-							<b-form-group label="other income">
-								<b-input-group prepend="$">
-									<b-form-input
-										class="text-right"
-										type="text" 
-										v-model="form.secondAmount" 
-										required
-										placeholder="0.00"
-										name="secondAmount"
-										lazy-formatter
-										:formatter="formatMoney"
-									>
-									</b-form-input>
-								</b-input-group>
-							</b-form-group>
-						</div>	
+			<div class="qtr-statements-container mr-2">
+				<div class="sub-section">
+					<div class="small-grouping ml-2">
+						<b-form-group label="Statement Dates">
+							<b-form-datepicker
+								v-model="form.firstDate"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="firstDate"
+							></b-form-datepicker>
+							<b-form-datepicker
+								v-model="form.secondDate"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="secondDate"
+							></b-form-datepicker>
+							<b-form-datepicker
+								v-model="form.thirdDate"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="thirdDate"
+							></b-form-datepicker>
+						</b-form-group> 
 					</div>	
+					<div class="small-grouping ml-2">
+						<b-form-group label="Statement Amounts">
+							<b-input-group prepend="$">
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="form.firstAmount" 
+									required
+									placeholder="0.00"
+									name="firstAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+							<b-input-group prepend="$">
+								<b-form-input
+									class="text-right"
+									type="text" 
+									v-model="form.secondAmount" 
+									required
+									placeholder="0.00"
+									name="secondAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+							<b-input-group prepend="$">
+								<b-form-input
+									class="text-right"
+									type="text" 
+									v-model="form.thirdAmount" 
+									required
+									placeholder="0.00"
+									name="thirdAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</div>
 				</div>
-			<!-- </form> -->
+				<div class="sub-section border-top">
+					<div class="small-grouping ml-2">
+						<b-form-group label="Def Reimbursement">
+							<b-input-group prepend="$">
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="form.firstAmount" 
+									required
+									placeholder="0.00"
+									name="firstAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group>
+					</div>
+					<div class="small-grouping ml-2">
+						<b-form-group label="other income">
+							<b-input-group prepend="$">
+								<b-form-input
+									class="text-right"
+									type="text" 
+									v-model="form.secondAmount" 
+									required
+									placeholder="0.00"
+									name="secondAmount"
+									lazy-formatter
+									:formatter="formatMoney"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group>
+					</div>	
+				</div>	
+			</div>
 			<div class="qtr-misc-container">
 				<h1>other misc</h1>
 				<div class="sub-section">
