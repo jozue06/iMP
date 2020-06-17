@@ -56,8 +56,6 @@
 							required
 							placeholder="Postal Code"
 							name="postalCode"
-							lazy-formatter
-							:formatter="formatNumber"
 						></b-form-input>
 						<b-form-invalid-feedback :state="errors.length == 0">Postal code is required.</b-form-invalid-feedback>
 					</ValidationProvider>

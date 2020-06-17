@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<label>District</label>
-		<b-form-select v-model="currentContact.district" :options="districtOptions">			
+		<b-form-select v-model="currentContact.district" :options="districtOptions">
 			<template v-if="!currentContact.district" v-slot:first>
 				<b-form-select-option value="" disabled>
 					Please select a District

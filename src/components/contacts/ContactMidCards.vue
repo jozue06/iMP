@@ -8,7 +8,7 @@
 					</p>
 				</div>
 				<b-row @click="showAddAddressModal" v-if="currentContact.secondAddress" class="custom-hover align-items-center mb-2">	
-					<b-col class="address">
+					<b-col>
 						<label> address: </label>
 						<br>
 						{{ currentContact.secondAddress }},
@@ -43,7 +43,7 @@
 
 <script>
 	import DistrictSelector from '../DistrictSelector';
-
+	
 	export default  {
 		name: 'contact-mid-cards',
 

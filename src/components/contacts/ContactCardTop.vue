@@ -26,8 +26,16 @@
 						<div>
 							{{ currentContact.firstName }} {{ currentContact.lastName }}
 						</div>
-					</b-col>	
-					<b-col class="address">
+						<br>
+						<label> phone: </label>
+						<br>
+						{{ currentContact.phone }}
+					</b-col>
+					<b-col>
+						<label> email: </label>
+						<br>
+						{{ currentContact.email }}
+						<br>
 						<label> address: </label>
 						<br>
 						{{ currentContact.address }},
@@ -36,15 +44,6 @@
 						<br>
 						{{ currentContact.country }}
 						<br>
-					</b-col>
-					<b-col>
-						<label> email: </label>
-						<br>
-						{{ currentContact.email }}
-						<br>
-						<label> phone: </label>
-						<br>
-						{{ currentContact.phone }}
 					</b-col>
 				</b-row>
 			</b-col>

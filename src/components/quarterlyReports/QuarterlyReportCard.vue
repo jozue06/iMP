@@ -96,7 +96,7 @@
 				this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
 				this.currentReport.save().then(res => {
 					this.$refs.addLineModal.$refs.addLineModal.hide();
-					this.$Notification("Success!", "Successfully Added the Contact");
+					this.$Notification("Success!", "Successfully Added the Expense Line");
 				}).catch(e => {
 					console.log('eeek ', e);
 					throw e;

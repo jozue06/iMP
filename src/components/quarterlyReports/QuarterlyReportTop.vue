@@ -49,6 +49,7 @@
 		methods: {
 			formatQuarterForSave(value) {
 				this.quarterlyReport.quarterNumber = value;	
+				this.saveReport();
 			},
 
 			formatYearForSave(value) {
@@ -79,7 +80,19 @@
 						return "4th Quarter";
 					default: "No Quarter Selected";
 				}
-			}
+			},
+
+			saveReport() {
+				this.loading = true;
+				this.quarterlyReport.save().then(res => {
+					this.$Notification("Success!", "Successfully Saved the Quarterly Report");
+					this.loading = false;
+				}).catch(e => {
+					console.log('eeek ', e);
+					this.loading = false;
+					throw e;
+				});
+			},
 		},
 		
 		data() {
@@ -94,8 +107,7 @@
 				],
 				selectedQuarterOption: null,
 				selectedYear: moment(moment.now()).format("YYYY"),
-				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
-				// states: STATES.map(c => ({ value: c.name, text: c.name }))
+				loading: false
 			};
 		},
 

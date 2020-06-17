@@ -3,7 +3,7 @@
 		<b-modal ref="contactModal" hide-footer v-bind:contact="contact">
 			<h1>Add Contact</h1>
 			<ValidationObserver ref="form" v-slot="{ }">
-				<form  @submit.prevent="onSubmit">
+				<form @submit.prevent="onSubmit">
 					<b-form-group label="First Name">
 						<ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
 						<b-form-input

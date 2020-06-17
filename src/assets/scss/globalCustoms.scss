@@ -1,4 +1,4 @@
-$primary: darkcyan !default;
+$primary: #008b8b !default;
 $secondary: #42b983 !default;
 $success: #fcd7c7 !default;
 $danger: #ff7f50 !default;
@@ -73,10 +73,6 @@ label {
 	}
 }
 
-.address {
-	font-size: small;
-}
-
 .note-container {
 	border: solid 1px #ced4da;
 	border-radius: .25em;
@@ -88,6 +84,15 @@ label {
 	border-radius: 0.25em !important;
 	min-height: 155px;
 	max-height: 155px;
+	border-top: solid 1px $primary;
+}
+
+.low-cards {
+	margin: 20px;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+	border-radius: 0.25em !important;
+	min-height: 200px;
+	max-height: 200px;
 	border-top: solid 1px $primary;
 }
 

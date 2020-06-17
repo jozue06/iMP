@@ -62,7 +62,7 @@
 		},
 
 		methods: {
-			saveContact() {				
+			saveContact() {						
 				this.currentContact.save().then(res => {
 					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
 				}).catch(e => {
