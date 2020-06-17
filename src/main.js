@@ -1,16 +1,17 @@
-import Vue from 'vue';
-import App from './App.vue';
-import VueRouter from 'vue-router';
-import Routes from './routes';
+import Vue from "vue";
+import App from "./App.vue";
+import VueRouter from "vue-router";
+import Routes from "./routes";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
-import { notification } from "./mixins/notifications"
-import getStatusFromCode from "./mixins/getStatusFromCode"
-import getStatusColor from "./mixins/getStatusColorFromCode"
+import { notification } from "./mixins/notifications";
+import getStatusFromCode from "./mixins/getStatusFromCode";
+import getStatusColor from "./mixins/getStatusColorFromCode";
 import moment from "moment";
+import YearSelector from "./components/YearSelector";
 import "./assets/scss/globalCustoms.scss";
-import './assets/scss/ant.scss';
+import "./assets/scss/ant.scss";
 
 extend("required", required);
 extend("email", email);
@@ -57,6 +58,7 @@ Vue.prototype.$consoleLog = console.log;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$Moment = moment;
+Vue.component("YearSelector", YearSelector);
 
 const router = new VueRouter({
 	routes: Routes,
@@ -68,4 +70,4 @@ new Vue({
 	mounted() {
 		this.$router.push("/");
 	}
-}).$mount('#app');
+}).$mount("#app");

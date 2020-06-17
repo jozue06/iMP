@@ -39,8 +39,7 @@
 </template>
 
 <script>
-	import moment from 'moment';
-	import YearSelector from "../YearSelector";
+	import { DatePicker } from 'ant-design-vue';
 	export default {
 		props: {
 			quarterlyReport: Object,
@@ -65,7 +64,7 @@
 			},
 
 			formatDate(dateTimeObject) {
-				return moment(dateTimeObject).format('YYYY');
+				return this.$Moment(dateTimeObject).format('YYYY');
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -106,7 +105,7 @@
 					
 				],
 				selectedQuarterOption: null,
-				selectedYear: moment(moment.now()).format("YYYY"),
+				selectedYear: this.$Moment(this.$Moment.now()).format("YYYY"),
 				loading: false
 			};
 		},
