@@ -7,19 +7,33 @@
 				ref="commsTable"
 				:items="commsLines" 
 				:fields="fields"
+				selectable
+				@row-selected="onRowSelected"
+				selected-variant="danger"
 				sort-icon-left
 				responsive="sm"
 			>
-
-			<template v-slot:cell(date)="data">	
-				<span class="text-info"> {{ $Moment(data.item.date).format("MMM Do, YY") }} </span>
-			</template>
-			<template v-slot:cell(time)="data">	
-				<span class="text-info"> {{ $Moment(data.item.time).format("h:mm a") }} </span>
-			</template>
-			
-
+				<template v-slot:cell(date)="data">	
+					<span @click="showCommsModal(data.item)" class="text-info"> {{ $Moment(data.item.date).format("MMM Do, YY") }} </span>
+				</template>
+				<template v-slot:cell(time)="data">	
+					<span @click="showCommsModal(data.item)" class="text-info"> {{ $Moment(data.item.time).format("h:mm a") }} </span>
+				</template>
+				<template v-slot:cell()="data">	
+					<span @click="showCommsModal(data.item)" class="text-info"> {{ data.value }} </span>
+				</template>
 			</b-table>
+			<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
+			<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
+			<b-button 
+				class="mx-2" 
+				variant="danger" 
+				size="sm" 
+				:disabled="selected == 0" 
+				v-bind:selected="selected"
+				v-b-modal.confirmModal>
+					Delete selected
+			</b-button>
 		</div>
 
 		<NoResults 
@@ -28,6 +42,12 @@
 			v-else
 			@handleBtnClick="showCommsModal(null)"
 		/>
+		<ConfirmModal 
+			id="confirmModal" 
+			title="Delete?" 
+			v-bind:message="confirmDeleteMessage" 
+			@handleConfirm="handleConfirmDelete" 
+		/>
 
 		<CommsModal ref="commsModal" v-bind:commsLine="commsLine" v-bind:currentContact="currentContact" />
 	</div>
@@ -35,6 +55,7 @@
 
 <script>
 	import CommsModal from "../Modals/CommsModal";
+	import ConfirmModal from "../Modals/ConfirmModal";
 	import NoResults from "../NoResults";
 	import { Contact, ContactComms } from "../../data/models/contactModel";
 	import { allowedFields } from "../../constants/tableFields";
@@ -46,6 +67,7 @@
 		components: {
 			CommsModal,
 			NoResults,
+			ConfirmModal,
 		},
 
 		props: {
@@ -59,6 +81,7 @@
 		data () {
 			return {
 				commsLine: {},
+				selected: [],
 			}
 		},
 
@@ -71,7 +94,35 @@
 					this.commsLine = selectedLine;
 					this.$refs.commsModal.$refs.commsModal.show();
 				}
-			}
+			},
+
+			onRowSelected(contact) {
+				this.selected = contact;
+			},
+
+			selectAllRows() {
+				this.$refs.commsTable.selectAllRows();
+			},
+
+			clearSelected() {
+				this.$refs.commsTable.clearSelected();
+			},
+
+			handleConfirmDelete() {				
+				let ids = this.selected.map(ele => ele._id);
+				ids.forEach(id => {
+					this.currentContact.communications.pop(id);
+				})
+				
+				this.currentContact.save().then(res => {
+					// this.refresh();
+					this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
+				}).catch(e => {
+					console.log('e', e);
+					throw e;
+				});
+			},
+
 		},
 
 		computed: {
@@ -94,6 +145,9 @@
 				});
 
 				return keys;
+			},
+			confirmDeleteMessage() {
+				return "Are you sure you want to delete the selected Communications? This cannot be undone."
 			}
 		}
 	}

@@ -1,5 +1,5 @@
-import { Document as Schema } from 'camo';
-import { EmbeddedDocument } from 'camo';
+import { Document as Schema } from "camo";
+import { EmbeddedDocument } from "camo";
 import { getDb } from "../camo.js";
 getDb();
 
@@ -100,10 +100,11 @@ class Contact extends Schema {
 
 		this.notes = ContactNotes;
 		this.communications = [ContactComms];
+		this.taskIds = [];
 	}
 
 	static collectionName() {
-		return 'contacts';
+		return "contacts";
 	}
 }
 
@@ -128,4 +129,4 @@ class ContactComms extends EmbeddedDocument {
 	}
 }
 
-export { Contact, ContactNotes, ContactComms}
+export { Contact, ContactNotes, ContactComms }

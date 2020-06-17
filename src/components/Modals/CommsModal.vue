@@ -93,6 +93,7 @@
 <script>
 	import { DatePicker, TimePicker } from 'ant-design-vue';
 	import { contactTypes, contactPurposes } from "../../constants/commsConstants";
+	import { Contact } from "../../data/models/contactModel";
 
 	export default  {
 
@@ -121,16 +122,28 @@
 		methods: {
 			saveComm() {
 				this.loading = true;
-				this.currentContact.communications.push(this.commsLine);
-				this.currentContact.save().then(res => {
+				if (!this.currentContact.communications.includes(this.commsLine)) {
+					this.currentContact.communications.push(this.commsLine);
+					this.currentContact.save().then(res => {
+						this.$refs.commsModal.hide();
+						this.loading = false;
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				} else {
+					Contact.findOneAndUpdate( { _id: this.commsLine._id }, {communications: this.commsLine}).then(res => {
 					this.$refs.commsModal.hide();
 					this.loading = false;
-				}).catch(e => {
-					console.log('eeek ', e);
-					this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
-					this.loading = false;
-					throw e;
-				});
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				}
 			}
 
 		},

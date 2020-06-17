@@ -17,6 +17,9 @@
 				<b-tab title="Communications">
 					<ContactCommsTab v-bind:currentContact="currentContact"/>
 				</b-tab>
+				<b-tab title="Tasks">
+					<ContactTasksTab v-bind:currentContact="currentContact"/>
+				</b-tab>
 			</b-tabs>
 		</div>
 		<AddAddressModal ref="addAddressModal" v-bind:currentContact="currentContact" @saveContact="saveContact" />
@@ -32,6 +35,7 @@
 	import AddAddressModal from "../Modals/AddAddressModal";
 	import ContactModal from '../Modals/ContactModal';
 	import ContactCommsTab from "./ContactCommsTab";
+	import ContactTasksTab from "./ContactTasksTab";
 
 	export default  {
 		components: {
@@ -40,7 +44,8 @@
 			ContactModal,
 			ContactMidCards,
 			ContactLowerCards,
-			ContactCommsTab
+			ContactCommsTab,
+			ContactTasksTab
 		},
 
 		name: 'contact-full-view',

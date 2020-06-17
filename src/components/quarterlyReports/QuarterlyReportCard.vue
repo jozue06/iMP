@@ -92,15 +92,32 @@
 			},
 
 			handleSubmitExpenseLine(expenseLine) {
-				this.currentReport.expenseLines.push(expenseLine);
-				this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
-				this.currentReport.save().then(res => {
-					this.$refs.addLineModal.$refs.addLineModal.hide();
-					this.$Notification("Success!", "Successfully Added the Expense Line");
-				}).catch(e => {
-					console.log('eeek ', e);
-					throw e;
-				});
+				this.loading = true;
+				if (!this.currentReport.expenseLines.includes(expenseLine)) {
+					this.currentReport.expenseLines.push(expenseLine);
+					this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
+					this.currentReport.save().then(res => {
+						this.$refs.addLineModal.$refs.addLineModal.hide();
+						this.$Notification("Success!", "Successfully Added the Expense Line");
+						this.loading = false;
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				} else {			
+					Report.findOneAndUpdate( { _id: expenseLine._id }, {expenseLines: expenseLine}).then(res => {
+						this.$refs.addLineModal.$refs.addLineModal.hide();
+						this.$Notification("Success!", "Successfully Added the Expense Line");
+						this.loading = false;
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				}
 			},
 
 			onRowSelected(report) {
@@ -142,6 +159,7 @@
 				selectedLine: {},
 				currentReport: {},
 				confirmDeleteMessage: "Are you sure you want to delete this Expense LIne? This cannot be un-done",
+				loading: false,
 			};
 		},
 

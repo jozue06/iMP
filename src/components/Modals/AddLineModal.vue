@@ -197,9 +197,6 @@
 					{ value: "USD", text: 'USD' },
 					{ value: 'CAN', text: 'CAN' },
 				]
-						
-				// countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
-				// states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};
 		},
 		
