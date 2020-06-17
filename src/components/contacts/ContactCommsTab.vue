@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div v-if="commsLines.length > 0" class="main-card">
+	<div>		
+		<div v-if="commsLines && commsLines.length > 0" class="main-card">
 			<b-table
 				striped 
 				hover 
@@ -10,6 +10,15 @@
 				sort-icon-left
 				responsive="sm"
 			>
+
+			<template v-slot:cell(date)="data">	
+				<span class="text-info"> {{ $Moment(data.item.date).format("MMM Do, YY") }} </span>
+			</template>
+			<template v-slot:cell(time)="data">	
+				<span class="text-info"> {{ $Moment(data.item.time).format("h:mm a") }} </span>
+			</template>
+			
+
 			</b-table>
 		</div>
 
@@ -20,7 +29,7 @@
 			@handleBtnClick="showCommsModal(null)"
 		/>
 
-		<CommsModal ref="commsModal" v-bind:commsLine="commsLine" />
+		<CommsModal ref="commsModal" v-bind:commsLine="commsLine" v-bind:currentContact="currentContact" />
 	</div>
 </template>
 
@@ -28,6 +37,7 @@
 	import CommsModal from "../Modals/CommsModal";
 	import NoResults from "../NoResults";
 	import { Contact, ContactComms } from "../../data/models/contactModel";
+	import { allowedFields } from "../../constants/tableFields";
 
 	export default  {
 
@@ -39,7 +49,7 @@
 		},
 
 		props: {
-
+			currentContact: Object,
 		},
 
 		mounted () {
@@ -48,7 +58,6 @@
 
 		data () {
 			return {
-				commsLines: [],
 				commsLine: {},
 			}
 		},
@@ -66,8 +75,26 @@
 		},
 
 		computed: {
+			commsLines() {
+				return this.currentContact.communications;
+			},
 
+			fields() {				
+				let keys = Object.keys(this.commsLines[0]).map(f => {
+					let tmp = {};
+					tmp.sortable = true;
+
+					if (allowedFields.commsList.includes(f)) {
+						tmp.key = f;
+					} else { 
+						tmp.key = "";
+					}
+
+					return tmp;
+				});
+
+				return keys;
+			}
 		}
-}
-
+	}
 </script>

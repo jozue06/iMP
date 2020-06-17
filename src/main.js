@@ -8,7 +8,7 @@ import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
 import getStatusFromCode from "./mixins/getStatusFromCode"
 import getStatusColor from "./mixins/getStatusColorFromCode"
-
+import moment from "moment";
 import "./assets/scss/globalCustoms.scss";
 import './assets/scss/ant.scss';
 
@@ -56,6 +56,7 @@ Vue.prototype.$Notification = notification;
 Vue.prototype.$consoleLog = console.log;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
+Vue.prototype.$Moment = moment;
 
 const router = new VueRouter({
 	routes: Routes,

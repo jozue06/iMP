@@ -25,8 +25,8 @@
 </template>
 
 <script>
-
 	import { districts, sections } from "../constants/districts";
+
 	export default  {
 
 		name: 'district-selector',
@@ -41,8 +41,6 @@
 
 		data() {
 			return {
-				// selectedDistrict: currentContact.district || null,
-				// selectedSection: currentContact.section || null,
 			}
 		},
 

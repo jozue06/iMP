@@ -15,7 +15,7 @@
 					<b-button variant="primary" class="m-2" size="lg" @click="saveContact">Save Changes</b-button>
 				</b-tab>
 				<b-tab title="Communications">
-					<ContactCommsTab />
+					<ContactCommsTab v-bind:currentContact="currentContact"/>
 				</b-tab>
 			</b-tabs>
 		</div>

@@ -16,5 +16,13 @@ export const allowedFields = {
 		"section",
 		"commitmentAmt",
 		"contactStatus"
+	],
+	commsList: [
+		"date",
+		"time",
+		"contactPersonType",
+		"contactPersonName",
+		"contactVia",
+		"purpose",
 	]
 }

@@ -117,11 +117,11 @@ class ContactNotes extends EmbeddedDocument {
 class ContactComms extends EmbeddedDocument {
 	constructor() {
 		super();
-		this.date = String;
-		this.time = String;
+		this.date = Object;
+		this.time = Object;
 		this.contactPersonType = String;
 		this.contactPersonName = String;
-		this.contactedVia = String;
+		this.contactVia = String;
 		this.purpose = String;
 		this.notes = String;
 		this.response = String;

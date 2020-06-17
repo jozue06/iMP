@@ -1,6 +1,6 @@
 <template>
 	<section class="add-line-modal">
-		<b-modal size="lg" centered ref="addLineModal" title="add-line-modal Component" hide-footer v-bind:expenseLine="expenseLine">
+		<b-modal size="lg" top ref="addLineModal" title="add-line-modal Component" hide-footer v-bind:expenseLine="expenseLine">
 			<b-tabs content-class="mt-3">
 				<b-tab title="First" active>
 					<div class="row sub-section text-center">
