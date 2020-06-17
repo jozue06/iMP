@@ -1,4 +1,4 @@
-import { BrowserWindow, Menu, } from 'electron';
+import { BrowserWindow, Menu, screen, } from 'electron';
 import { format } from 'url';
 import { join } from 'path';
 import { topMenuTemplates } from '../constants/topMenuTemplates';
@@ -26,6 +26,8 @@ function createMainWindow(height, width, minHeight, minWidth, titleName) {
 		window.loadURL('app://./index.html')
 	}
 
+	window.center();
+	
 	window.on('closed', () => {
 		window = null
 	});
@@ -34,17 +36,4 @@ function createMainWindow(height, width, minHeight, minWidth, titleName) {
 	Menu.setApplicationMenu(mainMenu);
 }
 
-function createWindow(width, height, titleName, fileName) {
-	let window = new BrowserWindow({
-		width: width,
-		height: height,
-		title: titleName
-	});
-	window.loadURL(format({
-		pathname: join(__dirname, fileName),
-		protocol: 'file:',
-		slashes: true
-	}));
-}
-
-export { createMainWindow, createWindow };
+export { createMainWindow };
