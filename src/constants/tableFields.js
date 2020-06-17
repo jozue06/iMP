@@ -14,6 +14,7 @@ export const allowedFields = {
 		"lastName",
 		"district",
 		"section",
-		"contactStatus",
+		"commitmentAmt",
+		"contactStatus"
 	]
 }
