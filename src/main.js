@@ -8,8 +8,9 @@ import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
 import getStatusFromCode from "./mixins/getStatusFromCode"
 import getStatusColor from "./mixins/getStatusColorFromCode"
-import YearSelector from './components/YearSelector'
+
 import "./assets/scss/globalCustoms.scss";
+import './assets/scss/ant.scss';
 
 extend("required", required);
 extend("email", email);
@@ -48,7 +49,6 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
-Vue.component('YearSelector', YearSelector);
 
 Vue.config.productionTip = false;
 

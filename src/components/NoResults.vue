@@ -1,5 +1,5 @@
 <template>
-	<section class="noResults">
+	<div>
 		<h4
 			class="m-4 text-danger font-italic text-center" 
 			v-bind:message="message"
@@ -7,8 +7,8 @@
 			>
 			{{ message }}
 		</h4>
-		<b-button variant="success" @click="handleBtnClick"> {{ subtitle }}</b-button>
-	</section>
+		<b-button class="mb-2" variant="success" @click="handleBtnClick"> {{ subtitle }}</b-button>
+	</div>
 </template>
 
 <script>
@@ -27,10 +27,3 @@
 
 	}
 </script>
-
-<style scoped>
-	.noResults {
-		float: right;
-		width: 100%;
-	}
-</style>

@@ -10,7 +10,7 @@
 			>
 			<div
 				class="display-text"
-				:class="'display-text-'+alignment"
+				:class="'display-text-' + alignment"
 				:style="[{'text-align': alignment}]"
 				
 			>{{ displayText }}</div>
@@ -43,7 +43,6 @@
 
 <script>
 	import moment from "moment";
-
 	export default {
 		
 		name: "YearSelector",

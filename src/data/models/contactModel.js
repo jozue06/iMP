@@ -78,8 +78,6 @@ class Contact extends Schema {
 			required: false,
 		}
 
-		this.notes = ContactNotes;
-
 		this.contactStatus = {
 			type: Number,
 			required: true,
@@ -99,6 +97,9 @@ class Contact extends Schema {
 		}
 
 		this.contactGroupIds = [];
+
+		this.notes = ContactNotes;
+		this.communications = [ContactComms];
 	}
 
 	static collectionName() {
@@ -113,4 +114,18 @@ class ContactNotes extends EmbeddedDocument {
 	}
 }
 
-export { Contact, ContactNotes }
+class ContactComms extends EmbeddedDocument {
+	constructor() {
+		super();
+		this.date = String;
+		this.time = String;
+		this.contactPersonType = String;
+		this.contactPersonName = String;
+		this.contactedVia = String;
+		this.purpose = String;
+		this.notes = String;
+		this.response = String;
+	}
+}
+
+export { Contact, ContactNotes, ContactComms}

@@ -12,7 +12,7 @@
 			</div>
 			<div class="small-grouping">
 				<b-form-group label="Year">
-					<yearSelector v-model="quarterlyReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
+					<YearSelector v-model="quarterlyReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
 				</b-form-group>
 			</div>
 			<div class="bass-amount">
@@ -40,7 +40,7 @@
 
 <script>
 	import moment from 'moment';
-	
+	import YearSelector from "../YearSelector";
 	export default {
 		props: {
 			quarterlyReport: Object,

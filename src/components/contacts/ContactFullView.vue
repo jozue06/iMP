@@ -1,18 +1,23 @@
 <template>
 	<section>
 		<div class="main-card">
-
 			<router-link to="/contacts">
 				<h1>{{ currentContact.firstName }}</h1>
 			</router-link>	
+			<b-tabs class="ml-1" content-class="ml-0">
+				<b-tab title="Contact Info" active>
+					<ContactCardTop v-bind:currentContact="currentContact" @showContactModal="showContactModal"/>
 
-			<ContactTopCard v-bind:currentContact="currentContact" @showContactModal="showContactModal"/>
-
-			<ContactMidCards v-bind:currentContact="currentContact" @showAddAddressModal="showAddAddressModal"/>
-			
-			<ContactLowerCards v-bind:currentContact="currentContact" />
-			
-			<b-button variant="primary" class="m-2" size="lg" @click="saveContact">Save Changes</b-button>
+					<ContactMidCards v-bind:currentContact="currentContact" @showAddAddressModal="showAddAddressModal"/>
+					
+					<ContactLowerCards v-bind:currentContact="currentContact" />
+					
+					<b-button variant="primary" class="m-2" size="lg" @click="saveContact">Save Changes</b-button>
+				</b-tab>
+				<b-tab title="Communications">
+					<ContactCommsTab />
+				</b-tab>
+			</b-tabs>
 		</div>
 		<AddAddressModal ref="addAddressModal" v-bind:currentContact="currentContact" @saveContact="saveContact" />
 		<ContactModal ref="contactModal" v-bind:contact="currentContact" @refresh="saveContact" />
@@ -21,19 +26,21 @@
 
 <script>
 	import { Contact } from "../../data/models/contactModel";
-	import ContactTopCard from "./ContactCardTop";
+	import ContactCardTop from "./ContactCardTop";
 	import ContactMidCards from "./ContactMidCards";
 	import ContactLowerCards from "./ContactLowerCards";
 	import AddAddressModal from "../Modals/AddAddressModal";
 	import ContactModal from '../Modals/ContactModal';
+	import ContactCommsTab from "./ContactCommsTab";
 
 	export default  {
 		components: {
-			ContactTopCard,
+			ContactCardTop,
 			AddAddressModal,
 			ContactModal,
 			ContactMidCards,
-			ContactLowerCards
+			ContactLowerCards,
+			ContactCommsTab
 		},
 
 		name: 'contact-full-view',
