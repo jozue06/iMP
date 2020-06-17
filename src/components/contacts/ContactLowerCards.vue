@@ -1,60 +1,44 @@
 <template>
-	<div>
-		<b-row align-v="center">
-			{{ $consoleLog('contact ', currentContact) }}
-			
-			<b-col class="mid-cards">
-
-				checkbox for individual []
-
-				<!-- <br>
-				{{ currentContact.firstName }}
+	<div class="mx-3">
+		<b-row align-v="center">			
+			<b-col class="low-cards">
+				<label>Contactability Status</label>
 				<br>
-				{{ currentContact.lastName }}
-				<br>
-				{{ currentContact.address }}
-				<br>
-				{{ currentContact.city }}
-				<br>
-				{{ currentContact.country }}
-				<br>
-				{{ currentContact.email }}
-				<br>
-				{{ currentContact.phone }}
-
-				<p v-if="currentContact.notes">
-					{{ currentContact.notes.text }}
-				</p> -->
+				<b-icon icon="circle-fill" :variant="$GetStatusColor(currentContact.contactStatus)"></b-icon>
+				{{ $GetStatus(currentContact.contactStatus)}}
+				<b-form-select
+					v-model="currentContact.contactStatus"
+					:options="statusOptions"
+				>
+				</b-form-select>
 			</b-col>
-			<b-col class="mid-cards">
-				<p> other stuffs 1: </p>
-				<!-- church or org name:
-				{{ currentContact.orgName }}
-				<br>
-				<b-form-group label="District">
+			<b-col class="low-cards">
+				<p> Financials</p>
+				<b-form-group label="Account Number">
 					<b-form-input
 						type="text"
-						v-model="currentContact.district"
-						required
-						placeholder="District?"
-						name="disctrict"
+						v-model="currentContact.accountNumber"
+						placeholder="Account Number"
+						name="accountNumber"
 					></b-form-input>
 				</b-form-group> 
-				<b-form-group label="Section">
-					<b-form-input
-						type="text"
-						v-model="currentContact.section"
-						required
-						placeholder="Section?"
-						name="section"
-					></b-form-input>
-				</b-form-group>  -->
+				<b-form-group label="Commitment Amount">
+					<b-input-group prepend="$">
+						<b-form-input
+							class="text-right"
+							type="text"
+							v-model="currentContact.commitmentAmt" 
+							placeholder="0.00"
+							name="commitmentAmt"
+							lazy-formatter
+							:formatter="formatMoney"
+						></b-form-input>
+					</b-input-group>
+				</b-form-group>
 			</b-col>
-			<b-col class="mid-cards">
-				<p> Contact Groups</p>
-				{{ $consoleLog('contactGroups' , contactGroups) }}
-				
-				<div v-if="contactGroups.length > 0">
+			<b-col class="low-cards group-card">
+				<p> Contact Groups</p>				
+				<div v-if="contactGroups.length > 0" class="mb-2">
 					<b-list-group>
 						<b-list-group-item 
 							v-for="group in contactGroups" 
@@ -66,7 +50,6 @@
 							<b-badge v-if="currentContact.contactGroupIds.includes(group._id)" variant="secondary" pill>
 								Assigned
 							</b-badge>
-							
 						</b-list-group-item>
 					</b-list-group>
 				</div>
@@ -78,6 +61,7 @@
 <script>
 	import { ContactGroup } from "../../data/models/contactGroupModel";
 	import { Contact } from "../../data/models/contactModel";
+	import statusCodes from "../../constants/contactStatusCodes"
 	export default  {
 
 		name: 'contact-lower-cards',
@@ -94,6 +78,8 @@
 			return {
 				contactGroups: [],
 				loading: false,
+				statusCodes: statusCodes,
+				selectedStatus: this.currentContact.status,
 			}
 		},
 
@@ -140,15 +126,29 @@
 					}).catch(e => {
 						console.log('eeek ', e);
 					})
-				});			
+				});
+			},
 
-				
-			}
+			formatMoney(amount) {
+				if (isNaN(Number(amount))) {
+					return 0;
+				}
+				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+				return Number(value);
+			},
 		},
 
 		computed: {
-
+			statusOptions() {
+				return statusCodes.map(code => ({value: code, text: this.$GetStatus(code)}))
+			}
 		}
 }
 
 </script>
+
+<style lang="scss" scoped>
+	.group-card {
+		overflow: scroll;
+	}
+</style>

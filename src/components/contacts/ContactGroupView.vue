@@ -13,15 +13,18 @@
 					responsive="sm"
 				>
 					<template v-slot:cell(edit)="data">
-						<span @click="showContactModal(data.item)" class="text-info">edit</span>
+						<span @click="showContactModal(data.item)" class="text-info custom-hover">edit</span>
 					</template>
-						<template v-slot:cell(firstName)="data">	
+					<template v-slot:cell()="data">	
 						<router-link
 							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
 							v-slot="{ href, route, navigate}"
 						>
-							<span :href="href" @click="navigate" class="text-info"> {{ data.item.firstName }} </span>
+							<span :href="href" @click="navigate" class="text-info custom-hover"> {{ data.value }} </span>
 						</router-link>
+					</template>
+					<template v-slot:cell(contactStatus)="data">	
+						<b-icon icon="circle-fill" :variant="$GetStatusColor(data.item.contactStatus)"></b-icon>
 					</template>
 				</b-table>
 			</div>
