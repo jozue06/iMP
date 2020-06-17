@@ -10,8 +10,8 @@ import getStatusFromCode from "./mixins/getStatusFromCode";
 import getStatusColor from "./mixins/getStatusColorFromCode";
 import moment from "moment";
 import YearSelector from "./components/YearSelector";
+
 import "./assets/scss/globalCustoms.scss";
-import "./assets/scss/ant.scss";
 
 extend("required", required);
 extend("email", email);

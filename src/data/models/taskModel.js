@@ -3,7 +3,7 @@ import { Document as Schema } from "camo";
 class Task extends Schema {
 	constructor() {
 		super();
-		this.date = Object;
+		this.date = String;
 		this.type = String;
 		this.details = String;
 		this.completed = Boolean;

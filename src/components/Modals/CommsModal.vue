@@ -6,20 +6,28 @@
 				<b-row>
 					<b-col cols="6">
 						<b-form-group label="Date">
-							<DatePicker
-								v-model="selectedDate"
-							>
-							</DatePicker>
+							<b-form-datepicker
+								v-model="commsLine.date"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="firstDate"
+							></b-form-datepicker>
 						</b-form-group>
 					</b-col>
 					<b-col cols="6">
 						<b-form-group label="Time">
-							<TimePicker
-								use12-hours format="h:mm A"
-								:minute-step="15"
-								v-model="selectedTime"
-							>
-							</TimePicker>
+							<b-form-timepicker
+								v-model="commsLine.time"
+								button-only
+								right
+								:hour12="true"
+								hourCycle='h12'
+								locale="en"
+								aria-controls="example-input"
+								@context="onContext"
+							></b-form-timepicker>
+								{{ formattedValue }}
 						</b-form-group>
 					</b-col>
 				</b-row>
@@ -91,7 +99,6 @@
 </template>
 
 <script>
-	import { DatePicker, TimePicker } from 'ant-design-vue';
 	import { contactTypes, contactPurposes } from "../../constants/commsConstants";
 	import { Contact } from "../../data/models/contactModel";
 
@@ -99,11 +106,6 @@
 
 		name: 'commsModal',
 		
-		components: {
-			DatePicker,
-			TimePicker,
-		},
-
 		props: {
 			commsLine: Object,
 			currentContact: Object,
@@ -116,16 +118,13 @@
 		data () {
 			return {
 				loading: false,
-				selectedDate: "",
-				selectedTime: "",
+				formattedValue: "",
 			}
 		},
 
 		methods: {
 			saveComm() {
-				this.loading = true;				
-				this.commsLine.date = this.selectedDate;
-				this.commsLine.time = this.selectedTime;
+				this.loading = true;
 				if (!this.currentContact.communications.includes(this.commsLine)) {
 					this.currentContact.communications.push(this.commsLine);
 					this.currentContact.save().then(res => {
@@ -148,6 +147,10 @@
 						throw e;
 					});
 				}
+			},
+			
+			onContext(ctx) {
+				this.formattedValue = ctx.formatted
 			}
 		},
 
@@ -158,7 +161,7 @@
 
 			contactPurposes() {
 				return contactPurposes;
-			}
+			},
 		}
 	}
 

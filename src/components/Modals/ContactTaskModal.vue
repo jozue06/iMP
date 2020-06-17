@@ -1,15 +1,18 @@
 <template>
 	<section>
 		<b-modal top ref="contactTaskModal" title="Task" hide-footer v-bind:taskLine="taskLine" v-bind:currentContact="currentContact">
-			<p v-if="taskLine.contactId != ''" class="text-center"> Task for {{ currentContact.firstName }} {{ currentContact.lastName }}</p>
+			<p v-if="taskLine.contactId != ''" class="text-center"> Task for {{ currentContact.firstName }} {{ currentContact.lastName }}</p>			
 			<div class="justify-content-center">
 				<b-row align-h="center">
 					<b-col cols="4" class="text-center">
 						<b-form-group label="Date">
-							<DatePicker
-								v-model="selectedDate"
-							>
-							</DatePicker>
+							<b-form-datepicker
+								v-model="taskLine.date"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="firstDate"
+							></b-form-datepicker>
 						</b-form-group>
 					</b-col>
 				</b-row>
@@ -42,7 +45,6 @@
 </template>
 
 <script>
-	import { DatePicker, TimePicker } from 'ant-design-vue';
 	import { contactTypes, contactPurposes } from "../../constants/commsConstants";
 	import { Contact } from "../../data/models/contactModel";
 
@@ -50,11 +52,6 @@
 
 		name: 'contactTaskModal',
 		
-		components: {
-			DatePicker,
-			TimePicker,
-		},
-
 		props: {
 			taskLine: Object,
 			currentContact: Object,
@@ -67,26 +64,26 @@
 		data () {
 			return {
 				loading: false,
-				selectedDate: "",
 			}
 		},
 
 		methods: {
 			saveTask() {
 				this.loading = true;
-				this.taskLine.date = this.selectedDate;
+
 				this.taskLine.save().then(savedTask => {
 					if (!this.currentContact.taskIds.includes(savedTask._id)) {
 						this.currentContact.taskIds.push(savedTask._id);
 						this.currentContact.save().then(res => {
 							this.$Notification("Success!", "Successfully saved the Task", "Primary");
 							this.loading = false;
-							return
+							this.$refs.contactTaskModal.hide();
 						}).catch(e => {
 							console.log('eek', e);
 							throw e;
 						});
 					}
+					this.$refs.contactTaskModal.hide();
 				}).catch(e => {
 					console.log('eeek ', e);
 					this.$Notification("Error", `Error Saving Task: ${e}`, "warning", "", 3000);
@@ -103,7 +100,7 @@
 
 			contactPurposes() {
 				return contactPurposes;
-			}
+			},
 		}
 	}
 

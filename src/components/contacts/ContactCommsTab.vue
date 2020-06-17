@@ -1,6 +1,6 @@
 <template>
 	<div>		
-		<div v-if="commsLines && commsLines.length > 0" class="main-card">
+		<div v-if="commsLines && commsLines.length > 0">
 			<b-table
 				striped 
 				hover 
@@ -13,11 +13,12 @@
 				sort-icon-left
 				responsive="sm"
 			>
-				<template v-slot:cell(date)="data">	
+				<template v-slot:cell(date)="data">
+					
 					<span @click="showCommsModal(data.item)" class="text-info"> {{ $Moment(data.item.date).format("MMM Do, YY") }} </span>
 				</template>
 				<template v-slot:cell(time)="data">	
-					<span @click="showCommsModal(data.item)" class="text-info"> {{ $Moment(data.item.time).format("h:mm a") }} </span>
+					<span @click="showCommsModal(data.item)" class="text-info"> {{ $Moment(data.item.time, "HH:mm:ss").format("h:mm A") }} </span>
 				</template>
 				<template v-slot:cell()="data">	
 					<span @click="showCommsModal(data.item)" class="text-info"> {{ data.value }} </span>
@@ -42,6 +43,7 @@
 			v-else
 			@handleBtnClick="showCommsModal(null)"
 		/>
+
 		<ConfirmModal 
 			id="confirmModal" 
 			title="Delete?" 
@@ -115,8 +117,7 @@
 				})
 				
 				this.currentContact.save().then(res => {
-					// this.refresh();
-					this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
+					this.$Notification("Deleted", "Deleted the Selected Communications", "warning", "", 3000);
 				}).catch(e => {
 					console.log('e', e);
 					throw e;

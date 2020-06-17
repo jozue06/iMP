@@ -118,8 +118,8 @@ class ContactNotes extends EmbeddedDocument {
 class ContactComms extends EmbeddedDocument {
 	constructor() {
 		super();
-		this.date = Object;
-		this.time = Object;
+		this.date = String;
+		this.time = String;
 		this.contactPersonType = String;
 		this.contactPersonName = String;
 		this.contactVia = String;
