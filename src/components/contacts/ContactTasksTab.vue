@@ -1,22 +1,21 @@
 <template>
-	<div>
-		{{ $consoleLog('taskLines', taskLines) }}
-		
+	<div>	
 		<div v-if="taskLines && taskLines.length > 0" class="main-card">
 			<b-table
 				striped 
 				hover 
-				ref="commsTable"
+				ref="tasksTable"
 				:items="taskLines" 
 				:fields="fields"
 				sort-icon-left
 				responsive="sm"
 			>
 				<template v-slot:cell(date)="data">	
-					<span class="text-info"> {{ $Moment(data.item.date).format("MMM Do, YY") }} </span>
+					<span class="text-info"> {{ $Moment(data.item.date._d).format("MM-DD-YYYY") }} </span>
 				</template>
-				<template v-slot:cell(time)="data">	
-					<span class="text-info"> {{ $Moment(data.item.time).format("h:mm a") }} </span>
+				
+				<template v-slot:cell()="data">	
+					<span class="text-info"> {{ data.value }} </span>
 				</template>
 			</b-table>
 		</div>
@@ -25,65 +24,58 @@
 			message="No Tasks Found" 
 			subtitle="Click here to Create a Task" 
 			v-else
-			@handleBtnClick="showCommsModal(null)"
+			@handleBtnClick="showTaskModal(null)"
 		/>
 
-		<!-- <CommsModal ref="commsModal" v-bind:taskLines="taskLines" v-bind:currentContact="currentContact" /> -->
+		<ContactTaskModal ref="contactTaskModal" v-bind:taskLine="taskLine" v-bind:currentContact="currentContact" />
 	</div>
 </template>
 
 <script>
-	// import CommsModal from "../Modals/CommsModal";
 	import NoResults from "../NoResults";
 	import { Contact } from "../../data/models/contactModel";
 	import { Task } from "../../data/models/taskModel";
 	import { allowedFields } from "../../constants/tableFields";
+	import ContactTaskModal from "../Modals/ContactTaskModal"
 
 	export default  {
 
-		name: 'contact-comms-tab',
+		name: 'contact-tasks-tab',
 		
 		components: {
 			NoResults,
+			ContactTaskModal,
 		},
 
 		props: {
 			currentContact: Object,
+			taskLines: Array,
 		},
 
-		created () {
-			// get tasks
-		},
-
-		data () {
+		data() {
 			return {
 				taskLine: {},
 			}
 		},
 
 		methods: {
-			showCommsModal(selectedLine) {
+			showTaskModal(selectedLine) {
 				if (selectedLine == null) {
 					this.taskLine = Task.create()
-					// this.$refs.commsModal.$refs.commsModal.show();
+					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
 				} else {
 					this.taskLine = selectedLine;
-					// this.$refs.commsModal.$refs.commsModal.show();
+					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
 				}
 			}
 		},
 
 		computed: {
-			taskLines() {
-				return this.currentContact.taskIds;
-			},
-
 			fields() {				
 				let keys = Object.keys(this.taskLines[0]).map(f => {
 					let tmp = {};
-					tmp.sortable = true;
-
-					if (allowedFields.commsList.includes(f)) {
+					tmp.sortable = true;					
+					if (allowedFields.taskLines.includes(f)) {
 						tmp.key = f;
 					} else { 
 						tmp.key = "";
@@ -91,7 +83,7 @@
 
 					return tmp;
 				});
-
+				
 				return keys;
 			}
 		}

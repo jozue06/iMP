@@ -7,7 +7,7 @@
 					<b-col cols="6">
 						<b-form-group label="Date">
 							<DatePicker
-								v-model="commsLine.date"
+								v-model="selectedDate"
 							>
 							</DatePicker>
 						</b-form-group>
@@ -17,7 +17,7 @@
 							<TimePicker
 								use12-hours format="h:mm A"
 								:minute-step="15"
-								v-model="commsLine.time"
+								v-model="selectedTime"
 							>
 							</TimePicker>
 						</b-form-group>
@@ -116,12 +116,16 @@
 		data () {
 			return {
 				loading: false,
+				selectedDate: "",
+				selectedTime: "",
 			}
 		},
 
 		methods: {
 			saveComm() {
-				this.loading = true;
+				this.loading = true;				
+				this.commsLine.date = this.selectedDate;
+				this.commsLine.time = this.selectedTime;
 				if (!this.currentContact.communications.includes(this.commsLine)) {
 					this.currentContact.communications.push(this.commsLine);
 					this.currentContact.save().then(res => {
@@ -145,7 +149,6 @@
 					});
 				}
 			}
-
 		},
 
 		computed: {
@@ -157,9 +160,6 @@
 				return contactPurposes;
 			}
 		}
-}
+	}
 
 </script>
-
-<style lang="scss" scoped>
-</style>

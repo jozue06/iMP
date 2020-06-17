@@ -18,7 +18,7 @@
 					<ContactCommsTab v-bind:currentContact="currentContact"/>
 				</b-tab>
 				<b-tab title="Tasks">
-					<ContactTasksTab v-bind:currentContact="currentContact"/>
+					<ContactTasksTab v-bind:currentContact="currentContact" v-bind:taskLines="taskLines"/>
 				</b-tab>
 			</b-tabs>
 		</div>
@@ -36,6 +36,7 @@
 	import ContactModal from '../Modals/ContactModal';
 	import ContactCommsTab from "./ContactCommsTab";
 	import ContactTasksTab from "./ContactTasksTab";
+	import { Task } from "../../data/models/taskModel";
 
 	export default  {
 		components: {
@@ -59,6 +60,7 @@
 		data() {
 			return {
 				currentContact: {},
+				taskLines: [],
 			}
 		},
 
@@ -66,6 +68,9 @@
 			if (this.$router.currentRoute.params.contactId) {
 				Contact.find( { _id: this.$router.currentRoute.params.contactId }, { populate: true } ).then(res => {
 					this.currentContact = res[0];
+					Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
+						this.taskLines = res
+					});
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 					throw e;

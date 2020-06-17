@@ -24,5 +24,12 @@ export const allowedFields = {
 		"contactPersonName",
 		"contactVia",
 		"purpose",
+	],
+	taskLines: [
+		"date",
+		"type",
+		"time",
+		"details",
+		"completed"
 	]
 }
