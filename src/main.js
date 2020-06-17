@@ -2,10 +2,12 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
 import Routes from './routes';
-import BootstrapVue from "bootstrap-vue";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required, email, min_value, max_value } from "vee-validate/dist/rules";
 import { notification } from "./mixins/notifications"
+import getStatusFromCode from "./mixins/getStatusFromCode"
+import getStatusColor from "./mixins/getStatusColorFromCode"
 import YearSelector from './components/YearSelector'
 import "./assets/scss/globalCustoms.scss";
 
@@ -43,6 +45,7 @@ extend("postal_code", {
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component('YearSelector', YearSelector);
@@ -51,6 +54,8 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$Notification = notification;
 Vue.prototype.$consoleLog = console.log;
+Vue.prototype.$GetStatus = getStatusFromCode;
+Vue.prototype.$GetStatusColor = getStatusColor;
 
 const router = new VueRouter({
 	routes: Routes,
