@@ -1,15 +1,12 @@
 <template>
 	<section>
 		<div class="main-card">
-			<div>
+			<div class="mt-4">
 				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
 			</div>
-			<b-row class="justify-content-around mb-2">
-				<b-col>
+			<b-row class="justify-content-around">
+				<b-col class="my-2">
 					<b-button size="sm" v-b-toggle.collapse-info variant="info">More Details</b-button>
-				</b-col>	
-				<b-col>
-					<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
 				</b-col>
 			</b-row>
 				<b-collapse id="collapse-info">
@@ -41,6 +38,14 @@
 						Delete selected
 				</b-button>
 			</div>
+
+			<div class="card-footer">
+				<b-row class="justify-content-end">
+					<b-col cols="2" class="my-2">
+						<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
+					</b-col>
+				</b-row>
+			</div>
 			<AddLineModal 
 				v-bind:expenseLine="selectedLine" 
 				ref="addLineModal"
@@ -52,7 +57,7 @@
 				v-bind:message="confirmDeleteMessage" 
 				@handleConfirm="handleConfirmDelete" 
 			/>
-		</div>
+		</div>	
 	</section>
 </template>
 

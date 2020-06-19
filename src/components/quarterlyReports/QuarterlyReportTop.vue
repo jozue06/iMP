@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="card-header mt-4">
 		<router-link to="/quarterlyReports">
 			<h3 class="pt-2">Report for {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h3>
 		</router-link>
