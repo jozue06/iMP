@@ -85,7 +85,7 @@
 					</div>
 
 					<div class="row sub-section text-center">
-					<b-form-group class="mr-1" label="foreign moneys">
+						<b-form-group class="mr-1" label="foreign moneys">
 							<b-input-group prepend="$">
 								<b-form-input 
 									class="text-right"
