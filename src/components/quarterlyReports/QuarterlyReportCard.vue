@@ -15,7 +15,7 @@
 				<QuarterlyReportMoreInfo />
 			</b-collapse>
 
-			<b-tabs pills card end v-if="expenseLines.length > 0">
+			<b-tabs pills card end>
 				<b-tab title="Expense Lines" active>
 					<h4>Expense Lines</h4>
 					<b-table
@@ -34,20 +34,21 @@
 							<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
 						</template>
 					</b-table>
-					<b-button 
-						v-if="expenseLines.length > 0"
-						variant="danger" 
-						size="sm" 
-						:disabled="selected == 0" 
-						v-bind:selected="selected"
-						v-b-modal.confirmModal>
-							Delete selected
-					</b-button>
-
-					<b-row class="justify-content-end">
-						<b-col cols="2" class="my-2">
-							<b-button variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
+				
+					<b-row class="justify-content-around">
+						<b-col cols="10" class="my-2" v-if="expenseLines.length > 0">
+							<b-button 
+								variant="danger" 
+								size="sm" 
+								:disabled="selected == 0" 
+								v-bind:selected="selected"
+								v-b-modal.confirmModal>
+									Delete selected
+							</b-button>
 						</b-col>
+						<b-col cols="2" class="my-2">
+							<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Expense Line </b-button>
+						</b-col>	
 					</b-row>
 				</b-tab>
 				
@@ -66,21 +67,22 @@
 						@row-selected="onRowSelected"
 					>
 						<template v-slot:cell()="data">
-							<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
+							<b @click="showAddMileageModal(data.item)" class="text-info">{{ data.value }}</b>
 						</template>
 					</b-table>
-					<b-button 
-						v-if="mileageLogs.length > 0"
-						variant="danger" 
-						size="sm" 
-						:disabled="selected == 0" 
-						v-bind:selected="selected"
-						v-b-modal.confirmModal>
-							Delete selected
-					</b-button>
-					<b-row class="justify-content-end">
+					<b-row class="justify-content-around">
+						<b-col cols="10" class="my-2" v-if="mileageLogs.length > 0">
+							<b-button 
+								variant="danger" 
+								size="sm" 
+								:disabled="selected == 0" 
+								v-bind:selected="selected"
+								v-b-modal.confirmModal>
+									Delete selected
+							</b-button>
+						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button variant="primary" @click="showAddLineModal(null)"> +Add Mileage Log </b-button>
+							<b-button size="sm" variant="primary" @click="showAddMileageModal(null)"> + Add Mileage Log </b-button>
 						</b-col>
 					</b-row>
 				</b-tab>
@@ -106,9 +108,9 @@
 				</b-row>
 			</div> -->
 
-			<AddLineModal 
-				v-bind:expenseLine="selectedLine" 
-				ref="addLineModal"
+			<AddExpenseLineModal 
+				v-bind:expenseLine="selectedExpenseLine" 
+				ref="addExpenseLineModal"
 				@submitExpenseLine="handleSubmitExpenseLine"
 			/>
 			<ConfirmModal 
@@ -123,7 +125,7 @@
 
 <script>
 	import moment from 'moment';
-	import AddLineModal from "../Modals/AddLineModal";
+	import AddExpenseLineModal from "../Modals/AddExpenseLineModal";
 	import { QuarterlyReport as Report, ExpenseLine } from '../../data/models/quarterlyReportModel'
 	import QuarterlyReportTop from './QuarterlyReportTop'
 	import QuarterlyReportMoreInfo from './QuarterlyReportMoreInfo'
@@ -131,7 +133,7 @@
 
 	export default {
 		components: {
-			AddLineModal,
+			AddExpenseLineModal,
 			QuarterlyReportTop,
 			ConfirmModal,
 			QuarterlyReportMoreInfo,
@@ -140,6 +142,15 @@
 		methods: {
 			showAddLineModal(rowItem) {
 				if (rowItem) {
+					this.selectedExpenseLine = rowItem;
+				} else {
+					this.selectedExpenseLine = ExpenseLine.create();
+				}
+				this.$refs.addExpenseLineModal.$refs.addExpenseLineModal.show()
+			},
+
+			showAddMileageModal(mileageLine) {
+				if (mileageLine) {
 					this.selectedLine = rowItem;
 				} else {
 					this.selectedLine = ExpenseLine.create();
@@ -224,7 +235,7 @@
 				selected: "",
 				expenseLines: [],
 				mileageLogs: [],
-				selectedLine: {},
+				selectedExpenseLine: {},
 				currentReport: {},
 				confirmDeleteMessage: "Are you sure you want to delete this Expense LIne? This cannot be un-done",
 				loading: false,
@@ -288,7 +299,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-
-</style>
