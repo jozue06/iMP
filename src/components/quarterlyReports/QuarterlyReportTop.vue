@@ -3,19 +3,32 @@
 		<router-link to="/quarterlyReports">
 			<h3 class="pt-2">Report for {{ formatQuarterToView(quarterlyReport.quarterNumber) }} - {{ formatDate(quarterlyReport.selectedYear) }} </h3>
 		</router-link>
-		<div class="top-qtr-container">
-			<div class="small-grouping mr-2">
+		<b-row>
+			<b-col>
 				<b-form-group label="Quarter">
 					<b-form-select v-model="quarterlyReport.quarterNumber" :options="quarterOptions" @change="formatQuarterForSave">
 					</b-form-select>
 				</b-form-group>
-			</div>
-			<div class="small-grouping">
+			</b-col>
+
+			<b-col>
 				<b-form-group label="Year">
 					<YearSelector v-model="quarterlyReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
 				</b-form-group>
-			</div>
-			<div class="bass-amount">
+			</b-col>
+			<b-col>
+				<b-form-group class="mr-1" label="date completed">
+					<b-form-datepicker
+						required
+						v-model="quarterlyReport.dateCompleted"
+						:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+						locale="en"
+						name="firstDate"
+					></b-form-datepicker>
+				</b-form-group> 
+			</b-col>
+
+			<b-col cols="4">
 				<b-form-group label="Base Amount">
 					<b-input-group prepend="$">
 						<b-form-input
@@ -33,8 +46,8 @@
 						</b-input-group-append>
 					</b-input-group>
 				</b-form-group>
-			</div>
-		</div>
+			</b-col>
+		</b-row>
 	</div>	
 </template>
 
@@ -112,19 +125,3 @@
 
 	}
 </script>
-<style scoped>
-	.top-qtr-container {
-		display: flex;
-		flex-direction: row;
-		margin-left: 10px;
-		margin-right: 10px;
-	}	
-
-	.small-grouping {
-		max-width: 200px;
-		/* margin-right: 10px; */
-	}
-	.bass-amount {
-		margin-left: 40%;
-	}
-</style>
