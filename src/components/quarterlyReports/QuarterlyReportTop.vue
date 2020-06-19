@@ -24,6 +24,7 @@
 						:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 						locale="en"
 						name="firstDate"
+						@change="saveReport"
 					></b-form-datepicker>
 				</b-form-group> 
 			</b-col>
@@ -66,6 +67,7 @@
 
 			formatYearForSave(value) {
 				this.quarterlyReport.year = value.format('YYYY');
+				this.saveReport();
 			},
 
 			formatMoney(amount) {
@@ -73,11 +75,13 @@
 					return 0;
 				}
 				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+				this.saveReport();
 				return Number(value);
 			},
 
 			formatDate(dateTimeObject) {
 				return this.$Moment(dateTimeObject).format('YYYY');
+				this.saveReport();
 			},
 
 			formatQuarterToView(quarterNumber) {

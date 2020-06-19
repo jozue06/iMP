@@ -148,6 +148,7 @@
 
 				return keys;
 			},
+			
 			confirmDeleteMessage() {
 				return "Are you sure you want to delete the selected Communications? This cannot be undone."
 			}

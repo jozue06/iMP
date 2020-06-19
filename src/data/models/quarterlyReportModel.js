@@ -9,10 +9,11 @@ class QuarterlyReport extends Schema {
 		this.year = String;
 		this.dateCompleted = String;
 		this.baseAmount = Number;
+		this.comments = String;
+
 		this.deficitReimbursement = Number;
 		this.otherAGWMIncome = Number
 		this.otherNonAGWMIncome = Number;
-		this.comments = String;
 		
 		this.sdrReferenceNumbers = String;
 		this.sdrBalance = Number;
@@ -20,9 +21,10 @@ class QuarterlyReport extends Schema {
 		this.personalOfferingsRetained = Number;
 
 		this.expenseLines = [ExpenseLine];
-		this.directDonorLines = [DirectDonorLine];
-		this.personalOfferingLines = [PersonalOfferingLine];
-		this.mileageLogs = [MileageLog]
+		this.mileageLogs = [MileageLog];
+		this.statements = [Statement];
+		this.otherIncomeLines = [OtherIncomeLine];
+
 	}
 
 	static collectionName() {
@@ -61,68 +63,31 @@ class ExpenseLine extends EmbeddedDocument {
 	}
 }
 
-class DirectDonorLine extends EmbeddedDocument {
+class OtherIncomeLine extends EmbeddedDocument {
 	constructor() {
 		super();
+		this.type = Number; // can be 'direct donor', or 'personal'
+		this.firstName = String;
+		this.lastName = String;
 		
-		this.date = String;
-		this.paymentMethod = String;
-		this.code = Number;
-		this.codeDescription = String;
-		this.currency = String;
-		this.exchangeRate = Number;
-		this.foreignAmount = Number
-		this.dollarAmount = Number;
-		this.description = String;
-
-		this.multiPart = {
-			type: Boolean,
-			default: false,
-		};
-
-		this.receiptReq = {
-			type: Boolean,
-			default: false,
+		this.address = String;
+		this.city = String;
+		
+		this.country = {
+			type: String,
+			required: false,
 		}
+
+		this.amount = Number;
+		this.comments = String;
+
 		this.contactId = String;
 	}
 
 	static collectionName() {
-		return 'directDonorLines';
+		return 'otherIncomeLines';
 	}
 }
-
-class PersonalOfferingLine extends EmbeddedDocument {
-	constructor() {
-		super();
-		
-		this.date = String;
-		this.paymentMethod = String;
-		this.code = Number;
-		this.codeDescription = String;
-		this.currency = String;
-		this.exchangeRate = Number;
-		this.foreignAmount = Number
-		this.dollarAmount = Number;
-		this.description = String;
-
-		this.multiPart = {
-			type: Boolean,
-			default: false,
-		};
-
-		this.receiptReq = {
-			type: Boolean,
-			default: false,
-		}
-		this.contactId = String;
-	}
-
-	static collectionName() {
-		return 'personalOfferingLines';
-	}
-}
-
 
 class MileageLog extends EmbeddedDocument {
 	constructor() {
@@ -141,4 +106,17 @@ class MileageLog extends EmbeddedDocument {
 	}
 }
 
-export { QuarterlyReport, ExpenseLine, DirectDonorLine, PersonalOfferingLine, MileageLog }
+class Statement extends EmbeddedDocument {
+	constructor() {
+		super();
+		
+		this.date = String;
+		this.amount = Number;
+	}
+
+	static collectionName() {
+		return 'statements';
+	}
+}
+
+export { QuarterlyReport, ExpenseLine, OtherIncomeLine, MileageLog, Statement }

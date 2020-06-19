@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo />
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" />
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -95,6 +95,8 @@
 						placeholder="Leave a note ..."
 						rows="6"
 						max-rows="12"
+						debounce="2000"
+						@blur="saveReport"
 					>
 					</b-form-textarea>
 				</b-tab>
@@ -145,8 +147,8 @@
 		QuarterlyReport as Report, 
 		ExpenseLine, 
 		MileageLog, 
-		DirectDonorLine, 
-		PersonalOfferingLine,
+		OtherIncomeLine,
+		Statement,
 	} from "../../data/models/quarterlyReportModel";
 
 	export default {
@@ -233,35 +235,51 @@
 					default: "No Quarter Selected";
 				}
 			},
+			saveReport() {
+				this.currentReport.save().then(res => {
+					console.log('what??');
+					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
+				}).catch(e => {
+					console.log('eeek error saving report', e);
+					throw e;
+				});
+			}
 		},
 		
 		data() {
 			return {
+				loading: false,
+
 				selectedExpenseLines: "",
 				selectedMileageLogs: "",
+
 				expenseLines: [],
 				mileageLogs: [],
+
 				selectedExpenseLine: {},
 				selectedMileageLog: {},
+
 				currentReport: {},
-				loading: false,
+
+				statements: [],
+				otherIncomeLines: [],
 			};
 		},
 
 		created() {
-			let report
+
 			if (this.$router.currentRoute.params.reportId) {
-				Report.find( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
-					report = res[0];
-					this.currentReport = report;
-					this.expenseLines = report.expenseLines;
-					this.mileageLogs = report.mileageLogs;
+				Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
+					console.log('here??');
+
+					this.currentReport = res;
+					this.expenseLines = res.expenseLines;
+					this.mileageLogs = res.mileageLogs;
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 				});
 			} else {
-				report = Report.create();
-				this.currentReport = report;
+				this.currentReport = Report.create();
 			}
 		},
 
@@ -303,11 +321,11 @@
 			},
 
 			confirmDeleteExpenseLineMessage() {
-				return  "Are you sure you want to Delete the Selected Expense Lines? This cannot be un-done";
+				return "Are you sure you want to Delete the Selected Expense Lines? This cannot be un-done";
 			},
 
 			confirmDeleteMileageLogMessage() {
-				return  "Are you sure you want to Delete the Selected Mileage Logs? This cannot be un-done";
+				return "Are you sure you want to Delete the Selected Mileage Logs? This cannot be un-done";
 			}
 
 		}
