@@ -42,5 +42,18 @@ export const allowedFields = {
 	searchResults: [
 		"firstName",
 		"lastName",
+	],
+	otherIncomeTable: [
+		"type",
+		"orgName",
+		"firstName",
+		"lastName",
+		"amount"
+	],
+	qtrReports: [
+		"quarterNumber",
+		"year",
+		"baseAmount",
+		"dateCompleted",
 	]
 }

@@ -73,6 +73,7 @@
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
 	import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
+	import { allowedFields } from "../../constants/tableFields";
 		
 	export default  {
 		components: {
@@ -148,17 +149,20 @@
 
 		computed: {
 			fields() {
-				return Object.keys(this.reports[0]).map(f => {
+				let keys = Object.keys(this.reports[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
-					
-					if (f == "_id" || f == "_schema" || f == "expenseLines") {
-						tmp.key = "";
-					} else {
+
+					if (allowedFields.qtrReports.includes(f)) {
 						tmp.key = f;
+					} else { 
+						tmp.key = "";
 					}
+
 					return tmp;
 				});
+
+				return keys;
 			}
 		}
 	}

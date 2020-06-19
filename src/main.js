@@ -10,7 +10,7 @@ import getStatusFromCode from "./mixins/getStatusFromCode";
 import getStatusColor from "./mixins/getStatusColorFromCode";
 import moment from "moment";
 import YearSelector from "./components/YearSelector";
-
+import formatMoney from "./mixins/formatMoney"
 import "./assets/scss/globalCustoms.scss";
 
 extend("required", required);
@@ -59,6 +59,7 @@ Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$Moment = moment;
 Vue.component("YearSelector", YearSelector);
+Vue.prototype.$formatMoney = formatMoney;
 
 const router = new VueRouter({
 	routes: Routes,

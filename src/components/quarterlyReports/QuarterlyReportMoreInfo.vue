@@ -9,6 +9,8 @@
 							class="text-right"
 							type="text"
 							name="nonAgwmIncome"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -35,6 +37,8 @@
 							class="text-right"
 							type="text" 
 							name="sdrBalance"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -48,6 +52,8 @@
 							class="text-right"
 							type="text"
 							name="otherFundsHeld"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -63,6 +69,8 @@
 							class="text-right"
 							type="text"
 							name="personalPfferingsRetained"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -76,6 +84,8 @@
 							class="text-right"
 							type="text"
 							name="deficitReimbursement"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -89,6 +99,8 @@
 							class="text-right"
 							type="text"
 							name="otherAGWMIncome"
+							lazy-formatter
+							:formatter="$formatMoney"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -112,6 +124,7 @@
 								ref="statementsTable"
 								responsive="sm"
 								selectable
+								sort-icon-left
 								selected-variant="danger"
 								@row-selected="onStatementRowSelected"
 							>
@@ -142,6 +155,7 @@
 							ref="otherIncomeLinesTable"
 							responsive="sm"
 							selectable
+							sort-icon-left
 							selected-variant="danger"
 							@row-selected="onMiscIncomeRowSelected"
 						>
@@ -171,6 +185,7 @@
 		OtherIncomeLine,
 		Statement,
 	} from "../../data/models/quarterlyReportModel";
+
 	export default  {
 
 		name: 'quarterlyReportMoreInfo',
@@ -240,7 +255,7 @@
 					let tmp = {};
 					tmp.sortable = true;
 
-					if (allowedFields.commsList.includes(f)) {
+					if (allowedFields.otherIncomeTable.includes(f)) {
 						tmp.key = f;
 					} else { 
 						tmp.key = "";

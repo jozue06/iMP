@@ -270,8 +270,6 @@
 
 			if (this.$router.currentRoute.params.reportId) {
 				Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
-					console.log('here??');
-
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;
