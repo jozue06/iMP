@@ -89,10 +89,10 @@
 						></b-form-textarea>
 					</b-col>
 				</b-row>
-			<b-button variant="primary" class="float-right m-2" size="sm" :disabled="loading" @click="saveComm">
-				Save
-				<b-spinner v-if="loading" small type="grow"></b-spinner>
-			</b-button>
+				<b-button variant="primary" class="float-right m-2" size="sm" :disabled="loading" @click="saveComm">
+					Save
+					<b-spinner v-if="loading" small type="grow"></b-spinner>
+				</b-button>
 			</div>
 		</b-modal>
 	</section>
@@ -136,10 +136,10 @@
 						this.loading = false;
 						throw e;
 					});
-				} else {
+				} else {					
 					Contact.findOneAndUpdate( { _id: this.commsLine._id }, {communications: this.commsLine}).then(res => {
-					this.$refs.commsModal.hide();
-					this.loading = false;
+						this.$refs.commsModal.hide();
+						this.loading = false;
 					}).catch(e => {
 						console.log('eeek ', e);
 						this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);

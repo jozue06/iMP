@@ -28,10 +28,10 @@
 						responsive="sm"
 						selectable
 						selected-variant="danger"
-						@row-selected="onRowSelected"
+						@row-selected="onExpenseLineRowSelected"
 					>
 						<template v-slot:cell()="data">
-							<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
+							<b @click="showExpenseLineModal(data.item)" class="text-info">{{ data.value }}</b>
 						</template>
 					</b-table>
 				
@@ -40,14 +40,14 @@
 							<b-button 
 								variant="danger" 
 								size="sm" 
-								:disabled="selected == 0" 
-								v-bind:selected="selected"
-								v-b-modal.confirmModal>
+								:disabled="selectedExpenseLines == 0" 
+								v-bind:selectedExpenseLines="selectedExpenseLines"
+								v-b-modal.confirmDeleteExpenseLine>
 									Delete selected
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Expense Line </b-button>
+							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)"> + Add Expense Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -64,10 +64,10 @@
 						responsive="sm"
 						selectable
 						selected-variant="danger"
-						@row-selected="onRowSelected"
+						@row-selected="onMileageLogRowSelected"
 					>
 						<template v-slot:cell()="data">
-							<b @click="showAddMileageModal(data.item)" class="text-info">{{ data.value }}</b>
+							<b @click="showMileageLogModal(data.item)" class="text-info">{{ data.value }}</b>
 						</template>
 					</b-table>
 					<b-row class="justify-content-around">
@@ -75,14 +75,14 @@
 							<b-button 
 								variant="danger" 
 								size="sm" 
-								:disabled="selected == 0" 
-								v-bind:selected="selected"
-								v-b-modal.confirmModal>
+								:disabled="selectedMileageLogs == 0" 
+								v-bind:onMileageLogRowSelected="onMileageLogRowSelected"
+								v-b-modal.confirmDeleteMileageLog>
 									Delete selected
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showAddMileageModal(null)"> + Add Mileage Log </b-button>
+							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)"> + Add Mileage Log </b-button>
 						</b-col>
 					</b-row>
 				</b-tab>
@@ -108,16 +108,27 @@
 				</b-row>
 			</div> -->
 
-			<AddExpenseLineModal 
+			<ExpenseLineModal 
 				v-bind:expenseLine="selectedExpenseLine" 
-				ref="addExpenseLineModal"
-				@submitExpenseLine="handleSubmitExpenseLine"
+				v-bind:currentReport="currentReport"
+				ref="expenseLineModal"
+			/>
+			<MileageLogModal 
+				v-bind:mileageLog="selectedMileageLog" 
+				v-bind:currentReport="currentReport"
+				ref="mileageLogModal"
 			/>
 			<ConfirmModal 
-				id="confirmModal" 
-				title="Delete?" 
-				v-bind:message="confirmDeleteMessage" 
-				@handleConfirm="handleConfirmDelete" 
+				id="confirmDeleteExpenseLine" 
+				title="Delete Expense Lines?" 
+				v-bind:message="confirmDeleteExpenseLineMessage" 
+				@handleConfirm="handleConfirmExpenseLineDelete" 
+			/>
+			<ConfirmModal 
+				id="confirmDeleteMileageLog" 
+				title="Delete Mileage Logs?" 
+				v-bind:message="confirmDeleteMileageLogMessage" 
+				@handleConfirm="handleConfirmMileageLogDelete" 
 			/>
 		</div>	
 	</section>
@@ -125,37 +136,45 @@
 
 <script>
 	import moment from 'moment';
-	import AddExpenseLineModal from "../Modals/AddExpenseLineModal";
-	import { QuarterlyReport as Report, ExpenseLine } from '../../data/models/quarterlyReportModel'
-	import QuarterlyReportTop from './QuarterlyReportTop'
-	import QuarterlyReportMoreInfo from './QuarterlyReportMoreInfo'
-	import ConfirmModal from '../Modals/ConfirmModal'
+	import ExpenseLineModal from "../Modals/ExpenseLineModal";
+	import MileageLogModal from "../Modals/MileageLogModal";
+	import QuarterlyReportTop from "./QuarterlyReportTop";
+	import QuarterlyReportMoreInfo from "./QuarterlyReportMoreInfo";
+	import ConfirmModal from "../Modals/ConfirmModal";
+	import { 
+		QuarterlyReport as Report, 
+		ExpenseLine, 
+		MileageLog, 
+		DirectDonorLine, 
+		PersonalOfferingLine,
+	} from "../../data/models/quarterlyReportModel";
 
 	export default {
 		components: {
-			AddExpenseLineModal,
+			ExpenseLineModal,
+			MileageLogModal,
 			QuarterlyReportTop,
 			ConfirmModal,
 			QuarterlyReportMoreInfo,
 		},
 
 		methods: {
-			showAddLineModal(rowItem) {
+			showExpenseLineModal(rowItem) {
 				if (rowItem) {
 					this.selectedExpenseLine = rowItem;
 				} else {
 					this.selectedExpenseLine = ExpenseLine.create();
 				}
-				this.$refs.addExpenseLineModal.$refs.addExpenseLineModal.show()
+				this.$refs.expenseLineModal.$refs.expenseLineModal.show()
 			},
 
-			showAddMileageModal(mileageLine) {
+			showMileageLogModal(mileageLine) {
 				if (mileageLine) {
-					this.selectedLine = rowItem;
+					this.selectedMileageLog = mileageLine;
 				} else {
-					this.selectedLine = ExpenseLine.create();
+					this.selectedMileageLog = MileageLog.create();
 				}
-				this.$refs.addLineModal.$refs.addLineModal.show()
+				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
 			},
 
 			formatMoney(amount) {
@@ -169,46 +188,32 @@
 				return moment(dateTimeObject).format('YYYY');
 			},
 
-			handleSubmitExpenseLine(expenseLine) {
-				this.loading = true;
-				if (!this.currentReport.expenseLines.includes(expenseLine)) {
-					this.currentReport.expenseLines.push(expenseLine);
-					this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
-					this.currentReport.save().then(res => {
-						this.$refs.addLineModal.$refs.addLineModal.hide();
-						this.$Notification("Success!", "Successfully Added the Expense Line");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				} else {			
-					Report.findOneAndUpdate( { _id: expenseLine._id }, {expenseLines: expenseLine}).then(res => {
-						this.$refs.addLineModal.$refs.addLineModal.hide();
-						this.$Notification("Success!", "Successfully Added the Expense Line");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				}
+			onExpenseLineRowSelected(expenseLine) {
+				this.selectedExpenseLines = expenseLine;
 			},
 
-			onRowSelected(report) {
-				this.selected = report;
+			onMileageLogRowSelected(mileageLog) {
+				this.selectedMileageLogs = mileageLog;
 			},
 
-			handleConfirmDelete() {
-				this.selected.forEach(sel => {
+			handleConfirmExpenseLineDelete() {
+				this.selectedExpenseLines.forEach(sel => {
 					this.currentReport.expenseLines.pop(sel);
 				})
 				this.currentReport.save().then(res => {
-					this.$refs.addLineModal.$refs.addLineModal.hide();
-					this.$Notification("Success!", "Successfully Added the Contact");
+					this.$Notification("Success!", "Successfully Removed the Selected Expense Lines", "danger");
+				}).catch(e => {
+					console.log('eeek ', e);
+					throw e;
+				});
+			},
+
+			handleConfirmMileageLogDelete() {
+				this.selectedMileageLogs.forEach(sel => {
+					this.currentReport.mileageLogs.pop(sel);
+				})
+				this.currentReport.save().then(res => {
+					this.$Notification("Success!", "Successfully Removed the Selected Mileage Logs", "danger");
 				}).catch(e => {
 					console.log('eeek ', e);
 					throw e;
@@ -232,12 +237,13 @@
 		
 		data() {
 			return {
-				selected: "",
+				selectedExpenseLines: "",
+				selectedMileageLogs: "",
 				expenseLines: [],
 				mileageLogs: [],
 				selectedExpenseLine: {},
+				selectedMileageLog: {},
 				currentReport: {},
-				confirmDeleteMessage: "Are you sure you want to delete this Expense LIne? This cannot be un-done",
 				loading: false,
 			};
 		},
@@ -295,6 +301,14 @@
 					return [];
 				}
 			},
+
+			confirmDeleteExpenseLineMessage() {
+				return  "Are you sure you want to Delete the Selected Expense Lines? This cannot be un-done";
+			},
+
+			confirmDeleteMileageLogMessage() {
+				return  "Are you sure you want to Delete the Selected Mileage Logs? This cannot be un-done";
+			}
 
 		}
 	}

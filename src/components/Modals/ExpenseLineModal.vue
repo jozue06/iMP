@@ -1,6 +1,6 @@
 <template>
 	<section class="add-line-modal">
-		<b-modal size="lg" top ref="addExpenseLineModal" title="add-line-modal Component" hide-footer v-bind:expenseLine="expenseLine">
+		<b-modal size="lg" top ref="expenseLineModal" title="add-line-modal Component" hide-footer v-bind:currentReport="currentReport" v-bind:expenseLine="expenseLine">
 			<b-tabs content-class="mt-3">
 				<b-tab title="First" active>
 					<div class="row sub-section text-center">
@@ -180,9 +180,10 @@
 	const URL = require('url');
 
 	export default  {
-		name: 'addExpenseLineModal',
+		name: 'expenseLineModal',
 		props: {
 			expenseLine: Object,
+			currentReport: Object,
 		},
 		mounted () {
 
@@ -220,7 +221,33 @@
 			},
 
 			onSubmit() {
-				this.$emit("submitExpenseLine", this.expenseLine);
+				this.loading = true;
+				if (!this.currentReport.expenseLines.includes(this.expenseLine)) {
+					this.currentReport.expenseLines.push(this.expenseLine);
+					this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
+					this.currentReport.save().then(res => {
+						this.$refs.expenseLineModal.hide();
+						this.$Notification("Success!", "Successfully Added the Expense Line");
+						this.loading = false;
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				} else {
+					console.log('do we ever get here ?? ');
+					Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
+						this.$refs.expenseLineModal.hide();
+						this.$Notification("Success!", "Successfully Added the Expense Line");
+						this.loading = false;
+					}).catch(e => {
+						console.log('eeek ', e);
+						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+						this.loading = false;
+						throw e;
+					});
+				}
 			},
 
 			formatMoney(amount) {
