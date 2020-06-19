@@ -38,5 +38,9 @@ export const allowedFields = {
 		"time",
 		"details",
 		"amountReceived",
+	],
+	searchResults: [
+		"firstName",
+		"lastName",
 	]
 }

@@ -3,8 +3,10 @@ let uri = remote.getGlobal('databaseUri');
 
 var Camo = require('camo');
 var database;
-Camo.connect(uri).then(function(db) {
+Camo.connect(uri).then((db) => {
 	database = db;
+}).catch(e => {
+	console.log('other ee', e);
 });
 
 function getDb() {	

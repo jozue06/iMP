@@ -1,7 +1,5 @@
 <template>
-	<div class="sub-card" v-bind:currentReport="currentReport">
-		{{ $consoleLog('currentReport', currentReport) }}
-		
+	<div class="sub-card" v-bind:currentReport="currentReport">		
 		<b-row class="mx-2 justify-content-around">
 			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="non-AGWM Income">
@@ -161,15 +159,25 @@
 				</b-row>
 			</b-col>
 		</b-row>
-	
+		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
 	</div>
 </template>
 
 <script>
 	import { allowedFields } from "../../constants/tableFields";
+	import OtherIncomeModal from "../Modals/OtherIncomeModal";
+	import { 
+		QuarterlyReport as Report, 
+		OtherIncomeLine,
+		Statement,
+	} from "../../data/models/quarterlyReportModel";
 	export default  {
 
-		name: 'quarterly-report-more-info',
+		name: 'quarterlyReportMoreInfo',
+
+		components: {
+			OtherIncomeModal
+		},
 
 		props: {
 			currentReport: Object,
@@ -181,7 +189,7 @@
 
 		data() {
 			return {
-		
+				otherIncomeLine: {}
 			}
 		},
 
@@ -195,7 +203,13 @@
 			},
 
 			showOtherIncomeModal(otherIncomeLine) {
+				if (otherIncomeLine) {
+					this.otherIncomeLine = otherIncomeLine;
+				} else {
+					this.otherIncomeLine = OtherIncomeLine.create();
+				}
 
+				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();
 			},
 
 			showStatementModal(statement) {

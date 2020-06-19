@@ -63,6 +63,7 @@
 				@refresh="refresh"
 			/>
 		</div>
+		<!-- <ContactSearchComponent /> -->
 	</section>
 </template>
 
@@ -70,6 +71,7 @@
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
+	// import ContactSearchComponent from '../ContactSearchComponent'
 	import { Contact } from '../../data/models/contactModel'
 	import { allowedFields } from '@/constants/tableFields';
 	
@@ -77,7 +79,8 @@
 		components: {
 			ConfirmModal,
 			NoResults,
-			ContactModal
+			ContactModal,
+			// ContactSearchComponent,
 		},
 
 		name: "Contacts",
