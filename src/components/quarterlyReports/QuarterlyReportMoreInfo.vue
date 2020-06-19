@@ -172,11 +172,11 @@
 
 		},
 
-		mounted () {
+		mounted() {
 
 		},
 
-		data () {
+		data() {
 			return {
 				temp: '',
 				// statments: [],
@@ -185,6 +185,9 @@
 		},
 
 		methods: {
+			onRowSelected() {
+
+			}
 
 		},
 

@@ -12,6 +12,7 @@ class QuarterlyReport extends Schema {
 		this.deficitReimbursement = Number;
 		this.otherAGWMIncome = Number
 		this.otherNonAGWMIncome = Number;
+		this.comments = String;
 		
 		this.sdrReferenceNumbers = String;
 		this.sdrBalance = Number;
@@ -21,6 +22,7 @@ class QuarterlyReport extends Schema {
 		this.expenseLines = [ExpenseLine];
 		this.directDonorLines = [DirectDonorLine];
 		this.personalOfferingLines = [PersonalOfferingLine];
+		this.mileageLogs = [MileageLog]
 	}
 
 	static collectionName() {
@@ -121,4 +123,22 @@ class PersonalOfferingLine extends EmbeddedDocument {
 	}
 }
 
-export { QuarterlyReport, ExpenseLine }
+
+class MileageLog extends EmbeddedDocument {
+	constructor() {
+		super();
+		
+		this.date = String;
+		this.vehicle = String;
+		this.odometerStart = Number;
+		this.odometerEnd = Number;
+		this.description = String;
+		this.type = String;
+	}
+
+	static collectionName() {
+		return 'mileageLogs';
+	}
+}
+
+export { QuarterlyReport, ExpenseLine, DirectDonorLine, PersonalOfferingLine, MileageLog }

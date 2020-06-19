@@ -23,6 +23,13 @@ a {
 	}
 }
 
+.nav-item .nav-link.active {
+	background-color: $info !important;
+	&:hover {
+		color: $primary;
+	}
+}
+
 section {
 	float: right;
 	width: 82%;

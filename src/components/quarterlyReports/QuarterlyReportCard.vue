@@ -4,48 +4,108 @@
 			<div class="mt-4">
 				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
 			</div>
+
 			<b-row class="justify-content-around">
 				<b-col class="my-2">
 					<b-button size="sm" v-b-toggle.collapse-info variant="info">More Details</b-button>
 				</b-col>
 			</b-row>
-				<b-collapse id="collapse-info">
-					<QuarterlyReportMoreInfo />
-				</b-collapse>
-			<div v-if="lines.length > 0">
-				<b-table
-					striped 
-					hover 
-					:fields="fields"
-					:items="lines" 
-					ref="reportTable"
-					responsive="sm"
-					selectable
-					selected-variant="danger"
-					@row-selected="onRowSelected"
-				>
-					<template v-slot:cell()="data">
-						<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
-					</template>
-				</b-table>
-				<b-button 
-					class="m-2" 
-					variant="danger" 
-					size="sm" 
-					:disabled="selected == 0" 
-					v-bind:selected="selected"
-					v-b-modal.confirmModal>
-						Delete selected
-				</b-button>
-			</div>
 
-			<div class="card-footer">
+			<b-collapse id="collapse-info">
+				<QuarterlyReportMoreInfo />
+			</b-collapse>
+
+			<b-tabs pills card end v-if="expenseLines.length > 0">
+				<b-tab title="Expense Lines" active>
+					<h4>Expense Lines</h4>
+					<b-table
+						v-if="expenseLines.length > 0"
+						striped 
+						hover 
+						:fields="expenseFields"
+						:items="expenseLines" 
+						ref="expenseLinesTable"
+						responsive="sm"
+						selectable
+						selected-variant="danger"
+						@row-selected="onRowSelected"
+					>
+						<template v-slot:cell()="data">
+							<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
+						</template>
+					</b-table>
+					<b-button 
+						v-if="expenseLines.length > 0"
+						variant="danger" 
+						size="sm" 
+						:disabled="selected == 0" 
+						v-bind:selected="selected"
+						v-b-modal.confirmModal>
+							Delete selected
+					</b-button>
+
+					<b-row class="justify-content-end">
+						<b-col cols="2" class="my-2">
+							<b-button variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
+						</b-col>
+					</b-row>
+				</b-tab>
+				
+				<b-tab title="Mileage logs">
+					<h4>Mileage logs</h4>
+					<b-table
+						v-if="mileageLogs.length > 0"
+						striped 
+						hover 
+						:fields="mileageLogFields"
+						:items="mileageLogs" 
+						ref="mileageLogsTable"
+						responsive="sm"
+						selectable
+						selected-variant="danger"
+						@row-selected="onRowSelected"
+					>
+						<template v-slot:cell()="data">
+							<b @click="showAddLineModal(data.item)" class="text-info">{{ data.value }}</b>
+						</template>
+					</b-table>
+					<b-button 
+						v-if="mileageLogs.length > 0"
+						variant="danger" 
+						size="sm" 
+						:disabled="selected == 0" 
+						v-bind:selected="selected"
+						v-b-modal.confirmModal>
+							Delete selected
+					</b-button>
+					<b-row class="justify-content-end">
+						<b-col cols="2" class="my-2">
+							<b-button variant="primary" @click="showAddLineModal(null)"> +Add Mileage Log </b-button>
+						</b-col>
+					</b-row>
+				</b-tab>
+
+				<b-tab title="Notes">
+					<h4>Notes</h4>
+					<b-form-textarea
+						class="text-center"
+						v-model="currentReport.comments"
+						placeholder="Leave a note ..."
+						rows="6"
+						max-rows="12"
+					>
+					</b-form-textarea>
+				</b-tab>
+			</b-tabs>
+
+			<!-- <div class="card-footer">
 				<b-row class="justify-content-end">
 					<b-col cols="2" class="my-2">
-						<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
+						
 					</b-col>
 				</b-row>
-			</div>
+			</div> -->
+
 			<AddLineModal 
 				v-bind:expenseLine="selectedLine" 
 				ref="addLineModal"
@@ -162,7 +222,8 @@
 		data() {
 			return {
 				selected: "",
-				lines: [],
+				expenseLines: [],
+				mileageLogs: [],
 				selectedLine: {},
 				currentReport: {},
 				confirmDeleteMessage: "Are you sure you want to delete this Expense LIne? This cannot be un-done",
@@ -176,7 +237,8 @@
 				Report.find( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
 					report = res[0];
 					this.currentReport = report;
-					this.lines = report.expenseLines;
+					this.expenseLines = report.expenseLines;
+					this.mileageLogs = report.mileageLogs;
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 				});
@@ -187,9 +249,9 @@
 		},
 
 		computed: {
-			fields() {
-				if (this.lines[0]) {
-					return Object.keys(this.lines[0]).map(f => {
+			expenseFields() {
+				if (this.expenseLines[0]) {
+					return Object.keys(this.expenseLines[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						
@@ -203,7 +265,30 @@
 				} else {
 					return [];
 				}
-			}
+			},
+
+			mileageLogFields() {
+				if (this.mileageLogs[0]) {
+					return Object.keys(this.mileageLogs[0]).map(f => {
+						let tmp = {};
+						tmp.sortable = false;
+						
+						if (f == "_id" || f == "_schema" || f == "expenseLines") {
+							tmp.key = "";
+						} else {
+							tmp.key = f;
+						}
+						return tmp;
+					});
+				} else {
+					return [];
+				}
+			},
+
 		}
 	}
 </script>
+
+<style lang="scss" scoped>
+
+</style>
