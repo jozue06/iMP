@@ -1,6 +1,8 @@
 <template>
 	<div>	
 		<div v-if="taskLines && taskLines.length > 0">
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showTaskModal(null)">Add Task</b-button>
+
 			<b-table
 				striped 
 				hover 
@@ -20,6 +22,10 @@
 				<template v-slot:cell()="data">	
 					<span @click="showTaskModal(data.item)" class="text-info"> {{ data.value }} </span>
 				</template>
+				<template v-slot:cell(completed)="data">					
+					<b-icon class="h4" v-if='data.item.completed == true' icon="check-circle" variant="info"></b-icon>
+					<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
+				</template>
 			</b-table>
 			<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
 			<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
@@ -29,8 +35,19 @@
 				size="sm" 
 				:disabled="selected == 0" 
 				v-bind:selected="selected"
-				v-b-modal.confirmDeleteTask>
-					Delete selected
+				v-b-modal.confirmDeleteTask
+			>
+				Delete selected
+			</b-button>
+			<b-button 
+				class="mx-2" 
+				variant="info" 
+				size="sm" 
+				:disabled="selected == 0" 
+				v-bind:selected="selected"
+				@click="toggleComplete"
+			>
+				Toggle Completed
 			</b-button>
 		</div>
 
@@ -48,7 +65,7 @@
 			@handleConfirm="handleConfirmDelete" 
 		/>
 
-		<ContactTaskModal ref="contactTaskModal" v-bind:taskLine="taskLine" v-bind:currentContact="currentContact" />
+		<ContactTaskModal ref="contactTaskModal" @doneSaving="doneSaving" v-bind:taskLine="taskLine" v-bind:currentContact="currentContact" />
 	</div>
 </template>
 
@@ -101,8 +118,13 @@
 				this.$refs.tasksTable.selectAllRows();
 			},
 
-			clearSelected() {
+			clearSelected() {				
 				this.$refs.tasksTable.clearSelected();
+			},
+
+			doneSaving() {
+				this.clearSelected();
+				this.$emit("refresh");
 			},
 
 			handleConfirmDelete() {				
@@ -119,14 +141,28 @@
 				});
 
 				Task.deleteMany({_id: {$in: ids}});
+				this.$emit("refresh");
 			},
+
+			toggleComplete() {
+				this.selected.forEach(sel => {
+					sel.completed = !sel.completed;
+				});
+				this.currentContact.save().then(res => {
+					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
+				}).catch(e => {
+					console.log('e', e);
+					throw e;
+				});
+				this.$refs.tasksTable.clearSelected();
+			}
 		},
 
 		computed: {
-			fields() {				
+			fields() {
 				let keys = Object.keys(this.taskLines[0]).map(f => {
 					let tmp = {};
-					tmp.sortable = true;					
+					tmp.sortable = true;
 					if (allowedFields.taskLines.includes(f)) {
 						tmp.key = f;
 					} else { 
@@ -141,7 +177,7 @@
 
 			confirmDeleteMessage() {
 				return "Are you sure you want to delete the selected Tasks? This cannot be undone";
-			}
+			},
 		}
 	}
 </script>

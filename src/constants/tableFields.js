@@ -31,5 +31,12 @@ export const allowedFields = {
 		"time",
 		"details",
 		"completed"
+	],
+	eventLines: [
+		"date",
+		"type",
+		"time",
+		"details",
+		"amountReceived",
 	]
 }

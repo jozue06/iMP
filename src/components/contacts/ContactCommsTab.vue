@@ -1,6 +1,7 @@
 <template>
 	<div>		
 		<div v-if="commsLines && commsLines.length > 0">
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showCommsModal(null)">Add Communication</b-button>
 			<b-table
 				striped 
 				hover 

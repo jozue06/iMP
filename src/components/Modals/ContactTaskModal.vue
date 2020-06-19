@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import { contactTypes, contactPurposes } from "../../constants/commsConstants";
+	import { contactPurposes } from "../../constants/commsConstants";
 	import { Contact } from "../../data/models/contactModel";
 
 	export default  {
@@ -70,20 +70,22 @@
 		methods: {
 			saveTask() {
 				this.loading = true;
-
 				this.taskLine.save().then(savedTask => {
 					if (!this.currentContact.taskIds.includes(savedTask._id)) {
 						this.currentContact.taskIds.push(savedTask._id);
 						this.currentContact.save().then(res => {
-							this.$Notification("Success!", "Successfully saved the Task", "Primary");
 							this.loading = false;
 							this.$refs.contactTaskModal.hide();
+							this.$emit("doneSaving");
 						}).catch(e => {
 							console.log('eek', e);
 							throw e;
 						});
 					}
+					this.$Notification("Success!", "Successfully saved the Task", "primary");
 					this.$refs.contactTaskModal.hide();
+					this.loading = false;
+					this.$emit("doneSaving");
 				}).catch(e => {
 					console.log('eeek ', e);
 					this.$Notification("Error", `Error Saving Task: ${e}`, "warning", "", 3000);
@@ -94,10 +96,6 @@
 		},
 
 		computed: {
-			contactTypes() {
-				return contactTypes;
-			},
-
 			contactPurposes() {
 				return contactPurposes;
 			},

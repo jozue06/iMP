@@ -96,11 +96,12 @@ class Contact extends Schema {
 			default: ""
 		}
 
+		// CORRELATED FIELDS or EMBEDDED:
 		this.contactGroupIds = [];
-
 		this.notes = ContactNotes;
 		this.communications = [ContactComms];
 		this.taskIds = [];
+		this.eventIds = [];
 	}
 
 	static collectionName() {

@@ -4,7 +4,7 @@
 			<router-link to="/contacts">
 				<h1>{{ currentContact.firstName }}</h1>
 			</router-link>	
-			<b-tabs class="ml-1" content-class="ml-0">
+			<b-tabs small card>
 				<b-tab title="Contact Info" active>
 					<ContactCardTop v-bind:currentContact="currentContact" @showContactModal="showContactModal"/>
 
@@ -18,7 +18,10 @@
 					<ContactCommsTab v-bind:currentContact="currentContact"/>
 				</b-tab>
 				<b-tab title="Tasks">
-					<ContactTasksTab v-bind:currentContact="currentContact" v-bind:taskLines="taskLines"/>
+					<ContactTasksTab v-bind:currentContact="currentContact" v-bind:taskLines="taskLines" @refresh="refresh"/>
+				</b-tab>
+				<b-tab title="Events">
+					<ContactEventsTab v-bind:currentContact="currentContact" v-bind:eventLines="eventLines" @refresh="refresh"/>
 				</b-tab>
 			</b-tabs>
 		</div>
@@ -36,7 +39,9 @@
 	import ContactModal from '../Modals/ContactModal';
 	import ContactCommsTab from "./ContactCommsTab";
 	import ContactTasksTab from "./ContactTasksTab";
+	import ContactEventsTab from "./ContactEventsTab";
 	import { Task } from "../../data/models/taskModel";
+	import { Event } from "../../data/models/contactEventModel";
 
 	export default  {
 		components: {
@@ -46,7 +51,8 @@
 			ContactMidCards,
 			ContactLowerCards,
 			ContactCommsTab,
-			ContactTasksTab
+			ContactTasksTab,
+			ContactEventsTab
 		},
 
 		name: 'contact-full-view',
@@ -61,6 +67,7 @@
 			return {
 				currentContact: {},
 				taskLines: [],
+				eventLines: [],
 			}
 		},
 
@@ -70,6 +77,9 @@
 					this.currentContact = res[0];
 					Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
 						this.taskLines = res
+					});
+					Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
+						this.eventLines = res
 					});
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
@@ -95,6 +105,15 @@
 
 			showAddAddressModal() {				
 				this.$refs.addAddressModal.$refs.addAddressModal.show();
+			},
+
+			refresh() {
+				Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
+					this.taskLines = res;
+				});
+				Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
+					this.eventLines = res;
+				});
 			}
 		},
 
@@ -103,7 +122,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-
-</style>
