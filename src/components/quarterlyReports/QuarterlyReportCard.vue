@@ -4,6 +4,17 @@
 			<div>
 				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
 			</div>
+			<b-row class="justify-content-around mb-2">
+				<b-col>
+					<b-button size="sm" v-b-toggle.collapse-info variant="info">More Details</b-button>
+				</b-col>	
+				<b-col>
+					<b-button size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
+				</b-col>
+			</b-row>
+				<b-collapse id="collapse-info">
+					<QuarterlyReportMoreInfo />
+				</b-collapse>
 			<div v-if="lines.length > 0">
 				<b-table
 					striped 
@@ -29,18 +40,7 @@
 					v-b-modal.confirmModal>
 						Delete selected
 				</b-button>
-				<b-button class="float-right m-2" size="sm" variant="primary" @click="showAddLineModal(null)"> + Add Line </b-button>
 			</div>
-			<router-link
-				v-else-if="lines.length == 0" 
-				to="/addQuarterlyReport"
-				v-slot="{ href, route, navigate}"
-			>
-				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
-					New Quarterly Report
-				</b-button>
-			</router-link>
-
 			<AddLineModal 
 				v-bind:expenseLine="selectedLine" 
 				ref="addLineModal"
@@ -61,6 +61,7 @@
 	import AddLineModal from "../Modals/AddLineModal";
 	import { QuarterlyReport as Report, ExpenseLine } from '../../data/models/quarterlyReportModel'
 	import QuarterlyReportTop from './QuarterlyReportTop'
+	import QuarterlyReportMoreInfo from './QuarterlyReportMoreInfo'
 	import ConfirmModal from '../Modals/ConfirmModal'
 
 	export default {
@@ -68,6 +69,7 @@
 			AddLineModal,
 			QuarterlyReportTop,
 			ConfirmModal,
+			QuarterlyReportMoreInfo,
 		},
 
 		methods: {

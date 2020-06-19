@@ -67,6 +67,17 @@ label {
 	background-color: #FFF;
 }
 
+.sub-card {
+	margin-right: 20px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	width: auto;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+	border-radius: 0.25em !important;
+	background-color: #FFF;
+}
+
+
 .custom-hover {
 	&:hover {
 		cursor: pointer;

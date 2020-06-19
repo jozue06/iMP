@@ -60,7 +60,7 @@
 					return 0;
 				}
 				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				return value;
+				return Number(value);
 			},
 
 			formatDate(dateTimeObject) {

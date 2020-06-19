@@ -4,15 +4,16 @@
 			<router-link to="/">
 				<h1 class="pt-2">Querterly Reports</h1>
 			</router-link>
-			<router-link
-				to="/addQuarterlyReport"
-				v-slot="{ href, route, navigate}"
-			>
-				<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
-					New Quarterly Report
-				</b-button>
-			</router-link>
+		
 			<div v-if="reports.length > 0">
+				<router-link
+					to="/addQuarterlyReport"
+					v-slot="{ href, route, navigate}"
+				>
+					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
+						New Quarterly Report
+					</b-button>
+				</router-link>
 				<b-table
 					striped 
 					hover 
