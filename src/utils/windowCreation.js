@@ -1,6 +1,7 @@
 import { BrowserWindow, Menu, screen, } from 'electron';
 import { format } from 'url';
 import { join } from 'path';
+import { autoUpdater } from "electron-updater"
 import { topMenuTemplates } from '../constants/topMenuTemplates';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 
@@ -24,6 +25,7 @@ function createMainWindow(height, width, minHeight, minWidth, titleName) {
 		createProtocol('app')
 		// Load the index.html when not in development
 		window.loadURL('app://./index.html')
+		autoUpdater.checkForUpdatesAndNotify()
 	}
 
 	window.center();
