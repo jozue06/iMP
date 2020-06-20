@@ -1,5 +1,6 @@
 {
-  "name": "test-title",
+  "name": "imp-electron",
+  "productName": "iMP Electron",
   "version": "0.1.0",
   "private": true,
   "scripts": {
