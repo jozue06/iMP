@@ -17,41 +17,6 @@ export const sidebarSections = {
                 route: "/contactGroups",
                 childMsg: 'Groups' 
             },
-            {
-                report: 4,
-                route: "/reportName",
-                childMsg: 'make SDR' 
-            },
-            {
-                report: 5,
-                route: "/reportName",
-                childMsg: 'make isti report' 
-            },
-        ]
-    },
-    newRecordsSection: {
-        el: '#sidebar',
-        items: [
-            {
-                report: 2,
-                route: "/addQuarterlyReport",
-                childMsg: 'Start qtr report' 
-            },
-            {
-                report: 3,
-                route: "/reportName",
-                childMsg: 'Start itn report' 
-            },
-            {
-                report: 4,
-                route: "/reportName",
-                childMsg: 'Start SDR' 
-            },
-            {
-                report: 5,
-                route: "/reportName",
-                childMsg: 'Start isti report' 
-            },
         ]
     },
     importExportSection: {
@@ -59,23 +24,13 @@ export const sidebarSections = {
         items: [
             {
                 report: 2,
-                route: "/reportName",
-                childMsg: 'to' 
+                route: "/fake",
+                childMsg: 'Import' 
             },
             {
                 report: 3,
-                route: "/reportName",
-                childMsg: 'here' 
-            },
-            {
-                report: 4,
-                route: "/reportName",
-                childMsg: 'make SDR' 
-            },
-            {
-                report: 5,
-                route: "/reportName",
-                childMsg: 'make isti report' 
+                route: "/fake",
+                childMsg: 'Export' 
             },
         ]
     }
