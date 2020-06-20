@@ -12,6 +12,7 @@ function createMainWindow(height, width, minHeight, minWidth, titleName) {
 		minHeight: minHeight,
 		minWidth: minWidth,
 		title: titleName,
+		icon: join(__static, 'icon.png'),
 		webPreferences: {
 			nodeIntegration: true
 		}
