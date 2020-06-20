@@ -53,7 +53,6 @@
 </template>
 
 <script>
-	import { DatePicker } from 'ant-design-vue';
 	export default {
 		props: {
 			quarterlyReport: Object,
