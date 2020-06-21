@@ -24,7 +24,7 @@ const topMenuTemplates = [
             {
                 label: 'Toggle Developer Tools',
                 accelerator: process.platform === 'darwin' ? 'Command+J' : 'Ctrl+Shift+I',
-                click(focusedWindow) {
+                click(item, focusedWindow) {
                     if (focusedWindow) {
                         focusedWindow.toggleDevTools()
                     }

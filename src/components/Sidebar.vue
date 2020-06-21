@@ -4,7 +4,6 @@
 			<h1 class="no-active">{{ sidebarTitle }}</h1>
 		</router-link>	
 		<SidebarMenuList title="Records" v-bind:itemList=sections.mainSection accordianId="collapse-1" />
-		<SidebarMenuList title="New Records" v-bind:itemList=sections.newRecordsSection accordianId="collapse-2" />
 		<SidebarMenuList title="Import & Export" v-bind:itemList=sections.importExportSection accordianId="collapse-3" />
 	</div>
 </template> 
