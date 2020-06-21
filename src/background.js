@@ -28,7 +28,7 @@ app.on('activate', () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (win === null) {
-		createMainWindow(700, 1440, 300, 970, "Welcome test");
+		createMainWindow(700, 1440, 300, 970, "Welcome");
 	}
 });
 
@@ -36,7 +36,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-	createMainWindow(700, 1440, 300, 970, "Welcome test");
+	createMainWindow(700, 1440, 300, 970, "Welcome");
 });
 
 // Exit cleanly on request from parent process in development mode.

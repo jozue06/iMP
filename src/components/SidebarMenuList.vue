@@ -1,11 +1,7 @@
 <template>
 	<div class="sidebar-menu-list">
 		<h5
-			v-b-toggle="accordianId" 
-			:class="visible ? null : 'collapsed'"
-			:aria-expanded="visible ? 'true' : 'false'"
-			aria-controls="accordianId"
-			@click="visible = !visible"
+			v-b-toggle=accordianId
 		>
 			{{ title }}
 		</h5>
