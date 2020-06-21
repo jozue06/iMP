@@ -3,7 +3,7 @@ import ContactGroupsList from './components/contacts/ContactGroupsList.vue';
 import ContactGroupView from './components/contacts/ContactGroupView.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
-import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
+import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReportsList.vue'
 
 export default [
 	{ path: "/", },
@@ -20,7 +20,7 @@ export default [
 	{
 		path: "/quarterlyReports",
 		name: "quarterlyReports",
-		component: QuerterlyReportsList
+		component: QuarterlyReportsList
 	},
 	{
 		path: "/contactFullView",

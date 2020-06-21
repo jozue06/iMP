@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<router-link to="/">
-				<h1 class="pt-2">Querterly Reports</h1>
+				<h1 class="pt-2">Quarterly Reports</h1>
 			</router-link>
 		
 			<div v-if="reports.length > 0">
@@ -50,15 +50,20 @@
 						Delete selected
 				</b-button>
 			</div>
+			
 			<router-link
-				v-else-if="reports.length == 0" 
+				v-else
 				to="/addQuarterlyReport"
 				v-slot="{ href, route, navigate}"
 			>
-				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
-					New Quarterly Report
+				<h4 class="m-4 text-danger font-italic text-center">
+					No Quarterly Reports Found
+				</h4>
+				<b-button :href="href" @click="navigate" variant="success" class="m-2">
+				Click here to Create a New Quarterly Report
 				</b-button>
 			</router-link>
+
 			<ConfirmModal 
 				id="confirmModal" 
 				title="Delete?" 
@@ -71,14 +76,12 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
 	import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
 	import { allowedFields } from "../../constants/tableFields";
 		
 	export default  {
 		components: {
 			ConfirmModal,
-			NoResults,
 		},
 
 		name: 'querterlyReportsList',

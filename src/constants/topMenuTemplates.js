@@ -1,18 +1,9 @@
 import { app } from 'electron';
-import { createWindow } from '../utils/windowCreation';
+
 const topMenuTemplates = [
     {
         label: 'File',
         submenu: [
-            {
-                label: 'Add shit',
-                click() {
-                    createWindow(500, 500, 'Add Shithuh?', 'addShitWindow.html');
-                }
-            },
-            {
-                label: 'Add more shit',
-            },
             {
                 label: 'Quit',
                 accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',

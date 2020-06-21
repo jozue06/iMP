@@ -1,7 +1,7 @@
 {
   "name": "imp-electron",
   "productName": "iMP Electron beta",
-  "version": "0.1.0",
+  "version": "v0.1.03-demo",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
