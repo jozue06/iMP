@@ -2,8 +2,7 @@ module.exports = {
 	pluginOptions: {
 		electronBuilder: {
 			builderOptions: {
-				publish: ['github'],
-				nodeIntegration: true
+				publish: ['github']
 			}
 		}
 	}

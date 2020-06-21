@@ -14,7 +14,7 @@ function createMainWindow(height, width, minHeight, minWidth, titleName) {
 		minWidth: minWidth,
 		title: titleName,
 		webPreferences: {
-			nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION 
+			nodeIntegration: true
 		}
 	});
 
