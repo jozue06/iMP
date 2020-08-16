@@ -140,6 +140,15 @@
 			}
 		},
 
+		mounted () {
+			let test = this.$Axios.get("http://localhost:9090/").then(res => {
+				console.log('res', res);
+			})
+			.catch(e => {
+				console.log('we got an error ', e);
+			});
+		},
+
 		data() {
 			return {
 				contacts: this.findAllContacts(),
