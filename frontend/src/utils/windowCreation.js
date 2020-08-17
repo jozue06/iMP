@@ -1,6 +1,4 @@
-import { BrowserWindow, Menu, screen, } from 'electron';
-import { format } from 'url';
-import { join } from 'path';
+import { BrowserWindow, Menu, } from 'electron';
 import { autoUpdater } from "electron-updater"
 import { topMenuTemplates } from '../constants/topMenuTemplates';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'

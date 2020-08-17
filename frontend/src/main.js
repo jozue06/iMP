@@ -12,7 +12,7 @@ import moment from "moment";
 import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
 import "./assets/scss/globalCustoms.scss";
-import Axios from 'axios';
+
 
 extend("required", required);
 extend("email", email);
@@ -59,7 +59,6 @@ Vue.prototype.$consoleLog = console.log;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$Moment = moment;
-Vue.prototype.$Axios = Axios;
 Vue.component("YearSelector", YearSelector);
 Vue.prototype.$formatMoney = formatMoney;
 
