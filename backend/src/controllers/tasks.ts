@@ -16,6 +16,6 @@ export async function update(task: TaskModel): Promise<TaskDocument> {
 	return this.update({task});
 }
 
-export async function deleteTask(this: TaskModel, taskId: string) {
-	return this.deleteOne({taskId});
+export async function deleteTask(this: TaskModel, taskId: string): Promise<object> {
+	return await this.deleteOne({taskId});
 }

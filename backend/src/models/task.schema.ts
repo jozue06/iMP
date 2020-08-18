@@ -7,22 +7,22 @@ const TaskSchema = new Schema({
 		required: true,
 		default: new Date(),
 	},
-	
+
 	type: {
 		type: Number,
 		required: true
 	},
-	
+
 	details: {
 		type: String,
 		required: false
 	},
-	
+
 	completed: {
 		type: Boolean,
 		required: false
 	},
-	
+
 	contactId: {
 		type: Number,
 		required: true

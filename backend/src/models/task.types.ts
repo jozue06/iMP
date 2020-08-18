@@ -3,9 +3,9 @@ import { Document, Model } from "mongoose";
 export interface Task {
 	date: Date;
 	type: number;
-	contactId: Number;
+	contactId: number;
 	details?: number;
-	completed?: Boolean;
+	completed?: boolean;
 	lastUpdated?: Date;
 }
 
