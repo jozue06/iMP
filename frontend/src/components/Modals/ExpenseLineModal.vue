@@ -173,11 +173,11 @@
 
 <script>
 	// import { insertQuarterlyReport } from '@/data/data';
-	import { remote } from 'electron';
+	// import { remote } from 'electron';
 
-	var path = require('path');
-	var fs = require('fs');
-	const URL = require('url');
+	// var path = require('path');
+	// var fs = require('fs');
+	// const URL = require('url');
 
 	export default  {
 		name: 'expenseLineModal',
@@ -203,21 +203,21 @@
 		
 		methods: {
 			fileSelected(evt) {
-				let file = evt.target.files[0];
-				this.expenseReceiptFile = file;
+				// let file = evt.target.files[0];
+				// this.expenseReceiptFile = file;
 
-				let oldPath = file.path
-				let fileName = path.basename(oldPath);
-				let newPath = remote.app.getPath('userData') + '-' + fileName;
+				// let oldPath = file.path
+				// let fileName = path.basename(oldPath);
+				// let newPath = remote.app.getPath('userData') + '-' + fileName;
 
-				var readStream = fs.createReadStream(oldPath);
-				var writeStream = fs.createWriteStream(newPath);
-				readStream.on('close', function () {
-					let fileName = path.basename(newPath);
-				});
-				readStream.pipe(writeStream);
+				// var readStream = fs.createReadStream(oldPath);
+				// var writeStream = fs.createWriteStream(newPath);
+				// readStream.on('close', function () {
+				// 	let fileName = path.basename(newPath);
+				// });
+				// readStream.pipe(writeStream);
 
-				this.previewPath = URL.pathToFileURL(newPath);
+				// this.previewPath = URL.pathToFileURL(newPath);
 			},
 
 			onSubmit() {
@@ -237,16 +237,16 @@
 					});
 				} else {
 					console.log('do we ever get here ?? ');
-					Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
-						this.$refs.expenseLineModal.hide();
-						this.$Notification("Success!", "Successfully Added the Expense Line");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
+					// Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
+					// 	this.$refs.expenseLineModal.hide();
+					// 	this.$Notification("Success!", "Successfully Added the Expense Line");
+					// 	this.loading = false;
+					// }).catch(e => {
+					// 	console.log('eeek ', e);
+					// 	this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+					// 	this.loading = false;
+					// 	throw e;
+					// });
 				}
 			},
 

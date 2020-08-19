@@ -1,10 +1,6 @@
 'use strict'
 import { createMainWindow } from './utils/windowCreation';
 import { app, protocol, } from 'electron';
-import { join } from 'path';
-
-var uri = "nedb://" + join(app.getPath("userData"), "collections");
-global.databaseUri = uri
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
