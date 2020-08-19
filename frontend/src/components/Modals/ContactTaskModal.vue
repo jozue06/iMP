@@ -46,7 +46,7 @@
 
 <script>
 	import { contactPurposes } from "../../constants/commsConstants";
-	import { Contact } from "../../data/models/contactModel";
+	// import { Contact } from "../../data/models/contactModel";
 
 	export default  {
 

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import { Contact } from "../data/models/contactModel";
+	// import { Contact } from "../data/models/contactModel";
 	import { allowedFields } from '@/constants/tableFields';
 	export default  {
 		
@@ -129,11 +129,11 @@
 						orgName: this.textValue[0].toUpperCase() + this.textValue.slice(1),
 					}
 				];
-				Contact.find({ $or: orArray }).then(res => {
-					this.results = res;
-				}).catch(e => {
-					console.log('eeee' , e);
-				});
+				// Contact.find({ $or: orArray }).then(res => {
+				// 	this.results = res;
+				// }).catch(e => {
+				// 	console.log('eeee' , e);
+				// });
 			}
 		},
 

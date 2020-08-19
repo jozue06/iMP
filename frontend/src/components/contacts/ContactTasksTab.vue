@@ -71,8 +71,8 @@
 
 <script>
 	import NoResults from "../NoResults";
-	import { Contact } from "../../data/models/contactModel";
-	import { Task } from "../../data/models/taskModel";
+	// import { Contact } from "../../data/models/contactModel";
+	// import { Task } from "../../data/models/taskModel";
 	import { allowedFields } from "../../constants/tableFields";
 	import ContactTaskModal from "../Modals/ContactTaskModal"
 	import ConfirmModal from "../Modals/ConfirmModal";
@@ -102,7 +102,7 @@
 		methods: {
 			showTaskModal(selectedLine) {
 				if (selectedLine == null) {
-					this.taskLine = Task.create()
+					// this.taskLine = Task.create()
 					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
 				} else {
 					this.taskLine = selectedLine;
@@ -140,7 +140,7 @@
 					throw e;
 				});
 
-				Task.deleteMany({_id: {$in: ids}});
+				// Task.deleteMany({_id: {$in: ids}});
 				this.$emit("refresh");
 			},
 

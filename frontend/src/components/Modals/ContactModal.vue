@@ -141,7 +141,7 @@
 <script>
 	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
-	import { Contact } from '../../data/models/contactModel'
+	import { Contacts } from '../../data/contacts'
 	import DistrictSelector from '../DistrictSelector';
 	
 	export default {
@@ -159,19 +159,20 @@
 
 		methods: {
 			onSubmit() {
-				this.loading = true;
-				this.contact.save().then((res) => {
+				this.loading = true;				
+				Contacts.createContact(this.contact).then((res) => {					
 					this.$refs.contactModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact", "primary");
 					this.loading = false;
 					this.$emit("refresh");
-				}).catch(e => {
-					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 3000);
+				})
+				.catch(e => {
+					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 3000);
 					this.loading = false;
 					throw e;
 				});
 			},
-
+			
 			formatNumber(string) {
 				return Number(string);
 			}

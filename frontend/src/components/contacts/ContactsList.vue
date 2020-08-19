@@ -72,7 +72,7 @@
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
 	// import ContactSearchComponent from '../ContactSearchComponent'
-	import { Contact } from '../../data/models/contactModel'
+	// import { Contact } from '../../data/models/contactModel'
 	import { allowedFields } from '@/constants/tableFields';
 	
 	export default {
@@ -101,36 +101,36 @@
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
 				
-				Contact.deleteMany({ _id: { $in: ids} }).then(res => {					
-					this.refresh();
-					this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
-				}).catch(e => {
-					console.log('e', e);
-					throw e;
-				});
+				// Contact.deleteMany({ _id: { $in: ids} }).then(res => {					
+				// 	this.refresh();
+				// 	this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
+				// }).catch(e => {
+				// 	console.log('e', e);
+				// 	throw e;
+				// });
 			},
 
 			showContactModal(item) {			
 				if (item) {				
-					Contact.findOne({ _id: item._id }).then((res) => {		
-						this.selectedContact = res;
-					});
+					// Contact.findOne({ _id: item._id }).then((res) => {		
+					// 	this.selectedContact = res;
+					// });
 				} else {
-					this.selectedContact = Contact.create();
+					// this.selectedContact = Contact.create();
 				}
 				this.$refs.contactModal.$refs.contactModal.show();
 			},
 
 			findAllContacts() {
 				let contacts = []; 
-				Contact.find({}).then((data) => {	
-					data.forEach(c => {
-						if (c.firstName && c.lastName) {
-							c.id = c._id;
-							contacts.push({...c});
-						}
-					});
-				});
+				// Contact.find({}).then((data) => {	
+				// 	data.forEach(c => {
+				// 		if (c.firstName && c.lastName) {
+				// 			c.id = c._id;
+				// 			contacts.push({...c});
+				// 		}
+				// 	});
+				// });
 
 				return contacts;
 			},

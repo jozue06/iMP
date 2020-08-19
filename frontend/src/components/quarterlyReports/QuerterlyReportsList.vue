@@ -72,7 +72,7 @@
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
-	import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
+	// import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
 	import { allowedFields } from "../../constants/tableFields";
 		
 	export default  {
@@ -120,25 +120,25 @@
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
 				
-				Report.deleteMany({ _id: { $in: ids} }).then(res => {					
-					this.refresh();
-					this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
-				}).catch(e => {
-					console.log('e', e);
-					throw e;
-				});
+				// Report.deleteMany({ _id: { $in: ids} }).then(res => {					
+				// 	this.refresh();
+				// 	this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
+				// }).catch(e => {
+				// 	console.log('e', e);
+				// 	throw e;
+				// });
 			},
 
 			loadReports() {
 				let reports = []; 
-				Report.find({}).then(res => {
-					res.forEach(report => {
-						if (report._id) {
-							report.id = report._id;
-							reports.push({...report});
-						}
-					});
-				});
+				// Report.find({}).then(res => {
+				// 	res.forEach(report => {
+				// 		if (report._id) {
+				// 			report.id = report._id;
+				// 			reports.push({...report});
+				// 		}
+				// 	});
+				// });
 				return reports;
 			},
 

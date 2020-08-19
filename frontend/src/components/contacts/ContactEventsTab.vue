@@ -72,8 +72,8 @@
 
 <script>
 	import NoResults from "../NoResults";
-	import { Contact } from "../../data/models/contactModel";
-	import { Event } from "../../data/models/contactEventModel";
+	// import { Contact } from "../../data/models/contactModel";
+	// import { Event } from "../../data/models/contactEventModel";
 	import { allowedFields } from "../../constants/tableFields";
 	import ContactEventModal from "../Modals/ContactEventModal"
 	import ConfirmModal from "../Modals/ConfirmModal";
@@ -103,7 +103,7 @@
 		methods: {
 			showEventModal(selectedLine) {
 				if (selectedLine == null) {
-					this.eventLine = Event.create()
+					// this.eventLine = Event.create()
 					this.$refs.contactEventModal.$refs.contactEventModal.show();
 				} else {
 					this.eventLine = selectedLine;
@@ -143,7 +143,7 @@
 					throw e;
 				});
 
-				Event.deleteMany({_id: {$in: ids}});
+				// Event.deleteMany({_id: {$in: ids}});
 				this.$emit("refresh");
 			},
 

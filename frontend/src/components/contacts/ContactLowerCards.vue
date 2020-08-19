@@ -59,8 +59,8 @@
 </template>
 
 <script>
-	import { ContactGroup } from "../../data/models/contactGroupModel";
-	import { Contact } from "../../data/models/contactModel";
+	// import { ContactGroup } from "../../data/models/contactGroupModel";
+	// import { Contact } from "../../data/models/contactModel";
 	import statusCodes from "../../constants/contactStatusCodes"
 	export default  {
 
@@ -86,14 +86,14 @@
 		created() {
 			let groups = []; 
 				
-			ContactGroup.find({}).then((data) => {				
-				data.forEach(g => {
-					if (g && g.groupName) {
-						g.id = g._id;
-						groups.push({...g});
-					}
-				});
-			});
+			// ContactGroup.find({}).then((data) => {				
+			// 	data.forEach(g => {
+			// 		if (g && g.groupName) {
+			// 			g.id = g._id;
+			// 			groups.push({...g});
+			// 		}
+			// 	});
+			// });
 
 			this.contactGroups = groups;
 		},
@@ -102,31 +102,31 @@
 			toggleGroupAssign(clickedGroup) {
 				this.loading = true;
 				let foundGroup
-				ContactGroup.findOne({ _id: clickedGroup._id }).then(res => {
-					foundGroup = res;									
-					if (clickedGroup.contacts.includes(this.currentContact._id)) {			
-						clickedGroup.contacts.pop(this.currentContact._id);
-						this.currentContact.contactGroupIds.pop(foundGroup._id);
-					} else {
-						clickedGroup.contacts.push(this.currentContact._id);
-						this.currentContact.contactGroupIds.push(clickedGroup._id);
-					}
+				// ContactGroup.findOne({ _id: clickedGroup._id }).then(res => {
+				// 	foundGroup = res;									
+				// 	if (clickedGroup.contacts.includes(this.currentContact._id)) {			
+				// 		clickedGroup.contacts.pop(this.currentContact._id);
+				// 		this.currentContact.contactGroupIds.pop(foundGroup._id);
+				// 	} else {
+				// 		clickedGroup.contacts.push(this.currentContact._id);
+				// 		this.currentContact.contactGroupIds.push(clickedGroup._id);
+				// 	}
 					
-					foundGroup.contacts = clickedGroup.contacts;
-					foundGroup.save().then(res => {						
-						this.currentContact.save().then(res => {
-							this.$Notification("Success", "Saved the contact and gruoping", "primary", "", 6000);
-							this.loading = false;
-						}).catch(e => {
-							console.log('eeek ', e);
-							this.loading = false;
-							throw e;
-						});
+				// 	foundGroup.contacts = clickedGroup.contacts;
+				// 	foundGroup.save().then(res => {						
+				// 		this.currentContact.save().then(res => {
+				// 			this.$Notification("Success", "Saved the contact and gruoping", "primary", "", 6000);
+				// 			this.loading = false;
+				// 		}).catch(e => {
+				// 			console.log('eeek ', e);
+				// 			this.loading = false;
+				// 			throw e;
+				// 		});
 						
-					}).catch(e => {
-						console.log('eeek ', e);
-					})
-				});
+				// 	}).catch(e => {
+				// 		console.log('eeek ', e);
+				// 	})
+				// });
 			},
 
 			formatMoney(amount) {

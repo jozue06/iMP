@@ -143,13 +143,13 @@
 	import QuarterlyReportTop from "./QuarterlyReportTop";
 	import QuarterlyReportMoreInfo from "./QuarterlyReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import { 
-		QuarterlyReport as Report, 
-		ExpenseLine, 
-		MileageLog, 
-		OtherIncomeLine,
-		Statement,
-	} from "../../data/models/quarterlyReportModel";
+	// import { 
+	// 	QuarterlyReport as Report, 
+	// 	ExpenseLine, 
+	// 	MileageLog, 
+	// 	OtherIncomeLine,
+	// 	Statement,
+	// } from "../../data/models/quarterlyReportModel";
 
 	export default {
 		components: {
@@ -165,7 +165,7 @@
 				if (rowItem) {
 					this.selectedExpenseLine = rowItem;
 				} else {
-					this.selectedExpenseLine = ExpenseLine.create();
+					// this.selectedExpenseLine = ExpenseLine.create();
 				}
 				this.$refs.expenseLineModal.$refs.expenseLineModal.show()
 			},
@@ -174,7 +174,7 @@
 				if (mileageLine) {
 					this.selectedMileageLog = mileageLine;
 				} else {
-					this.selectedMileageLog = MileageLog.create();
+					// this.selectedMileageLog = MileageLog.create();
 				}
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
 			},
@@ -269,15 +269,15 @@
 		created() {
 
 			if (this.$router.currentRoute.params.reportId) {
-				Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
-					this.currentReport = res;
-					this.expenseLines = res.expenseLines;
-					this.mileageLogs = res.mileageLogs;
-				}).catch(e => {
-					console.log(' Report.find eek ', e);
-				});
+				// Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
+				// 	this.currentReport = res;
+				// 	this.expenseLines = res.expenseLines;
+				// 	this.mileageLogs = res.mileageLogs;
+				// }).catch(e => {
+				// 	console.log(' Report.find eek ', e);
+				// });
 			} else {
-				this.currentReport = Report.create();
+				// this.currentReport = Report.create();
 			}
 		},
 

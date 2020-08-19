@@ -56,7 +56,7 @@
 
 <script>
 	import ContactSearchComponent from "../ContactSearchComponent";
-	import { QuarterlyReport as Report } from "../../data/models/quarterlyReportModel";
+	// import { QuarterlyReport as Report } from "../../data/models/quarterlyReportModel";
 	import setContactInfo from "../../mixins/setContactInfo";
 	export default  {
 
@@ -107,13 +107,13 @@
 						throw e;
 					});
 				} else {
-					Report.findOneAndUpdate({ _id: this.otherIncomeLine._id }, { otherIncomeLines: this.otherIncomeLine }).then(res => {
-						this.$refs.otherIncomeModal.hide();
-						this.$Notification("Sucess!", "Successfully saved the Other Income", "primary")
-					}).catch(e => {
-						console.log('eek ', e);
-						throw e;
-					})
+					// Report.findOneAndUpdate({ _id: this.otherIncomeLine._id }, { otherIncomeLines: this.otherIncomeLine }).then(res => {
+					// 	this.$refs.otherIncomeModal.hide();
+					// 	this.$Notification("Sucess!", "Successfully saved the Other Income", "primary")
+					// }).catch(e => {
+					// 	console.log('eek ', e);
+					// 	throw e;
+					// })
 				}
 			}
 				

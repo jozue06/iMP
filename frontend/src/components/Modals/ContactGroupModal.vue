@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import { ContactGroup } from '../../data/models/contactGroupModel';
+	// import { ContactGroup } from '../../data/models/contactGroupModel';
 
 	export default  {
 
@@ -46,16 +46,16 @@
 			onSave() {				
 				this.loading = true;
 				if (this.group._id != null) {
-					ContactGroup.findOneAndUpdate({_id: this.group._id}, this.group).then((res) => {
-						this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");
-						this.loading = false;
-						this.$emit("saveContactGroup");
-						this.$refs.groupModal.hide();
-					}).catch(e => {
-						this.$Notification("Error", `Error Saving Contact Group: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
+					// ContactGroup.findOneAndUpdate({_id: this.group._id}, this.group).then((res) => {
+					// 	this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");
+					// 	this.loading = false;
+					// 	this.$emit("saveContactGroup");
+					// 	this.$refs.groupModal.hide();
+					// }).catch(e => {
+					// 	this.$Notification("Error", `Error Saving Contact Group: ${e}`, "warning", "", 3000);
+					// 	this.loading = false;
+					// 	throw e;
+					// });
 				} else {
 					this.group.save().then((res) => {
 						this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");

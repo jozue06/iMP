@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import { ContactGroup } from '../../data/models/contactGroupModel';
+	// import { ContactGroup } from '../../data/models/contactGroupModel';
 	import ConfirmModal from '../Modals/ConfirmModal';
 	import ContactGroupModal from '../Modals/ContactGroupModal';
 	import NoResults from '../NoResults';
@@ -114,25 +114,25 @@
 		methods: {
 			findAllGroups() {
 				let groups = []; 
-				ContactGroup.find({}).then((data) => {
-					data.forEach(g => {
-						if (g && g.groupName) {
-							g.id = g._id;
-							groups.push({...g});
-						}
-					});
-				});
+				// ContactGroup.find({}).then((data) => {
+				// 	data.forEach(g => {
+				// 		if (g && g.groupName) {
+				// 			g.id = g._id;
+				// 			groups.push({...g});
+				// 		}
+				// 	});
+				// });
 
 				this.groups = groups;
 			},
 
 			showGroupModal(group) {
 				if (group == null ) {
-					this.selectedGroup = ContactGroup.create();
+					// this.selectedGroup = ContactGroup.create();
 				} else {
-					ContactGroup.findOne({ _id: group._id }).then((res) => {
-						this.selectedGroup = res;
-					});
+					// ContactGroup.findOne({ _id: group._id }).then((res) => {
+					// 	this.selectedGroup = res;
+					// });
 				}
 				this.$refs.groupModal.$refs.groupModal.show()
 			},
@@ -143,13 +143,13 @@
 				}
 				let ids = this.selected.map(ele => ele._id);
 				
-				ContactGroup.deleteMany({ _id: { $in: ids} }).then(res => {
-					this.refresh();
-					this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
-				}).catch(e => {
-					console.log('e', e);
-					throw e;
-				});
+				// ContactGroup.deleteMany({ _id: { $in: ids} }).then(res => {
+				// 	this.refresh();
+				// 	this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
+				// }).catch(e => {
+				// 	console.log('e', e);
+				// 	throw e;
+				// });
 			},
 
 			onRowSelected(contact) {

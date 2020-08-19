@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import { Contact } from "../../data/models/contactModel";
+	// import { Contact } from "../../data/models/contactModel";
 	import ContactCardTop from "./ContactCardTop";
 	import ContactMidCards from "./ContactMidCards";
 	import ContactLowerCards from "./ContactLowerCards";
@@ -40,8 +40,8 @@
 	import ContactCommsTab from "./ContactCommsTab";
 	import ContactTasksTab from "./ContactTasksTab";
 	import ContactEventsTab from "./ContactEventsTab";
-	import { Task } from "../../data/models/taskModel";
-	import { Event } from "../../data/models/contactEventModel";
+	// import { Task } from "../../data/models/taskModel";
+	// import { Event } from "../../data/models/contactEventModel";
 
 	export default  {
 		components: {
@@ -72,31 +72,31 @@
 		},
 
 		created() {
-			if (this.$router.currentRoute.params.contactId) {
-				Contact.find( { _id: this.$router.currentRoute.params.contactId }, { populate: true } ).then(res => {
-					this.currentContact = res[0];
-					Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
-						this.taskLines = res
-					});
-					Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
-						this.eventLines = res
-					});
-				}).catch(e => {
-					console.log(' Report.find eek ', e);
-					throw e;
-				});
-			}
+			// if (this.$router.currentRoute.params.contactId) {
+			// 	Contact.find( { _id: this.$router.currentRoute.params.contactId }, { populate: true } ).then(res => {
+			// 		this.currentContact = res[0];
+			// 		Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
+			// 			this.taskLines = res
+			// 		});
+			// 		Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
+			// 			this.eventLines = res
+			// 		});
+			// 	}).catch(e => {
+			// 		console.log(' Report.find eek ', e);
+			// 		throw e;
+			// 	});
+			// }
 		},
 
 		methods: {
 			saveContact() {						
-				this.currentContact.save().then(res => {
-					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
-				}).catch(e => {
-					console.log('eek', e);
-					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
-					throw e;
-				});
+				// this.currentContact.save().then(res => {
+				// 	this.$Notification("Success!", "Successfully Saved the Contact", "primary");
+				// }).catch(e => {
+				// 	console.log('eek', e);
+				// 	this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
+				// 	throw e;
+				// });
 			},
 
 			showContactModal() {
@@ -108,12 +108,12 @@
 			},
 
 			refresh() {
-				Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
-					this.taskLines = res;
-				});
-				Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
-					this.eventLines = res;
-				});
+				// Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
+				// 	this.taskLines = res;
+				// });
+				// Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
+				// 	this.eventLines = res;
+				// });
 			}
 		},
 

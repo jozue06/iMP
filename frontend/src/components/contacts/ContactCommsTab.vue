@@ -60,7 +60,7 @@
 	import CommsModal from "../Modals/CommsModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import NoResults from "../NoResults";
-	import { Contact, ContactComms } from "../../data/models/contactModel";
+	// import { Contact, ContactComms } from "../../data/models/contactModel";
 	import { allowedFields } from "../../constants/tableFields";
 
 	export default  {
@@ -91,7 +91,7 @@
 		methods: {
 			showCommsModal(selectedLine) {
 				if (selectedLine == null) {
-					this.commsLine = ContactComms.create()
+					// this.commsLine = ContactComms.create()
 					this.$refs.commsModal.$refs.commsModal.show();
 				} else {
 					this.commsLine = selectedLine;

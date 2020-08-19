@@ -100,7 +100,7 @@
 
 <script>
 	import { contactTypes, contactPurposes } from "../../constants/commsConstants";
-	import { Contact } from "../../data/models/contactModel";
+	// import { Contact } from "../../data/models/contactModel";
 
 	export default  {
 
@@ -137,15 +137,15 @@
 						throw e;
 					});
 				} else {					
-					Contact.findOneAndUpdate( { _id: this.commsLine._id }, {communications: this.commsLine}).then(res => {
-						this.$refs.commsModal.hide();
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
+					// Contact.findOneAndUpdate( { _id: this.commsLine._id }, {communications: this.commsLine}).then(res => {
+					// 	this.$refs.commsModal.hide();
+					// 	this.loading = false;
+					// }).catch(e => {
+					// 	console.log('eeek ', e);
+					// 	this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
+					// 	this.loading = false;
+					// 	throw e;
+					// });
 				}
 			},
 			

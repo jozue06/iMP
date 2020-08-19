@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:9090/';
+const baseURL = 'http://localhost:9090/contacts';
 
-// const handleError = fn => (...params) =>
-// fn(...params).catch(error => {
-// 	vm.flash(`${error.response.status}: ${error.response.statusText}`, 'error');
-// });
+const handleError = fn => (...params) =>
+fn(...params).catch(e => {
+	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
+	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
+	throw new Error(newmess.replace(",", '\n'));
+});
 
 export const Contacts = {
 	getContact: handleError(async id => {
@@ -24,7 +26,10 @@ export const Contacts = {
 	}),
 
 	createContact: handleError(async payload => {
-		const res = await axios.post(baseURL, payload);
+		let body = {
+			contact: payload
+		}
+		const res = await axios.post(baseURL, body);
 		return res.data;
 	}),
 

@@ -2,11 +2,6 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:9090/';
 
-// const handleError = fn => (...params) =>
-// fn(...params).catch(error => {
-// 	vm.flash(`${error.response.status}: ${error.response.statusText}`, 'error');
-// });
-
 export const Tasks = {
 	getTask: handleError(async id => {
 		const res = await axios.get(baseURL + id);

@@ -180,11 +180,11 @@
 <script>
 	import { allowedFields } from "../../constants/tableFields";
 	import OtherIncomeModal from "../Modals/OtherIncomeModal";
-	import { 
-		QuarterlyReport as Report, 
-		OtherIncomeLine,
-		Statement,
-	} from "../../data/models/quarterlyReportModel";
+	// import { 
+	// 	QuarterlyReport as Report, 
+	// 	OtherIncomeLine,
+	// 	Statement,
+	// } from "../../data/models/quarterlyReportModel";
 
 	export default  {
 
@@ -221,7 +221,7 @@
 				if (otherIncomeLine) {
 					this.otherIncomeLine = otherIncomeLine;
 				} else {
-					this.otherIncomeLine = OtherIncomeLine.create();
+					// this.otherIncomeLine = OtherIncomeLine.create();
 				}
 
 				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();
