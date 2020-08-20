@@ -9,8 +9,8 @@ import Login from './components/Login.vue'
 export default [
 	{
 		path: '/',
-		redirect: {
-			name: "login"
+		meta: {
+			requiresAuth: true
 		}
 	},
 	{
@@ -21,31 +21,49 @@ export default [
 	{
 		path: "/contacts", 
 		name: "contacts",
-		component: ContactsList
+		component: ContactsList,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/addQuarterlyReport",
 		name: "addQuarterlyReport",
-		component: QuarterlyReportCard
+		component: QuarterlyReportCard,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/quarterlyReports",
 		name: "quarterlyReports",
-		component: QuerterlyReportsList
+		component: QuerterlyReportsList,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/contactFullView",
 		name: "contactFullView",
-		component: ContactFullView
+		component: ContactFullView,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/contactGroups",
 		name: "contactGroups",
-		component: ContactGroupsList
+		component: ContactGroupsList,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/groupView",
 		name: "groupView",
-		component: ContactGroupView
+		component: ContactGroupView,
+		meta: {
+			requiresAuth: true
+		}
 	},
 ];
