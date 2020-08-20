@@ -3,6 +3,7 @@
 		<!-- <Header title="Welcome"/> -->
 		<Sidebar sidebarTitle="iMP"/>
 		<Container />
+		<!-- <router-view /> -->
 	</div>
 </template>
 
@@ -17,7 +18,7 @@
 			Container,
 			Sidebar,
 			Header
-		}
+		},
 	}
 </script>
 

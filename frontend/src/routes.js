@@ -4,9 +4,20 @@ import ContactGroupView from './components/contacts/ContactGroupView.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
 import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
+import Login from './components/Login.vue'
 
 export default [
-	{ path: "/", },
+	{
+		path: '/',
+		redirect: {
+			name: "login"
+		}
+	},
+	{
+		path: "/login",
+		name: "login",
+		component: Login
+	},
 	{
 		path: "/contacts", 
 		name: "contacts",

@@ -13,7 +13,6 @@ import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
 import "./assets/scss/globalCustoms.scss";
 
-
 extend("required", required);
 extend("email", email);
 extend("min_value", min_value);
@@ -69,7 +68,4 @@ const router = new VueRouter({
 new Vue({
 	render: h => h(App), 
 	router,
-	mounted() {
-		this.$router.push("/");
-	}
 }).$mount("#app");
