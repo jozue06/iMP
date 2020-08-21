@@ -41,15 +41,13 @@
 						password: this.input.password
 					}
 					axios.post('http://localhost:9090/user/login', obj).then(res => {
-						console.log('res', res);
 						localStorage.setItem("jwt", res.token)
 						this.$router.replace("/contacts");
 					})
 					.catch(e => {
-						console.log('eeek ', e.response);
 						if (e.response.status == 401) {
 							this.$Notification("Error", `No User Found`, "warning", "", 3000);
-								this.input = {}
+							this.input = {}
 						}
 					});
 				} else {
@@ -65,19 +63,16 @@
 						password: this.input.password
 					}
 					axios.post('http://localhost:9090/user/register', obj).then(res => {
-						console.log('res', res);
 						this.$emit("authenticated", true);
 
 						this.$router.replace("/contacts");
 					}).catch(e => {
-						console.log('eeek ', e);
 						this.input = {}
 						this.$Notification("Error", `${e.response.data.message}`, "warning", "", 3000);
 
 					});
 				} else {
 					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
-					console.log("A username and password must be present");
 				}
 			},
 
