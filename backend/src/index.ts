@@ -17,6 +17,7 @@ class Server {
 		this.config();
 		this.routes();
 		this.mongo();
+		this.app.use(errorMiddleware);
 	}
 
 	public routes(): void {
@@ -31,7 +32,6 @@ class Server {
 		this.app.use(cors());
 		this.app.use(passport.initialize());
 //   app.use(passport.session());
-		this.app.use(errorMiddleware);
 	}
 
 	private mongo() {

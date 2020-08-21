@@ -6,13 +6,18 @@ import "../auth/authHandler";
 import { User } from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 import NoUserException from '../exceptions/NoUserException';
+import ValidationException from '../exceptions/ValidationException';
 
 export class UserController {
 
-	public async registerUser(req: Request, res: Response): Promise<void> {
-		const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-		console.log('here :: ', );
+	public async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+		if (!req.body.username || req.body.username == "") {
+			console.log('here ?? ');
+			next(new ValidationException("Please Enter a Valid User Name"));
+		}
+		console.log('did we got heeer?');
 		
+		const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
 		await User.create({
 			username: req.body.username,
 			password: hashedPassword,
