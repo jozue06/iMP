@@ -36,7 +36,11 @@
 		methods: {
 			login() {				
 				if (this.input.username != "" && this.input.password != "") {
-					axios.post('http://localhost:9090/user/login', JSON.stringify(this.input)).then(res => {
+					let obj = {
+						username: this.input.username,
+						password: this.input.password
+					}
+					axios.post('http://localhost:9090/user/login', obj).then(res => {
 						console.log('res', res);
 						localStorage.setItem("jwt", res.token)
 						this.$router.replace("/contacts");

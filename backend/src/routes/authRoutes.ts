@@ -13,6 +13,7 @@ export class AuthRoutes {
 
 	routes() {
 		this.router.post("/register", this.userController.registerUser);
-		this.router.post("/login", this.userController.authenticateUser);
+		this.router.post("/login", this.userController.loginUser);
+		this.router.post("/athenticate", this.userController.authenticateUser);
 	}
 }
