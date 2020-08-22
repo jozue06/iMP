@@ -24,7 +24,7 @@
 					<template v-slot:cell(edit)="data">
 						<span @click="showContactModal(data.item)" class="text-info">edit</span>
 					</template>
-					<template v-slot:cell()="data">
+					<template v-slot:cell()="data">						
 						<router-link
 							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
 							v-slot="{ href, route, navigate}"

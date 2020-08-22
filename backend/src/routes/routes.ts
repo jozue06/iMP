@@ -18,7 +18,7 @@ export class Routes {
 	routes() {
 		this.router.post("/contacts", this.authController.authenticateJWT, this.productController.createContact);
 		this.router.get("/contacts", this.authController.authenticateJWT, this.productController.getAllContacts);
-		// this.router.get("/contacts/:id", this.authController.authenticateJWT, this.productController.getProduct);
+		this.router.get("/contacts/:id", this.authController.authenticateJWT, this.productController.getContact);
 		// this.router.put("/contacts/:id", this.authController.authenticateJWT, this.productController.updateProduct);
 		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
 	}

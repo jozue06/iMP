@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	// import { Contact } from "../../data/models/contactModel";
+	import { Contacts } from "../../data/contacts";
 	import ContactCardTop from "./ContactCardTop";
 	import ContactMidCards from "./ContactMidCards";
 	import ContactLowerCards from "./ContactLowerCards";
@@ -72,20 +72,22 @@
 		},
 
 		created() {
-			// if (this.$router.currentRoute.params.contactId) {
-			// 	Contact.find( { _id: this.$router.currentRoute.params.contactId }, { populate: true } ).then(res => {
-			// 		this.currentContact = res[0];
-			// 		Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
-			// 			this.taskLines = res
-			// 		});
-			// 		Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
-			// 			this.eventLines = res
-			// 		});
-			// 	}).catch(e => {
-			// 		console.log(' Report.find eek ', e);
-			// 		throw e;
-			// 	});
-			// }
+			if (this.$router.currentRoute.params.contactId) {
+				Contacts.getContact(this.$router.currentRoute.params.contactId).then(res => {
+					console.log('res contact: ', res);
+					
+					this.currentContact = res;
+					// Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
+					// 	this.taskLines = res
+					// });
+					// Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
+					// 	this.eventLines = res
+					// });
+				}).catch(e => {
+					console.log(' Report.find eek ', e);
+					throw e;
+				});
+			}
 		},
 
 		methods: {

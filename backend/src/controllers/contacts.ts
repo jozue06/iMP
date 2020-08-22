@@ -21,4 +21,12 @@ export class ContactController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};
+
+	public getContact = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+		Contact.findById(req.params.id).then(contact => {
+			res.send(contact);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};
 }

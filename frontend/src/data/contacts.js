@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:9090/contacts';
+const baseURL = 'http://localhost:9090/contacts/';
 const headers = {
 	'Content-Type': 'application/json',
 	authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -15,7 +15,7 @@ fn(...params).catch(e => {
 
 export const Contacts = {
 	getContact: handleError(async id => {
-		const res = await axios.get(baseURL + id);
+		const res = await axios.get(baseURL + id, {"headers": headers});
 		return res.data;
 	}),
 	
