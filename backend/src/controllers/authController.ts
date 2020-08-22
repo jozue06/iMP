@@ -17,22 +17,15 @@ export class AuthController {
 		})(req, res, next);
 	}
 
-	public authorizeJWT(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate("jwt", function (err, user, jwtToken) {
+	public authorizeJWT(req: Request, res: Response, next: NextFunction):void {	
+		passport.authenticate("jwt", function (err, user, jwtToken) {			
 			if (err) {
 				return res.status(401).json({ status: "error", code: "unauthorized" });
 			}
 			if (!user) {
 				return res.status(401).json({ status: "error", code: "unauthorized" });
 			} else {
-				const scope = req.baseUrl.split("/").slice(-1)[0];
-				const authScope = jwtToken.scope;
-				if (authScope && authScope.indexOf(scope) > -1) {
-					return next();
-				}
-				else {
-					return res.status(401).json({ status: "error", code: "unauthorized" });
-				}
+				return res.status(200).json({message:"welcome back"});
 			}
 		}) (req, res, next);
 	}

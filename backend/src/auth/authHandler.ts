@@ -1,12 +1,12 @@
 import passport from "passport";
 import passportLocal from "passport-local";
-import passportJwt from "passport-jwt";
 import { User } from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 
+import passportJwt from "passport-jwt";
+const ExtractJwt = passportJwt.ExtractJwt;
 const LocalStrategy = passportLocal.Strategy;
 const JwtStrategy = passportJwt.Strategy;
-const ExtractJwt = passportJwt.ExtractJwt;
 
 passport.use(new LocalStrategy({ usernameField: "username" }, (username, password, done) => {
 	User.findOne({ username: username.toLowerCase() }, (err, user: any) => {

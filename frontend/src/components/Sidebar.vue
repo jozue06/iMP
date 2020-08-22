@@ -6,6 +6,9 @@
 		<SidebarMenuList title="Records" v-bind:itemList=sections.mainSection accordianId="collapse-1" />
 		<SidebarMenuList title="New Records" v-bind:itemList=sections.newRecordsSection accordianId="collapse-2" />
 		<SidebarMenuList title="Import & Export" v-bind:itemList=sections.importExportSection accordianId="collapse-3" />
+		<b-button @click="logout">
+			logout
+		</b-button>
 	</div>
 </template> 
 
@@ -23,6 +26,12 @@
 		data() {
 			return {
 				sections: sidebarSections,
+			}
+		},
+		methods: {
+			logout() {	
+				localStorage.removeItem("jwt");
+				this.$router.replace("/login");
 			}
 		}
 	};

@@ -26,6 +26,7 @@ import moment from "moment";
 import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
 import "./assets/scss/globalCustoms.scss";
+import { getSession } from "./utils/session";
 
 extend("required", required);
 extend("email", email);
@@ -84,6 +85,7 @@ Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$Moment = moment;
 Vue.component("YearSelector", YearSelector);
 Vue.prototype.$formatMoney = formatMoney;
+Vue.prototype.$getSession = getSession;
 
 const router = new VueRouter({
 	routes: Routes,
@@ -91,21 +93,20 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (localStorage.getItem('jwt') == null) {
+		if (localStorage.getItem('jwt') == null) {			
 			next({
 				path: '/login',
 				params: {
 					nextUrl: to.fullPath
 				}
 			});
-		} else {
-			// do auth to backend with JWT
+		} else {			
+			next();
 		}
 	} else {
-		next()
+		next();
 	}
 })
-
 
 new Vue({
 	render: h => h(App),

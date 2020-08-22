@@ -236,7 +236,6 @@
 						throw e;
 					});
 				} else {
-					console.log('do we ever get here ?? ');
 					// Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
 					// 	this.$refs.expenseLineModal.hide();
 					// 	this.$Notification("Success!", "Successfully Added the Expense Line");

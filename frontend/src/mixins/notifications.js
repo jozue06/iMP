@@ -1,4 +1,4 @@
-function notification(title, message, variant, location, delay, append) {
+export function notification(title, message, variant, location, delay, append) {
 	this.$bvToast.toast(message || "", {
 		title: title || "",
 		variant: variant || "success",
@@ -8,5 +8,3 @@ function notification(title, message, variant, location, delay, append) {
 		appendToast: append || true
 	});
 }
-
-export { notification }

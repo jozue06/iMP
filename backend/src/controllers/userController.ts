@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import "../auth/authHandler";
+import passportJwt from "passport-jwt";
 import { User } from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
-
 import ValidationException from '../exceptions/ValidationException';
 
+const ExtractJwt = passportJwt.ExtractJwt;
 export class UserController {
 
 	public async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -46,9 +46,5 @@ export class UserController {
 				}
 			});
 		});
-	}
-
-	public authenticateUser(req: Request, res: Response, next: NextFunction) {
-		// authenticate JWT
 	}
 }

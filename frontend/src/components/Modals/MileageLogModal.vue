@@ -26,7 +26,7 @@
 				</b-row>
 				<b-row>
 					<b-col cols="6">
-							<b-form-group label="Od Start">
+						<b-form-group label="Od Start">
 							<b-form-input
 								type="number"
 								v-model="mileageLog.odometerStart"
