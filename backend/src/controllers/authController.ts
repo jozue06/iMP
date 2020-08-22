@@ -4,15 +4,15 @@ import "../auth/authHandler";
 
 export class AuthController {
 
-	public authenticateJWT(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate("jwt", function (err, user, info) {
+	public authenticateJWT(req: Request, res: Response, next: NextFunction) {		
+		passport.authenticate("jwt", function (err, user, jwtToken) {			
 			if (err) {
 				return res.status(401).json({ status: "error", code: "unauthorized" });
 			}
 			if (!user) {
-				return res.status(401).json({ status: "error", code: "unauthorized" });
-			} else {
-				return next();
+				return res.status(401).json({ status: "error", code: "no use" });
+			} else {								
+				return next(user._id);
 			}
 		})(req, res, next);
 	}

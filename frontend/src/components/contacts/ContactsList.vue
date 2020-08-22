@@ -3,7 +3,7 @@
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Contacts</h1>
-			</router-link>	
+			</router-link>				
 			<div v-if="contacts.length > 0">
 				<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
 				<b-table
@@ -72,7 +72,7 @@
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
 	// import ContactSearchComponent from '../ContactSearchComponent'
-	// import { Contact } from '../../data/models/contactModel'
+	import { Contacts } from '../../data/contacts'
 	import { allowedFields } from '@/constants/tableFields';
 	
 	export default {
@@ -112,25 +112,23 @@
 
 			showContactModal(item) {			
 				if (item) {				
-					// Contact.findOne({ _id: item._id }).then((res) => {		
-					// 	this.selectedContact = res;
-					// });
+					this.selectedContact = item;
 				} else {
-					// this.selectedContact = Contact.create();
+					this.selectedContact = {};
 				}
 				this.$refs.contactModal.$refs.contactModal.show();
 			},
 
 			findAllContacts() {
 				let contacts = []; 
-				// Contact.find({}).then((data) => {	
-				// 	data.forEach(c => {
-				// 		if (c.firstName && c.lastName) {
-				// 			c.id = c._id;
-				// 			contacts.push({...c});
-				// 		}
-				// 	});
-				// });
+				Contacts.getContacts().then((data) => {	
+					data.forEach(c => {
+						if (c.firstName && c.lastName) {
+							c.id = c._id;
+							contacts.push({...c});
+						}
+					});
+				});
 
 				return contacts;
 			},
@@ -156,7 +154,7 @@
 		},
 		
 		computed: {
-			fields() {
+			fields() {				
 				let keys = Object.keys(this.contacts[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;

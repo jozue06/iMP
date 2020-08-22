@@ -16,10 +16,10 @@ export class Routes {
 	}
 
 	routes() {
-		this.router.post("/", this.authController.authenticateJWT, this.productController.createContact);
-		// this.router.get("/", this.authController.authenticateJWT, this.productController.getProducts);
-		// this.router.get("/:id", this.authController.authenticateJWT, this.productController.getProduct);
-		// this.router.put("/:id", this.authController.authenticateJWT, this.productController.updateProduct);
-		// this.router.delete("/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
+		this.router.post("/contacts", this.authController.authenticateJWT, this.productController.createContact);
+		this.router.get("/contacts", this.authController.authenticateJWT, this.productController.getAllContacts);
+		// this.router.get("/contacts/:id", this.authController.authenticateJWT, this.productController.getProduct);
+		// this.router.put("/contacts/:id", this.authController.authenticateJWT, this.productController.updateProduct);
+		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
 	}
 }

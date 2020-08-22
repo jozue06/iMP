@@ -15,12 +15,13 @@ export class UserController {
 		}
 
 		const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-		await User.create({
+		
+		const userCreated = User.create({
 			username: req.body.username,
 			password: hashedPassword,
 		});
 
-		const token = jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
+		const token = jwt.sign({ userId: (await userCreated)._id, username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
 		res.status(200).send({ token: token });
 	}
 
@@ -31,7 +32,7 @@ export class UserController {
 		}
 
 		let username = req.body.username
-		User.findOne({ username: username.toLowerCase() }, (err, user: any) => {
+		User.findOne({ username: username }, (err, user: any) => {
 			if (err) {
 				return next(err);
 			}

@@ -237,7 +237,6 @@
 			},
 			saveReport() {
 				this.currentReport.save().then(res => {
-					console.log('what??');
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
 					console.log('eeek error saving report', e);

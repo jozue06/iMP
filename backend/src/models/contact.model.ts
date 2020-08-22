@@ -1,5 +1,5 @@
 import { model } from "mongoose";
 import { ContactDocument } from "./contact.types";
-import Contact from "./contact.schema";
+import ContactSchema from "./contact.schema";
 
-export const ContactSchema = model<ContactDocument>("contact", Contact);
+export const Contact = model<ContactDocument>("contact", ContactSchema);

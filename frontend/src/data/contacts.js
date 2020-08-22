@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 const baseURL = 'http://localhost:9090/contacts';
+const headers = {
+	'Content-Type': 'application/json',
+	authorization: `Bearer ${localStorage.getItem("jwt")}` 
+}
 
 const handleError = fn => (...params) =>
 fn(...params).catch(e => {
@@ -16,7 +20,7 @@ export const Contacts = {
 	}),
 	
 	getContacts: handleError(async () => {
-		const res = await axios.get(baseURL);
+		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
@@ -29,7 +33,7 @@ export const Contacts = {
 		let body = {
 			contact: payload
 		}
-		const res = await axios.post(baseURL, body);
+		const res = await axios.post(baseURL, body, {"headers": headers});
 		return res.data;
 	}),
 

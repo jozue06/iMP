@@ -1,7 +1,8 @@
-import { Document, Schema, Model, model, Error } from "mongoose";
+import { Document, Schema, Model, model, Error, Types } from "mongoose";
 import bcrypt from "bcrypt-nodejs";
 
 export interface IUser extends Document {
+	id: Types.ObjectId;
 	username: string;
 	password: string;
 }

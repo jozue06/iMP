@@ -1,6 +1,7 @@
 import { Document, Model } from "mongoose";
 
 export interface Contact {
+	userId: string,
 	firstName: string,
 	lastName: string,
 	address: string,

@@ -1,7 +1,11 @@
 import { Schema } from "mongoose";
 
 const ContactSchema = new Schema({
-
+	userId: {
+		type: String,
+		required: true,
+	},
+	
 	firstName: {
 		type: String,
 		required: true,
