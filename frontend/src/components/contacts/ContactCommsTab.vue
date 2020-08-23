@@ -74,6 +74,7 @@
 		},
 
 		props: {
+			commsLines: Array,
 			currentContact: Object,
 		},
 
@@ -130,11 +131,9 @@
 		},
 
 		computed: {
-			commsLines() {
-				return this.currentContact.communications;
-			},
-
 			fields() {				
+				console.log('coms fieds', this.commsLines[0]);
+				
 				let keys = Object.keys(this.commsLines[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;

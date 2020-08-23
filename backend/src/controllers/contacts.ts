@@ -23,7 +23,7 @@ export class ContactController {
 	};
 
 	public getContact = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Contact.findById(req.params.id).populate("events").populate("tasks").then(contact => {
+		Contact.findById(req.params.id).populate("events").populate("tasks").populate("comms").then(contact => {
 			res.send(contact);
 		}).catch(e => {
 			console.log('ee', e);
@@ -32,7 +32,7 @@ export class ContactController {
 	};
 
 	public updateContactInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Contact.findOneAndUpdate({"_id": req.body.contact._id}, {...req.body.contact }).then(r => {
+		Contact.findOneAndUpdate({"_id": req.body.contact._id}, {...req.body.contact }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));

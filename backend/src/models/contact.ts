@@ -162,6 +162,11 @@ const ContactSchema = new Schema({
 		type: Schema.Types.ObjectId, 
 		ref: 'task' 
 	}],
+
+	comms: [{ 
+		type: Schema.Types.ObjectId, 
+		ref: 'comm' 
+	}],
 });
 
 export interface ContactDocument extends IContact, Document { }

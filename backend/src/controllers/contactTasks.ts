@@ -9,7 +9,6 @@ export class TaskController {
 		task.contact = req.body.task.contactId;
 		task.save().then((savedTask) => {
 			Contact.findOneAndUpdate({ _id: req.body.task.contactId }, { $push: { tasks: savedTask._id } }, { useFindAndModify: true, new: true }).then(saved => {
-				console.log('saved contact:', saved.tasks);
 				res.send(saved);
 			});
 			
@@ -36,7 +35,7 @@ export class TaskController {
 	};
 
 	public updateTaskInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Task.findOneAndUpdate({"_id": req.body.task._id}, {...req.body.task }).then(r => {
+		Task.findOneAndUpdate({"_id": req.body.task._id}, {...req.body.task }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));

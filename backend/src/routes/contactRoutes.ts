@@ -3,7 +3,8 @@ import { Router } from "express";
 import { AuthController } from "../controllers/authController";
 import { ContactController } from "../controllers/contacts";
 import { EventController } from "../controllers/contactEvents";
-import { TaskController } from "../controllers/tasks";
+import { TaskController } from "../controllers/contactTasks";
+import { CommsController } from "../controllers/contactComms";
 
 
 export class Routes {
@@ -13,6 +14,7 @@ export class Routes {
 	public contactController: ContactController = new ContactController();
 	public eventController: EventController = new EventController();
 	public taskController: TaskController = new TaskController();
+	public commsController: CommsController = new CommsController();
 
 	constructor() {
 		this.router = Router();
@@ -36,6 +38,12 @@ export class Routes {
 		this.router.get("/contactTasks", this.authController.authenticateJWT, this.taskController.getAllTasks);
 		this.router.get("/contactTasks/:id", this.authController.authenticateJWT, this.taskController.getTask);
 		this.router.put("/contactTasks/:id", this.authController.authenticateJWT, this.taskController.updateTaskInfo);
+		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
+
+		this.router.post("/contactComms", this.authController.authenticateJWT, this.commsController.createComm);
+		this.router.get("/contactComms", this.authController.authenticateJWT, this.commsController.getAllComms);
+		this.router.get("/contactComms/:id", this.authController.authenticateJWT, this.commsController.getComm);
+		this.router.put("/contactComms/:id", this.authController.authenticateJWT, this.commsController.updateCommsInfo);
 		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
 
 	}

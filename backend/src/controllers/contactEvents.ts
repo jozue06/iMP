@@ -9,7 +9,6 @@ export class EventController {
 		event.contact = req.body.event.contactId;
 		event.save().then((savedEvent) => {
 			Contact.findOneAndUpdate({ _id: req.body.event.contactId }, {$push: {events: savedEvent._id}}, { useFindAndModify: true, new: true }).then(saved => {
-				console.log('saved cn wiht evs', saved.events);
 				res.send(saved);
 			});
 		}).catch(e => {
@@ -35,7 +34,7 @@ export class EventController {
 	};
 
 	public updateEventInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Event.findOneAndUpdate({"_id": req.body.event._id}, {...req.body.event }).then(r => {
+		Event.findOneAndUpdate({"_id": req.body.event._id}, {...req.body.event }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));

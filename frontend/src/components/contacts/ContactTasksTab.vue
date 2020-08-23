@@ -122,8 +122,6 @@
 			},
 
 			doneSaving() {
-				console.log('don saving called');
-				
 				this.clearSelected();
 				this.$emit("refresh");
 			},

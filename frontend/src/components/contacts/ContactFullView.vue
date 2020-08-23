@@ -15,7 +15,7 @@
 					<b-button variant="primary" class="m-2" size="lg" @click="saveContact">Save Changes</b-button>
 				</b-tab>
 				<b-tab title="Communications">
-					<ContactCommsTab v-bind:currentContact="currentContact"/>
+					<ContactCommsTab v-bind:currentContact="currentContact" v-bind:commsLines="commsLines" @refresh="refresh"/>
 				</b-tab>
 				<b-tab title="Tasks">
 					<ContactTasksTab v-bind:currentContact="currentContact" v-bind:taskLines="taskLines" @refresh="refresh"/>
@@ -68,6 +68,7 @@
 				currentContact: {},
 				taskLines: [],
 				eventLines: [],
+				commsLines: [],
 			}
 		},
 
@@ -77,6 +78,7 @@
 					this.currentContact = res;
 					this.eventLines = res.events;
 					this.taskLines = res.tasks;
+					this.commsLines = res.comms;
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 					throw e;
@@ -108,6 +110,7 @@
 					this.currentContact = res;
 					this.eventLines = res.events;
 					this.taskLines = res.tasks;
+					this.commsLines = res.comms;
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 					throw e;
