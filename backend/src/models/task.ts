@@ -3,10 +3,9 @@ import { Document, Model, model, Schema, Types, } from "mongoose";
 export interface ITask {
 	contact: Types.ObjectId,
 	date: string;
-	type: number;
+	type: string;
 	details?: number;
 	completed?: boolean;
-	lastUpdated?: string;
 }
 
 export const TaskSchema = new Schema({
@@ -18,7 +17,7 @@ export const TaskSchema = new Schema({
 	},
 
 	type: {
-		type: Number,
+		type: String,
 		required: true
 	},
 

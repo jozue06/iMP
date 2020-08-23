@@ -4,7 +4,7 @@ export interface IEvent {
 	contact: Types.ObjectId,
 	date: string,
 	time: string
-	type?: number,
+	type?: string,
 	details?: string,
 	isCompleted?: boolean,
 	amountReceived?: number
@@ -27,9 +27,9 @@ export const EventSchema = new Schema({
 	},
 
 	type: {
-		type: Number,
+		type: String,
 		required: false,
-		default: 0
+		default: ""
 	},
 
 	details: {
