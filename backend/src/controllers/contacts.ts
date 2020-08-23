@@ -1,6 +1,8 @@
 import { Contact } from "../models/contact.model"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
+import { Types } from "mongoose";
+import { ContactDocument } from "../models/contact.types";
 
 export class ContactController {
 	public createContact = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -31,11 +33,11 @@ export class ContactController {
 	};
 
 	public updateContactInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Contact.update({"userId": userId}, {IContact: req.body.contact}).then(r => {
+		Contact.findOneAndUpdate({"_id": req.body.contact._id}, {...req.body.contact }).then(r => {
 			res.send(r);
 		}).catch(e => {
 			console.log('e of update', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};
+	};	
 }
