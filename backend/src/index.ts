@@ -5,7 +5,7 @@ import errorMiddleware from './middleware/error.middleware';
 import { AuthRoutes } from "./routes/authRoutes";
 import mongoose from "mongoose";
 import { MONGO_DB_URI } from "./utils/secret";
-import { Routes } from "./routes/routes";
+import { Routes } from "./routes/contactRoutes";
 import passport from "passport";
 
 dotenv.config();

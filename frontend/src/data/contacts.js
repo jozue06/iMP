@@ -25,7 +25,7 @@ export const Contacts = {
 	}),
 
 	deleteContact: handleError(async id => {
-		const res = await axios.delete(baseURL + `/${id}`);
+		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 

@@ -95,7 +95,7 @@
 
 <script>
 	import { contactPurposes } from "../../constants/commsConstants";
-	// import { Contact } from "../../data/models/contactModel";
+	import { Events } from "../../data/events";
 
 	export default  {
 
@@ -121,18 +121,21 @@
 			saveEvent() {
 				this.loading = true;
 				this.eventLine.isCompleted = Boolean(this.eventLine.isCompleted);
-				this.eventLine.save().then(savedEvent => {
-					if (!this.currentContact.eventIds.includes(savedEvent._id)) {
-						this.currentContact.eventIds.push(savedEvent._id);
-						this.currentContact.save().then(res => {
-							this.loading = false;
-							this.$refs.contactEventModal.hide();
-							this.$emit("doneSaving");
-						}).catch(e => {
-							console.log('eek', e);
-							throw e;
-						});
-					}
+				console.log('this.currentContact id ? ', this.currentContact);
+				
+				this.eventLine.contactId = this.currentContact._id;
+				Events.save(this.eventLine).then(savedEvent => {
+					// if (!this.currentContact.eventIds.includes(savedEvent._id)) {
+					// 	this.currentContact.eventIds.push(savedEvent._id);
+					// 	this.currentContact.save().then(res => {
+					// 		this.loading = false;
+					// 		this.$refs.contactEventModal.hide();
+					// 		this.$emit("doneSaving");
+					// 	}).catch(e => {
+					// 		console.log('eek', e);
+					// 		throw e;
+					// 	});
+					// }
 					this.$Notification("Success!", "Successfully saved the Event", "primary");
 					this.loading = false;
 					this.$refs.contactEventModal.hide();

@@ -1,11 +1,38 @@
-import { Schema } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
+
+export interface IContact {
+	userId: string,
+	firstName: string,
+	lastName: string,
+	address: string,
+	city: string,
+	country: string,
+	email: string,
+	phone: string,
+	postalCode: string,
+	orgName: string,
+	isIndividual: boolean,
+	secretary?: string,
+	missionsContact?: string,
+	district?: string,
+	section?: string,
+	secondAddress?: string,
+	secondCity?: string,
+	secondCountry?: string,
+	secondEmail?: string,
+	secondPhone?: string,
+	secondPostalCode?: string,
+	contactStatus: number,
+	commitmentAmt?: number,
+	accountNumber?: string
+}
 
 const ContactSchema = new Schema({
 	userId: {
 		type: String,
 		required: true,
 	},
-	
+
 	firstName: {
 		type: String,
 		required: true,
@@ -124,6 +151,12 @@ const ContactSchema = new Schema({
 
 	},
 
+	events: [{ 
+		type: Schema.Types.ObjectId, 
+		ref: 'event' 
+	}],
 });
 
-export default ContactSchema;
+export interface ContactDocument extends IContact, Document { }
+export interface ContactModel extends Model<ContactDocument> { }
+export const Contact = model<ContactDocument>("contact", ContactSchema);

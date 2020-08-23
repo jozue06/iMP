@@ -72,8 +72,8 @@
 
 <script>
 	import NoResults from "../NoResults";
-	// import { Contact } from "../../data/models/contactModel";
-	// import { Event } from "../../data/models/contactEventModel";
+	import { Contacts } from "../../data/contacts";
+	import { Events } from "../../data/events";
 	import { allowedFields } from "../../constants/tableFields";
 	import ContactEventModal from "../Modals/ContactEventModal"
 	import ConfirmModal from "../Modals/ConfirmModal";
