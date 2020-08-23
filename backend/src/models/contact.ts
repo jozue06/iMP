@@ -25,6 +25,8 @@ export interface IContact {
 	contactStatus: number,
 	commitmentAmt?: number,
 	accountNumber?: string
+	events: [],
+	tasks: [],
 }
 
 const ContactSchema = new Schema({
@@ -154,6 +156,11 @@ const ContactSchema = new Schema({
 	events: [{ 
 		type: Schema.Types.ObjectId, 
 		ref: 'event' 
+	}],
+
+	tasks: [{ 
+		type: Schema.Types.ObjectId, 
+		ref: 'task' 
 	}],
 });
 

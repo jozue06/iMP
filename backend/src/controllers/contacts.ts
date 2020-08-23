@@ -23,7 +23,7 @@ export class ContactController {
 	};
 
 	public getContact = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Contact.findById(req.params.id).populate("events").then(contact => {
+		Contact.findById(req.params.id).populate("events").populate("tasks").then(contact => {
 			res.send(contact);
 		}).catch(e => {
 			console.log('ee', e);

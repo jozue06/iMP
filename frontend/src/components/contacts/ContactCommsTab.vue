@@ -108,7 +108,9 @@
 			},
 
 			clearSelected() {
-				this.$refs.commsTable.clearSelected();
+				if (this.selected.length) {
+					this.$refs.commsTable.clearSelected();
+				}
 			},
 
 			handleConfirmDelete() {				

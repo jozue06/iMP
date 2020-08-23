@@ -1,21 +1,45 @@
-import { TaskDocument, TaskModel } from "../models/task.types";
+import { Task } from "../models/task"
+import { Contact } from '../models/contact';
+import { Request, Response, NextFunction } from "express";
+import ValidationException from '../exceptions/ValidationException';
 
-export async function findById(this: TaskModel, taskId: string): Promise<TaskDocument> {
-	return await this.findOne({ taskId });
-}
+export class TaskController {
+	public createTask = (userId: String, req: Request, res: Response, next: NextFunction) => {		
+		const task = new Task(req.body.task);
+		task.contact = req.body.task.contactId;
+		task.save().then((savedTask) => {
+			Contact.findOneAndUpdate({ _id: req.body.task.contactId }, { $push: { tasks: savedTask._id } }, { useFindAndModify: true, new: true }).then(saved => {
+				console.log('saved contact:', saved.tasks);
+				res.send(saved);
+			});
+			
+		}).catch(e => {
+			console.log('eeek ', e);
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};
 
-export async function findAll(this: TaskModel): Promise<TaskDocument[]> {
-	return await this.find();
-}
+	public getAllTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+		Task.find({ "userId": userId }).then(tasks => {
+			res.send(tasks);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};
 
-export async function create(this: TaskModel): Promise<TaskDocument> {
-	return this.create();
-}
+	public getTask = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		Task.findById(req.params.id).then(task => {
+			res.send(task);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};
 
-export async function update(task: TaskModel): Promise<TaskDocument> {
-	return this.update({task});
-}
-
-export async function deleteTask(this: TaskModel, taskId: string): Promise<object> {
-	return await this.deleteOne({taskId});
+	public updateTaskInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		Task.findOneAndUpdate({"_id": req.body.task._id}, {...req.body.task }).then(r => {
+			res.send(r);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};	
 }

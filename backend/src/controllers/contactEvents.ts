@@ -8,8 +8,10 @@ export class EventController {
 		const event = new Event(req.body.event);
 		event.contact = req.body.event.contactId;
 		event.save().then((savedEvent) => {
-			Contact.findOneAndUpdate({ _id: req.body.event.contactId }, {$push: {events: savedEvent._id}}, { useFindAndModify: true });
-			res.send(savedEvent);
+			Contact.findOneAndUpdate({ _id: req.body.event.contactId }, {$push: {events: savedEvent._id}}, { useFindAndModify: true, new: true }).then(saved => {
+				console.log('saved cn wiht evs', saved.events);
+				res.send(saved);
+			});
 		}).catch(e => {
 			console.log('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));

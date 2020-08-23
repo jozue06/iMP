@@ -102,7 +102,6 @@
 		methods: {
 			showTaskModal(selectedLine) {
 				if (selectedLine == null) {
-					// this.taskLine = Task.create()
 					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
 				} else {
 					this.taskLine = selectedLine;
@@ -123,6 +122,8 @@
 			},
 
 			doneSaving() {
+				console.log('don saving called');
+				
 				this.clearSelected();
 				this.$emit("refresh");
 			},
