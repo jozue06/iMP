@@ -120,7 +120,7 @@
 			},
 
 			findAllContacts() {
-				let contacts = []; 
+				let contacts = []; 				
 				Contacts.getContacts().then((data) => {	
 					data.forEach(c => {
 						if (c.firstName && c.lastName) {
@@ -138,13 +138,13 @@
 			}
 		},
 
-		mounted () {
+		created() {
 			this.contacts = this.findAllContacts();
 		},
 
 		data() {
 			return {
-				contacts: this.findAllContacts(),
+				contacts: [],
 				sortBy: 'firstName',
 				sortDesc: false,
 				selected: "",

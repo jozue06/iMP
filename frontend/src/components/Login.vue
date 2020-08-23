@@ -65,24 +65,24 @@
 			}
 		},
 		methods: {
-			login() {				
+			async login() {			
 				if (this.input.username != "" && this.input.password != "") {
 					this.loading = true;
 					let obj = {
 						username: this.input.username,
 						password: this.input.password
 					}
-					axios.post('http://localhost:9090/user/login', obj).then(res => {
+					await axios.post('http://localhost:9090/user/login', obj).then(res => {
+						localStorage.setItem("jwt", res.data.token)
 						this.loading = false;
-						localStorage.setItem("jwt", res.data.token);
-						this.$emit("authenticated", true);
-						this.$router.replace({ name: "contacts" });
+						this.$router.replace("/contacts");
+
 					})
-					.catch(e => {
+					.catch(e => {						
+						this.loading = false;
 						if (e.response.status == 401) {
 							this.$Notification("Error", `No User Found`, "warning", "", 3000);
 							this.input = {}
-							this.loading = false;
 						}
 					});
 				} else {
@@ -99,7 +99,6 @@
 					}
 					axios.post('http://localhost:9090/user/register', obj).then(res => {
 						this.loading = false;
-						this.$emit("authenticated", true);
 						this.$router.replace("/contacts");
 					}).catch(e => {
 						this.input = {}

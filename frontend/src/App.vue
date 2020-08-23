@@ -23,7 +23,6 @@
 		data() {
 			return {
 				loading: true,
-				authenticated: false,
 			}
 		},
 
