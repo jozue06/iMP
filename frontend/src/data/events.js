@@ -25,8 +25,12 @@ export const Events = {
 		return res.data;
 	}),
 
-	deleteEvent: handleError(async id => {
-		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
+	deleteEvents: handleError(async ids => {
+		let body = {
+			eventIds: ids
+		}
+		
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 

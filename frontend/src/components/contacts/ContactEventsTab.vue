@@ -132,19 +132,13 @@
 
 			handleConfirmDelete() {				
 				let ids = this.selected.map(ele => ele._id);
-				ids.forEach(id => {
-					this.currentContact.eventIds.pop(id);
-				})
-
-				this.currentContact.save().then(res => {
+				Events.deleteEvents(ids).then(() => {
+					this.$emit("refresh");
 					this.$Notification("Deleted", "Deleted the Selected Events", "warning", "", 3000);
 				}).catch(e => {
 					console.log('e', e);
 					throw e;
 				});
-
-				// Event.deleteMany({_id: {$in: ids}});
-				this.$emit("refresh");
 			},
 
 			toggleComplete() {			

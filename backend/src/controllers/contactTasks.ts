@@ -41,4 +41,12 @@ export class TaskController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};	
+
+	public deleteTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+		Task.deleteMany( {"_id": { $in: req.body.taskIds } } ).then(r => {
+			res.send(r);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};	
 }

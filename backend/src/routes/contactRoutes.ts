@@ -32,13 +32,13 @@ export class Routes {
 		this.router.get("/contactEvents", this.authController.authenticateJWT, this.eventController.getAllEvents);
 		this.router.get("/contactEvents/:id", this.authController.authenticateJWT, this.eventController.getEvent);
 		this.router.put("/contactEvents/:id", this.authController.authenticateJWT, this.eventController.updateEventInfo);
-		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
+		this.router.post("/contactEventsDelete", this.authController.authenticateJWT, this.eventController.deleteEvents);
 
 		this.router.post("/contactTasks", this.authController.authenticateJWT, this.taskController.createTask);
 		this.router.get("/contactTasks", this.authController.authenticateJWT, this.taskController.getAllTasks);
 		this.router.get("/contactTasks/:id", this.authController.authenticateJWT, this.taskController.getTask);
 		this.router.put("/contactTasks/:id", this.authController.authenticateJWT, this.taskController.updateTaskInfo);
-		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
+		this.router.post("/contactTasksDelete", this.authController.authenticateJWT, this.taskController.deleteTasks);
 
 		this.router.post("/contactComms", this.authController.authenticateJWT, this.commsController.createComm);
 		this.router.get("/contactComms", this.authController.authenticateJWT, this.commsController.getAllComms);

@@ -71,8 +71,7 @@
 
 <script>
 	import NoResults from "../NoResults";
-	// import { Contact } from "../../data/models/contactModel";
-	// import { Task } from "../../data/models/taskModel";
+	import { Tasks } from "../../data/tasks";
 	import { allowedFields } from "../../constants/tableFields";
 	import ContactTaskModal from "../Modals/ContactTaskModal"
 	import ConfirmModal from "../Modals/ConfirmModal";
@@ -128,19 +127,13 @@
 
 			handleConfirmDelete() {				
 				let ids = this.selected.map(ele => ele._id);
-				ids.forEach(id => {
-					this.currentContact.taskIds.pop(id);
-				})
-				
-				this.currentContact.save().then(res => {
+				Tasks.deleteTasks(ids).then(res => {
 					this.$Notification("Deleted", "Deleted the Selected Tasks", "warning", "", 3000);
+					this.$emit("refresh");
 				}).catch(e => {
 					console.log('e', e);
 					throw e;
 				});
-
-				// Task.deleteMany({_id: {$in: ids}});
-				this.$emit("refresh");
 			},
 
 			toggleComplete() {

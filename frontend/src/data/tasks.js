@@ -25,8 +25,12 @@ export const Tasks = {
 		return res.data;
 	}),
 
-	deleteTask: handleError(async id => {
-		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
+	deleteTasks: handleError(async ids => {
+		let body = {
+			taskIds: ids
+		}
+		
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 

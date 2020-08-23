@@ -40,4 +40,12 @@ export class EventController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};	
+
+	public deleteEvents = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+		Event.deleteMany( {"_id": { $in: req.body.eventIds } } ).then(r => {
+			res.send(r);
+		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};	
 }

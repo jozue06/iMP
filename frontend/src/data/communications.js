@@ -27,7 +27,7 @@ export const Comms = {
 
 	deleteComm: handleError(async ids => {		
 		let body = {
-			data: ids
+			commsIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});

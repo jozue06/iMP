@@ -43,12 +43,7 @@ export class CommsController {
 	};	
 
 	public deleteComs = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		console.log(' userId ', userId);
-		console.log('  req.headers ', req.headers);
-		console.log(' req.body ', req.body);
-		
 		Comm.deleteMany( {"_id": { $in: req.body.commsIds } } ).then(r => {
-			console.log('r of delete nmnay', r);
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
