@@ -125,17 +125,6 @@
 				
 				this.eventLine.contactId = this.currentContact._id;
 				Events.save(this.eventLine).then(savedEvent => {
-					// if (!this.currentContact.eventIds.includes(savedEvent._id)) {
-					// 	this.currentContact.eventIds.push(savedEvent._id);
-					// 	this.currentContact.save().then(res => {
-					// 		this.loading = false;
-					// 		this.$refs.contactEventModal.hide();
-					// 		this.$emit("doneSaving");
-					// 	}).catch(e => {
-					// 		console.log('eek', e);
-					// 		throw e;
-					// 	});
-					// }
 					this.$Notification("Success!", "Successfully saved the Event", "primary");
 					this.loading = false;
 					this.$refs.contactEventModal.hide();

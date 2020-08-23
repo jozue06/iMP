@@ -75,12 +75,7 @@
 			if (this.$router.currentRoute.params.contactId) {
 				Contacts.getContact(this.$router.currentRoute.params.contactId).then(res => {					
 					this.currentContact = res;
-					// Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
-					// 	this.taskLines = res
-					// });
-					// Event.find({_id: {$in: this.currentContact.eventIds}}).then(res => {
-					// 	this.eventLines = res
-					// });
+					this.eventLines = res.events;
 				}).catch(e => {
 					console.log(' Report.find eek ', e);
 					throw e;
