@@ -27,7 +27,7 @@
 					<template v-slot:cell()="data">						
 						<router-link
 							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
-							v-slot="{ href, route, navigate}"
+							v-slot="{ href, navigate }"
 						>
 							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
@@ -120,7 +120,7 @@
 			},
 
 			findAllContacts() {
-				let contacts = []; 
+				let contacts = []; 				
 				Contacts.getContacts().then((data) => {	
 					data.forEach(c => {
 						if (c.firstName && c.lastName) {
@@ -138,13 +138,13 @@
 			}
 		},
 
-		mounted () {
+		created() {
 			this.contacts = this.findAllContacts();
 		},
 
 		data() {
 			return {
-				contacts: this.findAllContacts(),
+				contacts: [],
 				sortBy: 'firstName',
 				sortDesc: false,
 				selected: "",
