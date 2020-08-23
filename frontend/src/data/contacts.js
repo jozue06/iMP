@@ -29,9 +29,7 @@ export const Contacts = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
-		console.log('payload: ', payload);
-		
+	save: handleError(async payload => {		
 		let body = {
 			contact: payload
 		}
