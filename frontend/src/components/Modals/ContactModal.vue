@@ -159,8 +159,7 @@
 
 		methods: {
 			onSubmit() {
-				this.loading = true;				
-				Contacts.createContact(this.contact).then((res) => {					
+				Contacts.save(this.contact).then((res) => {					
 					this.$refs.contactModal.hide();
 					this.$Notification("Success!", "Successfully Added the Contact", "primary");
 					this.loading = false;

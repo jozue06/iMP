@@ -73,9 +73,7 @@
 
 		created() {
 			if (this.$router.currentRoute.params.contactId) {
-				Contacts.getContact(this.$router.currentRoute.params.contactId).then(res => {
-					console.log('res contact: ', res);
-					
+				Contacts.getContact(this.$router.currentRoute.params.contactId).then(res => {					
 					this.currentContact = res;
 					// Task.find({_id: {$in: this.currentContact.taskIds}}).then(res => {
 					// 	this.taskLines = res
@@ -91,14 +89,15 @@
 		},
 
 		methods: {
-			saveContact() {						
-				// this.currentContact.save().then(res => {
-				// 	this.$Notification("Success!", "Successfully Saved the Contact", "primary");
-				// }).catch(e => {
-				// 	console.log('eek', e);
-				// 	this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
-				// 	throw e;
-				// });
+			saveContact() {			
+				
+				Contacts.save(this.currentContact).then(res => {
+					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
+				}).catch(e => {
+					console.log('eek', e);
+					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
+					throw e;
+				});
 			},
 
 			showContactModal() {

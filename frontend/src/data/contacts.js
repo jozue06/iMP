@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:9090/contacts/';
+const baseURL = 'http://localhost:9090/contacts';
 const headers = {
 	'Content-Type': 'application/json',
 	authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -15,7 +15,7 @@ fn(...params).catch(e => {
 
 export const Contacts = {
 	getContact: handleError(async id => {
-		const res = await axios.get(baseURL + id, {"headers": headers});
+		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 	
@@ -25,20 +25,23 @@ export const Contacts = {
 	}),
 
 	deleteContact: handleError(async id => {
-		const res = await axios.delete(baseURL + id);
+		const res = await axios.delete(baseURL + `/${id}`);
 		return res.data;
 	}),
 
-	createContact: handleError(async payload => {
+	save: handleError(async payload => {
+		console.log('payload: ', payload);
+		
 		let body = {
 			contact: payload
 		}
-		const res = await axios.post(baseURL, body, {"headers": headers});
-		return res.data;
-	}),
 
-	updateContact: handleError(async payload => {
-		const res = await axios.put(baseURL + payload._id, payload);
-		return res.data;
+		if (payload._id) {
+			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
+			return res.data;
+		} else {
+			const res = await axios.post(baseURL, body, {"headers": headers});
+			return res.data;
+		}
 	})
 };

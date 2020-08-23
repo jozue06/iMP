@@ -22,10 +22,19 @@ export class ContactController {
 		});
 	};
 
-	public getContact = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public getContact = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Contact.findById(req.params.id).then(contact => {
 			res.send(contact);
 		}).catch(e => {
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	};
+
+	public updateContactInfo = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		Contact.update({"userId": userId}, {IContact: req.body.contact}).then(r => {
+			res.send(r);
+		}).catch(e => {
+			console.log('e of update', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};

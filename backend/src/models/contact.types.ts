@@ -1,6 +1,6 @@
 import { Document, Model } from "mongoose";
 
-export interface Contact {
+export interface IContact {
 	userId: string,
 	firstName: string,
 	lastName: string,
@@ -27,5 +27,5 @@ export interface Contact {
 	accountNumber?: string
 }
 
-export interface ContactDocument extends Contact, Document {}
+export interface ContactDocument extends IContact, Document {}
 export interface ContactModel extends Model<ContactDocument> {}
