@@ -25,12 +25,16 @@ export const Comms = {
 		return res.data;
 	}),
 
-	deleteComm: handleError(async id => {
-		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
+	deleteComm: handleError(async ids => {		
+		let body = {
+			data: ids
+		}
+		
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	save: handleError(async payload => {		
+	save: handleError(async payload => {
 		let body = {
 			comm: payload
 		}

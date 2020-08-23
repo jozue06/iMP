@@ -44,7 +44,7 @@ export class Routes {
 		this.router.get("/contactComms", this.authController.authenticateJWT, this.commsController.getAllComms);
 		this.router.get("/contactComms/:id", this.authController.authenticateJWT, this.commsController.getComm);
 		this.router.put("/contactComms/:id", this.authController.authenticateJWT, this.commsController.updateCommsInfo);
-		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
+		this.router.post("/contactCommsDelete", this.authController.authenticateJWT, this.commsController.deleteComs);
 
 	}
 }

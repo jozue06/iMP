@@ -52,7 +52,7 @@
 			@handleConfirm="handleConfirmDelete" 
 		/>
 
-		<CommsModal ref="commsModal" v-bind:commsLine="commsLine" v-bind:currentContact="currentContact" />
+		<CommsModal ref="commsModal" @doneSaving="doneSaving" v-bind:commsLine="commsLine" v-bind:currentContact="currentContact" />
 	</div>
 </template>
 
@@ -60,7 +60,7 @@
 	import CommsModal from "../Modals/CommsModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import NoResults from "../NoResults";
-	// import { Contact, ContactComms } from "../../data/models/contactModel";
+	import { Comms } from "../../data/communications";
 	import { allowedFields } from "../../constants/tableFields";
 
 	export default  {
@@ -92,7 +92,6 @@
 		methods: {
 			showCommsModal(selectedLine) {
 				if (selectedLine == null) {
-					// this.commsLine = ContactComms.create()
 					this.$refs.commsModal.$refs.commsModal.show();
 				} else {
 					this.commsLine = selectedLine;
@@ -114,13 +113,15 @@
 				}
 			},
 
-			handleConfirmDelete() {				
+			doneSaving() {
+				this.clearSelected();
+				this.$emit("refresh");
+			},
+
+			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
-				ids.forEach(id => {
-					this.currentContact.communications.pop(id);
-				})
-				
-				this.currentContact.save().then(res => {
+				Comms.deleteComm(ids).then(() => {
+					this.$emit("refresh");
 					this.$Notification("Deleted", "Deleted the Selected Communications", "warning", "", 3000);
 				}).catch(e => {
 					console.log('e', e);
@@ -131,9 +132,7 @@
 		},
 
 		computed: {
-			fields() {				
-				console.log('coms fieds', this.commsLines[0]);
-				
+			fields() {
 				let keys = Object.keys(this.commsLines[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
