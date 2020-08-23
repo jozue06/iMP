@@ -43,7 +43,7 @@ export default [
 		}
 	},
 	{
-		path: "/contactFullView",
+		path: "/contactFullView/:contactId",
 		name: "contactFullView",
 		component: ContactFullView,
 		meta: {
