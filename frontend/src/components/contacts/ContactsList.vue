@@ -139,6 +139,7 @@
 		},
 
 		mounted () {
+			this.contacts = this.findAllContacts();
 		},
 
 		data() {
