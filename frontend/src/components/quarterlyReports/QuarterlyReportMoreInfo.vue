@@ -113,7 +113,7 @@
 					Statment Info
 				</label>
 				<b-col>
-					<b-row v-if="statements.length > 0" class="align-items-center">
+					<b-row v-if="statements && statements.length > 0" class="align-items-center">
 						<b-col>
 							<b-table
 								class="small-table"
@@ -144,7 +144,7 @@
 			</b-col>
 			<b-col cols="6"  class="my-2">
 				<label>Other</label>
-				<b-row v-if="otherIncomeLines.length > 0" class="align-items-center">
+				<b-row v-if="statements && otherIncomeLines.length > 0" class="align-items-center">
 					<b-col>
 						<b-table
 							class="small-table"

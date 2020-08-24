@@ -143,13 +143,7 @@
 	import QuarterlyReportTop from "./QuarterlyReportTop";
 	import QuarterlyReportMoreInfo from "./QuarterlyReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	// import { 
-	// 	QuarterlyReport as Report, 
-	// 	ExpenseLine, 
-	// 	MileageLog, 
-	// 	OtherIncomeLine,
-	// 	Statement,
-	// } from "../../data/models/quarterlyReportModel";
+	import { QuarterlyReports } from "../../data/quarterlyReports"
 
 	export default {
 		components: {
@@ -236,7 +230,7 @@
 				}
 			},
 			saveReport() {
-				this.currentReport.save().then(res => {
+				QuarterlyReports.save(this.currentReport).then(res => {
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
 					console.log('eeek error saving report', e);
@@ -266,17 +260,19 @@
 		},
 
 		created() {
-
 			if (this.$router.currentRoute.params.reportId) {
-				// Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
-				// 	this.currentReport = res;
-				// 	this.expenseLines = res.expenseLines;
-				// 	this.mileageLogs = res.mileageLogs;
-				// }).catch(e => {
-				// 	console.log(' Report.find eek ', e);
-				// });
+				QuarterlyReports.getQuarterlyReport(this.$router.currentRoute.params.reportId).then(res => {
+					this.currentReport = res;
+					this.expenseLines = res.expenseLines;
+					this.mileageLogs = res.mileageLogs;
+				}).catch(e => {
+					console.log(' Report.find eek ', e);
+				});
 			} else {
-				// this.currentReport = Report.create();
+				this.currentReport = {
+					quarterNumber: 1,
+					year: moment().format("YYYY"),
+				};
 			}
 		},
 

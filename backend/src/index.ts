@@ -5,7 +5,8 @@ import errorMiddleware from './middleware/error.middleware';
 import { AuthRoutes } from "./routes/authRoutes";
 import mongoose from "mongoose";
 import { MONGO_DB_URI } from "./utils/secret";
-import { Routes } from "./routes/contactRoutes";
+import { ContactRoutes } from "./routes/contactRoutes";
+import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import passport from "passport";
 
 dotenv.config();
@@ -22,7 +23,8 @@ class Server {
 
 	public routes(): void {
 		this.app.use("/user", new AuthRoutes().router);
-		this.app.use("/", new Routes().router);
+		this.app.use("/", new ContactRoutes().router);
+		this.app.use("/", new QtrReportRoutes().router);
 	}
 
 	public config(): void {

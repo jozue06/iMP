@@ -72,7 +72,7 @@
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
-	// import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
+	import { QuarterlyReports  } from '../../data/quarterlyReports'
 	import { allowedFields } from "../../constants/tableFields";
 		
 	export default  {
@@ -131,14 +131,14 @@
 
 			loadReports() {
 				let reports = []; 
-				// Report.find({}).then(res => {
-				// 	res.forEach(report => {
-				// 		if (report._id) {
-				// 			report.id = report._id;
-				// 			reports.push({...report});
-				// 		}
-				// 	});
-				// });
+				QuarterlyReports.getQuarterlyReports().then(res => {
+					res.forEach(report => {
+						if (report._id) {
+							report.id = report._id;
+							reports.push({...report});
+						}
+					});
+				});
 				return reports;
 			},
 

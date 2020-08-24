@@ -1,6 +1,7 @@
 import { Document, Schema, Model, model, Error, Types } from "mongoose";
 import { ProfileDocument } from "./profile"
 import { ContactGroupDocument } from "./contactGroup"
+import { VehicleDocument } from "./vehicle";
 import bcrypt from "bcrypt-nodejs";
 
 export interface IUser extends Document {
@@ -11,6 +12,7 @@ export interface IUser extends Document {
 	passwordResetExpires?: Date;
 	profile?: ProfileDocument;
 	contactGroups?: [ContactGroupDocument]
+	vehicles?: [VehicleDocument]
 }
 
 export interface AuthToken {
@@ -31,6 +33,11 @@ export const userSchema: Schema = new Schema({
 	contactGroups: [{
 		type: Types.ObjectId,
 		ref: "contactGroup"
+	}],
+
+	vehicles: [{
+		type: Types.ObjectId,
+		ref: "vehicle"
 	}]
 
 });

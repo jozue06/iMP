@@ -1,35 +1,50 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:9090/';
+const baseURL = 'http://localhost:9090/qtrReports';
 
-// const handleError = fn => (...params) =>
-// fn(...params).catch(error => {
-// 	vm.flash(`${error.response.status}: ${error.response.statusText}`, 'error');
-// });
+const handleError = fn => (...params) =>
+	fn(...params).catch(e => {
+		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
+		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
+		throw new Error(newmess.replace(",", '\n'));
+});
+
+const headers = {
+	'Content-Type': 'application/json',
+	authorization: `Bearer ${localStorage.getItem("jwt")}` 
+}
 
 export const QuarterlyReports = {
 	getQuarterlyReport: handleError(async id => {
-		const res = await axios.get(baseURL + id);
+		const res = await axios.get(baseURL + `/${id}`, { "headers" : headers } );
 		return res.data;
 	}),
 	
 	getQuarterlyReports: handleError(async () => {
-		const res = await axios.get(baseURL);
+		const res = await axios.get(baseURL, { "headers" : headers } );
 		return res.data;
 	}),
 
-	deleteQuarterlyReport: handleError(async id => {
-		const res = await axios.delete(baseURL + id);
+	deleteQuarterlyReport: handleError(async ids => {
+		let body = {
+			qtrReportIds: ids
+		}
+		
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	createQuarterlyReport: handleError(async payload => {
-		const res = await axios.post(baseURL, payload);
-		return res.data;
-	}),
+	save: handleError(async payload => {		
+		let body = {
+			qtrReport: payload
+		}
 
-	updateQuarterlyReport: handleError(async payload => {
-		const res = await axios.put(baseURL + payload._id, payload);
-		return res.data;
+		if (payload._id) {
+			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
+			return res.data;
+		} else {
+			const res = await axios.post(baseURL, body, {"headers": headers});
+			return res.data;
+		}
 	})
 };
