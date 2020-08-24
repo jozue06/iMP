@@ -104,6 +104,7 @@
 					}
 					axios.post('http://localhost:9090/user/register', obj).then(res => {
 						this.loading = false;
+						localStorage.setItem("jwt", res.data.token);
 						this.$router.replace("/contacts");
 					}).catch(e => {
 						this.input = {}
