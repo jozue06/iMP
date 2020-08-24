@@ -48,7 +48,10 @@ export class UserController {
 				if (err) { return next(err); }
 				if (isMatch) {
 					const token = jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
+					user.populate("contactGroups");
 					return res.status(200).send({ token: token });
+				} else {
+					return next(new ValidationException(`Username or password incorrect not found.`));
 				}
 			});
 		});

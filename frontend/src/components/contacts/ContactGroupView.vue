@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<div class="main-card">
-			<h1>{{currentGroup.groupName}}</h1>
+			<h1>{{currentGroup.name}}</h1>
 			<div v-if="contactLines.length > 0">
 				<b-table
 					striped 
@@ -18,7 +18,7 @@
 					<template v-slot:cell()="data">	
 						<router-link
 							:to="{ name: 'contactFullView', params: { contactId: data.item._id } }"
-							v-slot="{ href, route, navigate}"
+							v-slot="{ href, navigate}"
 						>
 							<span :href="href" @click="navigate" class="text-info custom-hover"> {{ data.value }} </span>
 						</router-link>
@@ -44,8 +44,8 @@
 </template>
 
 <script>
-	// import { ContactGroup } from '../../data/models/contactGroupModel';
-	// import { Contact } from '../../data/models/contactModel';
+	import { ContactGroups } from '../../data/contactGroups';
+	import { Contacts } from '../../data/contacts';
 	import { allowedFields } from '@/constants/tableFields';
 	import NoResults from '../NoResults'
 	import ContactModal from '../Modals/ContactModal'
@@ -65,13 +65,13 @@
 
 		created() {
 			if (this.$router.currentRoute.params.groupId) {
-				// ContactGroup.findOne( { _id: this.$router.currentRoute.params.groupId }, { populate: true } ).then(res => {
-				// 	this.currentGroup = res;					
-				// 	Contact.find({_id: {$in: this.currentGroup.contacts}}).then(res => this.contactLines = res);
-				// }).catch(e => {
-				// 	console.log(' Report.find eek ', e);
-				// 	throw e;
-				// });
+				ContactGroups.getContactGroup(this.$router.currentRoute.params.groupId).then(res => {
+					this.currentGroup = res;					
+					this.contactLines = this.currentGroup.contacts;
+				}).catch(e => {
+					console.log(' Report.find eek ', e);
+					throw e;
+				});
 			}
 		},
 

@@ -3,8 +3,7 @@
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Groups</h1>
-			</router-link>	
-			
+			</router-link>			
 			<div v-if="groups.length > 0">
 				<b-button variant="primary" class="float-right m-2" size="sm" @click="showGroupModal(null)">Add Group</b-button>
 				<b-table
@@ -23,12 +22,12 @@
 					<template v-slot:cell(edit)="data">	
 						<span @click="showGroupModal(data.item)" class="text-info">edit</span>
 					</template>
-					<template v-slot:cell(groupName)="data">	
+					<template v-slot:cell(name)="data">	
 						<router-link
 							:to="{ name: 'groupView', params: { groupId: data.item._id } }"
-							v-slot="{ href, route, navigate}"
+							v-slot="{ href, navigate}"
 						>
-							<span :href="href" @click="navigate" class="text-info"> {{ data.item.groupName  }} </span>
+							<span :href="href" @click="navigate" class="text-info"> {{ data.item.name  }} </span>
 						</router-link>
 					</template>
 					<template v-slot:cell(contacts)="data">
@@ -72,7 +71,7 @@
 </template>
 
 <script>
-	// import { ContactGroup } from '../../data/models/contactGroupModel';
+	import { ContactGroups } from '../../data/contactGroups';
 	import ConfirmModal from '../Modals/ConfirmModal';
 	import ContactGroupModal from '../Modals/ContactGroupModal';
 	import NoResults from '../NoResults';
@@ -92,11 +91,11 @@
 		},
 
 		mounted () {
-
+			this.findAllGroups();
 		},
 		
 		created() {
-			this.findAllGroups();
+			// this.findAllGroups();
 		},
 
 		data() {
@@ -114,25 +113,23 @@
 		methods: {
 			findAllGroups() {
 				let groups = []; 
-				// ContactGroup.find({}).then((data) => {
-				// 	data.forEach(g => {
-				// 		if (g && g.groupName) {
-				// 			g.id = g._id;
-				// 			groups.push({...g});
-				// 		}
-				// 	});
-				// });
+				ContactGroups.getContactGroups().then((data) => {
+					data.forEach(g => {
+						if (g && g.name) {
+							g.id = g._id;
+							groups.push({...g});
+						}
+					});
+				});
 
 				this.groups = groups;
 			},
 
 			showGroupModal(group) {
-				if (group == null ) {
-					// this.selectedGroup = ContactGroup.create();
+				if (group) {
+					this.selectedGroup = group;
 				} else {
-					// ContactGroup.findOne({ _id: group._id }).then((res) => {
-					// 	this.selectedGroup = res;
-					// });
+					this.selectedGroup = {};
 				}
 				this.$refs.groupModal.$refs.groupModal.show()
 			},
@@ -174,7 +171,7 @@
 				let keys = Object.keys(this.groups[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
-					if (f == "groupName") {
+					if (f == "name") {
 						tmp.key = f;
 					} else if (f == "contacts") {
 						tmp.key = f;

@@ -4,15 +4,15 @@
 		
 		<div>
 			<p>
-				Please enter a Contact Group Name
+				Contact Group Name
 			</p>
 		</div>
 		<b-form-input
 			type="text"
-			v-model="group.groupName"
+			v-model="group.name"
 			required
 			placeholder="Group Name"
-			name="groupName"
+			name="name"
 		></b-form-input>
 		<b-button class="float-right mt-2" @click="onSave" :disabled="loading" variant="primary">
 			Save
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	// import { ContactGroup } from '../../data/models/contactGroupModel';
+	import { ContactGroups } from '../../data/contactGroups';
 
 	export default  {
 
@@ -45,35 +45,18 @@
 		methods: {
 			onSave() {				
 				this.loading = true;
-				if (this.group._id != null) {
-					// ContactGroup.findOneAndUpdate({_id: this.group._id}, this.group).then((res) => {
-					// 	this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");
-					// 	this.loading = false;
-					// 	this.$emit("saveContactGroup");
-					// 	this.$refs.groupModal.hide();
-					// }).catch(e => {
-					// 	this.$Notification("Error", `Error Saving Contact Group: ${e}`, "warning", "", 3000);
-					// 	this.loading = false;
-					// 	throw e;
-					// });
-				} else {
-					this.group.save().then((res) => {
-						this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");
-						this.loading = false;
-						this.$emit("saveContactGroup");
-						this.$refs.groupModal.hide();
-					}).catch(e => {
-						this.$Notification("Error", `Error Saving Contact Group: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				}
+				ContactGroups.save(this.group).then((res) => {
+					this.$Notification("Success!", "Successfully Saved the Contact Group", "primary");
+					this.loading = false;
+					this.$emit("saveContactGroup");
+					this.$refs.groupModal.hide();
+				}).catch(e => {
+					this.$Notification("Error", `Error Saving Contact Group: ${e}`, "warning", "", 3000);
+					this.loading = false;
+					throw e;
+				});
+
 			}
 		},
-
-		computed: {
-
-		}
-}
-
+	}
 </script>

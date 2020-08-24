@@ -27,6 +27,7 @@ export interface IContact {
 	accountNumber?: string
 	events: [],
 	tasks: [],
+	contactGroups: [],
 }
 
 const ContactSchema = new Schema({
@@ -165,7 +166,13 @@ const ContactSchema = new Schema({
 
 	comms: [{ 
 		type: Schema.Types.ObjectId, 
-		ref: 'comm' 
+		ref: 'comm'
+	}],
+
+	contactGroups: [{ 
+		type: Schema.Types.ObjectId, 
+		ref: 'contactGroup',
+		defaut: []
 	}],
 });
 

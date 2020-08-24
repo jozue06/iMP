@@ -5,6 +5,7 @@ import { ContactController } from "../controllers/contacts";
 import { EventController } from "../controllers/contactEvents";
 import { TaskController } from "../controllers/contactTasks";
 import { CommsController } from "../controllers/contactComms";
+import { ContactGroupController } from "../controllers/contactGroups";
 
 
 export class Routes {
@@ -15,6 +16,7 @@ export class Routes {
 	public eventController: EventController = new EventController();
 	public taskController: TaskController = new TaskController();
 	public commsController: CommsController = new CommsController();
+	public contactGoupController: ContactGroupController = new ContactGroupController();
 
 	constructor() {
 		this.router = Router();
@@ -45,6 +47,12 @@ export class Routes {
 		this.router.get("/contactComms/:id", this.authController.authenticateJWT, this.commsController.getComm);
 		this.router.put("/contactComms/:id", this.authController.authenticateJWT, this.commsController.updateCommsInfo);
 		this.router.post("/contactCommsDelete", this.authController.authenticateJWT, this.commsController.deleteComs);
+
+		this.router.post("/contactGroups", this.authController.authenticateJWT, this.contactGoupController.createGroup);
+		this.router.get("/contactGroups", this.authController.authenticateJWT, this.contactGoupController.getAllContactGroups);
+		this.router.get("/contactGroups/:id", this.authController.authenticateJWT, this.contactGoupController.getContactGroup);
+		this.router.put("/contactGroups/:id", this.authController.authenticateJWT, this.contactGoupController.updateContactGroup);
+		this.router.post("/contactGroupsDelete", this.authController.authenticateJWT, this.contactGoupController.deleteContactGroup);
 
 	}
 }

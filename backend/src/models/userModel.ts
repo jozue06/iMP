@@ -1,5 +1,6 @@
 import { Document, Schema, Model, model, Error, Types } from "mongoose";
 import { ProfileDocument } from "./profile"
+import { ContactGroupDocument } from "./contactGroup"
 import bcrypt from "bcrypt-nodejs";
 
 export interface IUser extends Document {
@@ -8,7 +9,8 @@ export interface IUser extends Document {
 	password: string;
 	passwordResetToken?: string;
 	passwordResetExpires?: Date;
-	profile?: ProfileDocument
+	profile?: ProfileDocument;
+	contactGroups?: [ContactGroupDocument]
 }
 
 export interface AuthToken {
@@ -20,10 +22,17 @@ export const userSchema: Schema = new Schema({
 	password: String,
 	passwordResetToken: String,
 	passwordResetExpires: Date,
+
 	profile: {
 		type: Types.ObjectId,
 		ref: "profile"
-	}
+	},
+
+	contactGroups: [{
+		type: Types.ObjectId,
+		ref: "contactGroup"
+	}]
+
 });
 
 userSchema.methods.comparePassword = function (candidatePassword: string, callback: any) {	

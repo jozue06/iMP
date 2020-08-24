@@ -36,18 +36,19 @@
 					</b-input-group>
 				</b-form-group>
 			</b-col>
+			
 			<b-col class="low-cards group-card">
 				<p> Contact Groups</p>				
 				<div v-if="contactGroups.length > 0" class="mb-2">
 					<b-list-group>
 						<b-list-group-item 
 							v-for="group in contactGroups" 
-							:key="group.groupName" 
-							:active="currentContact.contactGroupIds.includes(group._id)"
+							:key="group.name" 
+							:active="currentContact.contactGroups.includes(group._id)"
 							@click="toggleGroupAssign(group)"
 						>
-							{{ group.groupName }}
-							<b-badge v-if="currentContact.contactGroupIds.includes(group._id)" variant="secondary" pill>
+							{{ group.name }}
+							<b-badge v-if="currentContact.contactGroups.includes(group._id)" variant="secondary" pill>
 								Assigned
 							</b-badge>
 						</b-list-group-item>
@@ -59,8 +60,8 @@
 </template>
 
 <script>
-	// import { ContactGroup } from "../../data/models/contactGroupModel";
-	// import { Contact } from "../../data/models/contactModel";
+	import { ContactGroups } from "../../data/contactGroups";
+	import { Contacts } from "../../data/contacts";
 	import statusCodes from "../../constants/contactStatusCodes"
 	export default  {
 
@@ -86,14 +87,14 @@
 		created() {
 			let groups = []; 
 				
-			// ContactGroup.find({}).then((data) => {				
-			// 	data.forEach(g => {
-			// 		if (g && g.groupName) {
-			// 			g.id = g._id;
-			// 			groups.push({...g});
-			// 		}
-			// 	});
-			// });
+			ContactGroups.getContactGroups().then((data) => {
+				data.forEach(g => {
+					if (g && g.name) {
+						g.id = g._id;
+						groups.push({...g});
+					}
+				});
+			});
 
 			this.contactGroups = groups;
 		},
@@ -101,32 +102,17 @@
 		methods: {
 			toggleGroupAssign(clickedGroup) {
 				this.loading = true;
-				let foundGroup
-				// ContactGroup.findOne({ _id: clickedGroup._id }).then(res => {
-				// 	foundGroup = res;									
-				// 	if (clickedGroup.contacts.includes(this.currentContact._id)) {			
-				// 		clickedGroup.contacts.pop(this.currentContact._id);
-				// 		this.currentContact.contactGroupIds.pop(foundGroup._id);
-				// 	} else {
-				// 		clickedGroup.contacts.push(this.currentContact._id);
-				// 		this.currentContact.contactGroupIds.push(clickedGroup._id);
-				// 	}
+				
+				if (clickedGroup.contacts.includes(this.currentContact._id) || this.currentContact.contactGroups.pop(clickedGroup._id)) {
+					clickedGroup.contacts.pop(this.currentContact._id);
+					this.currentContact.contactGroups.pop(clickedGroup._id);
+				} else {
+					clickedGroup.contacts.push(this.currentContact._id);
+					this.currentContact.contactGroups.push(clickedGroup._id);
+				}
+				ContactGroups.save(clickedGroup).then(res => {
 					
-				// 	foundGroup.contacts = clickedGroup.contacts;
-				// 	foundGroup.save().then(res => {						
-				// 		this.currentContact.save().then(res => {
-				// 			this.$Notification("Success", "Saved the contact and gruoping", "primary", "", 6000);
-				// 			this.loading = false;
-				// 		}).catch(e => {
-				// 			console.log('eeek ', e);
-				// 			this.loading = false;
-				// 			throw e;
-				// 		});
-						
-				// 	}).catch(e => {
-				// 		console.log('eeek ', e);
-				// 	})
-				// });
+				});
 			},
 
 			formatMoney(amount) {
