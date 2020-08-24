@@ -4,7 +4,7 @@
 			<p v-if="eventLine.contactId != ''" class="text-center"> Event for {{ currentContact.firstName }} {{ currentContact.lastName }}</p>			
 			<div>
 				<b-row class="ml-4 mr-4 justify-content-between">
-					<b-col cols="6">
+					<b-col cols="12">
 						<b-form-group label="Date">
 							<b-form-datepicker
 								v-model="eventLine.date"
@@ -15,12 +15,13 @@
 							></b-form-datepicker>
 						</b-form-group>
 					</b-col>
-					<b-col cols="4">
+				</b-row>
+				<b-row class="ml-4 mr-4 justify-content-between">	
+					<b-col cols="12">
 						<b-form-group label="Time">
 							<b-form-timepicker
 								v-model="eventLine.time"
 								button-only
-								right
 								:hour12="true"
 								hourCycle='h12'
 								locale="en"
@@ -67,10 +68,11 @@
 							</b-input-group>
 						</b-form-group>
 					</b-col>
-					<b-col cols="4" class="mt-4">
+				</b-row>
+				<b-row class="ml-4 mr-4 justify-content-between" align-v="center">
+					<b-col cols="6" class="mt-4">
 						<b-form-checkbox
-							class="float-right"
-							size="sm"
+							class="float-left"
 							id="eventComplete"
 							v-model="eventLine.isCompleted"
 							name="checkboxforEvent"
@@ -120,9 +122,7 @@
 		methods: {
 			saveEvent() {
 				this.loading = true;
-				this.eventLine.isCompleted = Boolean(this.eventLine.isCompleted);
-				console.log('this.currentContact id ? ', this.currentContact);
-				
+				this.eventLine.isCompleted = Boolean(this.eventLine.isCompleted);				
 				this.eventLine.contactId = this.currentContact._id;
 				Events.save(this.eventLine).then(savedEvent => {
 					this.$Notification("Success!", "Successfully saved the Event", "primary");

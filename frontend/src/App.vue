@@ -27,7 +27,7 @@
 		},
 
 		mounted() {
-			if (!this.$router.currentRoute.params.token) {
+			if (this.$router.currentRoute.params && !this.$router.currentRoute.params.token) {
 				getSession().then(res => {
 					if (res == false) {
 						this.$router.push("/login");

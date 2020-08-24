@@ -102,13 +102,12 @@
 
 		methods: {
 			showEventModal(selectedLine) {
-				if (selectedLine == null) {
-					// this.eventLine = Event.create()
-					this.$refs.contactEventModal.$refs.contactEventModal.show();
-				} else {
+				if (selectedLine) {
 					this.eventLine = selectedLine;
-					this.$refs.contactEventModal.$refs.contactEventModal.show();
+				} else {
+					this.eventLine  = {}
 				}
+				this.$refs.contactEventModal.$refs.contactEventModal.show();
 			},
 
 			doneSaving() {

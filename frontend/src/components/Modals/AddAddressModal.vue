@@ -1,7 +1,7 @@
 <template>
 	<section class="contact">
 		<b-modal top ref="addAddressModal" hide-footer v-bind:currentContact="currentContact">
-		<h1>Add Contacts</h1>
+		<h1>Add Address</h1>
 		<ValidationObserver ref="form" v-slot="{ }">
 			<form @submit.prevent="onSubmit">
 				<b-form-group label="Address">

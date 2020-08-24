@@ -91,12 +91,21 @@
 
 		methods: {
 			showCommsModal(selectedLine) {
-				if (selectedLine == null) {
-					this.$refs.commsModal.$refs.commsModal.show();
-				} else {
+				if (selectedLine) {
 					this.commsLine = selectedLine;
-					this.$refs.commsModal.$refs.commsModal.show();
+				} else {
+					this.commsLine = {}
 				}
+				this.$refs.commsModal.$refs.commsModal.show();	
+			},
+
+			showContactModal(item) {			
+				if (item) {				
+					this.selectedContact = item;
+				} else {
+					this.selectedContact = {};
+				}
+				this.$refs.contactModal.$refs.contactModal.show();
 			},
 
 			onRowSelected(contact) {

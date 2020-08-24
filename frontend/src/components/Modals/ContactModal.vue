@@ -1,7 +1,7 @@
 <template>
 	<section class="contact">
-		<b-modal ref="contactModal" hide-footer v-bind:contact="contact">
-			<h1>Add Contact</h1>
+		<b-modal ref="contactModal" hide-footer v-bind:contact="contact">			
+			<h1>{{ title }}</h1>
 			<ValidationObserver ref="form" v-slot="{ }">
 				<form @submit.prevent="onSubmit">
 					<b-form-group label="First Name">
@@ -185,6 +185,11 @@
 				states: STATES.map(c => ({ value: c.name, text: c.name }))
 			};
 		},
+		computed: {
+			title() {
+				return this.contact.firstName ? "Update Contact" : "Add Contact";
+			}
+		}
 	};
 </script>
 

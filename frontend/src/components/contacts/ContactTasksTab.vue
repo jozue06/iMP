@@ -100,12 +100,12 @@
 
 		methods: {
 			showTaskModal(selectedLine) {
-				if (selectedLine == null) {
-					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
-				} else {
+				if (selectedLine) {
 					this.taskLine = selectedLine;
-					this.$refs.contactTaskModal.$refs.contactTaskModal.show();
+				} else {
+					this.taskLine  = {}
 				}
+				this.$refs.contactTaskModal.$refs.contactTaskModal.show();
 			},
 
 			onRowSelected(task) {
