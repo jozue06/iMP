@@ -27,11 +27,13 @@
 		},
 
 		mounted() {
-			getSession().then(res => {				
-				if (res == false) {
-					this.$router.replace({ name: "login" });
-				}
-			});
+			if (!this.$router.currentRoute.params.token) {
+				getSession().then(res => {
+					if (res == false) {
+						this.$router.push("/login");
+					}
+				});
+			}
 		},
 	}
 </script>

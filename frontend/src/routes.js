@@ -5,10 +5,12 @@ import ContactFullView from './components/contacts/ContactFullView.vue';
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
 import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
 import Login from './components/Login.vue'
+import Forgot from './components/Forgot.vue'
+import Reset from './components/Reset.vue'
 
 export default [
 	{
-		path: '/',
+		path: '/home',
 		meta: {
 			requiresAuth: true
 		}
@@ -16,7 +18,27 @@ export default [
 	{
 		path: "/login",
 		name: "login",
-		component: Login
+		component: Login,
+		meta: {
+			requiresAuth: false
+		}
+	},
+	{
+		path: "/forgot",
+		name: "forgot",
+		component: Forgot,
+		meta: {
+			requiresAuth: false
+		}
+		
+	},
+	{
+		path: "/user/reset/:token",
+		name: "reset",
+		component: Reset,
+		meta: {
+			requiresAuth: false
+		}
 	},
 	{
 		path: "/contacts", 

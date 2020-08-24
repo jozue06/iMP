@@ -13,3 +13,5 @@ if (!JWT_SECRETE) {
 	console.log("No JWT secret string. Set JWT_SECRET environment variable.");
 	process.exit(1);
 }
+
+export const GRID_SEND_KEY = process.env.SEND_GRIDE_API_KEY;

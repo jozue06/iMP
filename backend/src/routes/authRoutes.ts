@@ -17,5 +17,7 @@ export class AuthRoutes {
 		this.router.post("/register", this.userController.registerUser);
 		this.router.post("/login", this.userController.loginUser);
 		this.router.post("/authorize", this.authController.authorizeJWT);
+		this.router.post("/forgot", this.userController.postForgot);
+		this.router.post("/reset", this.userController.postReset);
 	}
 }

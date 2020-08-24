@@ -45,6 +45,11 @@
 						Login ?
 					</b-button>
 				</div>
+				<div class="mt-4 mb-0">
+					<router-link to="/forgot">
+						<p class="mt-4 mb-0">Forgot Password</p>
+					</router-link>	
+				</div>
 			</div>
 		</b-form>
 	</section>
