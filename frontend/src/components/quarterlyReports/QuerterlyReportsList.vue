@@ -7,8 +7,8 @@
 		
 			<div v-if="reports.length > 0">
 				<router-link
-					to="/addQuarterlyReport"
-					v-slot="{ href, route, navigate}"
+					to="/quarterlyReport"
+					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
 						New Quarterly Report
@@ -31,8 +31,8 @@
 				>
 					<template v-slot:cell()="data">
 						<router-link
-							:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
-							v-slot="{ href, route, navigate}"
+							:to="{ name: 'quarterlyReport', params: { reportId: data.item._id } }"
+							v-slot="{ href, navigate}"
 						>
 							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
@@ -52,8 +52,8 @@
 			</div>
 			<router-link
 				v-else-if="reports.length == 0" 
-				to="/addQuarterlyReport"
-				v-slot="{ href, route, navigate}"
+				to="/uarterlyReport"
+				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
 					New Quarterly Report

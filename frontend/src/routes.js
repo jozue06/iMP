@@ -49,8 +49,8 @@ export default [
 		}
 	},
 	{
-		path: "/addQuarterlyReport",
-		name: "addQuarterlyReport",
+		path: "/quarterlyReport/:reportId",
+		name: "quarterlyReport",
 		component: QuarterlyReportCard,
 		meta: {
 			requiresAuth: true

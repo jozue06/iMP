@@ -223,15 +223,16 @@
 
 			onSubmit() {
 				this.loading = true;				
-				if (this.currentReport.expenseLines) {
+				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
 				}
 				
 					
-				QuarterlyReports.save(this.currentReport).then(res => {
+				QuarterlyReports.save(this.currentReport).then(res => {				
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;
+
 				}).catch(e => {
 					console.log('eeek ', e);
 					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
