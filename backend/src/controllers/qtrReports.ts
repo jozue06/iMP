@@ -33,7 +33,7 @@ export class QtrReportController {
 			.populate("expenseLines")
 			.populate("mileageLogs")
 			.populate("statements")
-			.populate("otherIncomeLine").then(report => {				
+			.populate("otherIncomeLines").then(report => {				
 				res.send(report);
 			}).catch(e => {
 				console.log('ee', e);

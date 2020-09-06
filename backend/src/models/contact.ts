@@ -6,6 +6,7 @@ export interface IContact {
 	lastName: string,
 	address: string,
 	city: string,
+	state: string,
 	country: string,
 	email: string,
 	phone: string,
@@ -52,6 +53,11 @@ const ContactSchema = new Schema({
 	},
 
 	city: {
+		type: String,
+		required: false,
+	},
+
+	state: {
 		type: String,
 		required: false,
 	},

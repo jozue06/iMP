@@ -181,7 +181,22 @@
 								<b @click="showOtherIncomeModal(data.item)" class="text-info">{{ data.value }}</b>
 							</template>
 						</b-table>
-						<b-button @click="showOtherIncomeModal(null)" variant="primary" class="m-2" size="sm">+ Add other or misc income</b-button>
+						<b-row class="justify-content-around">
+							<b-col cols="4" class="my-2" v-if="otherIncomeLines && otherIncomeLines.length > 0">
+								<b-button 
+									variant="danger" 
+									size="sm" 
+									:disabled="selectedOtherLines == 0" 
+									v-bind:onMiscIncomeRowSelected="onMiscIncomeRowSelected"
+									v-b-modal.confirmDeleteOtherLine>
+										Delete selected
+								</b-button>
+							</b-col>
+							<b-col cols="4" class="my-2">
+								<b-button @click="showOtherIncomeModal(null)" variant="primary" class="m-2" size="sm">+ Add other or misc income</b-button>
+							</b-col>
+						</b-row>
+						
 					</b-col>
 				</b-row>
 				<b-row v-else class="align-items-center">
@@ -193,6 +208,12 @@
 		</b-row>
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
 		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" />
+		<ConfirmModal 
+			id="confirmDeleteOtherLine" 
+			title="Delete Misc Lines?" 
+			v-bind:message="confirmDeleteOtherLineMessage" 
+			@handleConfirm="handleConfirmDelete" 
+		/>
 	</div>
 </template>
 
@@ -200,6 +221,8 @@
 	import { allowedFields } from "../../constants/tableFields";
 	import OtherIncomeModal from "../Modals/OtherIncomeModal";
 	import StatementModal from "../Modals/StatementModal";
+	import { OtherIncomeLines } from "../../data/otherIncomeLines"
+	import ConfirmModal from "../Modals/ConfirmModal";
 
 	export default  {
 
@@ -207,7 +230,8 @@
 
 		components: {
 			OtherIncomeModal,
-			StatementModal
+			StatementModal,
+			ConfirmModal
 		},
 
 		props: {
@@ -221,23 +245,27 @@
 		data() {
 			return {
 				otherIncomeLine: {},
+				selectedOtherLines: null,
 			}
 		},
 
 		methods: {
-			onStatementRowSelected() {
-
+			onMiscIncomeRowSelected(otherLine) {
+				this.selectedOtherLines = otherLine;
 			},
 
-			onMiscIncomeRowSelected() {
+			handleConfirmDelete() {
+				let ids = this.selectedOtherLines.map(l => l._id);
+				this.selectedOtherLines.forEach(sel => {
+					this.currentReport.otherIncomeLines.pop(sel);
+				});
 
+				OtherIncomeLines.deleteOtherIncomeLines(ids);
 			},
 
 			showOtherIncomeModal(otherIncomeLine) {
 				if (otherIncomeLine) {
 					this.otherIncomeLine = otherIncomeLine;
-				} else {
-					// this.otherIncomeLine = OtherIncomeLine.create();
 				}
 
 				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();
@@ -304,6 +332,10 @@
 
 			statementAmountTotal() {
 				return "$" + this.$formatMoney(this.statement.amountOne + this.statement.amountTwo + this.statement.amountThree)
+			},
+
+			confirmDeleteOtherLineMessage() {
+				return "Are you sure you want to Delete the Selected Other Income Lines? This cannot be un-done";
 			}
 
 		}
