@@ -3,8 +3,15 @@ import { Document, Model, model, Schema, Types } from "mongoose";
 export interface IStatement {
 	qtrReport: string,
 	user: string,
-	date: Date;
-	amount: number;
+	dateOne: string;
+	amountOne: number;
+	reimbursementOne: number;
+	dateTwo: string;
+	amountTwo: number;
+	reimbursementTwo: number;
+	dateThree: string;
+	amountThree: number;
+	reimbursementThree: number;
 }
 
 const StatementSchema = new Schema({
@@ -18,15 +25,50 @@ const StatementSchema = new Schema({
 		ref: "user",
 	},
 
-	date: {
-		type: Date,
+	dateOne: {
+		type: String,
 		required: true,
 	},
 
-	amount: {
+	amountOne: {
 		type: Number,
 		required: true,
-	}
+	},
+
+	reimbursementOne: {
+		type: Number,
+		required: true,
+	},
+
+	dateTwo: {
+		type: String,
+		required: true,
+	},
+
+	amountTwo: {
+		type: Number,
+		required: true,
+	},
+
+	reimbursementTwo: {
+		type: Number,
+		required: true,
+	},
+
+	dateThree: {
+		type: String,
+		required: true,
+	},
+
+	amountThree: {
+		type: Number,
+		required: true,
+	},
+
+	reimbursementThree: {
+		type: Number,
+		required: true,
+	},
 });
 
 export interface StatementDocument extends IStatement, Document { }

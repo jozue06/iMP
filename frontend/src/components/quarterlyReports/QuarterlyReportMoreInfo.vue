@@ -174,12 +174,14 @@
 			</b-col>
 		</b-row>
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
+		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement"/>
 	</div>
 </template>
 
 <script>
 	import { allowedFields } from "../../constants/tableFields";
 	import OtherIncomeModal from "../Modals/OtherIncomeModal";
+	import StatementModal from "../Modals/StatementModal";
 	// import { 
 	// 	QuarterlyReport as Report, 
 	// 	OtherIncomeLine,
@@ -191,7 +193,8 @@
 		name: 'quarterlyReportMoreInfo',
 
 		components: {
-			OtherIncomeModal
+			OtherIncomeModal,
+			StatementModal
 		},
 
 		props: {
@@ -204,7 +207,8 @@
 
 		data() {
 			return {
-				otherIncomeLine: {}
+				otherIncomeLine: {},
+				statement: {},
 			}
 		},
 
@@ -228,7 +232,10 @@
 			},
 
 			showStatementModal(statement) {
-
+				if (statement) {
+					this.statement = statement;
+				}
+				this.$refs.statementModal.$refs.statementModal.show();
 			}
 		},
 
