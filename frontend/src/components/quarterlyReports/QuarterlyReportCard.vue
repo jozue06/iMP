@@ -19,7 +19,7 @@
 				<b-tab title="Expense Lines" active>
 					<h4>Expense Lines</h4>
 					<b-table
-						v-if="expenseLines.length > 0"
+						v-if="expenseLines && expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
@@ -36,7 +36,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -55,7 +55,7 @@
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
-						v-if="mileageLogs.length > 0"
+						v-if="mileageLogs && mileageLogs.length > 0"
 						striped 
 						hover 
 						:fields="mileageLogFields"
@@ -71,7 +71,7 @@
 						</template>
 					</b-table>
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="mileageLogs.length > 0">
+						<b-col cols="10" class="my-2" v-if="mileageLogs && mileageLogs.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -159,7 +159,7 @@
 				if (rowItem) {
 					this.selectedExpenseLine = rowItem;
 				} else {
-					// this.selectedExpenseLine = ExpenseLine.create();
+					this.selectedExpenseLine = {};
 				}
 				this.$refs.expenseLineModal.$refs.expenseLineModal.show()
 			},
@@ -168,7 +168,7 @@
 				if (mileageLine) {
 					this.selectedMileageLog = mileageLine;
 				} else {
-					// this.selectedMileageLog = MileageLog.create();
+					this.selectedMileageLog = {};
 				}
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
 			},
@@ -195,25 +195,17 @@
 			handleConfirmExpenseLineDelete() {
 				this.selectedExpenseLines.forEach(sel => {
 					this.currentReport.expenseLines.pop(sel);
-				})
-				this.currentReport.save().then(res => {
-					this.$Notification("Success!", "Successfully Removed the Selected Expense Lines", "danger");
-				}).catch(e => {
-					console.log('eeek ', e);
-					throw e;
 				});
+
+				this.saveReport();
 			},
 
 			handleConfirmMileageLogDelete() {
 				this.selectedMileageLogs.forEach(sel => {
 					this.currentReport.mileageLogs.pop(sel);
-				})
-				this.currentReport.save().then(res => {
-					this.$Notification("Success!", "Successfully Removed the Selected Mileage Logs", "danger");
-				}).catch(e => {
-					console.log('eeek ', e);
-					throw e;
 				});
+
+				this.saveReport();
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -229,6 +221,7 @@
 					default: "No Quarter Selected";
 				}
 			},
+
 			saveReport() {
 				QuarterlyReports.save(this.currentReport).then(res => {
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
@@ -253,7 +246,6 @@
 				selectedMileageLog: {},
 
 				currentReport: {},
-
 				statements: [],
 				otherIncomeLines: [],
 			};
@@ -277,13 +269,13 @@
 		},
 
 		computed: {
-			expenseFields() {
+			expenseFields() {				
 				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {
+					return Object.keys(this.expenseLines[0]).map(f => {						
 						let tmp = {};
 						tmp.sortable = false;
 						
-						if (f == "_id" || f == "_schema" || f == "expenseLines") {
+						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
 							tmp.key = "";
 						} else {
 							tmp.key = f;

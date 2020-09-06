@@ -19,10 +19,10 @@ export interface IQtrReport {
 	otherFundsHeld?: number,
 	personalOfferingsRetained?: number,
 
-	expenseLines?: [ExpenseLineDocument],
-	mileageLogs?: [MileageLogDocument],
-	statements?: [StatementDocument],
-	otherIncomeLines?: [OtherIncomeDocument],
+	expenseLines?: ExpenseLineDocument[],
+	mileageLogs?: MileageLogDocument[],
+	statements?: StatementDocument[],
+	otherIncomeLines?: OtherIncomeDocument[],
 }
 
 const QtrReportSchema = new Schema({
@@ -107,6 +107,6 @@ const QtrReportSchema = new Schema({
 	}],
 });
 
-export interface QtrReportDocument extends IQtrReport, Document { }
+export interface QtrReportDocument extends IQtrReport, Document {}
 export interface QtrReportModel extends Model<QtrReportDocument> { }
 export const QtrReport = model<QtrReportDocument>("qtrReport", QtrReportSchema);

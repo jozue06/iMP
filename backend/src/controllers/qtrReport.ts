@@ -1,7 +1,9 @@
-import { QtrReport } from "../models/qrtReport"
+import { QtrReport, QtrReportDocument } from "../models/qrtReport"
+import { ExpenseLine, ExpenseLineDocument } from "../models/expenseLine"
 import { User } from "../models/userModel"
-import { Request, Response, NextFunction } from "express";
+import e, { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
+import { any } from "async";
 
 export class QtrReportController {
 	public createQtrReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -9,9 +11,9 @@ export class QtrReportController {
 			let qtrReport = req.body.qtrReport;
 			qtrReport.user = user._id;
 			const newQtrReport = new QtrReport(qtrReport);
-			newQtrReport.save().then((report) => {
+			newQtrReport.save().then((report: QtrReportDocument) => {
 				res.send(report);
-			}).catch(e => {
+			}).catch((e: any) => {
 				next(new ValidationException(JSON.stringify(e.errors)));
 			});
 		}).catch(e => {
@@ -27,28 +29,50 @@ export class QtrReportController {
 		});
 	};
 
-	public getQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-
-		console.log('req.params.id', req.params.id);
-		
+	public getQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		QtrReport.findById(req.params.id)
-			.populate("expenseLine")
+			.populate("expenseLines")
 			.populate("mileageLog")
 			.populate("statement")
-			.populate("otherIncomeLine").then(contact => {
-				res.send(contact);
+			.populate("otherIncomeLine").then(report => {				
+				res.send(report);
 			}).catch(e => {
 				console.log('ee', e);
 				next(new ValidationException(JSON.stringify(e.errors)));
 			});
 	};
 
-	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, { ...req.body.qtrReport }, { useFindAndModify: true }).then(r => {
+	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+		let linesToUpdate: ExpenseLineDocument[] = req.body.qtrReport.expenseLines.filter((l: ExpenseLineDocument) => l._id);
+		let lineToAdd: ExpenseLineDocument = req.body.qtrReport.expenseLines.find((l: ExpenseLineDocument) => !l._id);
+		
+		QtrReport.findOne({"_id": req.body.qtrReport._id}).then(async(r: QtrReportDocument) => {
+			let newLine: ExpenseLineDocument = new ExpenseLine(lineToAdd);
+			await newLine.save().then(async re => {
+				r.expenseLines.push(re._id);
+				r.markModified('expenseLines');
+				r.markModified('mileageLogs');
+				r.markModified('statements');
+				r.markModified('otherIncomeLines');
+				await r.save();
+			});
+
+			linesToUpdate.forEach(async(eLine: ExpenseLineDocument) => {
+				await ExpenseLine.findOneAndUpdate({ "_id": eLine._id },  { ...eLine }, { useFindAndModify: true, upsert: true, new: true }).then(async res => {
+				})
+			});
+			
+			await r.save();
 			res.send(r);
 		}).catch(e => {
+			console.log('eeek ', e);
+
 			next(new ValidationException(JSON.stringify(e.errors)));
-		});
+		})
+	};
+
+	public updateQtrReportExpenseLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		
 	};
 
 	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {		

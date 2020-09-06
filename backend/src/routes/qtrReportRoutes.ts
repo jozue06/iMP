@@ -22,6 +22,7 @@ export class QtrReportRoutes {
 		this.router.put("/qtrReports/:id", this.authController.authenticateJWT, this.qtrReportController.updateQtrReport);
 		this.router.post("/qtrReportsDelete", this.authController.authenticateJWT, this.qtrReportController.deleteQtrReports);
 		
+		this.router.post("/qtrReports/expenseLines/:id", this.authController.authenticateJWT, this.qtrReportController.updateQtrReportExpenseLines);
 		// this.router.post("/contactEvents", this.authController.authenticateJWT, this.eventController.createEvent);
 		// this.router.get("/contactEvents", this.authController.authenticateJWT, this.eventController.getAllEvents);
 		// this.router.get("/contactEvents/:id", this.authController.authenticateJWT, this.eventController.getEvent);

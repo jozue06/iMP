@@ -178,6 +178,7 @@
 	// var path = require('path');
 	// var fs = require('fs');
 	// const URL = require('url');
+	import { QuarterlyReports } from "../../data/quarterlyReports";
 
 	export default  {
 		name: 'expenseLineModal',
@@ -221,32 +222,22 @@
 			},
 
 			onSubmit() {
-				this.loading = true;
-				if (!this.currentReport.expenseLines.includes(this.expenseLine)) {
+				this.loading = true;				
+				if (this.currentReport.expenseLines) {
 					this.currentReport.expenseLines.push(this.expenseLine);
-					this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
-					this.currentReport.save().then(res => {
-						this.$refs.expenseLineModal.hide();
-						this.$Notification("Success!", "Successfully Added the Expense Line");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				} else {
-					// Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
-					// 	this.$refs.expenseLineModal.hide();
-					// 	this.$Notification("Success!", "Successfully Added the Expense Line");
-					// 	this.loading = false;
-					// }).catch(e => {
-					// 	console.log('eeek ', e);
-					// 	this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-					// 	this.loading = false;
-					// 	throw e;
-					// });
 				}
+				
+					
+				QuarterlyReports.save(this.currentReport).then(res => {
+					this.$refs.expenseLineModal.hide();
+					this.$Notification("Success!", "Successfully Added the Expense Line");
+					this.loading = false;
+				}).catch(e => {
+					console.log('eeek ', e);
+					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+					this.loading = false;
+					throw e;
+				});
 			},
 
 			formatMoney(amount) {
