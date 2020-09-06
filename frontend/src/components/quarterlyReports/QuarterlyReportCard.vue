@@ -256,8 +256,16 @@
 		},
 
 		created() {
-			if (this.$router.currentRoute.params.reportId) {
-				QuarterlyReports.getQuarterlyReport(this.$router.currentRoute.params.reportId).then(res => {
+			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
+				let reportId;
+				if (this.$router.currentRoute.params.reportId) {
+					reportId = this.$router.currentRoute.params.reportId;
+					this.$router.push({ path: 'quarterlyReport', query: { reportId: reportId}});
+				} else {
+					reportId = this.$router.currentRoute.query.reportId;
+				}
+				
+				QuarterlyReports.getQuarterlyReport(reportId).then(res => {
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;

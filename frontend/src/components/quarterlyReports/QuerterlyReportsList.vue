@@ -52,7 +52,7 @@
 			</div>
 			<router-link
 				v-else-if="reports.length == 0" 
-				to="/uarterlyReport"
+				to="/quarterlyReport"
 				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">

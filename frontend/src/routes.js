@@ -49,7 +49,7 @@ export default [
 		}
 	},
 	{
-		path: "/quarterlyReport/:reportId",
+		path: "/quarterlyReport",
 		name: "quarterlyReport",
 		component: QuarterlyReportCard,
 		meta: {
