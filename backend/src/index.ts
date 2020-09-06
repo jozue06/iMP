@@ -40,16 +40,16 @@ class Server {
 		const connection = mongoose.connection;
 
 		connection.on("connected", () => {
-			console.log("Mongo Connection Established");
+			console.info("Mongo Connection Established");
 		});
 
 		connection.on("reconnected", () => {
-			console.log("Mongo Connection Reestablished");
+			console.info("Mongo Connection Reestablished");
 		});
 
 		connection.on("disconnected", () => {
-			console.log("Mongo Connection Disconnected");
-			console.log("Trying to reconnect to Mongo ...");
+			console.info("Mongo Connection Disconnected");
+			console.info("Trying to reconnect to Mongo ...");
 			setTimeout(() => {
 				mongoose.connect(MONGO_DB_URI, {
 					useNewUrlParser: true,
@@ -62,11 +62,11 @@ class Server {
 		});
 
 		connection.on("close", () => {
-			console.log("Mongo Connection Closed");
+			console.info("Mongo Connection Closed");
 		});
 
 		connection.on("error", (error: Error) => {
-			console.log("Mongo Connection ERROR: " + error);
+			console.info("Mongo Connection ERROR: " + error);
 		});
 
 		const run = async () => {
@@ -81,7 +81,7 @@ class Server {
 
 	public start(): void {
 		this.app.listen(this.app.get("port"), () => {
-			console.log("API is running at http://localhost:%d", this.app.get("port"));
+			console.info("API is running at http://localhost:%d", this.app.get("port"));
 		});
 	}
 }
