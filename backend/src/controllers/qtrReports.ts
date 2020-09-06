@@ -32,7 +32,7 @@ export class QtrReportController {
 		QtrReport.findById(req.params.id)
 			.populate("expenseLines")
 			.populate("mileageLogs")
-			.populate("statement")
+			.populate("statements")
 			.populate("otherIncomeLine").then(report => {				
 				res.send(report);
 			}).catch(e => {

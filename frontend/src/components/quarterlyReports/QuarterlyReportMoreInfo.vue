@@ -113,27 +113,36 @@
 					Statment Info
 				</label>
 				<b-col>
-					<b-row v-if="statements && statements.length > 0" class="align-items-center">
-						<b-col>
-							<b-table
-								class="small-table"
-								striped 
-								hover 
-								:fields="fields1"
-								:items="statements" 
-								ref="statementsTable"
-								responsive="sm"
-								selectable
-								sort-icon-left
-								selected-variant="danger"
-								@row-selected="onStatementRowSelected"
-							>
-								<template v-slot:cell()="data">
-									<b @click="showStatementModal(data.item)" class="text-info">{{ data.value }}</b>
-								</template>
-							</b-table>
-							<b-button @click="showStatementModal(null)"  variant="primary" class="m-2" size="sm">+ Add statment info</b-button>
+					<b-row v-if="statements && statements.length > 0" @click="showStatementModal(statements[0])" class="align-items-center mt-2">
+						<b-col cols='4'>
+							{{statements[0].dateOne}}
+							<br>
+							${{statements[0].amountOne}}
+							<br>
+							${{statements[0].reimbursementOne}}
 						</b-col>
+						
+						<b-col cols='4'>
+							{{statements[0].dateTwo}}
+							<br>
+							${{statements[0].amountTwo}}
+							<br>
+							${{statements[0].reimbursementTwo}}
+						</b-col>
+
+						<b-col cols='4'>
+							{{statements[0].dateThree}}
+							<br>
+							${{statements[0].amountThree}}
+							<br>
+							${{statements[0].reimbursementThree}}
+						</b-col>
+						<b-row class="mt-2 mb-2">
+							<b-col cols="12">
+								Totals:
+
+							</b-col>
+						</b-row>
 					</b-row>
 					<b-row v-else class="align-items-center">
 						<b-col cols="12">
@@ -182,11 +191,6 @@
 	import { allowedFields } from "../../constants/tableFields";
 	import OtherIncomeModal from "../Modals/OtherIncomeModal";
 	import StatementModal from "../Modals/StatementModal";
-	// import { 
-	// 	QuarterlyReport as Report, 
-	// 	OtherIncomeLine,
-	// 	Statement,
-	// } from "../../data/models/quarterlyReportModel";
 
 	export default  {
 
@@ -240,7 +244,9 @@
 		},
 
 		computed: {
-			fields1() {				
+			fields1() {
+				console.log('this.statements[0] ', this.statements[0]);
+				
 				let keys = Object.keys(this.statements[0]).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
@@ -280,7 +286,15 @@
 
 			otherIncomeLines() {
 				return this.currentReport.otherIncomeLines;
-			}
+			},
+
+			// statementReimbursementTotal() {
+			// 	return "$" + this.formatMoney()
+			// },
+
+			// statementAmountTotal() {
+
+			// }
 
 		}
 }
