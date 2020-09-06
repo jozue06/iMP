@@ -46,5 +46,15 @@ export const QuarterlyReports = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
+	}),
+
+	deleteLine: handleError(async payload => {		
+		let body = {
+			qtrReport: payload
+		}
+
+		const res = await axios.post(baseURL + `/deleteLine/${payload._id}`, body, {"headers": headers});
+		return res.data;
+	
 	})
 };

@@ -45,7 +45,6 @@ export class QtrReportController {
 	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		let linesToUpdate: ExpenseLineDocument[] = req.body.qtrReport.expenseLines.filter((l: ExpenseLineDocument) => l._id);
 		let lineToAdd: ExpenseLineDocument = req.body.qtrReport.expenseLines.find((l: ExpenseLineDocument) => !l._id);
-		console.log('do we have a lineToAdd ?? ', lineToAdd);
 		
 		QtrReport.findOne({"_id": req.body.qtrReport._id}).then(async(r: QtrReportDocument) => {
 			if (lineToAdd) {
@@ -61,7 +60,7 @@ export class QtrReportController {
 			}
 
 			linesToUpdate.forEach(async(eLine: ExpenseLineDocument) => {
-				await ExpenseLine.findOneAndUpdate({ "_id": eLine._id },  { ...eLine }, { useFindAndModify: true, upsert: true, new: true }).then(async res => {
+				await ExpenseLine.findOneAndUpdate({ "_id": eLine._id },  { ...eLine }, { useFindAndModify: true, new: true }).then(async res => {
 				})
 			});
 			
@@ -74,8 +73,13 @@ export class QtrReportController {
 		})
 	};
 
-	public updateQtrReportExpenseLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		
+	public updateQtrReportLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {...req.body.qtrReport}).then(r => {
+			res.send(r);
+		}).catch(e => {
+			console.log('eeek ', e);
+			next(new ValidationException(JSON.stringify(e.errors)));
+		})
 	};
 
 	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {		

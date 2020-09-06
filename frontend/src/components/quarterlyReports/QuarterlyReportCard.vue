@@ -197,7 +197,7 @@
 					this.currentReport.expenseLines.pop(sel);
 				});
 
-				this.saveReport();
+				QuarterlyReports.deleteLine(this.currentReport);
 			},
 
 			handleConfirmMileageLogDelete() {
@@ -205,7 +205,7 @@
 					this.currentReport.mileageLogs.pop(sel);
 				});
 
-				this.saveReport();
+				QuarterlyReports.deleteLine(this.currentReport);
 			},
 
 			formatQuarterToView(quarterNumber) {

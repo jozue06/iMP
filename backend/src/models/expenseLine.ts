@@ -2,7 +2,7 @@ import { Document, Model, model, Schema } from "mongoose";
 
 export interface IExpenseLine {
 	qtrReport: string,
-	date: Date,
+	date: string,
 	paymentMethod: string,
 	code: number,
 	codeDescription: string,
@@ -22,7 +22,7 @@ const ExpenseLineSchema = new Schema({
 	},
 
 	date: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 
