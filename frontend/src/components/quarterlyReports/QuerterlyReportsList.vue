@@ -119,14 +119,13 @@
 			
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
-				
-				// Report.deleteMany({ _id: { $in: ids} }).then(res => {					
-				// 	this.refresh();
-				// 	this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
-				// }).catch(e => {
-				// 	console.log('e', e);
-				// 	throw e;
-				// });
+				QuarterlyReports.deleteQuarterlyReport(ids).then(res => {					
+					this.refresh();
+					this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
+				}).catch(e => {
+					console.log('e', e);
+					throw e;
+				});
 			},
 
 			loadReports() {
