@@ -27,7 +27,7 @@
 									placeholder="0.00"
 									name="amountOne"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -42,7 +42,7 @@
 									placeholder="0.00"
 									name="reimbursementOne"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -76,7 +76,7 @@
 									placeholder="0.00"
 									name="amountTwo"
 									lazy-formatter
-									:formatter="MoneyUtils.formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -91,7 +91,7 @@
 									placeholder="0.00"
 									name="reimbursementTwo"
 									lazy-formatter
-									:formatter="MoneyUtils.formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -124,7 +124,7 @@
 									placeholder="0.00"
 									name="amountThree"
 									lazy-formatter
-									:formatter="MoneyUtils.formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -139,15 +139,13 @@
 									placeholder="0.00"
 									name="reimbursementThree"
 									lazy-formatter
-									:formatter="MoneyUtils.formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
 					</b-col>
-					<b-col cols='4'>
-						{{ $consoleLog('total', total) }}
-						
-						total: {{total}}
+					<b-col cols='8'>						
+						Reimbursement Total: {{total}}
 					</b-col>
 				</b-row>
 			</div>
@@ -162,7 +160,6 @@
 
 <script>
 	import { Statements } from "../../data/statements";
-	import { MoneyUtils } from "../../utils/moneyUtils"
 	export default  {
 		name: 'statementModal',
 
@@ -200,9 +197,7 @@
 
 		computed: {
 			total() {
-				console.log('money utils :::: ' , MoneyUtils.formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree));
-				
-				return "$" + MoneyUtils.formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree);
+				return "$" + this.$formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree);
 			}
 
 		}

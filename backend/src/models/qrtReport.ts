@@ -13,7 +13,7 @@ export interface IQtrReport {
 	comments?: string,
 	deficitReimbursement?: number,
 	otherAGWMIncome?: number,
-	otherNonAGWMIncom?: number,
+	otherNonAGWMIncome?: number,
 	sdrReferenceNumbers?: string,
 	sdrBalance?: number,
 	otherFundsHeld?: number,
@@ -62,7 +62,7 @@ const QtrReportSchema = new Schema({
 		type: Number,
 	},
 
-	otherNonAGWMIncom: {
+	otherNonAGWMIncome: {
 		type: Number,
 	},
 	

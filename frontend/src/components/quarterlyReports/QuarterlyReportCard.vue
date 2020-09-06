@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" />
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -173,13 +173,6 @@
 					this.selectedMileageLog = {};
 				}
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
-			},
-
-			formatMoney(amount) {
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-				return Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");;
 			},
 
 			formatDate(dateTimeObject) {

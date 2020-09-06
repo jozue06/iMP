@@ -137,7 +137,7 @@
 									placeholder="0.00"
 									name="amount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -211,17 +211,6 @@
 
 			onRowSelected(contact) {				
 				this.form = contact[0];
-			},
-
-			formatMoney(amount) {
-
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-
-				return value;
 			},
 		},
 

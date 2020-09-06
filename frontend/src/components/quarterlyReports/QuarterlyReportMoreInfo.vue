@@ -11,6 +11,7 @@
 							name="nonAgwmIncome"
 							lazy-formatter
 							:formatter="$formatMoney"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -24,6 +25,7 @@
 							class="text-right"
 							type="text" 
 							name="sdrNumbers"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -39,6 +41,7 @@
 							name="sdrBalance"
 							lazy-formatter
 							:formatter="$formatMoney"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -71,6 +74,7 @@
 							name="personalPfferingsRetained"
 							lazy-formatter
 							:formatter="$formatMoney"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -86,6 +90,7 @@
 							name="deficitReimbursement"
 							lazy-formatter
 							:formatter="$formatMoney"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -101,6 +106,7 @@
 							name="otherAGWMIncome"
 							lazy-formatter
 							:formatter="$formatMoney"
+							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-input-group>
@@ -113,34 +119,37 @@
 					Statment Info
 				</label>
 				<b-col>
-					<b-row v-if="statements && statements.length > 0" @click="showStatementModal(statements[0])" class="align-items-center mt-2">
+					<b-row v-if="statement" @click="showStatementModal(statement)" class="align-items-center mt-2">
 						<b-col cols='4'>
-							{{statements[0].dateOne}}
+							{{statement.dateOne}}
 							<br>
-							${{statements[0].amountOne}}
+							${{statement.amountOne}}
 							<br>
-							${{statements[0].reimbursementOne}}
+							${{statement.reimbursementOne}}
 						</b-col>
 						
 						<b-col cols='4'>
-							{{statements[0].dateTwo}}
+							{{statement.dateTwo}}
 							<br>
-							${{statements[0].amountTwo}}
+							${{statement.amountTwo}}
 							<br>
-							${{statements[0].reimbursementTwo}}
+							${{statement.reimbursementTwo}}
 						</b-col>
 
 						<b-col cols='4'>
-							{{statements[0].dateThree}}
+							{{statement.dateThree}}
 							<br>
-							${{statements[0].amountThree}}
+							${{statement.amountThree}}
 							<br>
-							${{statements[0].reimbursementThree}}
+							${{statement.reimbursementThree}}
 						</b-col>
-						<b-row class="mt-2 mb-2">
-							<b-col cols="12">
-								Totals:
-
+						<b-row class="mt-2 mb-2 text-right">
+							<b-col cols="12" class="text-right">
+								Totals
+								<br>
+								Statements Total: {{statementAmountTotal}}
+								<br>
+								Reimbursement Total: {{statementReimbursementTotal}}
 							</b-col>
 						</b-row>
 					</b-row>
@@ -153,7 +162,7 @@
 			</b-col>
 			<b-col cols="6"  class="my-2">
 				<label>Other</label>
-				<b-row v-if="statements && otherIncomeLines.length > 0" class="align-items-center">
+				<b-row v-if="otherIncomeLines && otherIncomeLines.length > 0" class="align-items-center">
 					<b-col>
 						<b-table
 							class="small-table"
@@ -183,7 +192,7 @@
 			</b-col>
 		</b-row>
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
-		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement"/>
+		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" />
 	</div>
 </template>
 
@@ -212,7 +221,6 @@
 		data() {
 			return {
 				otherIncomeLine: {},
-				statement: {},
 			}
 		},
 
@@ -236,18 +244,17 @@
 			},
 
 			showStatementModal(statement) {
-				if (statement) {
-					this.statement = statement;
-				}
 				this.$refs.statementModal.$refs.statementModal.show();
+			},
+
+			saveReport() {
+				this.$emit("saveReport");
 			}
 		},
 
 		computed: {
-			fields1() {
-				console.log('this.statements[0] ', this.statements[0]);
-				
-				let keys = Object.keys(this.statements[0]).map(f => {
+			fields1() {				
+				let keys = Object.keys(this.statement).map(f => {
 					let tmp = {};
 					tmp.sortable = true;
 
@@ -280,21 +287,24 @@
 				return keys;
 			},
 
-			statements() {
-				return this.currentReport.statements;
+			statement() {
+				if (this.currentReport.statements) {
+					return this.currentReport.statements[0];
+				}
+				return {}
 			},
 
 			otherIncomeLines() {
 				return this.currentReport.otherIncomeLines;
 			},
 
-			// statementReimbursementTotal() {
-			// 	return "$" + this.formatMoney()
-			// },
+			statementReimbursementTotal() {
+				return "$" + this.$formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree)
+			},
 
-			// statementAmountTotal() {
-
-			// }
+			statementAmountTotal() {
+				return "$" + this.$formatMoney(this.statement.amountOne + this.statement.amountTwo + this.statement.amountThree)
+			}
 
 		}
 }

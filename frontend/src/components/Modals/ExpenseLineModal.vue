@@ -77,7 +77,7 @@
 									placeholder="0.00"
 									name="exchangeRate"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -95,7 +95,7 @@
 									placeholder="0.00"
 									name="foreignAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -111,7 +111,7 @@
 									placeholder="0.00"
 									name="dollarAmout"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -238,17 +238,6 @@
 					this.loading = false;
 					throw e;
 				});
-			},
-
-			formatMoney(amount) {
-
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				
-				return  Number(value);
 			},
 
 			formatToNumber(string) {
