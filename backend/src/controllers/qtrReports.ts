@@ -1,9 +1,8 @@
 import { QtrReport, QtrReportDocument } from "../models/qrtReport"
 import { ExpenseLine, ExpenseLineDocument } from "../models/expenseLine"
 import { User } from "../models/userModel"
-import e, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { any } from "async";
 
 export class QtrReportController {
 	public createQtrReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -72,16 +71,7 @@ export class QtrReportController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		})
 	};
-
-	public updateQtrReportLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {...req.body.qtrReport}).then(r => {
-			res.send(r);
-		}).catch(e => {
-			console.log('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
-		})
-	};
-
+	
 	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		QtrReport.deleteMany( {"_id": { $in: req.body.qtrReportIds } } ).then(r => {
 			res.send(r);

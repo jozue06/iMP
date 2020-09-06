@@ -178,7 +178,7 @@
 	// var path = require('path');
 	// var fs = require('fs');
 	// const URL = require('url');
-	import { QuarterlyReports } from "../../data/quarterlyReports";
+	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default  {
 		name: 'expenseLineModal',
@@ -226,9 +226,8 @@
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
 				}
-				
-					
-				QuarterlyReports.save(this.currentReport).then(res => {				
+				this.expenseLine.qtrReportId = this.currentReport._id;
+				ExpenseLines.save(this.expenseLine).then(res => {				
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;

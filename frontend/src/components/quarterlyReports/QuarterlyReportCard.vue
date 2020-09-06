@@ -144,6 +144,7 @@
 	import QuarterlyReportMoreInfo from "./QuarterlyReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import { QuarterlyReports } from "../../data/quarterlyReports"
+	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default {
 		components: {
@@ -193,11 +194,12 @@
 			},
 
 			handleConfirmExpenseLineDelete() {
+				let ids = this.selectedExpenseLines.map(l => l._id);
 				this.selectedExpenseLines.forEach(sel => {
 					this.currentReport.expenseLines.pop(sel);
 				});
 
-				QuarterlyReports.deleteLine(this.currentReport);
+				ExpenseLines.deleteExpenseLines(ids);
 			},
 
 			handleConfirmMileageLogDelete() {
@@ -205,7 +207,7 @@
 					this.currentReport.mileageLogs.pop(sel);
 				});
 
-				QuarterlyReports.deleteLine(this.currentReport);
+				// QuarterlyReports.deleteLine(this.currentReport);
 			},
 
 			formatQuarterToView(quarterNumber) {

@@ -82,7 +82,8 @@
 </template>
 
 <script>
-// import { QuarterlyReport as Report } from "../../data/models/quarterlyReportModel";
+	import { QuarterlyReports } from "../../data/quarterlyReports";
+
 	export default  {
 
 		name: 'mileageLogModal',
@@ -104,32 +105,21 @@
 
 		methods: {
 			saveMilageLog() {
-					this.loading = true;
+				this.loading = true;
 				if (!this.currentReport.mileageLogs.includes(this.mileageLog)) {
 					this.currentReport.mileageLogs.push(this.mileageLog);
-
-					this.currentReport.save().then(res => {
-						this.$refs.mileageLogModal.hide();
-						this.$Notification("Success!", "Successfully Added the Mileage Log", "primary");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Mileage Log: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				} else {
-					// Report.findOneAndUpdate({_id: this.mileageLog._id}, { mileageLogs: this.mileageLog }).then(res => {
-					// 	this.$refs.mileageLogModal.hide();
-					// 	this.$Notification("Success!", "Successfully Added the Mileage Log", "primary");
-					// 	this.loading = false;
-					// }).catch(e => {
-					// 	console.log('eeek ', e);
-					// 	this.$Notification("Error", `Error Saving Mileage Log: ${e}`, "warning", "", 3000);
-					// 	this.loading = false;
-					// 	throw e;
-					// });
 				}
+
+				QuarterlyReports.save(this.currentReport).then(res => {
+					this.$refs.mileageLogModal.hide();
+					this.$Notification("Success!", "Successfully Added the Mileage Log", "primary");
+					this.loading = false;
+				}).catch(e => {
+					console.log('eeek ', e);
+					this.$Notification("Error", `Error Saving Mileage Log: ${e}`, "warning", "", 3000);
+					this.loading = false;
+					throw e;
+				});
 			},
 
 			formatToNumber(string) {
