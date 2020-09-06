@@ -223,7 +223,7 @@
 				QuarterlyReports.save(this.currentReport).then(res => {
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
-					console.log('eeek error saving report', e);
+					console.error('eeek error saving report', e);
 					throw e;
 				});
 			}
@@ -263,7 +263,7 @@
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;
 				}).catch(e => {
-					console.log(' Report.find eek ', e);
+					console.error(' Report.find eek ', e);
 				});
 			} else {
 				this.currentReport = {

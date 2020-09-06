@@ -36,7 +36,7 @@ export class QtrReportController {
 			.populate("otherIncomeLines").then(report => {				
 				res.send(report);
 			}).catch(e => {
-				console.log('ee', e);
+				console.error('ee', e);
 				next(new ValidationException(JSON.stringify(e.errors)));
 			});
 	};
@@ -45,7 +45,7 @@ export class QtrReportController {
 		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
-			console.log('eeek ', e);
+			console.error('eeek ', e);
 
 			next(new ValidationException(JSON.stringify(e.errors)));
 		})

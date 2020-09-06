@@ -10,7 +10,7 @@ export class ContactGroupController {
 		contactGroup.save().then((savedGroup) => {
 			res.send(savedGroup);
 		}).catch(e => {
-			console.log('eeek ', e);
+			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};

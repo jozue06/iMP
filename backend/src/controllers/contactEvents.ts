@@ -12,7 +12,7 @@ export class EventController {
 				res.send(saved);
 			});
 		}).catch(e => {
-			console.log('eeek ', e);
+			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};

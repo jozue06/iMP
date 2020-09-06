@@ -104,7 +104,7 @@
 					this.$Notification("Success!", "Successfully Saved the Quarterly Report");
 					this.loading = false;
 				}).catch(e => {
-					console.log('eeek ', e);
+					console.error('eeek ', e);
 					this.loading = false;
 					throw e;
 				});

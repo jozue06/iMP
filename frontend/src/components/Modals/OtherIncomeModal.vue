@@ -212,7 +212,7 @@
 					this.$refs.otherIncomeModal.hide();
 					this.loading = false;
 				}).catch(e => {
-					console.log('eeek ', e);
+					console.error('eeek ', e);
 					this.loading = false;
 					throw e;
 				});

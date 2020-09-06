@@ -79,7 +79,7 @@ Vue.component("ValidationObserver", ValidationObserver);
 Vue.config.productionTip = false;
 
 Vue.prototype.$Notification = notification;
-Vue.prototype.$consoleLog = console.log;
+Vue.prototype.$consoleLog = console.error;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$Moment = moment;

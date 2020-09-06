@@ -26,7 +26,7 @@ export class ContactController {
 		Contact.findById(req.params.id).populate("events").populate("tasks").populate("comms").then(contact => {
 			res.send(contact);
 		}).catch(e => {
-			console.log('ee', e);
+			console.error('ee', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};

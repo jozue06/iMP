@@ -131,7 +131,7 @@
 					this.$Notification("Deleted", "Deleted the Selected Tasks", "warning", "", 3000);
 					this.$emit("refresh");
 				}).catch(e => {
-					console.log('e', e);
+					console.error('e', e);
 					throw e;
 				});
 			},
@@ -143,7 +143,7 @@
 				this.currentContact.save().then(res => {
 					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
 				}).catch(e => {
-					console.log('e', e);
+					console.error('e', e);
 					throw e;
 				});
 				this.$refs.tasksTable.clearSelected();

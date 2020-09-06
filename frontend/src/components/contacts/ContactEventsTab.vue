@@ -135,7 +135,7 @@
 					this.$emit("refresh");
 					this.$Notification("Deleted", "Deleted the Selected Events", "warning", "", 3000);
 				}).catch(e => {
-					console.log('e', e);
+					console.error('e', e);
 					throw e;
 				});
 			},

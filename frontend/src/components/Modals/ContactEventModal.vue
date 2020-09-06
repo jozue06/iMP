@@ -130,7 +130,7 @@
 					this.$refs.contactEventModal.hide();
 					this.$emit("doneSaving");
 				}).catch(e => {
-					console.log('eeek', e);
+					console.error('eeek', e);
 					this.$Notification("Error", `Error Saving Event: ${e}`, "warning", "", 3000);
 					this.loading = false;
 					throw e;

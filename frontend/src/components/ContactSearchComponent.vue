@@ -132,7 +132,7 @@
 				// Contact.find({ $or: orArray }).then(res => {
 				// 	this.results = res;
 				// }).catch(e => {
-				// 	console.log('eeee' , e);
+				// 	console.error('eeee' , e);
 				// });
 			}
 		},
