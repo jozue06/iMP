@@ -53,6 +53,7 @@
 </template>
 
 <script>
+	import { QuarterlyReports } from "../../data/quarterlyReports"
 	export default {
 		props: {
 			quarterlyReport: Object,
@@ -99,11 +100,11 @@
 
 			saveReport() {
 				this.loading = true;
-				this.quarterlyReport.save().then(res => {
+				QuarterlyReports.save(this.quarterlyReport).then(res => {
 					this.$Notification("Success!", "Successfully Saved the Quarterly Report");
 					this.loading = false;
 				}).catch(e => {
-					console.log('eeek ', e);
+					console.error('eeek ', e);
 					this.loading = false;
 					throw e;
 				});

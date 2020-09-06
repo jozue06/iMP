@@ -12,14 +12,14 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" />
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
 				<b-tab title="Expense Lines" active>
 					<h4>Expense Lines</h4>
 					<b-table
-						v-if="expenseLines.length > 0"
+						v-if="expenseLines && expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
@@ -36,7 +36,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -55,7 +55,7 @@
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
-						v-if="mileageLogs.length > 0"
+						v-if="mileageLogs && mileageLogs.length > 0"
 						striped 
 						hover 
 						:fields="mileageLogFields"
@@ -71,7 +71,7 @@
 						</template>
 					</b-table>
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="mileageLogs.length > 0">
+						<b-col cols="10" class="my-2" v-if="mileageLogs && mileageLogs.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -143,13 +143,9 @@
 	import QuarterlyReportTop from "./QuarterlyReportTop";
 	import QuarterlyReportMoreInfo from "./QuarterlyReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	// import { 
-	// 	QuarterlyReport as Report, 
-	// 	ExpenseLine, 
-	// 	MileageLog, 
-	// 	OtherIncomeLine,
-	// 	Statement,
-	// } from "../../data/models/quarterlyReportModel";
+	import { QuarterlyReports } from "../../data/quarterlyReports"
+	import { ExpenseLines } from "../../data/expenseLines";
+	import { MileageLogs } from "../../data/mileageLogs";
 
 	export default {
 		components: {
@@ -165,7 +161,7 @@
 				if (rowItem) {
 					this.selectedExpenseLine = rowItem;
 				} else {
-					// this.selectedExpenseLine = ExpenseLine.create();
+					this.selectedExpenseLine = {};
 				}
 				this.$refs.expenseLineModal.$refs.expenseLineModal.show()
 			},
@@ -174,16 +170,9 @@
 				if (mileageLine) {
 					this.selectedMileageLog = mileageLine;
 				} else {
-					// this.selectedMileageLog = MileageLog.create();
+					this.selectedMileageLog = {};
 				}
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
-			},
-
-			formatMoney(amount) {
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-				return Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");;
 			},
 
 			formatDate(dateTimeObject) {
@@ -199,27 +188,21 @@
 			},
 
 			handleConfirmExpenseLineDelete() {
+				let ids = this.selectedExpenseLines.map(l => l._id);
 				this.selectedExpenseLines.forEach(sel => {
 					this.currentReport.expenseLines.pop(sel);
-				})
-				this.currentReport.save().then(res => {
-					this.$Notification("Success!", "Successfully Removed the Selected Expense Lines", "danger");
-				}).catch(e => {
-					console.log('eeek ', e);
-					throw e;
 				});
+
+				ExpenseLines.deleteExpenseLines(ids);
 			},
 
 			handleConfirmMileageLogDelete() {
+				let ids = this.selectedMileageLogs.map(l => l._id);
 				this.selectedMileageLogs.forEach(sel => {
 					this.currentReport.mileageLogs.pop(sel);
-				})
-				this.currentReport.save().then(res => {
-					this.$Notification("Success!", "Successfully Removed the Selected Mileage Logs", "danger");
-				}).catch(e => {
-					console.log('eeek ', e);
-					throw e;
 				});
+
+				MileageLogs.deleteMileageLogs(ids);
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -235,11 +218,12 @@
 					default: "No Quarter Selected";
 				}
 			},
+
 			saveReport() {
-				this.currentReport.save().then(res => {
+				QuarterlyReports.save(this.currentReport).then(res => {
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
-					console.log('eeek error saving report', e);
+					console.error('eeek error saving report', e);
 					throw e;
 				});
 			}
@@ -259,35 +243,44 @@
 				selectedMileageLog: {},
 
 				currentReport: {},
-
 				statements: [],
 				otherIncomeLines: [],
 			};
 		},
 
 		created() {
-
-			if (this.$router.currentRoute.params.reportId) {
-				// Report.findOne( { _id: this.$router.currentRoute.params.reportId } ).then(res => {
-				// 	this.currentReport = res;
-				// 	this.expenseLines = res.expenseLines;
-				// 	this.mileageLogs = res.mileageLogs;
-				// }).catch(e => {
-				// 	console.log(' Report.find eek ', e);
-				// });
+			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
+				let reportId;
+				if (this.$router.currentRoute.params.reportId) {
+					reportId = this.$router.currentRoute.params.reportId;
+					this.$router.push({ path: 'quarterlyReport', query: { reportId: reportId}});
+				} else {
+					reportId = this.$router.currentRoute.query.reportId;
+				}
+				
+				QuarterlyReports.getQuarterlyReport(reportId).then(res => {
+					this.currentReport = res;
+					this.expenseLines = res.expenseLines;
+					this.mileageLogs = res.mileageLogs;
+				}).catch(e => {
+					console.error(' Report.find eek ', e);
+				});
 			} else {
-				// this.currentReport = Report.create();
+				this.currentReport = {
+					quarterNumber: 1,
+					year: moment().format("YYYY"),
+				};
 			}
 		},
 
 		computed: {
-			expenseFields() {
+			expenseFields() {				
 				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {
+					return Object.keys(this.expenseLines[0]).map(f => {						
 						let tmp = {};
 						tmp.sortable = false;
 						
-						if (f == "_id" || f == "_schema" || f == "expenseLines") {
+						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
 							tmp.key = "";
 						} else {
 							tmp.key = f;
@@ -305,7 +298,7 @@
 						let tmp = {};
 						tmp.sortable = false;
 						
-						if (f == "_id" || f == "_schema" || f == "expenseLines") {
+						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
 							tmp.key = "";
 						} else {
 							tmp.key = f;

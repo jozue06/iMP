@@ -3,10 +3,10 @@ import axios from 'axios';
 const baseURL = 'http://localhost:9090/contactEvents';
 
 const handleError = fn => (...params) =>
-fn(...params).catch(e => {
-	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-	throw new Error(newmess.replace(",", '\n'));
+	fn(...params).catch(e => {
+		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
+		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
+		throw new Error(newmess.replace(",", '\n'));
 });
 
 const headers = {

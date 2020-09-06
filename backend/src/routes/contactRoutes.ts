@@ -8,7 +8,7 @@ import { CommsController } from "../controllers/contactComms";
 import { ContactGroupController } from "../controllers/contactGroups";
 
 
-export class Routes {
+export class ContactRoutes {
 
 	public router: Router;
 	public authController: AuthController = new AuthController();

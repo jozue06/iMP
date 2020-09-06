@@ -43,7 +43,7 @@
 									placeholder="0.00"
 									name="firstAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -56,7 +56,7 @@
 									placeholder="0.00"
 									name="secondAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -69,7 +69,7 @@
 									placeholder="0.00"
 									name="thirdAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -88,7 +88,7 @@
 									placeholder="0.00"
 									name="firstAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -105,7 +105,7 @@
 									placeholder="0.00"
 									name="secondAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -160,7 +160,7 @@
 									placeholder="0.00"
 									name="firstAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -177,7 +177,7 @@
 									placeholder="0.00"
 									name="secondAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -194,7 +194,7 @@
 									placeholder="0.00"
 									name="secondAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -211,7 +211,7 @@
 									placeholder="0.00"
 									name="secondAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -231,7 +231,7 @@
 									placeholder="0.00"
 									name="firstAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -260,25 +260,6 @@
 
 	export default {
 		methods: {
-			onSubmit() {
-				// insertQuarterlyReport(this.form);
-			// 	this.form = {};
-			// 	this.$nextTick(() => {
-			// 		this.$Notification("Success!", "Successfully Added the Contact");
-			// 		this.$refs.form.reset();
-			// 	});
-			},
-
-			formatMoney(amount) {
-
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-
-				return value;
-			},
 		},
 
 		data() {

@@ -144,7 +144,7 @@
 				// 	this.refresh();
 				// 	this.$Notification("Deleted", "Deleted the Selected Contact Groups", "warning", "", 3000);
 				// }).catch(e => {
-				// 	console.log('e', e);
+				// 	console.error('e', e);
 				// 	throw e;
 				// });
 			},

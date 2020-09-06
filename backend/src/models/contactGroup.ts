@@ -27,4 +27,4 @@ export const ContactGroupSchema = new Schema({
 
 export interface ContactGroupDocument extends IContactGroup, Document {}
 export interface ContactGroupModel extends Model<ContactGroupDocument> {}
-export const ContactGroup = model<ContactGroupDocument>("contactGruop", ContactGroupSchema);
+export const ContactGroup = model<ContactGroupDocument>("contactGroup", ContactGroupSchema);

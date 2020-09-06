@@ -77,7 +77,7 @@
 									placeholder="0.00"
 									name="exchangeRate"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -95,7 +95,7 @@
 									placeholder="0.00"
 									name="foreignAmount"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -111,7 +111,7 @@
 									placeholder="0.00"
 									name="dollarAmout"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -178,6 +178,7 @@
 	// var path = require('path');
 	// var fs = require('fs');
 	// const URL = require('url');
+	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default  {
 		name: 'expenseLineModal',
@@ -221,43 +222,22 @@
 			},
 
 			onSubmit() {
-				this.loading = true;
-				if (!this.currentReport.expenseLines.includes(this.expenseLine)) {
+				this.loading = true;				
+				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
-					this.currentReport.baseAmount = Number(this.currentReport.baseAmount);
-					this.currentReport.save().then(res => {
-						this.$refs.expenseLineModal.hide();
-						this.$Notification("Success!", "Successfully Added the Expense Line");
-						this.loading = false;
-					}).catch(e => {
-						console.log('eeek ', e);
-						this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-						this.loading = false;
-						throw e;
-					});
-				} else {
-					// Report.findOneAndUpdate( { _id: this.expenseLine._id }, {expenseLines: this.expenseLine}).then(res => {
-					// 	this.$refs.expenseLineModal.hide();
-					// 	this.$Notification("Success!", "Successfully Added the Expense Line");
-					// 	this.loading = false;
-					// }).catch(e => {
-					// 	console.log('eeek ', e);
-					// 	this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
-					// 	this.loading = false;
-					// 	throw e;
-					// });
 				}
-			},
+				this.expenseLine.qtrReportId = this.currentReport._id;
+				ExpenseLines.save(this.expenseLine).then(res => {				
+					this.$refs.expenseLineModal.hide();
+					this.$Notification("Success!", "Successfully Added the Expense Line");
+					this.loading = false;
 
-			formatMoney(amount) {
-
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				
-				return  Number(value);
+				}).catch(e => {
+					console.error('eeek ', e);
+					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+					this.loading = false;
+					throw e;
+				});
 			},
 
 			formatToNumber(string) {

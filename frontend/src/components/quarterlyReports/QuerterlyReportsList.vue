@@ -7,8 +7,8 @@
 		
 			<div v-if="reports.length > 0">
 				<router-link
-					to="/addQuarterlyReport"
-					v-slot="{ href, route, navigate}"
+					to="/quarterlyReport"
+					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
 						New Quarterly Report
@@ -31,8 +31,8 @@
 				>
 					<template v-slot:cell()="data">
 						<router-link
-							:to="{ name: 'addQuarterlyReport', params: { reportId: data.item._id } }"
-							v-slot="{ href, route, navigate}"
+							:to="{ name: 'quarterlyReport', params: { reportId: data.item._id } }"
+							v-slot="{ href, navigate}"
 						>
 							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
@@ -52,8 +52,8 @@
 			</div>
 			<router-link
 				v-else-if="reports.length == 0" 
-				to="/addQuarterlyReport"
-				v-slot="{ href, route, navigate}"
+				to="/quarterlyReport"
+				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
 					New Quarterly Report
@@ -72,7 +72,7 @@
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
 	import NoResults from '../NoResults'
-	// import { QuarterlyReport as Report } from '../../data/models/quarterlyReportModel'
+	import { QuarterlyReports  } from '../../data/quarterlyReports'
 	import { allowedFields } from "../../constants/tableFields";
 		
 	export default  {
@@ -119,26 +119,25 @@
 			
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
-				
-				// Report.deleteMany({ _id: { $in: ids} }).then(res => {					
-				// 	this.refresh();
-				// 	this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
-				// }).catch(e => {
-				// 	console.log('e', e);
-				// 	throw e;
-				// });
+				QuarterlyReports.deleteQuarterlyReport(ids).then(res => {					
+					this.refresh();
+					this.$Notification("Deleted", "Deleted the Selected Quarterly Reports", "warning", "", 3000);
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
 			},
 
 			loadReports() {
 				let reports = []; 
-				// Report.find({}).then(res => {
-				// 	res.forEach(report => {
-				// 		if (report._id) {
-				// 			report.id = report._id;
-				// 			reports.push({...report});
-				// 		}
-				// 	});
-				// });
+				QuarterlyReports.getQuarterlyReports().then(res => {
+					res.forEach(report => {
+						if (report._id) {
+							report.id = report._id;
+							reports.push({...report});
+						}
+					});
+				});
 				return reports;
 			},
 

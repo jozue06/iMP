@@ -100,7 +100,7 @@ export class UserController {
 				sgMail.send(msg).then(() => {
 					return res.sendStatus(200);
 				}
-				).catch((e:any) => console.log('here e 44', e));;
+				).catch((e:any) => console.error('here e 44', e));;
 			},
 		], (err) => {
 			if (err) { return next(err); }

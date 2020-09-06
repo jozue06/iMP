@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:9090/qtrReports';
+const baseURL = 'http://localhost:9090/qtrReports/otherIncomeLines';
 
 const handleError = fn => (...params) =>
 	fn(...params).catch(e => {
@@ -14,20 +14,20 @@ const headers = {
 	authorization: `Bearer ${localStorage.getItem("jwt")}` 
 }
 
-export const QuarterlyReports = {
-	getQuarterlyReport: handleError(async id => {
-		const res = await axios.get(baseURL + `/${id}`, { "headers" : headers } );
+export const OtherIncomeLines = {
+	getOtherIncomeLine: handleError(async id => {
+		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 	
-	getQuarterlyReports: handleError(async () => {
-		const res = await axios.get(baseURL, { "headers" : headers } );
+	getOtherIncomeLines: handleError(async () => {
+		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
-	deleteQuarterlyReport: handleError(async ids => {
+	deleteOtherIncomeLines: handleError(async ids => {
 		let body = {
-			qtrReportIds: ids
+			otherIncomeLineIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
@@ -36,7 +36,7 @@ export const QuarterlyReports = {
 
 	save: handleError(async payload => {		
 		let body = {
-			qtrReport: payload
+			otherIncomeLine: payload
 		}
 
 		if (payload._id) {
@@ -46,15 +46,5 @@ export const QuarterlyReports = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	}),
-
-	deleteLine: handleError(async payload => {		
-		let body = {
-			qtrReport: payload
-		}
-
-		const res = await axios.post(baseURL + `/deleteLine/${payload._id}`, body, {"headers": headers});
-		return res.data;
-	
 	})
 };

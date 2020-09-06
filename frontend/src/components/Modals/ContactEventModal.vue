@@ -63,7 +63,7 @@
 									placeholder="0.00"
 									name="amountReceived"
 									lazy-formatter
-									:formatter="formatMoney"
+									:formatter="$formatMoney"
 								></b-form-input>
 							</b-input-group>
 						</b-form-group>
@@ -130,7 +130,7 @@
 					this.$refs.contactEventModal.hide();
 					this.$emit("doneSaving");
 				}).catch(e => {
-					console.log('eeek', e);
+					console.error('eeek', e);
 					this.$Notification("Error", `Error Saving Event: ${e}`, "warning", "", 3000);
 					this.loading = false;
 					throw e;
@@ -139,14 +139,6 @@
 
 			onContext(ctx) {
 				this.formattedValue = ctx.formatted
-			},
-
-			formatMoney(amount) {
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				return Number(value);
 			},
 
 			toggleEventComplete(value) {

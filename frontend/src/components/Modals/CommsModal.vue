@@ -133,7 +133,7 @@
 					this.loading = false;
 					this.$emit("doneSaving");
 				}).catch(e => {
-					console.log('eeek ', e);
+					console.error('eeek ', e);
 					this.$Notification("Error", `Error Saving Communication: ${e}`, "warning", "", 3000);
 					this.loading = false;
 					throw e;

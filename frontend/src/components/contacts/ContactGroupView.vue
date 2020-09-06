@@ -69,7 +69,7 @@
 					this.currentGroup = res;					
 					this.contactLines = this.currentGroup.contacts;
 				}).catch(e => {
-					console.log(' Report.find eek ', e);
+					console.error(' Report.find eek ', e);
 					throw e;
 				});
 			}

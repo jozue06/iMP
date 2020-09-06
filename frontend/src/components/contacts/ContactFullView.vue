@@ -80,7 +80,7 @@
 					this.taskLines = res.tasks;
 					this.commsLines = res.comms;
 				}).catch(e => {
-					console.log(' Report.find eek ', e);
+					console.error(' Report.find eek ', e);
 					throw e;
 				});
 			}
@@ -91,7 +91,7 @@
 				Contacts.save(this.currentContact).then(res => {
 					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
 				}).catch(e => {
-					console.log('eek', e);
+					console.error('eek', e);
 					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
 					throw e;
 				});
@@ -112,7 +112,7 @@
 					this.taskLines = res.tasks;
 					this.commsLines = res.comms;
 				}).catch(e => {
-					console.log(' Report.find eek ', e);
+					console.error(' Report.find eek ', e);
 					throw e;
 				});
 			}
