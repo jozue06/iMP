@@ -3,7 +3,7 @@ import { VehicleDocument } from "./vehicle";
 
 export interface IMileageLog {
 	qtrReport: string,
-	date: Date,
+	date: string,
 	odometerStart: number,
 	odometerEnd: number,
 	type: string,
@@ -18,7 +18,7 @@ const MileageLogSchema = new Schema({
 	},
 
 	date: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 

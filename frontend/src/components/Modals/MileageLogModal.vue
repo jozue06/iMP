@@ -82,7 +82,7 @@
 </template>
 
 <script>
-	import { QuarterlyReports } from "../../data/quarterlyReports";
+	import { MileageLogs } from "../../data/mileageLogs";
 
 	export default  {
 
@@ -109,8 +109,9 @@
 				if (!this.currentReport.mileageLogs.includes(this.mileageLog)) {
 					this.currentReport.mileageLogs.push(this.mileageLog);
 				}
+				this.mileageLog.qtrReportId = this.currentReport._id;
 
-				QuarterlyReports.save(this.currentReport).then(res => {
+				MileageLogs.save(this.mileageLog).then(res => {
 					this.$refs.mileageLogModal.hide();
 					this.$Notification("Success!", "Successfully Added the Mileage Log", "primary");
 					this.loading = false;

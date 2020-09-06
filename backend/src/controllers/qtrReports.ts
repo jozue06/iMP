@@ -31,7 +31,7 @@ export class QtrReportController {
 	public getQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		QtrReport.findById(req.params.id)
 			.populate("expenseLines")
-			.populate("mileageLog")
+			.populate("mileageLogs")
 			.populate("statement")
 			.populate("otherIncomeLine").then(report => {				
 				res.send(report);
@@ -41,29 +41,8 @@ export class QtrReportController {
 			});
 	};
 
-	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
-		let linesToUpdate: ExpenseLineDocument[] = req.body.qtrReport.expenseLines.filter((l: ExpenseLineDocument) => l._id);
-		let lineToAdd: ExpenseLineDocument = req.body.qtrReport.expenseLines.find((l: ExpenseLineDocument) => !l._id);
-		
-		QtrReport.findOne({"_id": req.body.qtrReport._id}).then(async(r: QtrReportDocument) => {
-			if (lineToAdd) {
-				let newLine: ExpenseLineDocument = new ExpenseLine(lineToAdd);
-				await newLine.save().then(async re => {
-					r.expenseLines.push(re._id);
-					r.markModified('expenseLines');
-					r.markModified('mileageLogs');
-					r.markModified('statements');
-					r.markModified('otherIncomeLines');
-					await r.save();
-				});
-			}
-
-			linesToUpdate.forEach(async(eLine: ExpenseLineDocument) => {
-				await ExpenseLine.findOneAndUpdate({ "_id": eLine._id },  { ...eLine }, { useFindAndModify: true, new: true }).then(async res => {
-				})
-			});
-			
-			await r.save();
+	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			console.log('eeek ', e);
@@ -71,7 +50,7 @@ export class QtrReportController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		})
 	};
-	
+
 	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		QtrReport.deleteMany( {"_id": { $in: req.body.qtrReportIds } } ).then(r => {
 			res.send(r);

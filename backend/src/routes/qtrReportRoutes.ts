@@ -3,6 +3,7 @@ import { Router } from "express";
 import { AuthController } from "../controllers/authController";
 import { QtrReportController } from "../controllers/qtrReports";
 import { ExpenseLineController } from "../controllers/expenseLines";
+import { MileageLogController } from "../controllers/mileageLogs";
 
 
 
@@ -12,6 +13,7 @@ export class QtrReportRoutes {
 	public authController: AuthController = new AuthController();
 	public qtrReportController: QtrReportController = new QtrReportController();
 	public expenseLineController: ExpenseLineController = new ExpenseLineController();
+	public mileageLogController: MileageLogController = new MileageLogController();
 	constructor() {
 		this.router = Router();
 		this.routes();
@@ -27,6 +29,11 @@ export class QtrReportRoutes {
 		this.router.post("/qtrReports/expenseLines", this.authController.authenticateJWT, this.expenseLineController.createExpenseLine);
 		this.router.put("/qtrReports/expenseLines/:id", this.authController.authenticateJWT, this.expenseLineController.updateExpenseLine);
 		this.router.post("/qtrReports/expenseLinesDelete", this.authController.authenticateJWT, this.expenseLineController.deleteExpenseLines);
+
+		this.router.post("/qtrReports/mileageLogs", this.authController.authenticateJWT, this.mileageLogController.createMileageLog);
+		this.router.put("/qtrReports/mileageLogs/:id", this.authController.authenticateJWT, this.mileageLogController.updateMileageLog);
+		this.router.post("/qtrReports/mileageLogsDelete", this.authController.authenticateJWT, this.mileageLogController.deleteMileageLogs);
+		
 		// this.router.post("/contactEvents", this.authController.authenticateJWT, this.eventController.createEvent);
 		// this.router.get("/contactEvents", this.authController.authenticateJWT, this.eventController.getAllEvents);
 		// this.router.get("/contactEvents/:id", this.authController.authenticateJWT, this.eventController.getEvent);
