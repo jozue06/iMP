@@ -1,0 +1,2 @@
+web: cd front && npm i && npm startWeb
+server: cd backend && npm i && npm start
