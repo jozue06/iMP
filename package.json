@@ -3,5 +3,8 @@
   "version": "0.0.1",
   "description": "main dir",
   "author": "Jm6",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "start": "npm --prefix ./front && npm i && npm startWeb && npm --prefix backend && npm i && npm start"
+  }
 }
