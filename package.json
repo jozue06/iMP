@@ -5,6 +5,6 @@
   "author": "Jm6",
   "license": "ISC",
   "scripts": {
-    "start": "npm --prefix ./front && npm i && npm startWeb && npm --prefix backend && npm i && npm start"
+    "start": "npm i --prefix ./frontend && npm run startWeb --prefix ./frontend & npm i --prefix ./backend && npm run start --prefix ./backend"
   }
 }

@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class StatementController {
-	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {			
+	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const statement = new Statement(req.body.statement);
 		statement.save().then((savedStatement) => {
 			QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {$push: {statements: savedStatement._id}}, { useFindAndModify: true, new: true }).then(saved => {
@@ -16,7 +16,7 @@ export class StatementController {
 		});
 	};
 
-	public getAllStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Statement.find({ "userId": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
@@ -38,13 +38,13 @@ export class StatementController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
-	public deleteStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public deleteStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Statement.deleteMany( {"_id": { $in: req.body.StatementIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

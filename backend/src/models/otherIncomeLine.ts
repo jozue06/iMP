@@ -5,7 +5,7 @@ export interface IOtherIncome {
 	contact?: string,
 	type: number, // can be 'direct donor', or 'personal
 	firstName?: string,
-	lastName?: string,	
+	lastName?: string,
 	address?: string,
 	city?: string,
 	state?: string,
@@ -36,7 +36,7 @@ const OtherIncomeSchema = new Schema({
 	},
 
 	lastName: {
-		type: String,	
+		type: String,
 	},
 
 	address: {

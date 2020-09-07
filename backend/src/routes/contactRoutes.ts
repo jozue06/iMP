@@ -29,7 +29,7 @@ export class ContactRoutes {
 		this.router.get("/contacts/:id", this.authController.authenticateJWT, this.contactController.getContact);
 		this.router.put("/contacts/:id", this.authController.authenticateJWT, this.contactController.updateContactInfo);
 		// this.router.delete("/contacts/:id", this.authController.authenticateJWT, this.productController.deleteProduct);
-		
+
 		this.router.post("/contactEvents", this.authController.authenticateJWT, this.eventController.createEvent);
 		this.router.get("/contactEvents", this.authController.authenticateJWT, this.eventController.getAllEvents);
 		this.router.get("/contactEvents/:id", this.authController.authenticateJWT, this.eventController.getEvent);

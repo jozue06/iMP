@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class ContactGroupController {
-	public createGroup = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public createGroup = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		const contactGroup = new ContactGroup(req.body.contactGroup);
 		contactGroup.user = userId;
 		contactGroup.save().then((savedGroup) => {
@@ -15,7 +15,7 @@ export class ContactGroupController {
 		});
 	};
 
-	public getAllContactGroups = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllContactGroups = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		ContactGroup.find({ "user": userId }).then(comms => {
 			res.send(comms);
 		}).catch(e => {
@@ -37,7 +37,7 @@ export class ContactGroupController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
 	public deleteContactGroup = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		ContactGroup.deleteMany( {"_id": { $in: req.body.contactGroupIds } } ).then(r => {
@@ -45,5 +45,5 @@ export class ContactGroupController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

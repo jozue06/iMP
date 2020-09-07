@@ -42,8 +42,8 @@ export const userSchema: Schema = new Schema({
 
 });
 
-userSchema.methods.comparePassword = function (candidatePassword: string, callback: any) {	
-	bcrypt.compare(candidatePassword, this.password, (err: Error, isMatch: boolean) => {		
+userSchema.methods.comparePassword = function (candidatePassword: string, callback: any) {
+	bcrypt.compare(candidatePassword, this.password, (err: Error, isMatch: boolean) => {
 		callback(err, isMatch);
 	});
 };

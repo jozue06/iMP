@@ -26,22 +26,22 @@ const MileageLogSchema = new Schema({
 		type: Number,
 		required: true,
 	},
-	
+
 	odometerEnd: {
 		type: Number,
 		required: true,
 	},
-	
+
 	type: {
 		type: String,
 		required: true,
 	},
-	
+
 	description: {
 		type: String,
 		required: false,
 	},
-	
+
 	vehicle: {
 		type: Types.ObjectId,
 		ref: "vehicle",

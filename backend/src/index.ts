@@ -54,9 +54,9 @@ class Server {
 				mongoose.connect(MONGO_DB_URI, {
 					useNewUrlParser: true,
 					autoReconnect: true,
-					socketTimeoutMS: 3000, 
+					socketTimeoutMS: 3000,
 					connectTimeoutMS: 3000,
-					useUnifiedTopology: true 
+					useUnifiedTopology: true
 				});
 			}, 3000);
 		});
@@ -73,7 +73,7 @@ class Server {
 			await mongoose.connect(MONGO_DB_URI, {
 				useNewUrlParser: true,
 				keepAlive: true,
-				useUnifiedTopology: true 
+				useUnifiedTopology: true
 			});
 		};
 		run().catch(error => console.error(error));

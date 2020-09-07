@@ -7,7 +7,7 @@ import ValidationException from '../exceptions/ValidationException';
 export class QtrReportController {
 	public createQtrReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		User.findById(userId).then(user => {
-			let qtrReport = req.body.qtrReport;
+			const qtrReport = req.body.qtrReport;
 			qtrReport.user = user._id;
 			const newQtrReport = new QtrReport(qtrReport);
 			newQtrReport.save().then((report: QtrReportDocument) => {
@@ -20,7 +20,7 @@ export class QtrReportController {
 		});
 	};
 
-	public getAllQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		QtrReport.find({ "user": userId }).then(qtrReports => {
 			res.send(qtrReports);
 		}).catch(e => {
@@ -28,12 +28,12 @@ export class QtrReportController {
 		});
 	};
 
-	public getQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public getQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		QtrReport.findById(req.params.id)
 			.populate("expenseLines")
 			.populate("mileageLogs")
 			.populate("statements")
-			.populate("otherIncomeLines").then(report => {				
+			.populate("otherIncomeLines").then(report => {
 				res.send(report);
 			}).catch(e => {
 				console.error('ee', e);
@@ -41,7 +41,7 @@ export class QtrReportController {
 			});
 	};
 
-	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
@@ -51,7 +51,7 @@ export class QtrReportController {
 		})
 	};
 
-	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public deleteQtrReports = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		QtrReport.deleteMany( {"_id": { $in: req.body.qtrReportIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {

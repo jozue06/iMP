@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",

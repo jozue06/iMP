@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class EventController {
-	public createEvent = (userId: String, req: Request, res: Response, next: NextFunction) => {		
+	public createEvent = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const event = new Event(req.body.event);
 		event.contact = req.body.event.contactId;
 		event.save().then((savedEvent) => {
@@ -17,7 +17,7 @@ export class EventController {
 		});
 	};
 
-	public getAllEvents = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllEvents = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Event.find({ "userId": userId }).then(events => {
 			res.send(events);
 		}).catch(e => {
@@ -39,13 +39,13 @@ export class EventController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
-	public deleteEvents = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public deleteEvents = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Event.deleteMany( {"_id": { $in: req.body.eventIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

@@ -65,7 +65,7 @@ const QtrReportSchema = new Schema({
 	otherNonAGWMIncome: {
 		type: Number,
 	},
-	
+
 	sdrReferenceNumbers: {
 		type: String,
 	},
@@ -82,26 +82,26 @@ const QtrReportSchema = new Schema({
 		type: Number,
 	},
 
-	expenseLines: [{ 
-		type: Schema.Types.ObjectId, 
+	expenseLines: [{
+		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
 		defaut: []
 	}],
 
-	mileageLogs: [{ 
-		type: Schema.Types.ObjectId, 
+	mileageLogs: [{
+		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
 		defaut: []
 	}],
 
-	statements: [{ 
-		type: Schema.Types.ObjectId, 
+	statements: [{
+		type: Schema.Types.ObjectId,
 		ref: 'statement',
 		defaut: []
 	}],
 
-	otherIncomeLines: [{ 
-		type: Schema.Types.ObjectId, 
+	otherIncomeLines: [{
+		type: Schema.Types.ObjectId,
 		ref: 'otherIncomeLine',
 		defaut: []
 	}],

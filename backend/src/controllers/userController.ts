@@ -20,14 +20,14 @@ export class UserController {
 		}
 
 		const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-		
+
 		const userCreated = User.create({
 			username: req.body.username,
 			password: hashedPassword,
 		});
 
 		const token = jwt.sign({ userId: (await userCreated)._id, username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
-		res.status(200).send({ token: token });
+		res.status(200).send({ token });
 	}
 
 	public loginUser(req: Request, res: Response, next: NextFunction) {
@@ -36,8 +36,8 @@ export class UserController {
 			return next(new ValidationException("Please Enter a Valid User Name"));
 		}
 
-		let username = req.body.username
-		User.findOne({ username: username }, (err, user: any) => {
+		const username = req.body.username
+		User.findOne({ username }, (err, user: any) => {
 			if (err) {
 				return next(err);
 			}
@@ -49,7 +49,7 @@ export class UserController {
 				if (isMatch) {
 					const token = jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
 					user.populate("contactGroups");
-					return res.status(200).send({ token: token });
+					return res.status(200).send({ token });
 				} else {
 					return next(new ValidationException(`Username or password incorrect not found.`));
 				}
@@ -62,7 +62,7 @@ export class UserController {
 			return next(new ValidationException("Please Enter a Valid User Name"));
 		}
 		async.waterfall([
-			
+
 			function createRandomToken(done: Function) {
 				crypto.randomBytes(16, (err, buf) => {
 					const token = buf.toString("hex");
@@ -85,7 +85,7 @@ export class UserController {
 			},
 
 			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
-				sgMail.setApiKey(GRID_SEND_KEY)				
+				sgMail.setApiKey(GRID_SEND_KEY)
 				const msg = {
 					to: "jozue06@gmail.com",
 					from: 'jozue06@gmail.com',
@@ -96,7 +96,7 @@ export class UserController {
 			  			If you did not request this, please ignore this email and your password will remain unchanged.\n
 						<strong>and easy to do anywhere, even with Node.js</strong>`,
 				};
-				
+
 				sgMail.send(msg).then(() => {
 					return res.sendStatus(200);
 				}
@@ -112,7 +112,7 @@ export class UserController {
 		if (!req.body.token || req.body.token == "") {
 			return next(new ValidationException("An error occured"));
 		}
-	
+
 		async.waterfall([
 			function resetPassword(done: Function) {
 				User
@@ -123,9 +123,9 @@ export class UserController {
 						if (!user) {
 							return next(new ValidationException("Password reset token is invalid or has expired."));
 						}
-						
+
 						user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-											
+
 						user.passwordResetToken = undefined;
 						user.passwordResetExpires = undefined;
 

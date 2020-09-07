@@ -160,23 +160,23 @@ const ContactSchema = new Schema({
 
 	},
 
-	events: [{ 
-		type: Schema.Types.ObjectId, 
-		ref: 'event' 
+	events: [{
+		type: Schema.Types.ObjectId,
+		ref: 'event'
 	}],
 
-	tasks: [{ 
-		type: Schema.Types.ObjectId, 
-		ref: 'task' 
+	tasks: [{
+		type: Schema.Types.ObjectId,
+		ref: 'task'
 	}],
 
-	comms: [{ 
-		type: Schema.Types.ObjectId, 
+	comms: [{
+		type: Schema.Types.ObjectId,
 		ref: 'comm'
 	}],
 
-	contactGroups: [{ 
-		type: Schema.Types.ObjectId, 
+	contactGroups: [{
+		type: Schema.Types.ObjectId,
 		ref: 'contactGroup',
 		defaut: []
 	}],

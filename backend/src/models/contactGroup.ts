@@ -22,7 +22,7 @@ export const ContactGroupSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	
+
 });
 
 export interface ContactGroupDocument extends IContactGroup, Document {}

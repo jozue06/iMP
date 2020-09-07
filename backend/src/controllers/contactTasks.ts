@@ -4,21 +4,21 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class TaskController {
-	public createTask = (userId: String, req: Request, res: Response, next: NextFunction) => {		
+	public createTask = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const task = new Task(req.body.task);
 		task.contact = req.body.task.contactId;
 		task.save().then((savedTask) => {
 			Contact.findOneAndUpdate({ _id: req.body.task.contactId }, { $push: { tasks: savedTask._id } }, { useFindAndModify: true, new: true }).then(saved => {
 				res.send(saved);
 			});
-			
+
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};
 
-	public getAllTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Task.find({ "userId": userId }).then(tasks => {
 			res.send(tasks);
 		}).catch(e => {
@@ -40,13 +40,13 @@ export class TaskController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
-	public deleteTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public deleteTasks = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Task.deleteMany( {"_id": { $in: req.body.taskIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

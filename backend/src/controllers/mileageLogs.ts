@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class MileageLogController {
-	public createMileageLog = (userId: String, req: Request, res: Response, next: NextFunction) => {			
+	public createMileageLog = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const mileageLog = new MileageLog(req.body.mileageLog);
 		mileageLog.save().then((savedMileageLog) => {
 			QtrReport.findOneAndUpdate({ _id: req.body.mileageLog.qtrReportId }, {$push: {mileageLogs: savedMileageLog._id}}, { useFindAndModify: true, new: true }).then(saved => {
@@ -16,7 +16,7 @@ export class MileageLogController {
 		});
 	};
 
-	public getAllMileageLogs = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllMileageLogs = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		MileageLog.find({ "userId": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
@@ -38,13 +38,13 @@ export class MileageLogController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
-	public deleteMileageLogs = (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public deleteMileageLogs = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		MileageLog.deleteMany( {"_id": { $in: req.body.mileageLogIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

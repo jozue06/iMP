@@ -4,7 +4,7 @@ import ValidationException from '../exceptions/ValidationException';
 
 export class ContactController {
 	public createContact = (userId: String, req: Request, res: Response, next: NextFunction) => {
-		let incomingContact = req.body.contact;
+		const incomingContact = req.body.contact;
 		incomingContact.userId = userId;
 		const contact = new Contact(incomingContact);
 		contact.save().then(() => {
@@ -14,7 +14,7 @@ export class ContactController {
 		});
 	};
 
-	public getAllContacts = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllContacts = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Contact.find({ "userId": userId }).then(contacts => {
 			res.send(contacts);
 		}).catch(e => {
@@ -37,5 +37,5 @@ export class ContactController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }

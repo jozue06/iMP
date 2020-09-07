@@ -16,7 +16,7 @@ export class QtrReportRoutes {
 	public otherIncomeLineController: OtherIncomeLineController = new OtherIncomeLineController();
 	public mileageLogController: MileageLogController = new MileageLogController();
 	public statementController: StatementController = new StatementController();
-	
+
 	constructor() {
 		this.router = Router();
 		this.routes();
@@ -28,7 +28,7 @@ export class QtrReportRoutes {
 		this.router.get("/qtrReports/:id", this.authController.authenticateJWT, this.qtrReportController.getQtrReport);
 		this.router.put("/qtrReports/:id", this.authController.authenticateJWT, this.qtrReportController.updateQtrReport);
 		this.router.post("/qtrReportsDelete", this.authController.authenticateJWT, this.qtrReportController.deleteQtrReports);
-		
+
 		this.router.post("/qtrReports/expenseLines", this.authController.authenticateJWT, this.expenseLineController.createExpenseLine);
 		this.router.put("/qtrReports/expenseLines/:id", this.authController.authenticateJWT, this.expenseLineController.updateExpenseLine);
 		this.router.post("/qtrReports/expenseLinesDelete", this.authController.authenticateJWT, this.expenseLineController.deleteExpenseLines);

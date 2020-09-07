@@ -4,21 +4,21 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
 export class CommsController {
-	public createComm = (userId: String, req: Request, res: Response, next: NextFunction) => {		
+	public createComm = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const comm = new Comm(req.body.comm);
 		comm.contact = req.body.comm.contactId;
 		comm.save().then((savedComm) => {
 			Contact.findOneAndUpdate({ _id: req.body.comm.contactId }, { $push: { comms: savedComm._id } }, { useFindAndModify: true, new: true }).then(saved => {
 				res.send(saved);
 			});
-			
+
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};
 
-	public getAllComms = (userId: string, req: Request, res: Response, next: NextFunction) => {				
+	public getAllComms = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Comm.find({ "userId": userId }).then(comms => {
 			res.send(comms);
 		}).catch(e => {
@@ -40,7 +40,7 @@ export class CommsController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 
 	public deleteComs = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Comm.deleteMany( {"_id": { $in: req.body.commsIds } } ).then(r => {
@@ -48,5 +48,5 @@ export class CommsController {
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
-	};	
+	};
 }
