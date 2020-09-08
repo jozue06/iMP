@@ -21,7 +21,7 @@ export interface IQtrReport {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	statements?: StatementDocument[],
+	// statements?: StatementDocument[],
 	otherIncomeLines?: OtherIncomeDocument[],
 }
 
