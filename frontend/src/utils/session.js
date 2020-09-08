@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import getApi from "./getApi";
 export async function getSession() {	
 	if (localStorage.getItem("jwt") != null) {
 
@@ -8,7 +8,8 @@ export async function getSession() {
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
 		try {
-			const res = await axios.post("http://localhost:9090/user/authorize", { "body": {} }, { "headers": headers });
+			let apiAddress = getApi();
+			const res = await axios.post(apiAddress + "user/authorize", { "body": {} }, { "headers": headers });
 			if (res.status == 200) {
 				return true;
 			}

@@ -1,7 +1,7 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
 import { MileageLogDocument } from "./mileageLog";
-// import { StatementDocument } from "./statement";
+import { StatementDocument } from "./statement";
 import { OtherIncomeDocument } from "./otherIncomeLine";
 
 export interface IQtrReport {
@@ -21,7 +21,7 @@ export interface IQtrReport {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	// statements?: StatementDocument[],
+	statements?: StatementDocument[],
 	otherIncomeLines?: OtherIncomeDocument[],
 }
 
@@ -94,11 +94,11 @@ const QtrReportSchema = new Schema({
 		defaut: []
 	}],
 
-	// statements: [{
-	// 	type: Schema.Types.ObjectId,
-	// 	ref: 'statement',
-	// 	defaut: []
-	// }],
+	statements: [{
+		type: Schema.Types.ObjectId,
+		ref: 'statement',
+		defaut: []
+	}],
 
 	otherIncomeLines: [{
 		type: Schema.Types.ObjectId,

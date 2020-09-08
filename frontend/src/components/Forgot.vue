@@ -33,6 +33,7 @@
 
 <script>
 	import axios from "axios";
+	import getApi from "../utils/getApi"
 	export default {
 		name: 'Forgot',
 		data() {
@@ -51,7 +52,8 @@
 					let obj = {
 						username: this.input.username,
 					}
-					await axios.post('http://localhost:9090/user/forgot', obj).then(res => {
+					let apiAddress = getApi();
+					await axios.post(`${apiAddress}user/forgot`, obj).then(res => {
 						this.loading = false;
 						this.step = 1;
 					})

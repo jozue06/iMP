@@ -5,7 +5,7 @@ import { QtrReportController } from "../controllers/qtrReports";
 import { ExpenseLineController } from "../controllers/expenseLines";
 import { OtherIncomeLineController } from "../controllers/otherIncomeLines";
 import { MileageLogController } from "../controllers/mileageLogs";
-// import { StatementController } from "../controllers/statements";
+import { StatementController } from "../controllers/statements";
 
 export class QtrReportRoutes {
 
@@ -15,7 +15,7 @@ export class QtrReportRoutes {
 	public expenseLineController: ExpenseLineController = new ExpenseLineController();
 	public otherIncomeLineController: OtherIncomeLineController = new OtherIncomeLineController();
 	public mileageLogController: MileageLogController = new MileageLogController();
-	// public statementController: StatementController = new StatementController();
+	public statementController: StatementController = new StatementController();
 
 	constructor() {
 		this.router = Router();
@@ -41,8 +41,8 @@ export class QtrReportRoutes {
 		this.router.put("/qtrReports/mileageLogs/:id", this.authController.authenticateJWT, this.mileageLogController.updateMileageLog);
 		this.router.post("/qtrReports/mileageLogsDelete", this.authController.authenticateJWT, this.mileageLogController.deleteMileageLogs);
 
-		// this.router.post("/qtrReports/statements", this.authController.authenticateJWT, this.statementController.createStatement);
-		// this.router.put("/qtrReports/statements/:id", this.authController.authenticateJWT, this.statementController.updateStatement);
-		// this.router.post("/qtrReports/statementsDelete", this.authController.authenticateJWT, this.statementController.deleteStatements);
+		this.router.post("/qtrReports/statements", this.authController.authenticateJWT, this.statementController.createStatement);
+		this.router.put("/qtrReports/statements/:id", this.authController.authenticateJWT, this.statementController.updateStatement);
+		this.router.post("/qtrReports/statementsDelete", this.authController.authenticateJWT, this.statementController.deleteStatements);
 	}
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const baseURL = 'http://localhost:9090/contactGroups';
+import getApi from "../utils/getApi"
+const baseURL = `${getApi()}contactGroups`;
 
 
 const handleError = fn => (...params) =>

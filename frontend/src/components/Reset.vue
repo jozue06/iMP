@@ -26,6 +26,7 @@
 
 <script>
 	import axios from "axios";
+	import getApi from "../utils/getApi"
 	export default {
 		name: 'Reset',
 		data() {
@@ -45,7 +46,8 @@
 						password: this.input.password,
 						token: this.$router.currentRoute.params.token
 					}
-					await axios.post('http://localhost:9090/user/reset', obj).then(res => {
+					let apiAddress = getApi();
+					await axios.post(`${apiAddress}user/reset`, obj).then(res => {
 						this.loading = false;
 						this.$router.replace("/login");
 					})

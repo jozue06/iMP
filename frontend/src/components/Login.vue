@@ -57,6 +57,7 @@
 
 <script>
 	import axios from "axios";
+	import getApi from "../utils/getApi"
 	export default {
 		name: 'Login',
 		data() {
@@ -77,7 +78,8 @@
 						username: this.input.username,
 						password: this.input.password
 					}
-					await axios.post('http://localhost:9090/user/login', obj).then(res => {
+					let apiAddress = getApi();
+					await axios.post(`${apiAddress}user/login`, obj).then(res => {
 						localStorage.setItem("jwt", res.data.token)
 						this.loading = false;
 						this.$router.replace("/contacts");
@@ -102,7 +104,8 @@
 						username: this.input.username,
 						password: this.input.password
 					}
-					axios.post('http://localhost:9090/user/register', obj).then(res => {
+					let apiAddress = getApi();
+					axios.post(`${apiAddress}user/register`, obj).then(res => {
 						this.loading = false;
 						localStorage.setItem("jwt", res.data.token);
 						this.$router.replace("/contacts");
