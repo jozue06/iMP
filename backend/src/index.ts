@@ -8,6 +8,7 @@ import { MONGO_DB_URI } from "./utils/secret";
 import { ContactRoutes } from "./routes/contactRoutes";
 import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import passport from "passport";
+import path from "path";
 
 dotenv.config();
 class Server {
@@ -18,6 +19,7 @@ class Server {
 		this.config();
 		this.routes();
 		this.mongo();
+		this.app.use(express.static(path.resolve(__dirname, '../../frontend/dist')));
 		this.app.use(errorMiddleware);
 	}
 
@@ -25,6 +27,9 @@ class Server {
 		this.app.use("/user", new AuthRoutes().router);
 		this.app.use("/", new ContactRoutes().router);
 		this.app.use("/", new QtrReportRoutes().router);
+		this.app.get('/', (req,res) => {
+			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
+		});
 	}
 
 	public config(): void {
@@ -33,7 +38,6 @@ class Server {
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cors());
 		this.app.use(passport.initialize());
-//   app.use(passport.session());
 	}
 
 	private mongo() {
