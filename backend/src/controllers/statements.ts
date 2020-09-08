@@ -6,7 +6,7 @@ import ValidationException from '../exceptions/ValidationException';
 export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const statement = new Statement(req.body.statement);
-		statement.save().then((savedStatement) => {
+		statement.save().then(savedStatement => {
 			QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {$push: {statements: savedStatement._id}}, { useFindAndModify: true, new: true }).then(saved => {
 				res.send(saved);
 			});
