@@ -18,7 +18,6 @@ import formatMoney from "./mixins/formatMoney"
 import "./assets/scss/globalCustoms.scss";
 import { getSession } from "./utils/session";
 
-
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
