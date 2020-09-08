@@ -22,9 +22,7 @@
     "moment": "^2.24.0",
     "vue": "^2.6.11",
     "vue-currency-input": "^1.17.3",
-    "vue-router": "^3.1.5"
-  },
-  "devDependencies": {
+    "vue-router": "^3.1.5",
     "@babel/preset-env": "^7.10.2",
     "@vue/cli-plugin-babel": "~4.2.0",
     "@vue/cli-plugin-eslint": "~4.2.0",
@@ -39,6 +37,7 @@
     "vue-cli-plugin-electron-builder": "~1.4.5",
     "vue-template-compiler": "^2.6.11"
   },
+
   "eslintConfig": {
     "root": true,
     "env": {
