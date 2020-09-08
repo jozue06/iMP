@@ -28,7 +28,7 @@ class Server {
 	}
 
 	public config(): void {
-		this.app.set("port", process.env.SERVER_PORT || 3000);
+		this.app.set("port", process.env.PORT || 3000);
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cors());
@@ -81,7 +81,7 @@ class Server {
 
 	public start(): void {
 		this.app.listen(this.app.get("port"), () => {
-			console.info("API is running at http://localhost:%d", this.app.get("port"));
+			console.info("API is running at, ", this.app.get("host"), " ", this.app.get("port"));
 		});
 	}
 }
