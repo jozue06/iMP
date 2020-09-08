@@ -1,5 +1,5 @@
 import { QtrReport } from "../models/qrtReport";
-import { Statement } from "../models/Statement";
+import { Statement } from "../models/statement";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 
