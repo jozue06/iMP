@@ -1,8 +1,7 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
 import { MileageLogDocument } from "./mileageLog";
-// import { StatementDocument } from "./statement";
-// import { OtherIncomeDocument } from "./otherIncomeLine";
+import { OfferingDocument } from "./offering";
 
 export interface ItinerationReportInterface {
 	user: string,
@@ -36,8 +35,7 @@ export interface ItinerationReportInterface {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	// statements?: StatementDocument[],
-	// otherIncomeLines?: OtherIncomeDocument[],
+	offeringLines?: OfferingDocument[],
 }
 
 const ItenReportSchema = new Schema({
@@ -128,6 +126,11 @@ const ItenReportSchema = new Schema({
 		defaut: []
 	}],
 
+	offeringLines: [{
+		type: Schema.Types.ObjectId,
+		ref: 'offering',
+		defaut: []
+	}],
 	mileageLogs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
