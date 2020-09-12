@@ -6,7 +6,7 @@
 		<b-row>
 			<b-col>
 				<b-form-group label="Month">
-					<b-form-select v-model="itinReport.month" :options="quarterOptions" @change="formatQuarterForSave">
+					<b-form-select v-model="itinReport.month" :options="monthOptions" @change="formatMonthForSave">
 					</b-form-select>
 				</b-form-group>
 			</b-col>
@@ -34,14 +34,15 @@
 
 <script>
 	import { ItinReports } from "../../data/itinReports"
+	import { months } from "../../constants/months"
 	export default {
 		props: {
 			itinReport: Object,
 		},
 
 		methods: {
-			formatQuarterForSave(value) {
-				this.itinReport.quarterNumber = value;	
+			formatMonthForSave(value) {
+				this.itinReport.month = value;	
 				this.saveReport();
 			},
 
@@ -93,14 +94,7 @@
 		
 		data() {
 			return {
-				quarterOptions: [
-					{ value: null, text: 'Please Select a Quarter' },
-					{ value: 1, text: 'First Quarter' },
-					{ value: 2, text: 'Second Quarter' },
-					{ value: 3, text: 'Third Quarter' },
-					{ value: 4, text: 'Fourth Quarter' },
-					
-				],
+				monthOptions: months,
 				selectedQuarterOption: null,
 				selectedYear: this.$Moment(this.$Moment.now()).format("YYYY"),
 				loading: false

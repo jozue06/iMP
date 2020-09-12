@@ -114,6 +114,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
+				isQtrReport:false
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 

@@ -185,6 +185,7 @@
 		props: {
 			expenseLine: Object,
 			currentReport: Object,
+			isQtrReport: Boolean,
 		},
 		mounted () {
 
@@ -225,8 +226,13 @@
 				this.loading = true;				
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
+				}				
+				if (!this.isQtrReport) {
+					this.expenseLine.itinReportId = this.currentReport._id;
+				} else {
+					this.expenseLine.qtrReportId = this.currentReport._id;
 				}
-				this.expenseLine.qtrReportId = this.currentReport._id;
+
 				ExpenseLines.save(this.expenseLine).then(res => {				
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");

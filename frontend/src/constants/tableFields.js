@@ -55,5 +55,11 @@ export const allowedFields = {
 		"year",
 		"baseAmount",
 		"dateCompleted",
+	],
+
+	itinReports: [
+		"month",
+		"year",
+		"dateCompleted",
 	]
 }

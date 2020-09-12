@@ -132,7 +132,7 @@ const ItenReportSchema = new Schema({
 
 	offeringLines: [{
 		type: Schema.Types.ObjectId,
-		ref: 'offering',
+		ref: 'offeringLine',
 		defaut: []
 	}],
 	

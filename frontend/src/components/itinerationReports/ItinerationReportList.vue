@@ -152,7 +152,7 @@
 					let tmp = {};
 					tmp.sortable = true;
 
-					if (allowedFields.qtrReports.includes(f)) {
+					if (allowedFields.itinReports.includes(f)) {
 						tmp.key = f;
 					} else { 
 						tmp.key = "";
