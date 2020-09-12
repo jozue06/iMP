@@ -85,7 +85,7 @@ class Server {
 
 	public start(): void {
 		this.app.listen(this.app.get("port"), () => {
-			console.info("API is running at, ", this.app.get("host"), " ", this.app.get("port"));
+			console.info("API is running on port:", this.app.get("port"));
 		});
 	}
 }

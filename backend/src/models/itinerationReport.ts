@@ -30,7 +30,7 @@ export interface ItinerationReportInterface {
 
 	startReceiptNo?: string,
 	endReceiptNo?: string,
-	
+	personaNotes?: string,
 	comments?: string,
 
 	expenseLines?: ExpenseLineDocument[],
@@ -120,6 +120,10 @@ const ItenReportSchema = new Schema({
 		type: String,
 	},
 
+	personalNotes: {
+		type: String,
+	},
+
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
@@ -131,6 +135,7 @@ const ItenReportSchema = new Schema({
 		ref: 'offering',
 		defaut: []
 	}],
+	
 	mileageLogs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
