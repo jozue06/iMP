@@ -1,7 +1,7 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
 import { MileageLogDocument } from "./mileageLog";
-import { OfferingDocument } from "./offering";
+import { OfferingDocument } from "./offeringLine";
 
 export interface ItinerationReportInterface {
 	user: string,

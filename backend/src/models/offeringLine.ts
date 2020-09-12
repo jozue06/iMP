@@ -61,4 +61,4 @@ const OfferingSchema = new Schema({
 
 export interface OfferingDocument extends OfferingInterface, Document { }
 export interface OfferingModel extends Model<OfferingDocument> { }
-export const Offering = model<OfferingDocument>("offering", OfferingSchema);
+export const OfferingLine = model<OfferingDocument>("offeringLine", OfferingSchema);

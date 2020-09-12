@@ -1,5 +1,4 @@
 import { QtrReport, QtrReportDocument } from "../models/qrtReport"
-import { ExpenseLine, ExpenseLineDocument } from "../models/expenseLine"
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
