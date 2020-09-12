@@ -19,8 +19,8 @@ export const sidebarSections = {
             },
             {
                 report: 4,
-                route: "/reportName",
-                childMsg: 'make SDR' 
+                route: "/itinerationReports",
+                childMsg: 'Itineration Reports' 
             },
             {
                 report: 5,
