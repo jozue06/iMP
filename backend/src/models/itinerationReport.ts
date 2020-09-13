@@ -162,14 +162,8 @@ ItinReportSchema.path("trailerMiles").set((num: string) => formatNumber(num));
 ItinReportSchema.path("trailerCentsPerMile").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("trailerCentsPerMile").set((num: string) => formatNumber(num));
 
-ItinReportSchema.path("trailerLodgingNights").get((num: number) => unformatNumber(num));
-ItinReportSchema.path("trailerLodgingNights").set((num: string) => formatNumber(num));
-
 ItinReportSchema.path("trailerLodgingPrice").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("trailerLodgingPrice").set((num: string) => formatNumber(num));
-
-ItinReportSchema.path("trailerParkNights").get((num: number) => unformatNumber(num));
-ItinReportSchema.path("trailerParkNights").set((num: string) => formatNumber(num));
 
 ItinReportSchema.path("trailerParkPrice").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("trailerParkPrice").set((num: string) => formatNumber(num));

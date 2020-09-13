@@ -33,98 +33,88 @@
 			</b-col>
 			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="Car W/ Trailer / Camper Miles">
-					<!-- <b-input-group prepend="$">
-						<b-form-input 
-							v-model="currentReport.sdrBalance"
-							class="text-right"
-							type="text" 
-							name="sdrBalance"
-							lazy-formatter
-							:formatter="$formatMoney"
-							@blur="saveReport"
-						>
-						</b-form-input>
-					</b-input-group> -->
+					<b-form-input 
+						v-model="currentReport.trailerMiles"
+						class="text-right"
+						type="text" 
+						name="trailerMiles"
+						lazy-formatter
+						:formatter="$formatMoney"
+						@blur="saveReport"
+					>
+					</b-form-input>
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="Car W/ Trailer / Camper Cents per Mile">
 					<b-input-group prepend="$">
-						<!-- <b-form-input 
-							v-model="currentReport.otherFundsHeld"
+						<b-form-input 
+							v-model="currentReport.trailerCentsPerMile"
 							class="text-right"
 							type="text"
-							name="otherFundsHeld"
+							name="trailerCentsPerMile"
 							lazy-formatter
 							:formatter="$formatMoney"
 						>
-						</b-form-input> -->
+						</b-form-input>
 					</b-input-group>
 				</b-form-group> 
 			</b-col>
 		</b-row>
 		<b-row class="ml-2 mr-2">
-			<b-col cols="4" class="my-2">
+			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="Trailer / Camper Lodging # of Nights">
-					<!-- <b-input-group prepend="$">
+					<b-form-input 
+						v-model="currentReport.trailerLodgingNights"
+						class="text-right"
+						type="number"
+						name="trailerLodgingNights"
+						@blur="saveReport"
+					>
+					</b-form-input>
+				</b-form-group> 
+			</b-col>
+			<b-col cols="2" class="my-2">
+				<b-form-group class="mr-1" label="Trailer / Camper Lodging Per Night">
+					<b-input-group prepend="$">
 						<b-form-input 
-							v-model="currentReport.personalOfferingsRetained"
+							v-model="currentReport.trailerLodgingPrice"
 							class="text-right"
 							type="text"
-							name="personalPfferingsRetained"
+							name="trailerLodgingPrice"
 							lazy-formatter
 							:formatter="$formatMoney"
 							@blur="saveReport"
 						>
 						</b-form-input>
-					</b-input-group> -->
-				</b-form-group> 
-			</b-col>
-			<b-col cols="4" class="my-2">
-				<b-form-group class="mr-1" label="Trailer / Camper Lodging Per Night">
-					<b-input-group prepend="$">
-						<!-- <b-form-input 
-							v-model="currentReport.deficitReimbursement"
-							class="text-right"
-							type="text"
-							name="deficitReimbursement"
-							lazy-formatter
-							:formatter="$formatMoney"
-							@blur="saveReport"
-						>
-						</b-form-input> -->
 					</b-input-group>
 				</b-form-group> 
 			</b-col>
-			<b-col cols="4" class="my-2">
+			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="Trailer Park Nights">
-					<!-- <b-input-group prepend="$">
+					<b-form-input 
+						v-model="currentReport.trailerParkNights"
+						class="text-right"
+						type="number"
+						name="trailerParkNights"
+						@blur="saveReport"
+					>
+					</b-form-input>
+				</b-form-group> 
+			</b-col>
+			<b-col cols="2" class="my-2">
+				<b-form-group class="mr-1" label="Trailer Park Per Night">
+					<b-input-group prepend="$">
 						<b-form-input 
-							v-model="currentReport.otherAGWMIncome"
+							v-model="currentReport.trailerParkPrice"
 							class="text-right"
 							type="text"
-							name="otherAGWMIncome"
+							name="trailerParkPrice"
 							lazy-formatter
 							:formatter="$formatMoney"
 							@blur="saveReport"
 						>
 						</b-form-input>
-					</b-input-group> -->
-				</b-form-group> 
-			</b-col>
-			<b-col cols="4" class="my-2">
-				<b-form-group class="mr-1" label="Trailer Park Per Night">
-					<b-input-group prepend="$">
-						<!-- <b-form-input 
-							v-model="currentReport.otherAGWMIncome"
-							class="text-right"
-							type="text"
-							name="otherAGWMIncome"
-							lazy-formatter
-							:formatter="$formatMoney"
-							@blur="saveReport"
-						>
-						</b-form-input> -->
 					</b-input-group> 
 				</b-form-group> 
 			</b-col>
