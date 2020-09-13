@@ -209,146 +209,31 @@
 						</b-row>
 					</b-col>
 				</b-row>
-				<!-- <b-row v-else class="align-items-center">
-					<b-col cols="12">
-						<b-button @click="showOtherIncomeModal(null)" variant="primary" class="m-2" size="sm">+ Add other or misc income</b-button>
-					</b-col>
-				</b-row> -->
 			</b-col>
 		</b-row>
-		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
-		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" />
-		<ConfirmModal 
-			id="confirmDeleteOtherLine" 
-			title="Delete Misc Lines?" 
-			v-bind:message="confirmDeleteOtherLineMessage" 
-			@handleConfirm="handleConfirmDelete" 
-		/>
+
 	</div>
 </template>
 
 <script>
-	import { allowedFields } from "../../constants/tableFields";
-	import OtherIncomeModal from "../Modals/OtherIncomeModal";
-	import StatementModal from "../Modals/StatementModal";
-	import { OtherIncomeLines } from "../../data/otherIncomeLines"
-	import ConfirmModal from "../Modals/ConfirmModal";
-
 	export default  {
 
 		name: 'itinerationReportMoreInfo',
-
-		components: {
-			OtherIncomeModal,
-			StatementModal,
-			ConfirmModal
-		},
 
 		props: {
 			currentReport: Object,
 		},
 
-		mounted() {
-
-		},
-
 		data() {
 			return {
-				otherIncomeLine: {},
-				selectedOtherLines: null,
 			}
 		},
 
 		methods: {
-			onMiscIncomeRowSelected(otherLine) {
-				this.selectedOtherLines = otherLine;
-			},
-
-			handleConfirmDelete() {
-				let ids = this.selectedOtherLines.map(l => l._id);
-				this.selectedOtherLines.forEach(sel => {
-					this.currentReport.otherIncomeLines.pop(sel);
-				});
-
-				OtherIncomeLines.deleteOtherIncomeLines(ids);
-			},
-
-			showOtherIncomeModal(otherIncomeLine) {
-				if (otherIncomeLine) {
-					this.otherIncomeLine = otherIncomeLine;
-				}
-
-				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();
-			},
-
-			showStatementModal(statement) {
-				this.$refs.statementModal.$refs.statementModal.show();
-			},
-
 			saveReport() {
 				this.$emit("saveReport");
 			}
 		},
-
-		computed: {
-			fields1() {				
-				let keys = Object.keys(this.statement).map(f => {
-					let tmp = {};
-					tmp.sortable = true;
-
-					if (allowedFields.commsList.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
-
-					return tmp;
-				});
-
-				return keys;
-			},
-
-			fields2() {
-				let keys = Object.keys(this.otherIncomeLines[0]).map(f => {
-					let tmp = {};
-					tmp.sortable = true;
-
-					if (allowedFields.otherIncomeTable.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
-
-					return tmp;
-				});
-
-				return keys;
-			},
-
-			statement() {
-				if (this.currentReport.statements) {
-					return this.currentReport.statements[0];
-				}
-				return {}
-			},
-
-			otherIncomeLines() {
-				return this.currentReport.otherIncomeLines;
-			},
-
-			statementReimbursementTotal() {
-				return "$" + this.$formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree)
-			},
-
-			statementAmountTotal() {
-				return "$" + this.$formatMoney(this.statement.amountOne + this.statement.amountTwo + this.statement.amountThree)
-			},
-
-			confirmDeleteOtherLineMessage() {
-				return "Are you sure you want to Delete the Selected Other Income Lines? This cannot be un-done";
-			}
-
-		}
 }
 
 </script>
