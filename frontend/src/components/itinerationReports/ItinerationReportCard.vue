@@ -175,6 +175,12 @@
 				v-bind:message="confirmDeleteMileageLogMessage" 
 				@handleConfirm="handleConfirmMileageLogDelete" 
 			/>
+			<ConfirmModal 
+				id="confirmDeleteOfferingLine" 
+				title="Delete Offering Lines?" 
+				v-bind:message="confirmDeleteOfferingMessage" 
+				@handleConfirm="handleConfirmOfferingDelete" 
+			/>
 		</div>	
 	</section>
 </template>
@@ -190,6 +196,7 @@
 	import { ItinReports } from "../../data/itinReports"
 	import { ExpenseLines } from "../../data/expenseLines";
 	import { MileageLogs } from "../../data/mileageLogs";
+	import { OfferingLines } from "../../data/offeringLines";
 
 	export default {
 		components: {
@@ -241,8 +248,8 @@
 				this.selectedMileageLogs = mileageLog;
 			},
 
-			onOfferingLineRowSelected() {
-
+			onOfferingLineRowSelected(offeringLine) {
+				this.selectedOfferingLines = offeringLine;
 			},
 
 			handleConfirmExpenseLineDelete() {
@@ -261,6 +268,15 @@
 				});
 
 				MileageLogs.deleteMileageLogs(ids);
+			},
+
+			handleConfirmOfferingDelete() {
+				let ids = this.selectedOfferingLines.map(l => l._id);
+				this.selectedOfferingLines.forEach(sel => {
+					this.currentReport.offeringLines.pop(sel);
+				});
+
+				OfferingLines.deleteOfferingLines(ids);
 			},
 
 			formatQuarterToView(quarterNumber) {
@@ -376,6 +392,10 @@
 
 			confirmDeleteMileageLogMessage() {
 				return "Are you sure you want to Delete the Selected Mileage Logs? This cannot be un-done";
+			},
+
+			confirmDeleteOfferingMessage() {
+				return "Are you sure you want to Delete the Selected Offering Lines? This cannot be un-done";
 			}
 
 		}

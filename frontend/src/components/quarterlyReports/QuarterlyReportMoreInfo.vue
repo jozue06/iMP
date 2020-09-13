@@ -119,7 +119,7 @@
 					Statment Info
 				</label>
 				<b-col>
-					<b-row v-if="statement" @click="showStatementModal(statement)" class="align-items-center mt-2">
+					<b-row v-if="statement.dateOne || statement.dateTwo || statement.dateThree" @click="showStatementModal(statement)" class="align-items-center mt-2">
 						<b-col cols='4'>
 							{{statement.dateOne}}
 							<br>

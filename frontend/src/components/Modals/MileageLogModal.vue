@@ -106,10 +106,16 @@
 
 		methods: {
 			saveMilageLog() {
-				this.loading = true;
+				this.loading = true;			
+				if (!this.currentReport.mileageLogs) {
+					this.currentReport.mileageLogs = [];
+					this.currentReport.mileageLogs.push(this.mileageLog);
+				}
+
 				if (!this.currentReport.mileageLogs.includes(this.mileageLog)) {
 					this.currentReport.mileageLogs.push(this.mileageLog);
 				}
+
 				if (!this.isQtrReport) {
 
 					this.mileageLog.qtrReportId = this.currentReport._id;

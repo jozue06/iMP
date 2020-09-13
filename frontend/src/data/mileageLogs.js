@@ -35,9 +35,10 @@ export const MileageLogs = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: handleError(async (payload, isQtrReport) => {
 		let body = {
-			mileageLog: payload
+			mileageLog: payload,
+			isQtrReport: isQtrReport,
 		}
 
 		if (payload._id) {
