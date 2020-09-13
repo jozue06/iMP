@@ -180,10 +180,8 @@
 										<!-- <b-form-input 
 											v-model="currentReport.otherAGWMIncome"
 											class="text-right"
-											type="text"
+											type="number"
 											name="otherAGWMIncome"
-											lazy-formatter
-											:formatter="$formatMoney"
 											@blur="saveReport"
 										>
 										</b-form-input> -->
@@ -196,10 +194,9 @@
 										<!-- <b-form-input 
 											v-model="currentReport.otherAGWMIncome"
 											class="text-right"
-											type="text"
+											type="number"
 											name="otherAGWMIncome"
-											lazy-formatter
-											:formatter="$formatMoney"
+
 											@blur="saveReport"
 										>
 										</b-form-input> -->

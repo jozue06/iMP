@@ -156,8 +156,29 @@ ItinReportSchema.path("carMiles").set((num: string) => formatNumber(num));
 ItinReportSchema.path("carCentsPerMile").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("carCentsPerMile").set((num: string) => formatNumber(num));
 
+ItinReportSchema.path("trailerMiles").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerMiles").set((num: string) => formatNumber(num));
+
 ItinReportSchema.path("trailerCentsPerMile").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("trailerCentsPerMile").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("trailerLodgingNights").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerLodgingNights").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("trailerLodgingPrice").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerLodgingPrice").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("trailerParkNights").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerParkNights").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("trailerParkPrice").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerParkPrice").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("commitmentAmount").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("commitmentAmount").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("cashAmount").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("cashAmount").set((num: string) => formatNumber(num));
 
 
 export interface ItinReportDocument extends ItinerationReportInterface, Document {}
