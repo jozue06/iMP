@@ -51,7 +51,41 @@
 						</b-col>	
 					</b-row>
 				</b-tab>
+				<b-tab title="Itineration Offerings">
+					<h4>Itineration Offerings</h4>
+					<b-table
+						v-if="offeringLines && offeringLines.length > 0"
+						striped 
+						hover 
+						:fields="expenseFields"
+						:items="offeringLines" 
+						ref="offeringLinesTable"
+						responsive="sm"
+						selectable
+						selected-variant="danger"
+						@row-selected="onOfferingLineRowSelected"
+					>
+						<template v-slot:cell()="data">
+							<b @click="showOfferingLineModal(data.item)" class="text-info">{{ data.value }}</b>
+						</template>
+					</b-table>
 				
+					<b-row class="justify-content-around">
+						<b-col cols="10" class="my-2" v-if="offeringLines && offeringLines.length > 0">
+							<b-button 
+								variant="danger" 
+								size="sm" 
+								:disabled="selectedOfferingLines == 0" 
+								v-bind:selectedOfferingLines="selectedOfferingLines"
+								v-b-modal.confirmDeleteOfferingLine>
+									Delete selected
+							</b-button>
+						</b-col>
+						<b-col cols="2" class="my-2">
+							<b-button size="sm" variant="primary" @click="showOfferingLineModal(null)"> + Add Offering Line </b-button>
+						</b-col>	
+					</b-row>
+				</b-tab>
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
@@ -176,6 +210,10 @@
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
 			},
 
+			showOfferingLineModal() {
+
+			},
+
 			formatDate(dateTimeObject) {
 				return moment(dateTimeObject).format('YYYY');
 			},
@@ -186,6 +224,10 @@
 
 			onMileageLogRowSelected(mileageLog) {
 				this.selectedMileageLogs = mileageLog;
+			},
+
+			onOfferingLineRowSelected() {
+
 			},
 
 			handleConfirmExpenseLineDelete() {
@@ -236,15 +278,17 @@
 
 				selectedExpenseLines: "",
 				selectedMileageLogs: "",
+				selectedOfferingLines: "",
 
 				expenseLines: [],
 				mileageLogs: [],
+				offeringLines: [],
 
 				selectedExpenseLine: {},
 				selectedMileageLog: {},
+				selectedOfferingLine: {},
 
 				currentReport: {},
-				offeringLines: [],
 			};
 		},
 
