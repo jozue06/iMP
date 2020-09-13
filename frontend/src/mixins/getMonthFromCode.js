@@ -1,5 +1,8 @@
 import { months } from "../constants/months"
 
 export default function getStatusFromCode(code) {
-	return months.find(m => m.value == code).text;
+	let month = months.find(m => m.value == code);
+	if (month) {
+		return month.text;
+	}
 }
