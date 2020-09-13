@@ -90,7 +90,8 @@
 
 		props: {
 			mileageLog: Object,
-			currentReport: Object
+			currentReport: Object,
+			isQtrReport: Boolean
 		},
 
 		mounted() {
@@ -109,7 +110,12 @@
 				if (!this.currentReport.mileageLogs.includes(this.mileageLog)) {
 					this.currentReport.mileageLogs.push(this.mileageLog);
 				}
-				this.mileageLog.qtrReportId = this.currentReport._id;
+				if (!this.isQtrReport) {
+
+					this.mileageLog.qtrReportId = this.currentReport._id;
+				} else {
+					this.mileageLog.itinReportId = this.currentReport._id;
+				}
 
 				MileageLogs.save(this.mileageLog).then(res => {
 					this.$refs.mileageLogModal.hide();

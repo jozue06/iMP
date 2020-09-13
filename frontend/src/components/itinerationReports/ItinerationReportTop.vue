@@ -1,7 +1,7 @@
 <template>
 	<div class="card-header mt-4">
 		<router-link to="/itinerationReports">
-			<h3 class="pt-2">Report for {{ formatQuarterToView(itinReport.month) }} - {{ formatDate(itinReport.year) }} </h3>
+			<h3 class="pt-2">Report for {{ $GetMonth(itinReport.month) }} {{ formatDate(itinReport.year) }} </h3>
 		</router-link>
 		<b-row>
 			<b-col>

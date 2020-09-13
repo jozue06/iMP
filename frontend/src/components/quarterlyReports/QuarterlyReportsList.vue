@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<router-link to="/">
-				<h1 class="pt-2">Querterly Reports</h1>
+				<h1 class="pt-2">Quarterly Reports</h1>
 			</router-link>
 		
 			<div v-if="reports.length > 0">
@@ -81,7 +81,7 @@
 			NoResults,
 		},
 
-		name: 'querterlyReportsList',
+		name: 'quarterlyReportsList',
 
 		props: [],
 

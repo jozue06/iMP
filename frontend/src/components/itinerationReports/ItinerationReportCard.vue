@@ -51,6 +51,7 @@
 						</b-col>	
 					</b-row>
 				</b-tab>
+
 				<b-tab title="Itineration Offerings">
 					<h4>Itineration Offerings</h4>
 					<b-table
@@ -86,6 +87,7 @@
 						</b-col>	
 					</b-row>
 				</b-tab>
+
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
@@ -154,6 +156,7 @@
 				v-bind:mileageLog="selectedMileageLog" 
 				v-bind:currentReport="currentReport"
 				ref="mileageLogModal"
+				isQtrReport:false
 			/>
 			<ConfirmModal 
 				id="confirmDeleteExpenseLine" 
@@ -210,8 +213,13 @@
 				this.$refs.mileageLogModal.$refs.mileageLogModal.show()
 			},
 
-			showOfferingLineModal() {
-
+			showOfferingLineModal(offeringLine) {
+				if (offeringLine) {
+					this.selectedOfferingLine = offeringLine;
+				} else {
+					this.selectedOfferingLine = {};
+				}
+				this.$refs.offeringLineModal.$refs.offeringLineModal.show()
 			},
 
 			formatDate(dateTimeObject) {

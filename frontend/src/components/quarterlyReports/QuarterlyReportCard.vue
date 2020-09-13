@@ -120,6 +120,7 @@
 				v-bind:mileageLog="selectedMileageLog" 
 				v-bind:currentReport="currentReport"
 				ref="mileageLogModal"
+				isQtrReport:true
 			/>
 			<ConfirmModal 
 				id="confirmDeleteExpenseLine" 

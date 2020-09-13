@@ -37,6 +37,14 @@
 							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 						</router-link>
 					</template>
+					<template v-slot:cell(month)="data">
+							<router-link
+							:to="{ name: 'itinerationReport', params: { reportId: data.item._id } }"
+							v-slot="{ href, navigate}"
+						>
+							<span :href="href" @click="navigate" class="text-info"> {{ $GetMonth(data.value) }} </span>
+						</router-link>
+					</template>
 				</b-table>
 				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
 				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>

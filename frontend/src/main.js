@@ -12,6 +12,7 @@ import {
 } from "./mixins/notifications";
 import getStatusFromCode from "./mixins/getStatusFromCode";
 import getStatusColor from "./mixins/getStatusColorFromCode";
+import getMonthFromCode from "./mixins/getMonthFromCode";
 import moment from "moment";
 import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
@@ -27,6 +28,7 @@ Vue.prototype.$Notification = notification;
 Vue.prototype.$consoleLog = console.error;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
+Vue.prototype.$GetMonth = getMonthFromCode;
 Vue.prototype.$Moment = moment;
 Vue.component("YearSelector", YearSelector);
 Vue.prototype.$formatMoney = formatMoney;
