@@ -95,18 +95,22 @@ const ItinReportSchema = new Schema({
 
 	commitmentAmount: {
 		type: Number,
+		default: 0,
 	},
 
 	cashAmount: {
 		type: Number,
+		default: 0,
 	},
 
 	numberOfServices: {
 		type: Number,
+		default: 0,
 	},
 
 	numberOfAppointments: {
 		type: Number,
+		default: 0,
 	},
 
 	startReceiptNo: {

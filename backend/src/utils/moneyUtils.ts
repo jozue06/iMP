@@ -1,5 +1,12 @@
-function formatNumber(num:string) {	
-	let amt: number = Number(num.replace(/[^\d]/g, ""));	
+function formatNumber(num:string) {
+	let amt: number
+	if (typeof num != "number") {
+		amt = Number(num.replace(/[^\d]/g, ""));	
+		
+	} else {
+		amt = Number(num);
+	}
+
 	return amt;
 };
 

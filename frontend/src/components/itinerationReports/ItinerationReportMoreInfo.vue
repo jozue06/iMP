@@ -1,8 +1,9 @@
 <template>
 	<div class="sub-card" v-bind:currentReport="currentReport">		
-		<b-row class="mx-2 justify-content-around">
+		<b-row class="justify-content-around">
 			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Car Miles">
+				<b-form-group>
+					<label>Car Miles</label>
 					<b-form-input 
 						v-model="currentReport.carMiles"
 						class="text-right"
@@ -13,10 +14,7 @@
 						@blur="saveReport"
 					>
 					</b-form-input>
-				</b-form-group> 
-			</b-col>
-			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Cents Per Mile">
+					<label>Cents Per Mile</label>
 					<b-input-group prepend="$">
 						<b-form-input 
 							v-model=currentReport.carCentsPerMile
@@ -32,7 +30,8 @@
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Car W/ Trailer / Camper Miles">
+				<b-form-group class="mr-1">
+					<label>Car W/ Trailer / Camper Miles</label>
 					<b-form-input 
 						v-model="currentReport.trailerMiles"
 						class="text-right"
@@ -43,10 +42,7 @@
 						@blur="saveReport"
 					>
 					</b-form-input>
-				</b-form-group> 
-			</b-col>
-			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Car W/ Trailer / Camper Cents per Mile">
+					<label>Car W/ Trailer / Camper Cents per Mile</label>
 					<b-input-group prepend="$">
 						<b-form-input 
 							v-model="currentReport.trailerCentsPerMile"
@@ -60,10 +56,9 @@
 					</b-input-group>
 				</b-form-group> 
 			</b-col>
-		</b-row>
-		<b-row class="ml-2 mr-2">
 			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Trailer / Camper Lodging # of Nights">
+				<b-form-group class="mr-1">
+					<label>Trailer / Camper Lodging # of Nights</label>
 					<b-form-input 
 						v-model="currentReport.trailerLodgingNights"
 						class="text-right"
@@ -72,10 +67,7 @@
 						@blur="saveReport"
 					>
 					</b-form-input>
-				</b-form-group> 
-			</b-col>
-			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Trailer / Camper Lodging Per Night">
+					<label>Trailer / Camper Lodging Per Night</label>
 					<b-input-group prepend="$">
 						<b-form-input 
 							v-model="currentReport.trailerLodgingPrice"
@@ -91,7 +83,8 @@
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Trailer Park Nights">
+				<b-form-group class="mr-1">
+					<label>Trailer Park Nights</label>
 					<b-form-input 
 						v-model="currentReport.trailerParkNights"
 						class="text-right"
@@ -100,10 +93,7 @@
 						@blur="saveReport"
 					>
 					</b-form-input>
-				</b-form-group> 
-			</b-col>
-			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Trailer Park Per Night">
+					<label>Trailer Park Per Night</label>
 					<b-input-group prepend="$">
 						<b-form-input 
 							v-model="currentReport.trailerParkPrice"
@@ -124,39 +114,36 @@
 				<label>
 					Support Info
 				</label>
-					
-				<b-col cols="4" class="my-2">
+				<b-row class="justify-content-around">
 					<b-form-group class="mr-1" label="Commitments">
 						<b-input-group prepend="$">
-							<!-- <b-form-input 
-								v-model="currentReport.otherAGWMIncome"
+							<b-form-input 
+								v-model="currentReport.commitmentAmount"
 								class="text-right"
 								type="text"
-								name="otherAGWMIncome"
+								name="commitmentAmount"
 								lazy-formatter
 								:formatter="$formatMoney"
 								@blur="saveReport"
 							>
-							</b-form-input> -->
+							</b-form-input>
 						</b-input-group> 
 					</b-form-group> 
-				</b-col>
-				<b-col cols="4" class="my-2">
 					<b-form-group class="mr-1" label="Cash">
 						<b-input-group prepend="$">
-							<!-- <b-form-input 
-								v-model="currentReport.otherAGWMIncome"
+							<b-form-input 
+								v-model="currentReport.cashAmount"
 								class="text-right"
 								type="text"
-								name="otherAGWMIncome"
+								name="cashAmount"
 								lazy-formatter
 								:formatter="$formatMoney"
 								@blur="saveReport"
 							>
-							</b-form-input> -->
+							</b-form-input>
 						</b-input-group> 
 					</b-form-group> 
-				</b-col>
+				</b-row>
 			</b-col>
 
 			<b-col cols="6"  class="my-2">
@@ -166,80 +153,57 @@
 						<b-row class="justify-content-around">
 							<b-col cols="4" class="my-2">
 								<b-form-group class="mr-1" label="No of events">
-									<b-input-group prepend="$">
-										<!-- <b-form-input 
-											v-model="currentReport.otherAGWMIncome"
-											class="text-right"
-											type="number"
-											name="otherAGWMIncome"
-											@blur="saveReport"
-										>
-										</b-form-input> -->
-									</b-input-group> 
+									<b-form-input 
+										v-model="currentReport.numberOfServices"
+										class="text-right"
+										type="number"
+										name="numberOfServices"
+										@blur="saveReport"
+									>
+									</b-form-input>
 								</b-form-group> 
-							</b-col>
-							<b-col cols="4" class="my-2">
 								<b-form-group class="mr-1" label="No of Appointments">
-									<b-input-group prepend="$">
-										<!-- <b-form-input 
-											v-model="currentReport.otherAGWMIncome"
-											class="text-right"
-											type="number"
-											name="otherAGWMIncome"
-
-											@blur="saveReport"
-										>
-										</b-form-input> -->
-									</b-input-group> 
+									<b-form-input 
+										v-model="currentReport.numberOfAppointments"
+										class="text-right"
+										type="number"
+										name="numberOfAppointments"
+										@blur="saveReport"
+									>
+									</b-form-input>
 								</b-form-group> 
 							</b-col>
 							<b-col cols="4" class="my-2">
 								<b-form-group class="mr-1" label="Start Receipt No">
-									<b-input-group prepend="$">
-										<!-- <b-form-input 
-											v-model="currentReport.otherAGWMIncome"
-											class="text-right"
-											type="text"
-											name="otherAGWMIncome"
-											lazy-formatter
-											:formatter="$formatMoney"
-											@blur="saveReport"
-										>
-										</b-form-input> -->
-									</b-input-group> 
+									<b-form-input 
+										v-model="currentReport.startReceiptNo"
+										class="text-right"
+										type="text"
+										name="startReceiptNo"
+										@blur="saveReport"
+									>
+									</b-form-input>
 								</b-form-group> 
-							</b-col>
-							<b-col cols="4" class="my-2">
 								<b-form-group class="mr-1" label="End Receipt No">
-									<b-input-group prepend="$">
-										<!-- <b-form-input 
-											v-model="currentReport.otherAGWMIncome"
-											class="text-right"
-											type="text"
-											name="otherAGWMIncome"
-											lazy-formatter
-											:formatter="$formatMoney"
-											@blur="saveReport"
-										>
-										</b-form-input> -->
-									</b-input-group> 
+									<b-form-input 
+										v-model="currentReport.endReceiptNo"
+										class="text-right"
+										type="text"
+										name="endReceiptNo"
+										@blur="saveReport"
+									>
+									</b-form-input>
 								</b-form-group> 
 							</b-col>
 
 							<b-col cols="4" class="my-2">
 								<b-form-group class="mr-1" label="Personal Note">
-									<!-- <b-input-group prepend="$"> -->
-										<!-- <b-form-input 
-											v-model="currentReport.otherAGWMIncome"
-											class="text-right"
-											type="text"
-											name="otherAGWMIncome"
-											lazy-formatter
-											:formatter="$formatMoney"
-											@blur="saveReport"
-										>
-										</b-form-input> -->
-									<!-- </b-input-group>  -->
+									<b-form-textarea
+										v-model="currentReport.personalNotes"
+										placeholder=""
+										rows="4"
+										max-rows="6"
+									></b-form-textarea>
 								</b-form-group> 
 							</b-col>
 						</b-row>

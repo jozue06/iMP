@@ -119,7 +119,7 @@
 					</div>
 
 					<div class="row sub-section text-center" >
-						<b-form-group class="mr-1 description" label="description">
+						<b-form-group class="mr-1 description" label="Description">
 							<b-form-textarea
 								v-model="expenseLine.description"
 								rows="3"
