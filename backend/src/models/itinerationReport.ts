@@ -2,6 +2,7 @@ import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
 import { MileageLogDocument } from "./mileageLog";
 import { OfferingDocument } from "./offeringLine";
+import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 
 export interface ItinerationReportInterface {
 	user: string,
@@ -11,10 +12,10 @@ export interface ItinerationReportInterface {
 	dateCompleted?: string,
 
 	carMiles?: number,
-	carCentsPerMiles?: number,
+	carCentsPerMile?: number,
 
 	trailerMiles?: number,
-	trailerCentsPerMiles?: number,
+	trailerCentsPerMile?: number,
 
 	trailerLodgingNights?: number,
 	trailerLodgingPrice?: number,
@@ -38,7 +39,7 @@ export interface ItinerationReportInterface {
 	offeringLines?: OfferingDocument[],
 }
 
-const ItenReportSchema = new Schema({
+const ItinReportSchema = new Schema({
 	user: {
 		type: Types.ObjectId,
 		ref: "user",
@@ -63,7 +64,7 @@ const ItenReportSchema = new Schema({
 		type: Number,
 	},
 
-	carCentsPerMiles: {
+	carCentsPerMile: {
 		type: Number,
 	},
 
@@ -71,7 +72,7 @@ const ItenReportSchema = new Schema({
 		type: Number,
 	},
 
-	trailerCentsPerMiles: {
+	trailerCentsPerMile: {
 		type: Number,
 	},
 
@@ -141,8 +142,24 @@ const ItenReportSchema = new Schema({
 		ref: 'mileageLog' ,
 		defaut: []
 	}],
-});
+	
+},
+	{
+		toObject: {getters: true},
+		toJSON: {getters: true},
+	}
+);
+
+ItinReportSchema.path("carMiles").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("carMiles").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("carCentsPerMile").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("carCentsPerMile").set((num: string) => formatNumber(num));
+
+ItinReportSchema.path("trailerCentsPerMile").get((num: number) => unformatNumber(num));
+ItinReportSchema.path("trailerCentsPerMile").set((num: string) => formatNumber(num));
+
 
 export interface ItinReportDocument extends ItinerationReportInterface, Document {}
 export interface ItinReportModel extends Model<ItinReportDocument> { }
-export const ItinReport = model<ItinReportDocument>("itinReport", ItenReportSchema);
+export const ItinReport = model<ItinReportDocument>("itinReport", ItinReportSchema);

@@ -3,32 +3,32 @@
 		<b-row class="mx-2 justify-content-around">
 			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="Car Miles">
-					<!-- <b-input-group prepend="$">
+					<b-form-input 
+						v-model="currentReport.carMiles"
+						class="text-right"
+						type="text"
+						name="carMiles"
+						lazy-formatter
+						:formatter="$formatMoney"
+						@blur="saveReport"
+					>
+					</b-form-input>
+				</b-form-group> 
+			</b-col>
+			<b-col cols="2" class="my-2">
+				<b-form-group class="mr-1" label="Cents Per Mile">
+					<b-input-group prepend="$">
 						<b-form-input 
-							v-model="currentReport.otherNonAGWMIncome"
+							v-model=currentReport.carCentsPerMile
 							class="text-right"
-							type="text"
-							name="nonAgwmIncome"
+							type="text" 
+							name="carCentsPerMile"
 							lazy-formatter
 							:formatter="$formatMoney"
 							@blur="saveReport"
 						>
 						</b-form-input>
-					</b-input-group> -->
-				</b-form-group> 
-			</b-col>
-			<b-col cols="2" class="my-2">
-				<b-form-group class="mr-1" label="Cents Per Mile">
-					<!-- <b-input-group>
-						<b-form-input 
-							v-model="currentReport.sdrReferenceNumbers"
-							class="text-right"
-							type="text" 
-							name="sdrNumbers"
-							@blur="saveReport"
-						>
-						</b-form-input>
-					</b-input-group> -->
+					</b-input-group>
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2" class="my-2">

@@ -41,7 +41,7 @@ export class ItinReportController {
 	};
 
 	public updateItinReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		ItinReport.findOneAndUpdate({"_id": req.body.itinReport._id}, {... req.body.itinReport}).then((r: ItinReportDocument) => {
+		ItinReport.findOneAndUpdate({"_id": req.body.itinReport._id}, {...req.body.itinReport}).then((r: ItinReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			console.error('eeek ', e);
