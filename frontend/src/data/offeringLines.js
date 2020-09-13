@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
 
-const baseURL = `${getApi()}qtrReports/expenseLines`;
+const baseURL = `${getApi()}itinReports/offeringLines`;
 
 const handleError = fn => (...params) =>
 	fn(...params).catch(e => {
@@ -15,30 +15,29 @@ const headers = {
 	authorization: `Bearer ${localStorage.getItem("jwt")}` 
 }
 
-export const ExpenseLines = {
-	getExpenseLine: handleError(async id => {
+export const OfferingLines = {
+	getOfferingLine: handleError(async id => {
 		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 	
-	getExpenseLines: handleError(async () => {
+	getOfferingLines: handleError(async () => {
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
-	deleteExpenseLines: handleError(async ids => {
+	deleteOfferingLines: handleError(async ids => {
 		let body = {
-			expenseLineIds: ids
+			offeringLineIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	save: handleError(async (payload, isQtrReport) => {		
+	save: handleError(async payload => {		
 		let body = {
-			expenseLine: payload,
-			isQtrReport: isQtrReport,
+			offeringLine: payload
 		}
 
 		if (payload._id) {

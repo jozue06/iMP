@@ -7,9 +7,9 @@ export interface OfferingInterface {
 }
 
 const OfferingSchema = new Schema({
-	itinReport: {
+	itinReportId: {
 		type: Types.ObjectId,
-		ref: "itenReport",
+		ref: "itinReport",
 		required: true,
 	},
 

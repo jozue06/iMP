@@ -1,4 +1,5 @@
 import { QtrReport } from "../models/qrtReport";
+import { ItinReport } from "../models/itinerationReport";
 import { ExpenseLine } from "../models/expenseLine";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
@@ -7,9 +8,15 @@ export class ExpenseLineController {
 	public createExpenseLine = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const expenseLine = new ExpenseLine(req.body.expenseLine);
 		expenseLine.save().then((savedExpenseLine) => {
-			QtrReport.findOneAndUpdate({ _id: req.body.expenseLine.qtrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
-				res.send(saved);
-			});
+			if (req.body.isQtrReport) {
+				QtrReport.findOneAndUpdate({ _id: req.body.expenseLine.qtrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			} else {
+				ItinReport.findOneAndUpdate({ _id: req.body.expenseLine.itinReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			}
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));

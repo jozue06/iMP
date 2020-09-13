@@ -36,8 +36,8 @@ export class ItinReportRoutes {
 		this.router.put("/itinReports/mileageLogs/:id", this.authController.authenticateJWT, this.mileageLogController.updateMileageLog);
 		this.router.post("/itinReports/mileageLogsDelete", this.authController.authenticateJWT, this.mileageLogController.deleteMileageLogs);
 		
-		this.router.post("/itinReports/otherIncomeLines", this.authController.authenticateJWT, this.offeringLineController.createOfferingLine);
-		this.router.put("/itinReports/otherIncomeLines/:id", this.authController.authenticateJWT, this.offeringLineController.updateOfferingLine);
-		this.router.post("/itinReports/otherIncomeLinesDelete", this.authController.authenticateJWT, this.offeringLineController.deleteOfferingLines);
+		this.router.post("/itinReports/offeringLines", this.authController.authenticateJWT, this.offeringLineController.createOfferingLine);
+		this.router.put("/itinReports/offeringLines/:id", this.authController.authenticateJWT, this.offeringLineController.updateOfferingLine);
+		this.router.post("/itinReports/offeringLinesDelete", this.authController.authenticateJWT, this.offeringLineController.deleteOfferingLines);
 	}
 }

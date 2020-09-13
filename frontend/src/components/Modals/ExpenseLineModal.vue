@@ -233,7 +233,7 @@
 					this.expenseLine.qtrReportId = this.currentReport._id;
 				}
 
-				ExpenseLines.save(this.expenseLine).then(res => {				
+				ExpenseLines.save(this.expenseLine, this.isQtrReport).then(res => {
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;

@@ -158,6 +158,11 @@
 				ref="mileageLogModal"
 				isQtrReport:false
 			/>
+			<OfferingLineModal 
+				v-bind:offeringLine="selectedOfferingLine" 
+				v-bind:currentReport="currentReport"
+				ref="offeringLineModal"
+			/>
 			<ConfirmModal 
 				id="confirmDeleteExpenseLine" 
 				title="Delete Expense Lines?" 
@@ -178,6 +183,7 @@
 	import moment from 'moment';
 	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import MileageLogModal from "../Modals/MileageLogModal";
+	import OfferingLineModal from "../Modals/OfferingLineModal";
 	import ItinerationReportTop from "./ItinerationReportTop";
 	import ItinerationReportMoreInfo from "./ItinerationReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
@@ -189,6 +195,7 @@
 		components: {
 			ExpenseLineModal,
 			MileageLogModal,
+			OfferingLineModal,
 			ItinerationReportTop,
 			ItinerationReportMoreInfo,
 			ConfirmModal,

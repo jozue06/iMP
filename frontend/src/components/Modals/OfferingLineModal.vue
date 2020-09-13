@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<b-modal top ref="offeringLineModal" title="Offering Receipt" hide-footer v-bind:offeringLine="otherIncoofferingLinemeLine" v-bind:currentReport="currentReport">
+		<b-modal top ref="offeringLineModal" title="Offering Receipt" hide-footer v-bind:offeringLine="offeringLine" v-bind:currentReport="currentReport">
 			<p></p>
 			<div>
 				<b-row>
@@ -51,6 +51,13 @@
 				</b-row> -->
 				<b-row class="align-items-center">
 					<b-col cols="4">
+						<b-form-datepicker
+								v-model="offeringLine.date"
+								required
+								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+								locale="en"
+								name="firstDate"
+							></b-form-datepicker>
 						<div>
 							<b-form-group label="First Name">
 								<b-form-input
@@ -91,7 +98,7 @@
 						<b-form-group label="City">
 							<b-form-input
 								type="text"
-								v-model="otherIncomeLine.city"
+								v-model="offeringLine.city"
 								required
 								placeholder="City"
 								name="city"
@@ -100,16 +107,16 @@
 						<b-form-group label="Country">
 							<b-form-select
 								:options="countries"
-								v-model="otherIncomeLine.country"
+								v-model="offeringLine.country"
 								required
 								placeholder="Country"
 								name="country"
 							></b-form-select>
 						</b-form-group> 
-						<b-form-group v-if="otherIncomeLine.country == 'Canada' || otherIncomeLine.country == 'United States'" label="State/Province">
+						<b-form-group v-if="offeringLine.country == 'Canada' || offeringLine.country == 'United States'" label="State/Province">
 							<b-form-select
-								:options="otherIncomeLine.country == 'Canada' ? provinces : otherIncomeLine.country == 'United States' ? states : '' "
-								v-model="otherIncomeLine.state"
+								:options="offeringLine.country == 'Canada' ? provinces : offeringLine.country == 'United States' ? states : '' "
+								v-model="offeringLine.state"
 								required
 								placeholder="State"
 								name="state"
@@ -118,7 +125,7 @@
 						<b-form-group label="Postal Code">
 							<b-form-input
 								type="text"
-								v-model="otherIncomeLine.postalCode"
+								v-model="offeringLine.postalCode"
 								required
 								placeholder="Postal Code"
 								name="postalCode"
@@ -131,7 +138,7 @@
 								<b-form-input 
 									class="text-right"
 									type="text" 
-									v-model="otherIncomeLine.amount" 
+									v-model="offeringLine.amount" 
 									required
 									placeholder="0.00"
 									name="amount"
@@ -144,7 +151,7 @@
 					</b-col>
 					<b-col cols="6" class="text-center">
 						<b-form-group label="Income Type">
-							<b-form-select v-model="otherIncomeLine.type">
+							<b-form-select v-model="offeringLine.type">
 								<option value=0>Personal</option>
 								<option value=1>Director Donor</option>
 							</b-form-select>
@@ -157,19 +164,19 @@
 </template>
 
 <script>
-	import ContactSearchComponent from "../ContactSearchComponent";
+
 	import { COUNTRIES, STATES, PROVINCES } from "@/constants/statesAndCountries";
-	import { OtherIncomeLines } from "../../data/otherIncomeLines"
+	import { OfferingLines } from "../../data/offeringLines"
 	export default  {
 
-		name: 'otherIncomeModal',
+		name: 'offeringLineModal',
 
 		components: {
-			ContactSearchComponent
+
 		},
 
 		props: {
-			otherIncomeLine: Object,
+			offeringLine: Object,
 			currentReport: Object,
 		},
 
@@ -199,31 +206,25 @@
 			save() {
 				this.loading = true;
 				if (this.currentContact && this.currentContact._id > 0) {
-					this.otherIncomeLine.contactId = this.currentContact._id;
+					this.offeringLine.contactId = this.currentContact._id;
 				}
 
-				if (this.currentReport.otherIncomeLines && !this.currentReport.otherIncomeLines.includes(this.otherIncomeLine)) {
-					this.currentReport.otherIncomeLines.push(this.otherIncomeLine);
+				if (this.currentReport.offeringLines && !this.currentReport.offeringLines.includes(this.offeringLine)) {
+					this.currentReport.offeringLines.push(this.offeringLine);
 				}
 				
-				this.otherIncomeLine.qtrReportId = this.currentReport._id;
-				OtherIncomeLines.save(this.otherIncomeLine).then(res => {
-					this.$Notification("Success!", "Successfully saved the Other Income", "primary")
-					this.$refs.otherIncomeModal.hide();
+				this.offeringLine.itinReportId = this.currentReport._id;
+				OfferingLines.save(this.offeringLine).then(res => {
+					this.$Notification("Success!", "Successfully saved the Offering", "primary")
+					this.$refs.offeringLineModal.hide();
 					this.loading = false;
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.loading = false;
 					throw e;
 				});
-			
 			}
-				
 		},
-
-		computed: {
-
-		}
 }
 
 </script>
