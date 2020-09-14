@@ -8,6 +8,7 @@ export const allowedFields = {
 		"email",
 		"phone",
 	],
+
 	groupContactList: [
 		"orgName",
 		"firstName",
@@ -17,6 +18,7 @@ export const allowedFields = {
 		"commitmentAmt",
 		"contactStatus"
 	],
+
 	commsList: [
 		"date",
 		"time",
@@ -25,6 +27,7 @@ export const allowedFields = {
 		"contactVia",
 		"purpose",
 	],
+
 	taskLines: [
 		"date",
 		"type",
@@ -32,6 +35,7 @@ export const allowedFields = {
 		"details",
 		"completed"
 	],
+
 	eventLines: [
 		"date",
 		"type",
@@ -39,10 +43,12 @@ export const allowedFields = {
 		"details",
 		"amountReceived",
 	],
+
 	searchResults: [
 		"firstName",
 		"lastName",
 	],
+
 	otherIncomeTable: [
 		"type",
 		"orgName",
@@ -50,10 +56,28 @@ export const allowedFields = {
 		"lastName",
 		"amount"
 	],
+	
 	qtrReports: [
 		"quarterNumber",
 		"year",
 		"baseAmount",
 		"dateCompleted",
+	],
+
+	itinReports: [
+		"month",
+		"year",
+		"dateCompleted",
+	],
+	
+	offeringLineFields: [
+		"date",
+		"receiptNo",
+		"orgName",
+		"type",
+		"firstName",
+		"lastName",
+		"district",
+		"amount",
 	]
 }

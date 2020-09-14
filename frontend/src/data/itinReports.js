@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
 
-const baseURL = `${getApi()}qtrReports/mileageLogs`;
+const baseURL = `${getApi()}itinReports`;
 
 const handleError = fn => (...params) =>
 	fn(...params).catch(e => {
@@ -15,30 +15,29 @@ const headers = {
 	authorization: `Bearer ${localStorage.getItem("jwt")}` 
 }
 
-export const MileageLogs = {
-	getMileageLog: handleError(async id => {
-		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
+export const ItinReports = {
+	getItinReport: handleError(async id => {
+		const res = await axios.get(baseURL + `/${id}`, { "headers" : headers } );
 		return res.data;
 	}),
 	
-	getMileageLogs: handleError(async () => {
-		const res = await axios.get(baseURL, {"headers": headers});
+	getItinReports: handleError(async () => {
+		const res = await axios.get(baseURL, { "headers" : headers } );
 		return res.data;
 	}),
 
-	deleteMileageLogs: handleError(async ids => {
+	deleteItinReport: handleError(async ids => {
 		let body = {
-			mileageLogIds: ids
+			itinReportIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	save: handleError(async (payload, isQtrReport) => {
+	save: handleError(async payload => {		
 		let body = {
-			mileageLog: payload,
-			isQtrReport: isQtrReport,
+			itinReport: payload
 		}
 
 		if (payload._id) {
@@ -48,5 +47,15 @@ export const MileageLogs = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
+	}),
+
+	deleteLine: handleError(async payload => {		
+		let body = {
+			itinReport: payload
+		}
+
+		const res = await axios.post(baseURL + `/deleteLine/${payload._id}`, body, {"headers": headers});
+		return res.data;
+	
 	})
 };

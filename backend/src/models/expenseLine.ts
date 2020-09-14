@@ -1,7 +1,8 @@
 import { Document, Model, model, Schema } from "mongoose";
 
 export interface IExpenseLine {
-	qtrReport: string,
+	qtrReport?: string,
+	itinReport?: string,
 	date: string,
 	paymentMethod: string,
 	code: number,
@@ -17,6 +18,11 @@ export interface IExpenseLine {
 
 const ExpenseLineSchema = new Schema({
 	qtrReport: {
+		type: Schema.Types.ObjectId,
+		ref: "qtrReport",
+	},
+
+	itinReport: {
 		type: Schema.Types.ObjectId,
 		ref: "qtrReport",
 	},

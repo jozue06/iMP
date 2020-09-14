@@ -12,9 +12,11 @@ import {
 } from "./mixins/notifications";
 import getStatusFromCode from "./mixins/getStatusFromCode";
 import getStatusColor from "./mixins/getStatusColorFromCode";
+import getMonthFromCode from "./mixins/getMonthFromCode";
 import moment from "moment";
 import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
+import getTotalOfferingLineAmt from "./mixins/getTotalOfferingLineAmt"
 import "./assets/scss/globalCustoms.scss";
 import { getSession } from "./utils/session";
 
@@ -27,7 +29,9 @@ Vue.prototype.$Notification = notification;
 Vue.prototype.$consoleLog = console.error;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
+Vue.prototype.$GetMonth = getMonthFromCode;
 Vue.prototype.$Moment = moment;
+Vue.prototype.$GetOfferingLineTotal = getTotalOfferingLineAmt;
 Vue.component("YearSelector", YearSelector);
 Vue.prototype.$formatMoney = formatMoney;
 Vue.prototype.$getSession = getSession;

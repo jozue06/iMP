@@ -1,5 +1,5 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
-
+import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface IStatement {
 	qtrReport: string,
 	user: string,
@@ -61,6 +61,24 @@ const StatementSchema = new Schema({
 		type: Number,
 	},
 });
+
+StatementSchema.path("amountOne").get((num: number) => unformatNumber(num));
+StatementSchema.path("amountOne").set((num: string) => formatNumber(num));
+
+StatementSchema.path("amountTwo").get((num: number) => unformatNumber(num));
+StatementSchema.path("amountTwo").set((num: string) => formatNumber(num));
+
+StatementSchema.path("amountThree").get((num: number) => unformatNumber(num));
+StatementSchema.path("amountThree").set((num: string) => formatNumber(num));
+
+StatementSchema.path("reimbursementOne").get((num: number) => unformatNumber(num));
+StatementSchema.path("reimbursementOne").set((num: string) => formatNumber(num));
+
+StatementSchema.path("reimbursementTwo").get((num: number) => unformatNumber(num));
+StatementSchema.path("reimbursementTwo").set((num: string) => formatNumber(num));
+
+StatementSchema.path("reimbursementThree").get((num: number) => unformatNumber(num));
+StatementSchema.path("reimbursementThree").set((num: string) => formatNumber(num));
 
 export interface StatementDocument extends IStatement, Document { }
 export interface StatementModel extends Model<StatementDocument> { }

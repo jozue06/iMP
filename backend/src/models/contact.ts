@@ -2,16 +2,16 @@ import { Document, Model, model, Schema } from "mongoose";
 
 export interface IContact {
 	userId: string,
-	firstName: string,
-	lastName: string,
+	firstName?: string,
+	lastName?: string,
 	address: string,
 	city: string,
 	state: string,
-	country: string,
-	email: string,
-	phone: string,
-	postalCode: string,
-	orgName: string,
+	country?: string,
+	email?: string,
+	phone?: string,
+	postalCode?: string,
+	orgName?: string,
 	isIndividual: boolean,
 	secretary?: string,
 	missionsContact?: string,
@@ -39,12 +39,12 @@ const ContactSchema = new Schema({
 
 	firstName: {
 		type: String,
-		required: true,
+		required: false,
 	},
 
 	lastName: {
 		type: String,
-		required: true,
+		required: false,
 	},
 
 	address: {

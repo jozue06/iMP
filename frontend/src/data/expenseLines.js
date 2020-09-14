@@ -35,9 +35,10 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {		
+	save: handleError(async (payload, isQtrReport) => {		
 		let body = {
-			expenseLine: payload
+			expenseLine: payload,
+			isQtrReport: isQtrReport,
 		}
 
 		if (payload._id) {

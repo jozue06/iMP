@@ -1,4 +1,5 @@
 import { QtrReport } from "../models/qrtReport";
+import { ItinReport } from "../models/itinerationReport";
 import { MileageLog } from "../models/mileageLog";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
@@ -7,9 +8,15 @@ export class MileageLogController {
 	public createMileageLog = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const mileageLog = new MileageLog(req.body.mileageLog);
 		mileageLog.save().then((savedMileageLog) => {
-			QtrReport.findOneAndUpdate({ _id: req.body.mileageLog.qtrReportId }, {$push: {mileageLogs: savedMileageLog._id}}, { useFindAndModify: true, new: true }).then(saved => {
-				res.send(saved);
-			});
+			if (req.body.isQtrReport) {
+				QtrReport.findOneAndUpdate({ _id: req.body.mileageLog.qtrReportId }, {$push: {mileageLogs: savedMileageLog._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			} else {
+				ItinReport.findOneAndUpdate({ _id: req.body.mileageLog.itinReportId }, {$push: {mileageLogs: savedMileageLog._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			}
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));

@@ -1,14 +1,16 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import errorMiddleware from './middleware/error.middleware';
-import { AuthRoutes } from "./routes/authRoutes";
-import mongoose from "mongoose";
-import { MONGO_DB_URI } from "./utils/secret";
-import { ContactRoutes } from "./routes/contactRoutes";
-import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import passport from "passport";
 import path from "path";
+import mongoose from "mongoose";
+import { MONGO_DB_URI } from "./utils/secret";
+
+import errorMiddleware from './middleware/error.middleware';
+import { AuthRoutes } from "./routes/authRoutes";
+import { ContactRoutes } from "./routes/contactRoutes";
+import { QtrReportRoutes } from "./routes/qtrReportRoutes";
+import { ItinReportRoutes } from "./routes/itinReportRoutes";
 
 dotenv.config();
 class Server {
@@ -27,6 +29,7 @@ class Server {
 		this.app.use("/user", new AuthRoutes().router);
 		this.app.use("/", new ContactRoutes().router);
 		this.app.use("/", new QtrReportRoutes().router);
+		this.app.use("/", new ItinReportRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
 		});
@@ -85,7 +88,7 @@ class Server {
 
 	public start(): void {
 		this.app.listen(this.app.get("port"), () => {
-			console.info("API is running at, ", this.app.get("host"), " ", this.app.get("port"));
+			console.info("API is running on port:", this.app.get("port"));
 		});
 	}
 }

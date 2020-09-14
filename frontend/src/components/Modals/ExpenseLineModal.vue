@@ -119,7 +119,7 @@
 					</div>
 
 					<div class="row sub-section text-center" >
-						<b-form-group class="mr-1 description" label="description">
+						<b-form-group class="mr-1 description" label="Description">
 							<b-form-textarea
 								v-model="expenseLine.description"
 								rows="3"
@@ -185,6 +185,7 @@
 		props: {
 			expenseLine: Object,
 			currentReport: Object,
+			isQtrReport: Boolean,
 		},
 		mounted () {
 
@@ -225,9 +226,14 @@
 				this.loading = true;				
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
+				}				
+				if (!this.isQtrReport) {
+					this.expenseLine.itinReportId = this.currentReport._id;
+				} else {
+					this.expenseLine.qtrReportId = this.currentReport._id;
 				}
-				this.expenseLine.qtrReportId = this.currentReport._id;
-				ExpenseLines.save(this.expenseLine).then(res => {				
+
+				ExpenseLines.save(this.expenseLine, this.isQtrReport).then(res => {
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;

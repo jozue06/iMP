@@ -2,8 +2,13 @@ import ContactsList from './components/contacts/ContactsList.vue';
 import ContactGroupsList from './components/contacts/ContactGroupsList.vue';
 import ContactGroupView from './components/contacts/ContactGroupView.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
+
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
-import QuerterlyReportsList from './components/quarterlyReports/QuerterlyReportsList.vue'
+import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReportsList.vue'
+
+import ItinerationReportList from './components/itinerationReports/ItinerationReportList.vue'
+import ItinerationReportCard from './components/itinerationReports/ItinerationReportCard.vue'
+
 import Login from './components/Login.vue'
 import Forgot from './components/Forgot.vue'
 import Reset from './components/Reset.vue'
@@ -59,7 +64,23 @@ export default [
 	{
 		path: "/quarterlyReports",
 		name: "quarterlyReports",
-		component: QuerterlyReportsList,
+		component: QuarterlyReportsList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/itinerationReports",
+		name: "itinerationReports",
+		component: ItinerationReportList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/itinerationReport",
+		name: "itinerationReport",
+		component: ItinerationReportCard,
 		meta: {
 			requiresAuth: true
 		}
