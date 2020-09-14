@@ -118,7 +118,7 @@
 				<label>
 					Statment Info
 				</label>
-				<b-col>
+				<b-col>				
 					<b-row v-if="statement.dateOne || statement.dateTwo || statement.dateThree" @click="showStatementModal(statement)" class="align-items-center mt-2">
 						<b-col cols='4'>
 							{{statement.dateOne}}
@@ -207,7 +207,7 @@
 			</b-col>
 		</b-row>
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
-		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" />
+		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" v-bind:statementReimbursementTotal="statementReimbursementTotal"/>
 		<ConfirmModal 
 			id="confirmDeleteOtherLine" 
 			title="Delete Misc Lines?" 
@@ -239,7 +239,6 @@
 		},
 
 		mounted() {
-
 		},
 
 		data() {
@@ -316,8 +315,8 @@
 			},
 
 			statement() {
-				if (this.currentReport.statements) {
-					return this.currentReport.statements[0];
+				if (this.currentReport.statement) {
+					return this.currentReport.statement;
 				}
 				return {}
 			},
@@ -327,11 +326,37 @@
 			},
 
 			statementReimbursementTotal() {
-				return "$" + this.$formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree)
+				let amt = 0;
+				if (this.statement.reimbursementOne) {
+					amt += this.statement.reimbursementOne;
+				}
+
+				if (this.statement.reimbursementTwo) {
+					amt += this.statement.reimbursementTwo;
+				}
+
+				if (this.statement.reimbursementThree) {
+					amt += this.statement.reimbursementThree;
+				}
+				
+				return "$" + this.$formatMoney(amt);
 			},
 
 			statementAmountTotal() {
-				return "$" + this.$formatMoney(this.statement.amountOne + this.statement.amountTwo + this.statement.amountThree)
+				let amt = 0;
+				if (this.statement.amountOne) {
+					amt += this.statement.amountOne;
+				}
+
+				if (this.statement.amountTwo) {
+					amt += this.statement.amountTwo;
+				}
+
+				if (this.statement.amountThree) {
+					amt += this.statement.amountThree;
+				}
+				
+				return "$" + this.$formatMoney(amt);
 			},
 
 			confirmDeleteOtherLineMessage() {

@@ -145,7 +145,7 @@
 						</b-form-group>
 					</b-col>
 					<b-col cols='8'>						
-						Reimbursement Total: {{total}}
+						Reimbursement Total: {{statementReimbursementTotal}}
 					</b-col>
 				</b-row>
 			</div>
@@ -166,6 +166,7 @@
 		props: {
 			statement: Object,
 			currentReport: Object,
+			statementReimbursementTotal: String,
 		},
 
 		mounted() {
@@ -194,13 +195,5 @@
 				});
 			},
 		},
-
-		computed: {
-			total() {
-				return "$" + this.$formatMoney(this.statement.reimbursementOne + this.statement.reimbursementTwo + this.statement.reimbursementThree);
-			}
-
-		}
-}
-
+	}
 </script>

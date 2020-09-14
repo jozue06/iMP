@@ -245,7 +245,7 @@
 				selectedMileageLog: {},
 
 				currentReport: {},
-				statements: [],
+				statement: {},
 				otherIncomeLines: [],
 			};
 		},
@@ -264,14 +264,19 @@
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;
+					this.statement = res.statement;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
 			} else {
-				this.currentReport = {
+				let currentReport = {
 					quarterNumber: 1,
 					year: moment().format("YYYY"),
 				};
+				QuarterlyReports.save(currentReport).then(res => {
+					this.currentReport = res;
+					this.$router.push({ path: 'quarterlyReport', query: { reportId: res._id}});
+				});
 			}
 		},
 
