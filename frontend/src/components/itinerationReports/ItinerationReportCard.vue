@@ -67,7 +67,10 @@
 						@row-selected="onOfferingLineRowSelected"
 					>
 						<template v-slot:cell()="data">
-							<b @click="showOfferingLineModal(data.item)" class="text-info">{{ data.value }}</b>
+							<b @click="showOfferingLineModal(data.item)" class="text-info">{{ data.value}}</b>
+						</template>
+						<template v-slot:cell(amount)="data">
+							<b @click="showOfferingLineModal(data.item)" class="text-info">${{$GetOfferingLineTotal(data.item)}}</b>
 						</template>
 					</b-table>
 				

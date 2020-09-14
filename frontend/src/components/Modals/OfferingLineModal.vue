@@ -29,6 +29,16 @@
 						<option value=0>Receipt</option>
 						<option value=1>Director Diposit</option>
 					</b-form-select>
+					<div v-if="offeringLine.type == 0" cols="6" class="mt-2 text-center">
+						<label>Receipt No.</label>
+						<b-form-input 
+							class="text-center"
+							type="text" 
+							v-model="offeringLine.receiptNo" 
+							name="receiptNo"
+						>
+						</b-form-input>
+					</div>
 				</b-col>
 			</b-row>
 			<b-row class="text-center mx-4 mb-2 justify-content-around" style="border-bottom: solid 1px #ced4da;">

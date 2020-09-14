@@ -16,6 +16,7 @@ import getMonthFromCode from "./mixins/getMonthFromCode";
 import moment from "moment";
 import YearSelector from "./components/YearSelector";
 import formatMoney from "./mixins/formatMoney"
+import getTotalOfferingLineAmt from "./mixins/getTotalOfferingLineAmt"
 import "./assets/scss/globalCustoms.scss";
 import { getSession } from "./utils/session";
 
@@ -30,6 +31,7 @@ Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$GetMonth = getMonthFromCode;
 Vue.prototype.$Moment = moment;
+Vue.prototype.$GetOfferingLineTotal = getTotalOfferingLineAmt;
 Vue.component("YearSelector", YearSelector);
 Vue.prototype.$formatMoney = formatMoney;
 Vue.prototype.$getSession = getSession;
