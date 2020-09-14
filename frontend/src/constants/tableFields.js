@@ -68,5 +68,16 @@ export const allowedFields = {
 		"month",
 		"year",
 		"dateCompleted",
+	],
+	
+	offeringLineFields: [
+		"date",
+		"receiptNo",
+		"orgName",
+		"type",
+		"firstName",
+		"lastName",
+		"district",
+		"amount",
 	]
 }

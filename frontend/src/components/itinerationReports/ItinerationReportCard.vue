@@ -58,7 +58,7 @@
 						v-if="offeringLines && offeringLines.length > 0"
 						striped 
 						hover 
-						:fields="expenseFields"
+						:fields="offeringFields"
 						:items="offeringLines" 
 						ref="offeringLinesTable"
 						responsive="sm"
@@ -197,6 +197,7 @@
 	import { ExpenseLines } from "../../data/expenseLines";
 	import { MileageLogs } from "../../data/mileageLogs";
 	import { OfferingLines } from "../../data/offeringLines";
+	import { allowedFields } from "../../constants/tableFields";
 
 	export default {
 		components: {
@@ -384,6 +385,10 @@
 				} else {
 					return [];
 				}
+			},
+
+			offeringFields() {
+				return allowedFields.offeringLineFields;
 			},
 
 			confirmDeleteExpenseLineMessage() {

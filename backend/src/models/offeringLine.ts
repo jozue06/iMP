@@ -1,9 +1,18 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 
 export interface OfferingInterface {
-	itinReport: string,
+	itinReportId: string,
 	date: string,
+	contact: string
 	type: number,
+	receiptNo?: string,
+	workSupportAmt?: number,
+	specialAmt?: number,
+	otherAmt?: number,
+	hospitality?: number,
+	equipment?: number,
+	otherNonCash?: number,
+	contactType?: number,
 }
 
 const OfferingSchema = new Schema({
@@ -22,6 +31,10 @@ const OfferingSchema = new Schema({
 		type: Number,
 		required: true,
 		default: 0,
+	},
+
+	receiptNo: {
+		type: String,
 	},
 
 	workSupportAmt: {

@@ -1,7 +1,7 @@
 <template>
 	<div class="main-card">
 		<b-row class="mx-2">
-			<b-col class="my-2" style="border-right: solid 1px #ced4da;">
+			<b-col class="my-2">
 				<p>
 					Primary Info
 				</p>
