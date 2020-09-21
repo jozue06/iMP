@@ -71,7 +71,7 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import { QuarterlyReports  } from '../../data/quarterlyReports'
 	import { allowedFields } from "../../constants/tableFields";
 		

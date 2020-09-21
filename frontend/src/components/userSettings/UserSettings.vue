@@ -1,16 +1,19 @@
 <template>
-	<section>
-		<h1>user-settings Component</h1>
+	<section class="mt-3">
+		<b-tabs small card>
+			<b-tab title="Personal Info" active>
+			</b-tab>
+		</b-tabs>
 	</section>
 </template>
 
 <script>
 	export default  {
 
-		name: 'user-settings',
+		name: 'userSettings',
 
 		components: {
-
+			
 		},
 
 		props: {

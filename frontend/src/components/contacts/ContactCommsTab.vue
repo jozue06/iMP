@@ -59,7 +59,7 @@
 <script>
 	import CommsModal from "../Modals/CommsModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import NoResults from "../NoResults";
+	import NoResults from "../Globals/NoResults";
 	import { Comms } from "../../data/communications";
 	import { allowedFields } from "../../constants/tableFields";
 

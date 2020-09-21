@@ -70,7 +70,7 @@
 </template>
 
 <script>
-	import NoResults from "../NoResults";
+	import NoResults from "../Globals/NoResults";
 	import { Tasks } from "../../data/tasks";
 	import { allowedFields } from "../../constants/tableFields";
 	import ContactTaskModal from "../Modals/ContactTaskModal"

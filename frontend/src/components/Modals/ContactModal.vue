@@ -99,7 +99,7 @@
 <script>
 	import { COUNTRIES, STATES } from "@/constants/statesAndCountries";
 	import { Contacts } from '../../data/contacts'
-	import DistrictSelector from '../DistrictSelector';
+	import DistrictSelector from '../Globals/DistrictSelector';
 	
 	export default {
 		components: {

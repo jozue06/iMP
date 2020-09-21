@@ -219,7 +219,7 @@
 <script>
 	import { COUNTRIES, STATES, PROVINCES } from "@/constants/statesAndCountries";
 	import { OfferingLines } from "../../data/offeringLines"
-	import DistrictSelector from '../DistrictSelector'
+	import DistrictSelector from '../Globals/DistrictSelector'
 	export default  {
 
 		name: 'offeringLineModal',

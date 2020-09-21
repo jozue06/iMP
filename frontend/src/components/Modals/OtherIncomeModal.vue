@@ -157,7 +157,7 @@
 </template>
 
 <script>
-	import ContactSearchComponent from "../ContactSearchComponent";
+	import ContactSearchComponent from "../Globals/ContactSearchComponent"
 	import { COUNTRIES, STATES, PROVINCES } from "@/constants/statesAndCountries";
 	import { OtherIncomeLines } from "../../data/otherIncomeLines"
 	export default  {

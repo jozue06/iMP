@@ -71,7 +71,7 @@
 </template>
 
 <script>
-	import NoResults from "../NoResults";
+	import NoResults from "../Globals/NoResults";
 	import { Contacts } from "../../data/contacts";
 	import { Events } from "../../data/events";
 	import { allowedFields } from "../../constants/tableFields";
