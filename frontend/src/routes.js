@@ -12,6 +12,7 @@ import ItinerationReportCard from './components/itinerationReports/ItinerationRe
 import Login from './components/Login.vue'
 import Forgot from './components/Forgot.vue'
 import Reset from './components/Reset.vue'
+import UserSettings from './components/UserSettings.vue'
 
 export default [
 	{
@@ -43,6 +44,14 @@ export default [
 		component: Reset,
 		meta: {
 			requiresAuth: false
+		}
+	},
+	{
+		path: "/user/settings:userId",
+		name: "settings",
+		component: UserSettings,
+		meta: {
+			requiresAuth: true
 		}
 	},
 	{
