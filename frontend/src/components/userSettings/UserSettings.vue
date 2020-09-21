@@ -25,8 +25,6 @@
 
 		mounted() {
 			Settings.getSettings().then(res => {
-				console.log('resszz ', res);
-				
 				this.currentSettings = res;
 			});
 		},

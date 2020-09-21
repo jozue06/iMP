@@ -15,6 +15,6 @@ export class UserRoutes {
 
 	routes() {
 		this.router.get("/settings", this.authController.authenticateJWT, this.userController.getSettings);
-		// this.router.post("/login", this.authController.authorizeJWT, this.userController.loginUser);
+		this.router.post("/settings", this.authController.authenticateJWT, this.userController.saveSettings);
 	}
 }

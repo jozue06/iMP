@@ -1,6 +1,5 @@
 import { Document, Schema, Model, model, Error, Types } from "mongoose";
 import { SettingsDocument } from "./settings"
-
 import bcrypt from "bcrypt-nodejs";
 
 export interface IUser {

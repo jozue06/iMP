@@ -23,13 +23,13 @@ export const Settings = {
 
 	save: handleError(async payload => {
 		let body = {
-			comm: payload
+			settings: payload
 		}
-
+		console.log('headers :: ', headers);
 		if (payload._id) {
 			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
 			return res.data;
-		} else {
+		} else {			
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}

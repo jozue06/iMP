@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import passportJwt from "passport-jwt";
 import { User, AuthToken, IUser} from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 import ValidationException from '../exceptions/ValidationException';
@@ -10,8 +9,8 @@ const sgMail = require('@sendgrid/mail');
 import { GRID_SEND_KEY } from "../utils/secret";
 import async from "async";
 import crypto from "crypto";
+import nodemailer from "nodemailer";
 
-const ExtractJwt = passportJwt.ExtractJwt;
 export class UserController {
 
 	public async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -57,11 +56,13 @@ export class UserController {
 	}
 
 	public postForgot = async (req: Request, res: Response, next: NextFunction) => {
+		console.log('here',);
+		
 		if (!req.body.username || req.body.username == "") {
 			return next(new ValidationException("Please Enter a Valid User Name"));
 		}
 		async.waterfall([
-
+			
 			function createRandomToken(done: Function) {
 				crypto.randomBytes(16, (err, buf) => {
 					const token = buf.toString("hex");
@@ -71,38 +72,58 @@ export class UserController {
 
 			function setRandomToken(token: AuthToken, done: Function) {
 				User.findOne({ username: req.body.username }, (err, user: any) => {
-					if (err) { return done(err); }
+					if (err) { 
+						return done(err); 
+					}
+
 					if (!user) {
 						return next(new ValidationException(`User with user name  ${req.body.username } not found.`));
 					}
 					user.passwordResetToken = token;
 					user.passwordResetExpires = Date.now() + 3600000; // 1 hour
-					user.save((err: WriteError) => {
+
+					user.save(() => {
 						done(err, token, user);
 					});
 				});
 			},
 
-			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
-				sgMail.setApiKey(GRID_SEND_KEY)
+			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {				
+				// sgMail.setApiKey(GRID_SEND_KEY);
+				let options = { service: 'gmail',
+					auth: {
+						user: 'jozue06@gmail.com',
+						pass: 'Magnolia14!'
+					}
+				}
+				let transport = nodemailer.createTransport(options, )
 				const msg = {
 					to: "jozue06@gmail.com",
 					from: 'jozue06@gmail.com',
 					subject: 'Sending with Twilio SendGrid is Fun',
 					html: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-			  			Please click on the following link, or paste this into your browser to complete the process:\n\n
-			  			http://localhost:8080/#/user/reset/${token}\n\n
-			  			If you did not request this, please ignore this email and your password will remain unchanged.\n
+						Please click on the following link, or paste this into your browser to complete the process:\n\n
+						http://localhost:8080/#/user/reset/${token}\n\n
+						If you did not request this, please ignore this email and your password will remain unchanged.\n
 						<strong>and easy to do anywhere, even with Node.js</strong>`,
 				};
 
-				sgMail.send(msg).then(() => {
+				transport.sendMail(msg)
+				.then(()	=> {
 					return res.sendStatus(200);
-				}
-				).catch((e:any) => console.error('here e 44', e));;
+				})
+				.catch((e:any) => console.error('err', e));
+
+				// sgMail.send(msg).then(() => {					
+				// 	return res.sendStatus(200);
+				// })
+				// .catch((e:any) => console.error('err', e));
 			},
 		], (err) => {
-			if (err) { return next(err); }
+			if (err) { 
+			
+				return next(err); 
+			}
 			// res.redirect("/forgot");
 		});
 	};
@@ -155,6 +176,16 @@ export class UserController {
 	public getSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		await User.findOne({ _id: userId})
 			.populate("setting")
+			.then(user => {
+				res.send(user);
+			});
+	}
+
+	public saveSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+		let settings = req.body.settings;
+		console.log('settings ; ', settings);
+		
+		await User.findOneAndUpdate({ _id: userId}, { $set: {settings: settings}})
 			.then(user => {
 				res.send(user);
 			});
