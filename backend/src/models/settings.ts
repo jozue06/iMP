@@ -1,7 +1,9 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
+import { ContactGroupDocument } from "./contactGroup"
+import { VehicleDocument } from "./vehicle";
 
-export interface IProfile {
-	user: {},
+export interface SettingsInterface {
+	user: string,
 	firstName?: string,
 	spouseName?: string,
 	lastName?: string,
@@ -16,9 +18,11 @@ export interface IProfile {
 	accountNumber?: string,
 	homeDistrict?: string,
 	currentStatus?: string,
+	contactGroups?: [ContactGroupDocument]
+	vehicles?: [VehicleDocument]
 }
 
-const ProfileSchema = new Schema({
+const SettingsSchema = new Schema({
 	user: {
 		type: Types.ObjectId,
 		ref: "user",
@@ -93,8 +97,18 @@ const ProfileSchema = new Schema({
 		type: String,
 		required: false,
 	},
+
+	contactGroups: [{
+		type: Types.ObjectId,
+		ref: "contactGroup"
+	}],
+
+	vehicles: [{
+		type: Types.ObjectId,
+		ref: "vehicle"
+	}]
 });
 
-export interface ProfileDocument extends IProfile, Document { }
-export interface ProfileModel extends Model<ProfileDocument> { }
-export const Profile = model<ProfileDocument>("profile", ProfileSchema);
+export interface SettingsDocument extends SettingsInterface, Document { }
+export interface SettingsModel extends Model<SettingsDocument> { }
+export const Settings = model<SettingsDocument>("setting", SettingsSchema);

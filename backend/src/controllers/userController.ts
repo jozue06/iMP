@@ -2,7 +2,7 @@ import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import passportJwt from "passport-jwt";
-import { User, AuthToken, IUser } from "../models/userModel";
+import { User, AuthToken, IUser} from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 import ValidationException from '../exceptions/ValidationException';
 import { WriteError } from "mongodb";
@@ -30,25 +30,24 @@ export class UserController {
 		res.status(200).send({ token });
 	}
 
-	public loginUser(req: Request, res: Response, next: NextFunction) {
 
+	public async loginUser(req: Request, res: Response, next: NextFunction): Promise<void> {
 		if (!req.body.username || req.body.username == "" || !req.body.password || req.body.password == "") {
 			return next(new ValidationException("Please Enter a Valid User Name"));
 		}
 
 		const username = req.body.username
-		User.findOne({ username }, (err, user: any) => {
+		await User.findOne({ username }, async (err, user: any) => {
 			if (err) {
 				return next(err);
 			}
 			if (!user) {
 				return next(new ValidationException(`User with user name  ${username} not found.`));
 			}
-			user.comparePassword(req.body.password, (err: Error, isMatch: boolean) => {
+			await user.comparePassword(req.body.password, (err: Error, isMatch: boolean) => {
 				if (err) { return next(err); }
 				if (isMatch) {
 					const token = jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
-					user.populate("contactGroups");
 					return res.status(200).send({ token });
 				} else {
 					return next(new ValidationException(`Username or password incorrect not found.`));
@@ -115,8 +114,7 @@ export class UserController {
 
 		async.waterfall([
 			function resetPassword(done: Function) {
-				User
-					.findOne({ passwordResetToken: req.body.token })
+				User.findOne({ passwordResetToken: req.body.token })
 					.where("passwordResetExpires").gt(Date.now())
 					.exec((err, user: any) => {
 						if (err) { return next(err); }
@@ -143,7 +141,7 @@ export class UserController {
 					to: "jozue06@gmail.com",
 					from: 'jozue06@gmail.com',
 					subject: "Your password has been changed",
-					text: `Hello,\n\nThis is a confirmation that the password for your account ${user.profile.email} has just been changed.\n`
+					text: `Hello,\n\nThis is a confirmation that the password for your account ${user.settings.email} has just been changed.\n`
 				};
 
 				sgMail.send(msg);
@@ -153,4 +151,12 @@ export class UserController {
 			res.redirect("/");
 		});
 	};
+
+	public getSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+		await User.findOne({ _id: userId})
+			.populate("setting")
+			.then(user => {
+				res.send(user);
+			});
+	}
 }
