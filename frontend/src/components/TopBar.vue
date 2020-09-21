@@ -1,13 +1,29 @@
 <template>
-	<section>
-		<h3 class="float-right mr-2">top-bar Component</h3>
+	<section class="mt-2">
+		<b-row class="top-bar">
+			<b-col>
+				<b-button size="sm" class="float-left">
+					<router-link to="/">
+						<b-icon icon="house-fill"></b-icon>
+					</router-link>
+				</b-button>
+			</b-col>
+			<b-col>
+				<b-button size="sm" class="float-right">
+					<router-link :to="{ name: 'settings', params: { userId: userId } }">
+						Settings
+						<b-icon icon="gear-wide-connected"></b-icon>
+					</router-link>
+				</b-button>
+			</b-col>
+		</b-row>
 	</section>
 </template>
 
 <script>
 	export default  {
 
-		name: 'top-bar',
+		name: 'topBar',
 
 		components: {
 
@@ -23,7 +39,7 @@
 
 		data() {
 			return {
-
+				userId: 0,
 			}
 		},
 

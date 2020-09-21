@@ -1,7 +1,7 @@
 <template>
 	<div class="main-container">
-		<router-view />
 		<TopBar />
+		<router-view />
 	</div>
 </template>
 <script>
