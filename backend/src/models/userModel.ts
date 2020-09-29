@@ -21,7 +21,7 @@ export const UserSchema: Schema = new Schema({
 	passwordResetExpires: Date,
 
 	settings: {
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: "setting"
 	},
 });

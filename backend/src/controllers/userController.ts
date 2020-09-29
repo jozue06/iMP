@@ -2,6 +2,7 @@ import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { User, AuthToken, IUser} from "../models/userModel";
+import { Settings } from "../models/settings";
 import { JWT_SECRETE } from "../utils/secret";
 import ValidationException from '../exceptions/ValidationException';
 import { WriteError } from "mongodb";
@@ -175,7 +176,7 @@ export class UserController {
 
 	public getSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		await User.findOne({ _id: userId})
-			.populate("setting")
+			.populate("settings")
 			.then(user => {
 				res.send(user);
 			});
@@ -183,11 +184,19 @@ export class UserController {
 
 	public saveSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		let settings = req.body.settings;
-		console.log('settings ; ', settings);
-		
-		await User.findOneAndUpdate({ _id: userId}, { $set: {settings: settings}})
-			.then(user => {
+		await Settings.findOneAndUpdate({_id: settings._id}, {...settings},).then(savedSettings => {			
+			User.findOneAndUpdate({ _id: userId}, { $set: {settings: savedSettings}}).then(user => {
 				res.send(user);
 			});
+		});
+	}
+
+	public createSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+		let settings = req.body.settings;
+		await Settings.create(settings).then(savedSettings => {			
+			User.findOneAndUpdate({ _id: userId}, { $set: {settings: savedSettings}}).then(user => {
+				res.send(user);
+			});
+		});
 	}
 }

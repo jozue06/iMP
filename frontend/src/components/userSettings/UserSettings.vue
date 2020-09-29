@@ -24,8 +24,8 @@
 		},
 
 		mounted() {
-			Settings.getSettings().then(res => {
-				this.currentSettings = res;
+			Settings.getSettings().then(res => {			
+				this.currentSettings = res.settings ? res.settings : {};
 			});
 		},
 

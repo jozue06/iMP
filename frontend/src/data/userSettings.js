@@ -25,8 +25,8 @@ export const Settings = {
 		let body = {
 			settings: payload
 		}
-		console.log('headers :: ', headers);
 		if (payload._id) {
+
 			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
 			return res.data;
 		} else {			

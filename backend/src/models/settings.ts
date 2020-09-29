@@ -45,7 +45,7 @@ const SettingsSchema = new Schema({
 
 	address: {
 		type: String,
-		required: true,
+		required: false,
 	},
 
 	city: {
@@ -100,12 +100,14 @@ const SettingsSchema = new Schema({
 
 	contactGroups: [{
 		type: Types.ObjectId,
-		ref: "contactGroup"
+		ref: "contactGroup",
+		required: false,
 	}],
 
 	vehicles: [{
 		type: Types.ObjectId,
-		ref: "vehicle"
+		ref: "vehicle",
+		required: false,
 	}]
 });
 
