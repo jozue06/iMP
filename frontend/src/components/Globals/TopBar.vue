@@ -2,19 +2,19 @@
 	<section class="mt-2">
 		<b-row class="top-bar">
 			<b-col>
-				<b-button size="sm" class="float-left">
-					<router-link to="/">
+				<router-link to="/">
+					<b-button size="sm" class="float-left">
 						<b-icon icon="house-fill"></b-icon>
-					</router-link>
-				</b-button>
+					</b-button>
+				</router-link>
 			</b-col>
 			<b-col>
-				<b-button size="sm" class="float-right">
-					<router-link :to="{ name: 'settings', params: { userId: userId } }">
+				<router-link :to="{ name: 'settings', params: { userId: userId } }">
+					<b-button size="sm" class="float-right">
 						Settings
 						<b-icon icon="gear-wide-connected"></b-icon>
-					</router-link>
-				</b-button>
+					</b-button>
+				</router-link>
 			</b-col>
 		</b-row>
 	</section>
