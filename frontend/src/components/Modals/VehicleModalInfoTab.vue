@@ -11,18 +11,17 @@
 					></b-form-input>
 				</b-form-group> 
 			</b-col>
-			<b-col cols="4">
+			<b-col cols="3">
 				<b-form-group label="Active">
-					<b-form-checkbox
-						size="lg"
-						id="checkbox"
-						v-model="currentVehicle.active"
-						name="checkbox"
-						value=true
-						unchecked-value=false
-					>
+					<b-form-checkbox v-model="currentVehicle.active" switch>
 					</b-form-checkbox>
-				</b-form-group> 
+				</b-form-group>  
+			</b-col>
+			<b-col cols="3">
+				<b-form-group v-if="currentVehicle.active" label="Default">
+					<b-form-checkbox v-model="currentVehicle.default" switch>
+					</b-form-checkbox>
+				</b-form-group>
 			</b-col>
 		</b-row>
 		<b-row class="mx-4 justify-content-around">
@@ -138,7 +137,7 @@
 				if (value) {
 					this.currentVehicle.year = value.format('YYYY');
 				}
-			}
+			},
 		},
 
 		computed: {
