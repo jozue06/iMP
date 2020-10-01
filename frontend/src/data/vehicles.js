@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi"
 
-const baseURL = `${getApi()}settings`;
+const baseURL = `${getApi()}vehicles`;
 
 const handleError = fn => (...params) =>
 fn(...params).catch(e => {
@@ -12,21 +12,21 @@ fn(...params).catch(e => {
 
 const headers = {
 	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}` 
+	authorization: `Bearer ${localStorage.getItem("jwt")}`
 }
 
-export const Settings = {
-	getSettings: handleError(async () => {
+export const Vehicles = {
+	getVehicles: handleError(async () => {
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
 	save: handleError(async payload => {
 		let body = {
-			settings: payload
+			vehicle: payload
 		}
-		if (payload._id) {
 
+		if (payload._id) {
 			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
 			return res.data;
 		} else {			

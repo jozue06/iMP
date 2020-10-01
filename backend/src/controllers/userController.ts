@@ -173,30 +173,4 @@ export class UserController {
 			res.redirect("/");
 		});
 	};
-
-	public getSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
-		await User.findOne({ _id: userId})
-			.populate("settings")
-			.then(user => {
-				res.send(user);
-			});
-	}
-
-	public saveSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
-		let settings = req.body.settings;
-		await Settings.findOneAndUpdate({_id: settings._id}, {...settings},).then(savedSettings => {			
-			User.findOneAndUpdate({ _id: userId}, { $set: {settings: savedSettings}}).then(user => {
-				res.send(user);
-			});
-		});
-	}
-
-	public createSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
-		let settings = req.body.settings;
-		await Settings.create(settings).then(savedSettings => {			
-			User.findOneAndUpdate({ _id: userId}, { $set: {settings: savedSettings}}).then(user => {
-				res.send(user);
-			});
-		});
-	}
 }

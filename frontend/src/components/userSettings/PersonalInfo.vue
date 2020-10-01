@@ -109,7 +109,7 @@
 			<b-col cols="2">
 				<b-form-group label="State/Province">
 					<b-form-select
-						:options="currentSettings.country == 'Canada' ? provinces : currentSettings.country == 'United States' ? states : {} "
+						:options="currentSettings.country == 'Canada' ? provinces : currentSettings.country == 'United States' ? states : [] "
 						v-model="currentSettings.state"
 						placeholder="State"
 						name="state"

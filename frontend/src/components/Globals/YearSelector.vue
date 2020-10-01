@@ -215,9 +215,7 @@
 
 			selectPicker() {				
 				this.$emit("input",  this.internalMomentValue.clone());
-				let value = this.internalMomentValue.clone().format('YYYY');
-				this.value = value;
-				// this.$emit("selected", value);
+				this.$emit("selected", this.internalMomentValue.clone());
 			},
 
 			setValue(value) {

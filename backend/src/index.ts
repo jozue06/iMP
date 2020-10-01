@@ -11,7 +11,8 @@ import { AuthRoutes } from "./routes/authRoutes";
 import { ContactRoutes } from "./routes/contactRoutes";
 import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import { ItinReportRoutes } from "./routes/itinReportRoutes";
-import { UserRoutes } from "./routes/userRoutes";
+import { SettingsRoutes } from "./routes/settingsRoutes";
+import { VehicleRoutes } from "./routes/vehicleRoutes";
 
 dotenv.config();
 class Server {
@@ -31,7 +32,8 @@ class Server {
 		this.app.use("/", new ContactRoutes().router);
 		this.app.use("/", new QtrReportRoutes().router);
 		this.app.use("/", new ItinReportRoutes().router);
-		this.app.use("/users", new UserRoutes().router);
+		this.app.use("/", new SettingsRoutes().router);
+		this.app.use("/", new VehicleRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
 		});

@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<div>
 		<div v-if="currentSettings.vehicles && currentSettings.vehicles.length == 0">			
 			<b-button size="sm" variant="primary" @click="showVehicleModal(null)"> + Add A Vehicle </b-button>
 		</div>
@@ -8,7 +8,7 @@
 		</div>
 		
 		<VehicleModal ref="vehicleModal" v-bind:currentVehicle="currentVehicle"/>
-	</section>
+	</div>
 </template>
 
 <script>
