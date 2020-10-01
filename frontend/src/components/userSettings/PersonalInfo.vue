@@ -68,6 +68,9 @@
 					></b-form-input>
 				</b-form-group>
 			</b-col>
+			<b-col cols="2">
+				<DistrictSelector v-bind:currentContact="currentSettings"/>
+			</b-col>	
 		</b-row>
 
 		<!--  ***** -->
@@ -94,7 +97,7 @@
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2">
-				<!-- <b-form-group label="Country">
+				<b-form-group label="Country">
 					
 					<b-form-select
 						:options="countries"
@@ -102,16 +105,16 @@
 						placeholder="Country"
 						name="country"
 					></b-form-select>
-				</b-form-group>  -->
+				</b-form-group> 
 			</b-col>
 			<b-col cols="2">
 				<b-form-group label="State/Province">
-					<!-- <b-form-select
+					<b-form-select
 						:options="currentSettings.country == 'Canada' ? provinces : currentSettings.country == 'United States' ? states : {} "
 						v-model="currentSettings.state"
 						placeholder="State"
 						name="state"
-					></b-form-select> -->
+					></b-form-select>
 				</b-form-group> 
 			</b-col>
 			<b-col cols="2">
@@ -125,8 +128,6 @@
 				</b-form-group>
 			</b-col>
 		</b-row>
-
-		<!-- <DistrictSelector v-bind:currentContact="currentSettings"/> -->
 		<b-button class="text-center" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
 			Submit
 			<b-spinner v-if="loading" small type="grow"></b-spinner>				
@@ -136,14 +137,14 @@
 
 <script>
 	import { COUNTRIES, STATES, PROVINCES } from "@/constants/statesAndCountries";
-	// import DistrictSelector from '../Globals/DistrictSelector'
+	import DistrictSelector from '../Globals/DistrictSelector'
 	import { Settings } from "../../data/userSettings";
 	export default  {
 
 		name: 'personalInfo',
 
 		components: {
-			// DistrictSelector,
+			DistrictSelector,
 		},
 
 		props: {
