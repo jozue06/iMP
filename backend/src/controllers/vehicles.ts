@@ -22,9 +22,7 @@ export class VehiclesController {
 	public createVehicle = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		let vehicle = req.body.vehicle;
 		vehicle.user = userId;
-		await Vehicle.create(vehicle).then(vehicle => {			
-			console.log('saved vehicle', vehicle);
-			
+		await Vehicle.create(vehicle).then(vehicle => {
 			Settings.findOneAndUpdate({ user: userId }, { $push: {vehicles: vehicle}}).then(() => {
 				res.send(vehicle);
 			});

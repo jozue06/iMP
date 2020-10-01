@@ -56,9 +56,7 @@ export class UserController {
 		});
 	}
 
-	public postForgot = async (req: Request, res: Response, next: NextFunction) => {
-		console.log('here',);
-		
+	public postForgot = async (req: Request, res: Response, next: NextFunction) => {		
 		if (!req.body.username || req.body.username == "") {
 			return next(new ValidationException("Please Enter a Valid User Name"));
 		}
