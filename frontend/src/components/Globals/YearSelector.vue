@@ -177,15 +177,12 @@
 
 		methods: {
 			init() {
-				document.addEventListener(
-					"click",
-					e => {
-						if (this.$el && !this.$el.contains(e.target)) {
-							this.closeMenu();
-						}
-					},
-					false
-				);
+				document.addEventListener("click", e => {
+					if (this.$el && !this.$el.contains(e.target)) {
+						this.closeMenu();
+					}
+				}, false);
+
 				this.setValue(this.value);
 			},
 
@@ -218,7 +215,9 @@
 
 			selectPicker() {				
 				this.$emit("input",  this.internalMomentValue.clone());
-				this.$emit("selected", this.internalMomentValue.clone());
+				let value = this.internalMomentValue.clone().format('YYYY');
+				this.value = value;
+				// this.$emit("selected", value);
 			},
 
 			setValue(value) {

@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h1>personal-info Component</h1>
 		<b-row class="ml-4 mr-4 justify-content-around">
 			<b-col cols="3">
 				<b-form-group label="First Name">
