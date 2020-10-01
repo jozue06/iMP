@@ -36,6 +36,11 @@ const VehicleSchema = new Schema({
 		required: false,
 	},
 
+	default: {
+		type: Boolean,
+		required: false,
+	},
+	
 	type: {
 		type: String,
 		required: false,
