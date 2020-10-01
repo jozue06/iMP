@@ -165,7 +165,13 @@
 
 		methods: {
 			saveSettings() {
-				Settings.save(this.currentSettings);
+				Settings.save(this.currentSettings).then(res => {
+					this.$Notification("Success!", "Successfully Saved the Settings", "primary");
+				}).catch(e => {
+					console.error('eek', e);
+					this.$Notification("Error", `Error Saving Settings: ${e}`, "warning", "", 5000);
+					throw e;
+				});
 			}
 		},
 

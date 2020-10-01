@@ -47,8 +47,14 @@
 
 		methods: {
 			saveVehicle() {
-				console.log('saveVehicle', this.currentVehicle);
-				Vehicles.save(this.currentVehicle);
+				Vehicles.save(this.currentVehicle).then(res => {
+					this.$refs.vehicleModal.hide();
+					this.$Notification("Success!", "Successfully Saved the Vehicle", "primary");
+				}).catch(e => {
+					console.error('eek', e);
+					this.$Notification("Error", `Error Saving Vehicle: ${e}`, "warning", "", 5000);
+					throw e;
+				});
 			}
 		},
 
