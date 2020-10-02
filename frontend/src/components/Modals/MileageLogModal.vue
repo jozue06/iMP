@@ -15,12 +15,7 @@
 					</b-col>
 					<b-col cols="6">
 						<b-form-group label="Vehicle">
-							<b-form-input
-								type="text"
-								v-model="mileageLog.vehicle"
-								placeholder="Vehicle"
-								name="vehicle"
-							></b-form-input>
+							<VehicleSelector v-bind:model="mileageLog" />
 						</b-form-group>
 					</b-col>
 				</b-row>
@@ -83,10 +78,14 @@
 
 <script>
 	import { MileageLogs } from "../../data/mileageLogs";
-
+	import VehicleSelector from "../Globals/VehicleSelector";
 	export default  {
 
 		name: 'mileageLogModal',
+
+		components: {
+			VehicleSelector,
+		},
 
 		props: {
 			mileageLog: Object,
@@ -116,14 +115,13 @@
 					this.currentReport.mileageLogs.push(this.mileageLog);
 				}
 
-				if (!this.isQtrReport) {
-
+				if (this.isQtrReport) {
 					this.mileageLog.qtrReportId = this.currentReport._id;
 				} else {
 					this.mileageLog.itinReportId = this.currentReport._id;
 				}
 
-				MileageLogs.save(this.mileageLog).then(res => {
+				MileageLogs.save(this.mileageLog, this.isQtrReport).then(res => {
 					this.$refs.mileageLogModal.hide();
 					this.$Notification("Success!", "Successfully Added the Mileage Log", "primary");
 					this.loading = false;

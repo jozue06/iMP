@@ -6,12 +6,10 @@ import ValidationException from '../exceptions/ValidationException';
 
 export class VehiclesController {
 	public getVehicles = async (userId: string, req: Request, res: Response, next: NextFunction) => {
-		await User.findOne({ _id: userId})
-			.populate("settings")
-			.then(user => {
-				res.send(user.settings.vehicles);
-			});
-	}
+		await Vehicle.find({ user: userId}).then(vehicles => {
+			res.send(vehicles);
+		});
+	};
 
 	public deleteVehicles = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Vehicle.deleteMany( {"_id": { $in: req.body.vehicleIds } } ).then(r => {

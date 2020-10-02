@@ -223,7 +223,9 @@
 			},
 
 			onSubmit() {
-				this.loading = true;				
+				console.log('submimg' , this.isQtrReport);
+				
+				this.loading = true;
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
 				}				

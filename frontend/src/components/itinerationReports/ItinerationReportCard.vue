@@ -153,13 +153,13 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				isQtrReport:false
+				v-bind:isQtrReport=false
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 
 				v-bind:currentReport="currentReport"
 				ref="mileageLogModal"
-				isQtrReport:false
+				v-bind:isQtrReport=false
 			/>
 			<OfferingLineModal 
 				v-bind:offeringLine="selectedOfferingLine" 
