@@ -1,7 +1,7 @@
 <template>
-	<section class="mt-2">
-		<b-row class="top-bar">
-			<b-col>
+	<section>
+		<b-row align-v="center" class="top-bar">
+			<b-col >
 				<router-link to="/">
 					<b-button size="sm" class="float-left">
 						<b-icon icon="house-fill"></b-icon>
