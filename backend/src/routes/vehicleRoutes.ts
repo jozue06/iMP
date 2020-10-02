@@ -17,5 +17,6 @@ export class VehicleRoutes {
 		this.router.get("/vehicles", this.authController.authenticateJWT, this.vehiclesController.getVehicles);
 		this.router.post("/vehicles", this.authController.authenticateJWT, this.vehiclesController.createVehicle);
 		this.router.put("/vehicles/:id", this.authController.authenticateJWT, this.vehiclesController.saveVehicle);
+		this.router.post("/vehiclesDelete", this.authController.authenticateJWT, this.vehiclesController.deleteVehicles);
 	}
 }

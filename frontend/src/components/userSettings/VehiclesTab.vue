@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<div v-if="currentSettings.vehicles && currentSettings.vehicles.length > 0">
+		<div v-if="vehicles && vehicles.length > 0">
 			<b-button size="sm" variant="primary" class="float-right m-2" @click="showVehicleModal(null)"> + Add A Vehicle </b-button>
 			<b-table
 				striped 
 				hover 
 				ref="selectableTable"
 				selectable
-				:items="currentSettings.vehicles" 
+				:items="vehicles" 
 				:fields="fields"
 				@row-selected="onRowSelected"
 				selected-variant="danger"
@@ -48,20 +48,22 @@
 
 		<ConfirmModal 
 			id="confirmModal" 
-			title="Delete?" 
+			title="Delete Vehicles?" 
 			v-bind:message="confirmDeleteMessage" 
 			@handleConfirm="handleConfirmDelete" 
 		/>
 
-		<VehicleModal ref="vehicleModal" v-bind:currentVehicle="currentVehicle"/>
+		<VehicleModal ref="vehicleModal" v-bind:currentVehicle="currentVehicle" @refresh="refresh"/>
 	</div>
 </template>
 
 <script>
 	import VehicleModal from "../Modals/VehicleModal";
-	import ConfirmModal from "../Modals/ConfirmModal"
-	import NoResults from "../Globals/NoResults"
+	import ConfirmModal from "../Modals/ConfirmModal";
+	import NoResults from "../Globals/NoResults";
 	import { allowedFields } from "../../constants/tableFields";
+	import { Vehicles } from "../../data/vehicles";
+	
 	export default  {
 
 		name: 'vehicles-tab',
@@ -74,6 +76,7 @@
 
 		props: {
 			currentSettings: Object,
+			vehicles: Array,
 		},
 
 		mounted() {
@@ -109,22 +112,32 @@
 			},
 
 			handleConfirmDelete() {
-
+				let ids = this.selected.map(ele => ele._id);
+				Vehicles.deleteVehicles(ids).then(res => {
+					this.$Notification("Deleted", "Deleted the Selected Vehicles", "warning", "", 3000);
+					this.$emit("refresh");
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
+			},
+			
+			refresh() {
+				this.$emit("refresh");
 			}
 		},
 
 		computed: {
 			fields() {
 				let keys = allowedFields.vehicleFields;
-
 				keys.unshift("edit");
 
 				return keys;
 			},
 
 			confirmDeleteMessage() {
-				return "";
-			}
+				return "Are you sure you want to Delete the Selected Vehicle(s)?";
+			},
 		}
 	}
 </script>

@@ -21,6 +21,15 @@ export const Vehicles = {
 		return res.data;
 	}),
 
+	deleteVehicles: handleError(async ids => {
+		let body = {
+			vehicleIds: ids
+		}
+		
+		const res = await axios.post(baseURL + "Delete", body, {"headers": headers});
+		return res.data;
+	}),
+
 	save: handleError(async payload => {
 		let body = {
 			vehicle: payload

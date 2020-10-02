@@ -50,6 +50,7 @@
 				Vehicles.save(this.currentVehicle).then(res => {
 					this.$refs.vehicleModal.hide();
 					this.$Notification("Success!", "Successfully Saved the Vehicle", "primary");
+					this.$emit("refresh");
 				}).catch(e => {
 					console.error('eek', e);
 					this.$Notification("Error", `Error Saving Vehicle: ${e}`, "warning", "", 5000);

@@ -1,13 +1,18 @@
 <template>
 	<section class="mt-3">
-		<b-tabs small card>
-			<b-tab title="Personal Info" active>
-				<PersonalInfo v-bind:currentSettings="currentSettings"/>
-			</b-tab>
-				<b-tab title="Vehicles">
-					<VehiclesTab v-bind:currentSettings="currentSettings"/>
+		<div class="main-card">
+			<!-- <router-link to="/contacts">
+				<h1>{{ currentContact.firstName }}</h1>
+			</router-link>	 -->
+			<b-tabs small card>
+				<b-tab title="Personal Info" active>
+					<PersonalInfo v-bind:currentSettings="currentSettings" @refresh="refresh"/>
 				</b-tab>
-		</b-tabs>
+					<b-tab title="Vehicles">
+						<VehiclesTab v-bind:currentSettings="currentSettings" v-bind:vehicles="vehicles" @refresh="refresh"/>
+					</b-tab>
+			</b-tabs>
+		</div>
 	</section>
 </template>
 
@@ -31,17 +36,28 @@
 		mounted() {
 			Settings.getSettings().then(settings => {
 				this.currentSettings = settings ? settings : {};
+				if (settings) {
+					this.vehicles = settings.vehicles;
+				}
 			});
 		},
 
 		data() {
 			return {
 				currentSettings: {},
+				vehicles: [],
 			}
 		},
 
 		methods: {
-
+			refresh() {
+				Settings.getSettings().then(settings => {
+					this.currentSettings = settings ? settings : {};
+					if (settings) {
+						this.vehicles = settings.vehicles;
+					}
+				});
+			}
 		},
 
 		computed: {
