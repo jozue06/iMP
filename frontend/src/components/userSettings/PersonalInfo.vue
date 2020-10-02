@@ -127,10 +127,6 @@
 				</b-form-group>
 			</b-col>
 		</b-row>
-		<b-button class="text-center" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
-			Submit
-			<b-spinner v-if="loading" small type="grow"></b-spinner>				
-		</b-button>
 	</div>
 </template>
 
@@ -156,7 +152,7 @@
 
 		data() {
 			return {
-				loading: false,
+				
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 				states: STATES.map(c => ({ value: c.name, text: c.name })),
 				provinces: PROVINCES.map(c => ({ value: c.name, text: c.name }))
@@ -164,15 +160,7 @@
 		},
 
 		methods: {
-			saveSettings() {
-				Settings.save(this.currentSettings).then(res => {
-					this.$Notification("Success!", "Successfully Saved the Settings", "primary");
-				}).catch(e => {
-					console.error('eek', e);
-					this.$Notification("Error", `Error Saving Settings: ${e}`, "warning", "", 5000);
-					throw e;
-				});
-			}
+		
 		},
 
 		computed: {
