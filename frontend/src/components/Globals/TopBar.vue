@@ -9,7 +9,7 @@
 				</router-link>
 			</b-col>
 			<b-col>
-				<router-link :to="{ name: 'settings', params: { userId: userId } }">
+				<router-link :to="{ name: 'settings' }">
 					<b-button size="sm" class="float-right">
 						Settings
 						<b-icon icon="gear-wide-connected"></b-icon>

@@ -47,7 +47,7 @@ export default [
 		}
 	},
 	{
-		path: "/user/settings:userId",
+		path: "/user/settings",
 		name: "settings",
 		component: UserSettings,
 		meta: {
