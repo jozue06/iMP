@@ -1,3 +1,8 @@
+/** Thank you to https://exchangerate.host
+ * for documentation on this API, visit: 
+ *   https://exchangerate.host/#/#docs   *
+ */
+
 import axios from 'axios';
 import moment from "moment";
 
