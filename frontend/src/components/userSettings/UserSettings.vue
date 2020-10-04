@@ -11,9 +11,12 @@
 				<b-tab title="Itineration Settings">
 					<ItinerationSettingsTab v-bind:currentSettings="currentSettings" @refresh="refresh"/>
 				</b-tab>
+				<b-tab title="Currency Settings">
+					<CurrencySettingsTab v-bind:currentSettings="currentSettings" v-bind:currencyList="currencyList"  @refresh="refresh"/>
+				</b-tab>
 				<b-button class="text-center my-2" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
 					Save
-					<b-spinner v-if="loading" small type="grow"></b-spinner>				
+					<b-spinner v-if="loading" small type="grow"></b-spinner>
 				</b-button>
 			</b-tabs>
 		</div>
@@ -24,8 +27,10 @@
 	import PersonalInfo from "./PersonalInfo";
 	import VehiclesTab from "./VehiclesTab";
 	import ItinerationSettingsTab from "./ItinerationSettingsTab";
+	import CurrencySettingsTab from "./CurrencySettingsTab";
 	import { Settings } from "../../data/userSettings";
-
+	import { Currencies } from "../../data/currenciesExternalApi";
+	import supportedCurrencies from "../../constants/supportedCurrencies";
 	export default  {
 
 		name: 'userSettings',
@@ -33,7 +38,8 @@
 		components: {
 			PersonalInfo,
 			VehiclesTab,
-			ItinerationSettingsTab
+			ItinerationSettingsTab,
+			CurrencySettingsTab
 		},
 
 		props: {
@@ -45,14 +51,21 @@
 				this.currentSettings = settings ? settings : {};
 				if (settings) {
 					this.vehicles = settings.vehicles;
+					// Currencies.fetchSupportedSymbols().then(res => {
+					// 	if (res) {
+					// 		this.currencyList = res;
+					// 	}
+					// });
 				}
 			});
+			
 		},
 
 		data() {
 			return {
 				loading: false,
 				currentSettings: {},
+				currencyList: supportedCurrencies,
 				vehicles: [],
 			}
 		},

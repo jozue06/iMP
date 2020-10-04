@@ -14,7 +14,7 @@ export class SettingsController {
 	public saveSettings = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		let settings = req.body.settings;
 		settings.user = userId;
-		await Settings.findOneAndUpdate({_id: settings._id}, {...settings},).then(savedSettings => {			
+		await Settings.findOneAndUpdate({_id: settings._id}, {...settings},).then(savedSettings => {
 			User.findOneAndUpdate({ _id: userId}, { $set: {settings: savedSettings}}).then(user => {
 				res.send(user);
 			});

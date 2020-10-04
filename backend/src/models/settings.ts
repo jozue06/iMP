@@ -26,6 +26,8 @@ export interface SettingsInterface {
 	totalCashRequired?: number,
 	contactGroups?: [ContactGroupDocument]
 	vehicles?: [VehicleDocument]
+	defaultCurrency?: string,
+	userCurrencies?: string[],
 }
 
 const SettingsSchema = new Schema({
@@ -144,7 +146,19 @@ const SettingsSchema = new Schema({
 		type: Types.ObjectId,
 		ref: "vehicle",
 		required: false,
-	}]
+	}],
+
+	defaultCurrency: {
+		type: String,
+		required: false,
+		default: "USD",
+	},
+
+	userCurrencies: {
+		type: Array,
+		required: false,
+		default: [],
+	}
 },
 	{
 		toObject: {getters: true},
