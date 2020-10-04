@@ -22,7 +22,6 @@ export const Currencies = {
 	fetchHistoricExchangeRates: async (date) => {
 		let queryDate = moment(date).format("YYYY-MM-DD");
 		await axios.get(`https://api.exchangerate.host/${queryDate}?base=USD`).then((res) => {
-			console.log('histo res ', res.data);
 			return res.data;
 		});
 	},
