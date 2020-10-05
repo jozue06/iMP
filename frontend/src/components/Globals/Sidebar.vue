@@ -1,7 +1,9 @@
 <template>
 	<div class="sidebar clearfix">
 		<router-link to="/">
-			<h1 class="no-active">{{ sidebarTitle }}</h1>
+			<h1 class="no-active">
+				{{ sidebarTitle }}
+			</h1>
 		</router-link>	
 		<SidebarMenuList title="Menu" v-bind:itemList=sections.mainSection accordianId="collapse-1" />
 		<!-- <SidebarMenuList title="New Records" v-bind:itemList=sections.newRecordsSection accordianId="collapse-2" /> -->

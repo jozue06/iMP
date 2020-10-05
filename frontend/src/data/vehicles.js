@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi"
 
-const baseURL = `${getApi()}contactComms`;
+const baseURL = `${getApi()}vehicles`;
 
 const handleError = fn => (...params) =>
 fn(...params).catch(e => {
@@ -10,55 +10,45 @@ fn(...params).catch(e => {
 	throw new Error(newmess.replace(",", '\n'));
 });
 
-export const Comms = {
-	getComm: handleError(async id => {
+export const Vehicles = {
+	getVehicles: handleError(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
-
-		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
-		return res.data;
-	}),
-	
-	getComms: handleError(async () => {
-		const headers = {
-			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
-		}
-
+		
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
-	deleteComm: handleError(async ids => {
+	deleteVehicles: handleError(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
-		}
-
-		let body = {
-			commsIds: ids
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
 		
-		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
+		let body = {
+			vehicleIds: ids
+		}
+		
+		const res = await axios.post(baseURL + "Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
 	save: handleError(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
 		
 		let body = {
-			comm: payload
+			vehicle: payload
 		}
 
 		if (payload._id) {
 			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
 			return res.data;
-		} else {
+		} else {			
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}

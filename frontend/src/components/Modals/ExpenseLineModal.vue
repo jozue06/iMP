@@ -223,7 +223,7 @@
 			},
 
 			onSubmit() {
-				this.loading = true;				
+				this.loading = true;
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
 				}				

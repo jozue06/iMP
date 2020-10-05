@@ -23,7 +23,7 @@
 	import { allowedFields } from '@/constants/tableFields';
 	export default  {
 		
-		name: 'contact-search-component',
+		name: 'contactSearchComponent',
 
 		components: {
 

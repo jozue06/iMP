@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	import { districts, sections } from "../constants/districts";
+	import { districts, sections } from "../../constants/districts";
 
 	export default  {
 

@@ -74,7 +74,7 @@
 	import { ContactGroups } from '../../data/contactGroups';
 	import ConfirmModal from '../Modals/ConfirmModal';
 	import ContactGroupModal from '../Modals/ContactGroupModal';
-	import NoResults from '../NoResults';
+	import NoResults from '../Globals/NoResults';
 
 	export default  {
 

@@ -23,7 +23,7 @@
 				<template v-slot:cell()="data">	
 					<span @click="showEventModal(data.item)" class="text-info"> {{ data.value }} </span>
 				</template>
-				<template v-slot:cell(isCompleted)="data">								
+				<template v-slot:cell(isCompleted)="data">
 					<b-icon class="h4" v-if='data.item.isCompleted === true' icon="check-circle" variant="info"></b-icon>
 					<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
 				</template>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-	import NoResults from "../NoResults";
+	import NoResults from "../Globals/NoResults";
 	import { Contacts } from "../../data/contacts";
 	import { Events } from "../../data/events";
 	import { allowedFields } from "../../constants/tableFields";

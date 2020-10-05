@@ -69,9 +69,9 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import ContactModal from '../Modals/ContactModal'
-	// import ContactSearchComponent from '../ContactSearchComponent'
+	// import ContactSearchComponent from '../Globals/ContactSearchComponent'
 	import { Contacts } from '../../data/contacts'
 	import { allowedFields } from '@/constants/tableFields';
 	

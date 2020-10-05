@@ -10,7 +10,7 @@ export class AuthController {
 				return res.status(401).json({ status: "error", code: "unauthorized" });
 			}
 			if (!user) {
-				return res.status(401).json({ status: "error", code: "no use" });
+				return res.status(401).json({ status: "error", code: "no user" });
 			} else {
 				return next(user._id);
 			}

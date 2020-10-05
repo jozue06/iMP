@@ -10,23 +10,33 @@ const handleError = fn => (...params) =>
 		throw new Error(newmess.replace(",", '\n'));
 });
 
-const headers = {
-	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}` 
-}
-
 export const QuarterlyReports = {
 	getQuarterlyReport: handleError(async id => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		const res = await axios.get(baseURL + `/${id}`, { "headers" : headers } );
 		return res.data;
 	}),
 	
 	getQuarterlyReports: handleError(async () => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		const res = await axios.get(baseURL, { "headers" : headers } );
 		return res.data;
 	}),
 
 	deleteQuarterlyReport: handleError(async ids => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		let body = {
 			qtrReportIds: ids
 		}
@@ -35,7 +45,12 @@ export const QuarterlyReports = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {		
+	save: handleError(async payload => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		let body = {
 			qtrReport: payload
 		}

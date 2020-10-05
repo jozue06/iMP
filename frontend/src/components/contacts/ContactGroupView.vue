@@ -47,7 +47,7 @@
 	import { ContactGroups } from '../../data/contactGroups';
 	import { Contacts } from '../../data/contacts';
 	import { allowedFields } from '@/constants/tableFields';
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import ContactModal from '../Modals/ContactModal'
 
 	export default  {

@@ -11,6 +11,8 @@ import { AuthRoutes } from "./routes/authRoutes";
 import { ContactRoutes } from "./routes/contactRoutes";
 import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import { ItinReportRoutes } from "./routes/itinReportRoutes";
+import { SettingsRoutes } from "./routes/settingsRoutes";
+import { VehicleRoutes } from "./routes/vehicleRoutes";
 
 dotenv.config();
 class Server {
@@ -19,8 +21,8 @@ class Server {
 	constructor() {
 		this.app = express();
 		this.config();
-		this.routes();
 		this.mongo();
+		this.routes();
 		this.app.use(express.static(path.resolve(__dirname, '../../frontend/dist')));
 		this.app.use(errorMiddleware);
 	}
@@ -30,6 +32,8 @@ class Server {
 		this.app.use("/", new ContactRoutes().router);
 		this.app.use("/", new QtrReportRoutes().router);
 		this.app.use("/", new ItinReportRoutes().router);
+		this.app.use("/", new SettingsRoutes().router);
+		this.app.use("/", new VehicleRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
 		});

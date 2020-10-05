@@ -9,9 +9,10 @@ import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReports
 import ItinerationReportList from './components/itinerationReports/ItinerationReportList.vue'
 import ItinerationReportCard from './components/itinerationReports/ItinerationReportCard.vue'
 
-import Login from './components/Login.vue'
-import Forgot from './components/Forgot.vue'
-import Reset from './components/Reset.vue'
+import Login from './components/Globals/Login.vue'
+import Forgot from './components/Globals/Forgot.vue'
+import Reset from './components/Globals/Reset.vue'
+import UserSettings from './components/userSettings/UserSettings.vue'
 
 export default [
 	{
@@ -43,6 +44,14 @@ export default [
 		component: Reset,
 		meta: {
 			requiresAuth: false
+		}
+	},
+	{
+		path: "/user/settings",
+		name: "settings",
+		component: UserSettings,
+		meta: {
+			requiresAuth: true
 		}
 	},
 	{

@@ -84,7 +84,6 @@ const ItinReportSchema = new Schema({
 		type: Number,
 	},
 
-
 	trailerParkNights: {
 		type: Number,
 	},

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import DistrictSelector from '../DistrictSelector';
+	import DistrictSelector from '../Globals/DistrictSelector';
 	
 	export default  {
 		name: 'contact-mid-cards',
