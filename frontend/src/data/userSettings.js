@@ -10,18 +10,22 @@ fn(...params).catch(e => {
 	throw new Error(newmess.replace(",", '\n'));
 });
 
-const headers = {
-	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}` 
-}
-
 export const Settings = {
 	getSettings: handleError(async () => {
-		const res = await axios.get(baseURL, {"headers": headers});
+		const header = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+		const res = await axios.get(baseURL, {"headers": header});
 		return res.data;
 	}),
 
 	save: handleError(async payload => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+		
 		let body = {
 			settings: payload
 		}

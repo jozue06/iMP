@@ -10,23 +10,33 @@ const handleError = fn => (...params) =>
 		throw new Error(newmess.replace(",", '\n'));
 });
 
-const headers = {
-	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}` 
-}
-
 export const Events = {
 	getEvent: handleError(async id => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 	
 	getEvents: handleError(async () => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
 	deleteEvents: handleError(async ids => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		let body = {
 			eventIds: ids
 		}
@@ -35,7 +45,12 @@ export const Events = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {		
+	save: handleError(async payload => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}		
+		
 		let body = {
 			event: payload
 		}

@@ -10,18 +10,23 @@ fn(...params).catch(e => {
 	throw new Error(newmess.replace(",", '\n'));
 });
 
-const headers = {
-	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}`
-}
-
 export const Vehicles = {
 	getVehicles: handleError(async () => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
 	deleteVehicles: handleError(async ids => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		let body = {
 			vehicleIds: ids
 		}
@@ -31,6 +36,11 @@ export const Vehicles = {
 	}),
 
 	save: handleError(async payload => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
+		}
+		
 		let body = {
 			vehicle: payload
 		}
