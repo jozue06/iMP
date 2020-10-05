@@ -2,16 +2,13 @@ import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { User, AuthToken, IUser} from "../models/userModel";
-import { Settings } from "../models/settings";
 import { JWT_SECRETE } from "../utils/secret";
 import ValidationException from '../exceptions/ValidationException';
 import { WriteError } from "mongodb";
-const sgMail = require('@sendgrid/mail');
-import { GRID_SEND_KEY } from "../utils/secret";
 import async from "async";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-
+ 
 export class UserController {
 
 	public async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -155,16 +152,12 @@ export class UserController {
 			},
 
 			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
-				sgMail.setApiKey(GRID_SEND_KEY);
-
 				const msg = {
 					to: "jozue06@gmail.com",
 					from: 'jozue06@gmail.com',
 					subject: "Your password has been changed",
 					text: `Hello,\n\nThis is a confirmation that the password for your account ${user.settings.email} has just been changed.\n`
 				};
-
-				sgMail.send(msg);
 			},
 		], (err) => {
 			if (err) { return next(err); }
