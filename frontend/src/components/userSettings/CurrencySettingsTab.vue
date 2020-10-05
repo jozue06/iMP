@@ -1,5 +1,10 @@
 <template>
 	<div>
+		<div v-if="currentSettings && currentSettings.defaultCurrency">
+			<h6 class="text-left mb-4 primary-title">
+				<b>Your Default currency is currently: {{currentSettings.defaultCurrency}}</b>
+			</h6>
+		</div>
 		<b-table
 			ref="selectableTable"
 			selectable
@@ -42,7 +47,8 @@
 		},
 
 		props: {
-			currencyList: Array
+			currencyList: Array,
+			currentSettings: Object,
 		},
 
 		mounted() {
@@ -61,7 +67,9 @@
 			},
 
 			handleConfirm() {
-				
+				this.currentSettings.defaultCurrency = this.selected[0].code;
+				this.selected = [];
+				this.$emit("saveSettings");
 			}
 		},
 

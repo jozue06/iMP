@@ -4,20 +4,24 @@
 			<b-tabs small card>
 				<b-tab title="Personal Info" active>
 					<PersonalInfo v-bind:currentSettings="currentSettings" @refresh="refresh"/>
+					<b-button class="text-center my-2" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
+						Save
+						<b-spinner v-if="loading" small type="grow"></b-spinner>
+					</b-button>
 				</b-tab>
 				<b-tab title="Vehicles">
 					<VehiclesTab v-bind:currentSettings="currentSettings" v-bind:vehicles="vehicles" @refresh="refresh"/>
 				</b-tab>
 				<b-tab title="Itineration Settings">
 					<ItinerationSettingsTab v-bind:currentSettings="currentSettings" @refresh="refresh"/>
+					<b-button class="text-center my-2" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
+						Save
+						<b-spinner v-if="loading" small type="grow"></b-spinner>
+					</b-button>
 				</b-tab>
 				<b-tab title="Currency Settings">
-					<CurrencySettingsTab v-bind:currentSettings="currentSettings" v-bind:currencyList="currencyList"  @refresh="refresh"/>
+					<CurrencySettingsTab v-bind:currentSettings="currentSettings" @saveSettings="saveSettings" v-bind:currencyList="currencyList"  @refresh="refresh"/>
 				</b-tab>
-				<b-button class="text-center my-2" type="submit" @click="saveSettings" :disabled="loading" variant="primary">
-					Save
-					<b-spinner v-if="loading" small type="grow"></b-spinner>
-				</b-button>
 			</b-tabs>
 		</div>
 	</section>
