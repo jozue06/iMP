@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ItinerationReportTop v-bind:itinReport="currentReport"/>
+				<ReportTop v-bind:currentReport="currentReport" reportType="itin" linkTo="/itinerationReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ItinerationReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" reportType="itin" @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -193,8 +193,8 @@
 	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import MileageLogModal from "../Modals/MileageLogModal";
 	import OfferingLineModal from "../Modals/OfferingLineModal";
-	import ItinerationReportTop from "./ItinerationReportTop";
-	import ItinerationReportMoreInfo from "./ItinerationReportMoreInfo";
+	import ReportTop from "../Globals/ReportTop";
+	import ReportMoreInfo from "../Globals/ReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import { ItinReports } from "../../data/itinReports"
 	import { ExpenseLines } from "../../data/expenseLines";
@@ -207,8 +207,8 @@
 			ExpenseLineModal,
 			MileageLogModal,
 			OfferingLineModal,
-			ItinerationReportTop,
-			ItinerationReportMoreInfo,
+			ReportTop,
+			ReportMoreInfo,
 			ConfirmModal,
 		},
 

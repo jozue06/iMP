@@ -177,7 +177,6 @@ ItinReportSchema.path("commitmentAmount").set((num: string) => formatNumber(num)
 ItinReportSchema.path("cashAmount").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("cashAmount").set((num: string) => formatNumber(num));
 
-
 export interface ItinReportDocument extends ItinerationReportInterface, Document {}
 export interface ItinReportModel extends Model<ItinReportDocument> { }
 export const ItinReport = model<ItinReportDocument>("itinReport", ItinReportSchema);
