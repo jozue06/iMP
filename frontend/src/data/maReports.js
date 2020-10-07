@@ -38,7 +38,7 @@ export const MAReports = {
 		}
 		
 		let body = {
-			itinReportIds: ids
+			maReportIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
@@ -63,14 +63,4 @@ export const MAReports = {
 			return res.data;
 		}
 	}),
-
-	deleteLine: handleError(async payload => {		
-		let body = {
-			itinReport: payload
-		}
-
-		const res = await axios.post(baseURL + `/deleteLine/${payload._id}`, body, {"headers": headers});
-		return res.data;
-	
-	})
 };

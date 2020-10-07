@@ -139,18 +139,12 @@
 			loadReports() {
 				let reports = []; 
 				MAReports.getMaReports().then(res => {
-					res.forEach(report => {
-						if (report._id) {
-							report.id = report._id;
-							reports.push({...report});
-							this.reports = reports
-						}
-					});
+					this.reports = res
 				});
 			},
 
 			refresh() {
-				this.reports = this.loadReports();
+				this.loadReports();
 			}
 		},
 
