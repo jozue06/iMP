@@ -5,7 +5,7 @@
 				<h1 class="pt-2">Contacts</h1>
 			</router-link>				
 			<div v-if="contacts.length > 0">
-				<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">Add Contact</b-button>
+				<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">+ Add Contact</b-button>
 				<b-table
 					striped 
 					hover 
@@ -69,9 +69,9 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import ContactModal from '../Modals/ContactModal'
-	// import ContactSearchComponent from '../ContactSearchComponent'
+	// import ContactSearchComponent from '../Globals/ContactSearchComponent'
 	import { Contacts } from '../../data/contacts'
 	import { allowedFields } from '@/constants/tableFields';
 	

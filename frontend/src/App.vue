@@ -6,9 +6,9 @@
 </template>
 
 <script>
-	import Container from './components/Container.vue'
-	import Sidebar from './components/Sidebar.vue'
-	import Header from './components/Header.vue'
+	import Container from './components/Globals/Container.vue'
+	import Sidebar from './components/Globals/Sidebar.vue'
+	import Header from './components/Globals/Header.vue'
 	import { getSession } from "./utils/session";
 	import axios from "axios";
 

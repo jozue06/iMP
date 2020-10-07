@@ -10,23 +10,33 @@ const handleError = fn => (...params) =>
 		throw new Error(newmess.replace(",", '\n'));
 });
 
-const headers = {
-	'Content-Type': 'application/json',
-	authorization: `Bearer ${localStorage.getItem("jwt")}` 
-}
-
 export const ExpenseLines = {
 	getExpenseLine: handleError(async id => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
 	
 	getExpenseLines: handleError(async () => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		const res = await axios.get(baseURL, {"headers": headers});
 		return res.data;
 	}),
 
 	deleteExpenseLines: handleError(async ids => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		let body = {
 			expenseLineIds: ids
 		}
@@ -35,7 +45,12 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	save: handleError(async (payload, isQtrReport) => {		
+	save: handleError(async (payload, isQtrReport) => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
 		let body = {
 			expenseLine: payload,
 			isQtrReport: isQtrReport,

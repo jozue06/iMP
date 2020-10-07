@@ -14,7 +14,7 @@ import getStatusFromCode from "./mixins/getStatusFromCode";
 import getStatusColor from "./mixins/getStatusColorFromCode";
 import getMonthFromCode from "./mixins/getMonthFromCode";
 import moment from "moment";
-import YearSelector from "./components/YearSelector";
+import YearSelector from "./components/Globals/YearSelector";
 import formatMoney from "./mixins/formatMoney"
 import getTotalOfferingLineAmt from "./mixins/getTotalOfferingLineAmt"
 import "./assets/scss/globalCustoms.scss";

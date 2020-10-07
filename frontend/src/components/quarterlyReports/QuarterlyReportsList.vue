@@ -11,7 +11,7 @@
 					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
-						New Quarterly Report
+						+ New Quarterly Report
 					</b-button>
 				</router-link>
 				<b-table
@@ -56,7 +56,7 @@
 				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
-					New Quarterly Report
+					+ New Quarterly Report
 				</b-button>
 			</router-link>
 			<ConfirmModal 
@@ -71,7 +71,7 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import { QuarterlyReports  } from '../../data/quarterlyReports'
 	import { allowedFields } from "../../constants/tableFields";
 		

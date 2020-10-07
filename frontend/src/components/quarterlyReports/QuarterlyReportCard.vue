@@ -47,7 +47,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)"> + Add Expense Line </b-button>
+							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)">+ Add Expense Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -82,7 +82,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)"> + Add Mileage Log </b-button>
+							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)">+ Add Mileage Log </b-button>
 						</b-col>
 					</b-row>
 				</b-tab>
@@ -114,13 +114,13 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				isQtrReport:true
+				v-bind:isQtrReport=true
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 
 				v-bind:currentReport="currentReport"
 				ref="mileageLogModal"
-				isQtrReport:true
+				v-bind:isQtrReport=true
 			/>
 			<ConfirmModal 
 				id="confirmDeleteExpenseLine" 

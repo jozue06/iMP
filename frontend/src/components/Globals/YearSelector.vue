@@ -177,15 +177,12 @@
 
 		methods: {
 			init() {
-				document.addEventListener(
-					"click",
-					e => {
-						if (this.$el && !this.$el.contains(e.target)) {
-							this.closeMenu();
-						}
-					},
-					false
-				);
+				document.addEventListener("click", e => {
+					if (this.$el && !this.$el.contains(e.target)) {
+						this.closeMenu();
+					}
+				}, false);
+
 				this.setValue(this.value);
 			},
 

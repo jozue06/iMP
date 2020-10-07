@@ -1,6 +1,6 @@
 <template>
-	<div class="sub-card" v-bind:currentReport="currentReport">		
-		<b-row class="justify-content-around">
+	<div class="sub-card" v-bind:currentReport="currentReport" v-bind:reportType="reportType">
+		<b-row v-if='reportType === "itin"' class="justify-content-around">
 			<b-col cols="2" class="my-2">
 				<b-form-group>
 					<label>Car Miles</label>
@@ -109,7 +109,8 @@
 				</b-form-group> 
 			</b-col>
 		</b-row>
-		<b-row class="mx-2">
+
+		<b-row v-if='reportType == "itin"' class="mx-2">
 			<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 				<label>
 					Support Info
@@ -212,16 +213,151 @@
 			</b-col>
 		</b-row>
 
+		<b-row v-if='reportType == "ma"' class="mx-2">
+			<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
+				<label>
+					Support Info
+				</label>
+				<b-row class="justify-content-around">
+					<b-form-group class="mr-1" label="Total Offerings">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.totalOfferings"
+								class="text-right"
+								type="text"
+								name="totalOfferings"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group> 
+					</b-form-group> 
+					<b-form-group class="mr-1" label="Estimated Expenses">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.estimatedExpenses"
+								class="text-right"
+								type="text"
+								name="estimatedExpenses"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group> 
+					</b-form-group> 
+				</b-row>
+				<b-row class="justify-content-around mt-4">
+					<b-form-group class="mr-1" label="Receipt Books Needed">
+						<b-form-input 
+							v-model="currentReport.receiptBooksNeeded"
+							class="text-right"
+							type="text"
+							name="receiptBooksNeeded"
+							@blur="saveReport"
+						>
+						</b-form-input>
+					</b-form-group> 
+					<b-form-group class="mr-1" label="Commitment Forms Needed">
+						<b-form-input 
+							v-model="currentReport.commitmentFormsNeeded"
+							class="text-right"
+							type="text"
+							name="commitmentFormsNeeded"
+							@blur="saveReport"
+						>
+						</b-form-input>
+					</b-form-group> 
+					<b-form-group class="mr-1" label="Expected Date to Field">
+						<b-form-datepicker
+							required
+							v-model="currentReport.expectedDateToField"
+							:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+							locale="en"
+							name="expectedDateToField"
+							@change="saveReport"
+						></b-form-datepicker>
+					</b-form-group> 
+				</b-row>
+			</b-col>
+
+			<b-col cols="6"  class="my-2">
+				<label>Other</label>
+				<b-row class="align-items-center">
+					<b-col>
+						<b-row class="justify-content-around">
+							<b-col cols="4" class="my-2">
+								<b-form-group class="mr-1" label="Face-to-Face Appointments">
+									<b-form-input 
+										v-model="currentReport.numberOfAppointments"
+										class="text-right"
+										type="number"
+										name="numberOfAppointments"
+										@blur="saveReport"
+									>
+									</b-form-input>
+								</b-form-group> 
+								<b-form-group class="mr-1" label="No of Services / Speaking Opportunities">
+									<b-form-input 
+										v-model="currentReport.numberOfServices"
+										class="text-right"
+										type="number"
+										name="numberOfServices"
+										@blur="saveReport"
+									>
+									</b-form-input>
+								</b-form-group> 
+							</b-col>
+							<b-col cols="4" class="my-2">
+								<b-form-group class="mr-1" label="Letters / Newsletters / Thank you Cards">
+									<b-form-input 
+										v-model="currentReport.letters"
+										class="text-right"
+										type="text"
+										name="letters"
+										@blur="saveReport"
+									>
+									</b-form-input>
+								</b-form-group> 
+								<b-form-group class="mr-1" label="Email / Social Media / Other Comms">
+									<b-form-input 
+										v-model="currentReport.otherComms"
+										class="text-right"
+										type="text"
+										name="endReceiptNo"
+										@blur="saveReport"
+									>
+									</b-form-input>
+								</b-form-group> 
+								<b-form-group class="mr-1" label="Phone Calls">
+									<b-form-input 
+										v-model="currentReport.phoneCalls"
+										class="text-right"
+										type="text"
+										name="phoneCalls"
+										@blur="saveReport"
+									>
+									</b-form-input>
+								</b-form-group> 
+							</b-col>
+						</b-row>
+					</b-col>
+				</b-row>
+			</b-col>
+		</b-row>
+
 	</div>
 </template>
 
 <script>
 	export default  {
 
-		name: 'itinerationReportMoreInfo',
+		name: 'reportMoreInfo',
 
 		props: {
 			currentReport: Object,
+			reportType: String,
 		},
 
 		data() {

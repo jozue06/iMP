@@ -4,14 +4,18 @@ import ContactGroupView from './components/contacts/ContactGroupView.vue';
 import ContactFullView from './components/contacts/ContactFullView.vue';
 
 import QuarterlyReportCard from './components/quarterlyReports/QuarterlyReportCard.vue';
-import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReportsList.vue'
+import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReportsList.vue';
 
-import ItinerationReportList from './components/itinerationReports/ItinerationReportList.vue'
-import ItinerationReportCard from './components/itinerationReports/ItinerationReportCard.vue'
+import ItinerationReportList from './components/itinerationReports/ItinerationReportList.vue';
+import ItinerationReportCard from './components/itinerationReports/ItinerationReportCard.vue';
 
-import Login from './components/Login.vue'
-import Forgot from './components/Forgot.vue'
-import Reset from './components/Reset.vue'
+import MAReportList from './components/maReports/MAReportList.vue';
+import MAReportCard from './components/maReports/MAReportCard.vue';
+
+import Login from './components/Globals/Login.vue';
+import Forgot from './components/Globals/Forgot.vue';
+import Reset from './components/Globals/Reset.vue';
+import UserSettings from './components/userSettings/UserSettings.vue';
 
 export default [
 	{
@@ -43,6 +47,14 @@ export default [
 		component: Reset,
 		meta: {
 			requiresAuth: false
+		}
+	},
+	{
+		path: "/user/settings",
+		name: "settings",
+		component: UserSettings,
+		meta: {
+			requiresAuth: true
 		}
 	},
 	{
@@ -81,6 +93,22 @@ export default [
 		path: "/itinerationReport",
 		name: "itinerationReport",
 		component: ItinerationReportCard,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/MAReports",
+		name: "MAReports",
+		component: MAReportList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/MAReport",
+		name: "MAReport",
+		component: MAReportCard,
 		meta: {
 			requiresAuth: true
 		}

@@ -19,6 +19,11 @@ export const sidebarSections = {
 			},
 			{
 				report: 4,
+				route: "/maReports",
+				childMsg: 'MA Reports' 
+			},
+			{
+				report: 5,
 				route: "/contactGroups",
 				childMsg: 'Contact Groups' 
 			},

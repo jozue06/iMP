@@ -57,7 +57,7 @@
 
 <script>
 	import axios from "axios";
-	import getApi from "../utils/getApi"
+	import getApi from "../../utils/getApi"
 	export default {
 		name: 'Login',
 		data() {

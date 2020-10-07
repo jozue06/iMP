@@ -79,7 +79,7 @@
 
 <script>
 	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../NoResults'
+	import NoResults from '../Globals/NoResults'
 	import { ItinReports  } from '../../data/itinReports'
 	import { allowedFields } from "../../constants/tableFields";
 		

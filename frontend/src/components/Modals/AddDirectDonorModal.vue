@@ -2,7 +2,7 @@
 	<section class="add-direct-donor">
 		<b-modal size="xl" ref="addDirectDonorModal" hide-footer>
 			<div class="float-left">
-				<h1>Add Contacts</h1>
+				<h1>+ Add Contacts</h1>
 
 				<form @submit.prevent="onSubmit">
 					<b-form-group label="First Name">

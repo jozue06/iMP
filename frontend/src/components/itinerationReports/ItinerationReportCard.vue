@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ItinerationReportTop v-bind:itinReport="currentReport"/>
+				<ReportTop v-bind:currentReport="currentReport" reportType="itin" linkTo="/itinerationReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ItinerationReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" reportType="itin" @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -47,7 +47,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)"> + Add Expense Line </b-button>
+							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)">+ Add Expense Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -86,7 +86,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showOfferingLineModal(null)"> + Add Offering Line </b-button>
+							<b-button size="sm" variant="primary" @click="showOfferingLineModal(null)">+ Add Offering Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -121,7 +121,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)"> + Add Mileage Log </b-button>
+							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)">+ Add Mileage Log </b-button>
 						</b-col>
 					</b-row>
 				</b-tab>
@@ -153,13 +153,13 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				isQtrReport:false
+				v-bind:isQtrReport=false
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 
 				v-bind:currentReport="currentReport"
 				ref="mileageLogModal"
-				isQtrReport:false
+				v-bind:isQtrReport=false
 			/>
 			<OfferingLineModal 
 				v-bind:offeringLine="selectedOfferingLine" 
@@ -193,8 +193,8 @@
 	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import MileageLogModal from "../Modals/MileageLogModal";
 	import OfferingLineModal from "../Modals/OfferingLineModal";
-	import ItinerationReportTop from "./ItinerationReportTop";
-	import ItinerationReportMoreInfo from "./ItinerationReportMoreInfo";
+	import ReportTop from "../Globals/ReportTop";
+	import ReportMoreInfo from "../Globals/ReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import { ItinReports } from "../../data/itinReports"
 	import { ExpenseLines } from "../../data/expenseLines";
@@ -207,8 +207,8 @@
 			ExpenseLineModal,
 			MileageLogModal,
 			OfferingLineModal,
-			ItinerationReportTop,
-			ItinerationReportMoreInfo,
+			ReportTop,
+			ReportMoreInfo,
 			ConfirmModal,
 		},
 

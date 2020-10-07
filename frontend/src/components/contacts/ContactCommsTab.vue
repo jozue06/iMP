@@ -1,7 +1,7 @@
 <template>
 	<div>		
 		<div v-if="commsLines && commsLines.length > 0">
-			<b-button variant="primary" class="float-right m-2" size="sm" @click="showCommsModal(null)">Add Communication</b-button>
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showCommsModal(null)">+ Add Communication</b-button>
 			<b-table
 				striped 
 				hover 
@@ -59,7 +59,7 @@
 <script>
 	import CommsModal from "../Modals/CommsModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import NoResults from "../NoResults";
+	import NoResults from "../Globals/NoResults";
 	import { Comms } from "../../data/communications";
 	import { allowedFields } from "../../constants/tableFields";
 

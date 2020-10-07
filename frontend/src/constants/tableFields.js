@@ -79,5 +79,14 @@ export const allowedFields = {
 		"lastName",
 		"district",
 		"amount",
+	],
+
+	vehicleFields: [
+		"name",
+		"make",
+		"model",
+		"year",
+		"active",
+		"default",
 	]
 }
