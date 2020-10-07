@@ -185,7 +185,7 @@
 		props: {
 			expenseLine: Object,
 			currentReport: Object,
-			isQtrReport: Boolean,
+			expenseLineType: Number,
 		},
 		mounted () {
 
@@ -226,14 +226,21 @@
 				this.loading = true;
 				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
 					this.currentReport.expenseLines.push(this.expenseLine);
-				}				
-				if (!this.isQtrReport) {
-					this.expenseLine.itinReportId = this.currentReport._id;
-				} else {
+				}	
+
+				if (this.expenseLineType == 0) {
 					this.expenseLine.qtrReportId = this.currentReport._id;
 				}
 
-				ExpenseLines.save(this.expenseLine, this.isQtrReport).then(res => {
+				if (this.expenseLineType == 1) {
+					this.expenseLine.itinReportId = this.currentReport._id;
+				}  
+
+				if (this.expenseLineType == 3) {
+					this.expenseLine.sdrReportId = this.currentReport._id;
+				}
+
+				ExpenseLines.save(this.expenseLine, this.expenseLineType).then(res => {
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;

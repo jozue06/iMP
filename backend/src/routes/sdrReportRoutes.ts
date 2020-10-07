@@ -13,9 +13,6 @@ export class SDRReportRoutes {
 	public authController: AuthController = new AuthController();
 	public sdrReportController: SDRReportController = new SDRReportController();
 	public expenseLineController: ExpenseLineController = new ExpenseLineController();
-	public otherIncomeLineController: OtherIncomeLineController = new OtherIncomeLineController();
-	public mileageLogController: MileageLogController = new MileageLogController();
-	public statementController: StatementController = new StatementController();
 
 	constructor() {
 		this.router = Router();

@@ -8,18 +8,19 @@ import ValidationException from '../exceptions/ValidationException';
 export class ExpenseLineController {
 	public createExpenseLine = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const expenseLine = new ExpenseLine(req.body.expenseLine);
+
 		expenseLine.save().then((savedExpenseLine) => {
-			if (req.body.isQtrReport) {
+			if (req.body.expenseLineType == 0) {
 				QtrReport.findOneAndUpdate({ _id: req.body.expenseLine.qtrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			} 
-			if (req.body.isItinReport) {
+			if (req.body.expenseLineType == 1) {
 				ItinReport.findOneAndUpdate({ _id: req.body.expenseLine.itinReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			}
-			if (req.body.isSDRReport) {
+			if (req.body.expenseLineType == 3) {
 				SDRReport.findOneAndUpdate({ _id: req.body.expenseLine.sdrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});

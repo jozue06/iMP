@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" reportType="itin" linkTo="/itinerationReports"/>
+				<ReportTop v-bind:currentReport="currentReport" :reportType=1 linkTo="/itinerationReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" reportType="itin" @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=1 @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -153,7 +153,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				v-bind:isQtrReport=false
+				v-bind:expenseLineType=1
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 

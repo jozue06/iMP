@@ -41,7 +41,7 @@
 		props: {
 			currentReport: Object,
 			linkTo: String,
-			reportType: String,
+			reportType: Number,
 		},
 
 		methods: {
@@ -85,7 +85,7 @@
 
 			saveReport() {				
 				this.loading = true;
-				if (this.reportType == "itin") {
+				if (this.reportType === 1) {
 					ItinReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
@@ -96,7 +96,7 @@
 					});
 				}
 
-				if (this.reportType == "ma") {
+				if (this.reportType === 2) {
 					MAReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
@@ -120,7 +120,7 @@
 
 		computed: {
 			reportName() {
-				return this.reportType == 'itin' ? "Itineration " : "MA "
+				return this.reportType === 1 ? "Itineration " : "MA "
 			}
 		}
 

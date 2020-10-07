@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" reportType="sdr" linkTo="/SDRReports"/>
+				<ReportTop v-bind:currentReport="currentReport" :reportType=3 linkTo="/SDRReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,11 +12,11 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" reportType="sdr" @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=3 @saveReport="saveReport"/>
 			</b-collapse>
 			<b-tabs pills card end>
-				<b-tab title="Itineration ExpenseLines" active>
-					<h4>Itineration Expense Lines</h4>
+				<b-tab title="SDR ExpenseLines" active>
+					<h4>SDR Expense Lines</h4>
 					<b-table
 						v-if="expenseLines && expenseLines.length > 0"
 						striped 
@@ -56,7 +56,7 @@
 					<b-form-textarea
 						class="text-center"
 						v-model="currentReport.comments"
-						placeholder="Leave a note or a prayer request ..."
+						placeholder="Leave a note ..."
 						rows="6"
 						max-rows="12"
 						debounce="2000"
@@ -65,6 +65,18 @@
 					</b-form-textarea>
 				</b-tab>
 			</b-tabs>
+			<ExpenseLineModal 
+				v-bind:expenseLine="selectedExpenseLine" 
+				v-bind:currentReport="currentReport"
+				ref="expenseLineModal"
+				v-bind:expenseLineType=3
+			/>
+			<ConfirmModal 
+				id="confirmDeleteExpenseLine" 
+				title="Delete Expense Lines?" 
+				v-bind:message="confirmDeleteExpenseLineMessage" 
+				@handleConfirm="handleConfirmExpenseLineDelete" 
+			/>
 		</div>	
 	</section>
 </template>
@@ -73,13 +85,17 @@
 	import moment from 'moment';
 	import ReportTop from "../Globals/ReportTop";
 	import ReportMoreInfo from "../Globals/ReportMoreInfo";
+	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
 	import { SDRReports  } from '../../data/sdrReports'
+	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default {
 		components: {
 			ReportTop,
 			ReportMoreInfo,
+			ExpenseLineModal,
+			ConfirmModal,
 		},
 
 		methods: {
@@ -94,13 +110,39 @@
 					console.error('eeek error saving report', e);
 					throw e;
 				});
-			}
+			},
+
+			showExpenseLineModal(rowItem) {
+				if (rowItem) {
+					this.selectedExpenseLine = rowItem;
+				} else {
+					this.selectedExpenseLine = {};
+				}
+				this.$refs.expenseLineModal.$refs.expenseLineModal.show()
+			},
+
+			handleConfirmExpenseLineDelete() {
+				let ids = this.selectedExpenseLines.map(l => l._id);
+				this.selectedExpenseLines.forEach(sel => {
+					this.currentReport.expenseLines.pop(sel);
+				});
+
+				ExpenseLines.deleteExpenseLines(ids);
+			},
+
+			onExpenseLineRowSelected(expenseLine) {
+				this.selectedExpenseLines = expenseLine;
+			},
+
 		},
 		
 		data() {
 			return {
 				loading: false,
 				currentReport: {},
+				selectedExpenseLines: [],
+				selectedExpenseLine: {},
+				expenseLines: [],
 			};
 		},
 
@@ -114,8 +156,9 @@
 					reportId = this.$router.currentRoute.query.reportId;
 				}
 				
-				MAReports.getMaReport(reportId).then(res => {
+				SDRReports.getSDRReport(reportId).then(res => {
 					this.currentReport = res;
+					this.expenseLines = res.expenseLines;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
@@ -126,5 +169,10 @@
 				};
 			}
 		},
+		computed: {
+			confirmDeleteExpenseLineMessage() {
+				return "Are you sure you would like to delete the selected SDR Expense Line(s)?";
+			}
+		}
 	}
 </script>

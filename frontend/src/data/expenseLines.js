@@ -45,7 +45,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	save: handleError(async (payload, isQtrReport) => {
+	save: handleError(async (payload, expenseLineType) => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -53,7 +53,7 @@ export const ExpenseLines = {
 
 		let body = {
 			expenseLine: payload,
-			isQtrReport: isQtrReport,
+			expenseLineType: expenseLineType,
 		}
 
 		if (payload._id) {

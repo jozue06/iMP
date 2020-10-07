@@ -1,6 +1,6 @@
 <template>
 	<div class="sub-card" v-bind:currentReport="currentReport" v-bind:reportType="reportType">
-		<b-row v-if='reportType === "itin"' class="justify-content-around">
+		<b-row v-if='reportType === 1' class="justify-content-around">
 			<b-col cols="2" class="my-2">
 				<b-form-group>
 					<label>Car Miles</label>
@@ -110,7 +110,7 @@
 			</b-col>
 		</b-row>
 
-		<b-row v-if='reportType == "itin"' class="mx-2">
+		<b-row v-if='reportType === 1' class="mx-2">
 			<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 				<label>
 					Support Info
@@ -213,7 +213,7 @@
 			</b-col>
 		</b-row>
 
-		<b-row v-if='reportType == "ma"' class="mx-2">
+		<b-row v-if='reportType === 2' class="mx-2">
 			<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 				<label>
 					Support Info
@@ -357,7 +357,7 @@
 
 		props: {
 			currentReport: Object,
-			reportType: String,
+			reportType: Number,
 		},
 
 		data() {
