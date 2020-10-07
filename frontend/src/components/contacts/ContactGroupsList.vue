@@ -5,7 +5,7 @@
 				<h1 class="pt-2">Groups</h1>
 			</router-link>			
 			<div v-if="groups.length > 0">
-				<b-button variant="primary" class="float-right m-2" size="sm" @click="showGroupModal(null)">Add Group</b-button>
+				<b-button variant="primary" class="float-right m-2" size="sm" @click="showGroupModal(null)">+ Add Group</b-button>
 				<b-table
 					striped 
 					hover 

@@ -47,7 +47,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)"> + Add Expense Line </b-button>
+							<b-button size="sm" variant="primary" @click="showExpenseLineModal(null)">+ Add Expense Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -86,7 +86,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showOfferingLineModal(null)"> + Add Offering Line </b-button>
+							<b-button size="sm" variant="primary" @click="showOfferingLineModal(null)">+ Add Offering Line </b-button>
 						</b-col>	
 					</b-row>
 				</b-tab>
@@ -121,7 +121,7 @@
 							</b-button>
 						</b-col>
 						<b-col cols="2" class="my-2">
-							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)"> + Add Mileage Log </b-button>
+							<b-button size="sm" variant="primary" @click="showMileageLogModal(null)">+ Add Mileage Log </b-button>
 						</b-col>
 					</b-row>
 				</b-tab>

@@ -5,13 +5,13 @@ const topMenuTemplates = [
         label: 'File',
         submenu: [
             {
-                label: 'Add shit',
+                label: 'Add',
                 click() {
-                    createWindow(500, 500, 'Add Shithuh?', 'addShitWindow.html');
+                    createWindow(500, 500, 'Add', 'addWindow.html');
                 }
             },
             {
-                label: 'Add more shit',
+                label: 'Add more',
             },
             {
                 label: 'Quit',

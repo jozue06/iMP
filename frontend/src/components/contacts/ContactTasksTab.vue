@@ -1,7 +1,7 @@
 <template>
 	<div>	
 		<div v-if="taskLines && taskLines.length > 0">
-			<b-button variant="primary" class="float-right m-2" size="sm" @click="showTaskModal(null)">Add Task</b-button>
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showTaskModal(null)">+ Add Task</b-button>
 
 			<b-table
 				striped 

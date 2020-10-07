@@ -1,7 +1,7 @@
 <template>
 	<div>			
 		<div v-if="eventLines && eventLines.length > 0">
-			<b-button variant="primary" class="float-right m-2" size="sm" @click="showEventModal(null)">Add Event</b-button>
+			<b-button variant="primary" class="float-right m-2" size="sm" @click="showEventModal(null)">+ Add Event</b-button>
 			<b-table
 				striped 
 				hover 
