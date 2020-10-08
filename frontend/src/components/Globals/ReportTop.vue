@@ -35,6 +35,7 @@
 <script>
 	import { ItinReports } from "../../data/itinReports";
 	import { MAReports } from "../../data/maReports";
+	import { SDRReports } from "../../data/sdrReports";
 	import { months } from "../../constants/months";
 
 	export default {
@@ -106,6 +107,17 @@
 						throw e;
 					});
 				}
+
+				if (this.reportType === 3) {
+					SDRReports.save(this.currentReport).then(res => {
+						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
+						this.loading = false;
+					}).catch(e => {
+						console.error('eeek ', e);
+						this.loading = false;
+						throw e;
+					});
+				}
 			},
 		},
 		
@@ -120,7 +132,17 @@
 
 		computed: {
 			reportName() {
-				return this.reportType === 1 ? "Itineration " : "MA "
+				let name = "";
+				if (this.reportType === 1) {
+					name = "Itineration ";
+				}
+				if (this.reportType === 2) {
+					name = "MA ";
+				} 
+				if (this.reportType === 3) {
+					name = "SDR ";
+				} 
+				return name;
 			}
 		}
 

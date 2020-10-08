@@ -151,7 +151,7 @@
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
 					reportId = this.$router.currentRoute.params.reportId;
-					this.$router.push({ path: 'SDRReport', query: { reportId: reportId}});
+					this.$router.replace({ path: 'SDRReport', query: { reportId: reportId}});
 				} else {
 					reportId = this.$router.currentRoute.query.reportId;
 				}
@@ -172,7 +172,24 @@
 		computed: {
 			confirmDeleteExpenseLineMessage() {
 				return "Are you sure you would like to delete the selected SDR Expense Line(s)?";
-			}
+			},
+			expenseFields() {
+				if (this.expenseLines[0]) {
+					return Object.keys(this.expenseLines[0]).map(f => {
+						let tmp = {};
+						tmp.sortable = false;
+						
+						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
+							tmp.key = "";
+						} else {
+							tmp.key = f;
+						}
+						return tmp;
+					});
+				} else {
+					return [];
+				}
+			},
 		}
 	}
 </script>

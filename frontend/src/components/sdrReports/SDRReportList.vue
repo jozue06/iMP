@@ -14,6 +14,7 @@
 						+ New SDR Report
 					</b-button>
 				</router-link>
+				
 				<b-table
 					striped 
 					hover 
@@ -152,9 +153,9 @@
 			fields() {
 				let keys = Object.keys(this.reports[0]).map(f => {
 					let tmp = {};
-					tmp.sortable = true;
-
-					if (allowedFields.itinReports.includes(f)) {
+					
+					if (allowedFields.sdrReports.includes(f)) {
+						tmp.sortable = true;
 						tmp.key = f;
 					} else { 
 						tmp.key = "";

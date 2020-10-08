@@ -332,7 +332,7 @@
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
 					reportId = this.$router.currentRoute.params.reportId;
-					this.$router.push({ path: 'itinerationReport', query: { reportId: reportId}});
+					this.$router.replace({ path: 'itinerationReport', query: { reportId: reportId}});
 				} else {
 					reportId = this.$router.currentRoute.query.reportId;
 				}

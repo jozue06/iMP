@@ -81,6 +81,13 @@ export const allowedFields = {
 		"amount",
 	],
 
+	sdrReports: [
+		"sdrNumber",
+		"field",
+		"sdrAmount",
+		"sdrDate",
+	],
+
 	vehicleFields: [
 		"name",
 		"make",
