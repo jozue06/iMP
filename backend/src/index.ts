@@ -13,6 +13,7 @@ import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import { ItinReportRoutes } from "./routes/itinReportRoutes";
 import { MAReportRoutes } from "./routes/maReportRoutes";
 import { SDRReportRoutes } from "./routes/sdrReportRoutes";
+import { InstitutionalReportRoutes } from "./routes/institutionalReportRoutes";
 import { SettingsRoutes } from "./routes/settingsRoutes";
 import { VehicleRoutes } from "./routes/vehicleRoutes";
 
@@ -38,6 +39,7 @@ class Server {
 		this.app.use("/", new SettingsRoutes().router);
 		this.app.use("/", new VehicleRoutes().router);
 		this.app.use("/", new SDRReportRoutes().router);
+		this.app.use("/", new InstitutionalReportRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
 		});

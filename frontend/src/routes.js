@@ -9,6 +9,9 @@ import QuarterlyReportsList from './components/quarterlyReports/QuarterlyReports
 import ItinerationReportList from './components/itinerationReports/ItinerationReportList.vue';
 import ItinerationReportCard from './components/itinerationReports/ItinerationReportCard.vue';
 
+import InstitutionalReportList from './components/institutionalReports/InstitutionalReportList.vue';
+import InstitutionalReportCard from './components/institutionalReports/InstitutionalReportCard.vue';
+
 import MAReportList from './components/maReports/MAReportList.vue';
 import MAReportCard from './components/maReports/MAReportCard.vue';
 
@@ -64,6 +67,14 @@ export default [
 		path: "/contacts", 
 		name: "contacts",
 		component: ContactsList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/contactFullView/:contactId",
+		name: "contactFullView",
+		component: ContactFullView,
 		meta: {
 			requiresAuth: true
 		}
@@ -133,9 +144,17 @@ export default [
 		}
 	},
 	{
-		path: "/contactFullView/:contactId",
-		name: "contactFullView",
-		component: ContactFullView,
+		path: "/institutionalReports",
+		name: "institutionalReports",
+		component: InstitutionalReportList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/institutionalReport",
+		name: "institutionalReport",
+		component: InstitutionalReportCard,
 		meta: {
 			requiresAuth: true
 		}

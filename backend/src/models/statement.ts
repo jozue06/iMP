@@ -1,7 +1,8 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface IStatement {
-	qtrReport: string,
+	qtrReport?: string,
+	institutionalReport?: string,
 	user: string,
 	dateOne?: string;
 	amountOne?: number;
@@ -18,6 +19,11 @@ const StatementSchema = new Schema({
 	qtrReport: {
 		type: Schema.Types.ObjectId,
 		ref: "qtrReport",
+	},
+
+	institutionalReport: {
+		type: Schema.Types.ObjectId,
+		ref: "institutionalReport",
 	},
 
 	user: {
