@@ -14,6 +14,7 @@
 			<b-collapse id="collapse-info">
 				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=3 @saveReport="saveReport"/>
 			</b-collapse>
+			
 			<b-tabs pills card end>
 				<b-tab title="SDR ExpenseLines" active>
 					<h4>SDR Expense Lines</h4>

@@ -400,15 +400,8 @@
 					></b-form-datepicker>
 				</b-form-group> 
 			</b-row>
-		</div>
-		<div class="sub-card">
+		
 			<b-row v-if='reportType === 3' class="mx-2 justify-content-around">
-				<b-col cols="12" class="mt-2">
-					<p class="text-center">
-						SDR Account Info
-					</p>
-				</b-col>
-
 				<b-form-group class="mr-1" label="Receiving Funds">
 					<b-input-group prepend="$">
 						<b-form-input 
@@ -458,6 +451,79 @@
 				</b-form-group> 
 			</b-row>
 		</div>
+		
+		<div class="sub-card">
+			<b-row v-if='reportType === 3' class="mx-2 justify-content-around">
+				<b-col cols="12" class="mt-2">
+					<p class="text-center">
+						SDR Account Info
+					</p>
+				</b-col>
+
+				<b-form-group class="mr-1" label="Purpose">
+					<b-form-input 
+						v-model="currentReport.purpose"
+						class="text-right"
+						type="text"
+						name="purpose"
+						@blur="saveReport"
+					>
+					</b-form-input>
+				</b-form-group> 
+
+				<b-form-group class="mr-1" label="Account Charged">
+					<b-form-input 
+						v-model="currentReport.accountCharged"
+						class="text-right"
+						type="text"
+						name="accountCharged"
+						@blur="saveReport"
+					>
+					</b-form-input>
+				</b-form-group> 
+
+				<b-col cols="2">
+					<b-form-group class="mr-1" label="Class">
+						<b-form-input 
+							v-model="currentReport.class"
+							class="text-right"
+							type="text"
+							name="class"
+							@blur="saveReport"
+						>
+						</b-form-input>
+					</b-form-group> 
+				</b-col>
+
+				<b-col cols="2">
+					<b-form-group class="mr-1" label="Source">
+						<b-form-input 
+							v-model="currentReport.source"
+							class="text-right"
+							type="text"
+							name="source"
+							@blur="saveReport"
+						>
+						</b-form-input>
+					</b-form-group> 
+				</b-col>
+
+				<b-form-group class="mr-1" label="Amount">
+					<b-input-group prepend="$">
+						<b-form-input 
+							v-model="currentReport.sdrAmount"
+							class="text-right"
+							type="text"
+							name="sdrAmount"
+							lazy-formatter
+							:formatter="$formatMoney"
+							@blur="saveReport"
+						>
+						</b-form-input>
+					</b-input-group> 
+				</b-form-group> 
+			</b-row>
+		</div>
 	</div>	
 </template>
 
@@ -481,6 +547,6 @@
 				this.$emit("saveReport");
 			}
 		},
-}
+	}
 
 </script>
