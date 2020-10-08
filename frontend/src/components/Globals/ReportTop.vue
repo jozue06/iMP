@@ -1,22 +1,39 @@
 <template>
 	<div class="card-header mt-4">
 		<router-link :to=linkTo>
-			<h3 class="pt-2">Report for {{ $GetMonth(currentReport.month) }} {{ formatDate(currentReport.year) }} </h3>
+			<h3 v-if="reportType != 3" class="pt-2">Report for {{ $GetMonth(currentReport.month) }} {{ formatDate(currentReport.year) }} </h3>
+			<h3 v-if="reportType == 3" class="pt-2">Report for {{ formatDate(currentReport.sdrDate) }} </h3>
 		</router-link>
 		<b-row>
-			<b-col>
+			<b-col v-if="reportType != 3">
 				<b-form-group label="Month">
 					<b-form-select v-model="currentReport.month" :options="monthOptions" @change="formatMonthForSave">
 					</b-form-select>
 				</b-form-group>
 			</b-col>
 
-			<b-col>
+			<b-col v-if="reportType != 3">
 				<b-form-group label="Year">
 					<YearSelector v-model="currentReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
 				</b-form-group>
 			</b-col>
-			<b-col>
+
+			<!-- <b-col v-if="reportType === 3">
+				<b-form-group label="Import Btn">
+					Import
+				</b-form-group>
+			</b-col> -->
+
+			<b-col cols="4" v-if="reportType === 3">
+				<b-form-group label="Foreign or US based SDR?">
+					<b-form-select v-model="currentReport.reportLocationType">
+						<option value=0>US</option>
+						<option value=1>Foreign</option>
+					</b-form-select>
+				</b-form-group>
+			</b-col>
+
+			<b-col cols="4">
 				<b-form-group class="mr-1" label="Date Completed">
 					<b-form-datepicker
 						required
