@@ -114,7 +114,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				v-bind:isQtrReport=true
+				v-bind:isQtrReportexpenseLineType=0
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 
@@ -255,7 +255,7 @@
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
 					reportId = this.$router.currentRoute.params.reportId;
-					this.$router.push({ path: 'quarterlyReport', query: { reportId: reportId}});
+					this.$router.replace({ path: 'quarterlyReport', query: { reportId: reportId}});
 				} else {
 					reportId = this.$router.currentRoute.query.reportId;
 				}
@@ -275,15 +275,15 @@
 				};
 				QuarterlyReports.save(currentReport).then(res => {
 					this.currentReport = res;
-					this.$router.push({ path: 'quarterlyReport', query: { reportId: res._id}});
+					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});
 				});
 			}
 		},
 
 		computed: {
-			expenseFields() {				
+			expenseFields() {
 				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {						
+					return Object.keys(this.expenseLines[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						

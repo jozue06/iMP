@@ -1,22 +1,39 @@
 <template>
 	<div class="card-header mt-4">
 		<router-link :to=linkTo>
-			<h3 class="pt-2">Report for {{ $GetMonth(currentReport.month) }} {{ formatDate(currentReport.year) }} </h3>
+			<h3 v-if="reportType != 3" class="pt-2">Report for {{ $GetMonth(currentReport.month) }} {{ formatDate(currentReport.year) }} </h3>
+			<h3 v-if="reportType == 3" class="pt-2">Report for {{ formatDate(currentReport.sdrDate) }} </h3>
 		</router-link>
 		<b-row>
-			<b-col>
+			<b-col v-if="reportType != 3">
 				<b-form-group label="Month">
 					<b-form-select v-model="currentReport.month" :options="monthOptions" @change="formatMonthForSave">
 					</b-form-select>
 				</b-form-group>
 			</b-col>
 
-			<b-col>
+			<b-col v-if="reportType != 3">
 				<b-form-group label="Year">
 					<YearSelector v-model="currentReport.year" @selected="formatYearForSave" placeHolder="Please Select A Year"/>
 				</b-form-group>
 			</b-col>
-			<b-col>
+
+			<!-- <b-col v-if="reportType === 3">
+				<b-form-group label="Import Btn">
+					Import
+				</b-form-group>
+			</b-col> -->
+
+			<b-col cols="4" v-if="reportType === 3">
+				<b-form-group label="Foreign or US based SDR?">
+					<b-form-select v-model="currentReport.reportLocationType">
+						<option value=0>US</option>
+						<option value=1>Foreign</option>
+					</b-form-select>
+				</b-form-group>
+			</b-col>
+
+			<b-col cols="4">
 				<b-form-group class="mr-1" label="Date Completed">
 					<b-form-datepicker
 						required
@@ -35,13 +52,14 @@
 <script>
 	import { ItinReports } from "../../data/itinReports";
 	import { MAReports } from "../../data/maReports";
+	import { SDRReports } from "../../data/sdrReports";
 	import { months } from "../../constants/months";
 
 	export default {
 		props: {
 			currentReport: Object,
 			linkTo: String,
-			reportType: String,
+			reportType: Number,
 		},
 
 		methods: {
@@ -85,7 +103,7 @@
 
 			saveReport() {				
 				this.loading = true;
-				if (this.reportType == "itin") {
+				if (this.reportType === 1) {
 					ItinReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
@@ -96,8 +114,19 @@
 					});
 				}
 
-				if (this.reportType == "ma") {
+				if (this.reportType === 2) {
 					MAReports.save(this.currentReport).then(res => {
+						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
+						this.loading = false;
+					}).catch(e => {
+						console.error('eeek ', e);
+						this.loading = false;
+						throw e;
+					});
+				}
+
+				if (this.reportType === 3) {
+					SDRReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
 					}).catch(e => {
@@ -120,7 +149,17 @@
 
 		computed: {
 			reportName() {
-				return this.reportType == 'itin' ? "Itineration " : "MA "
+				let name = "";
+				if (this.reportType === 1) {
+					name = "Itineration ";
+				}
+				if (this.reportType === 2) {
+					name = "MA ";
+				} 
+				if (this.reportType === 3) {
+					name = "SDR ";
+				} 
+				return name;
 			}
 		}
 

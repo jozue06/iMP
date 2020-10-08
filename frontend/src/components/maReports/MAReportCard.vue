@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" reportType="ma" linkTo="/MAReports"/>
+				<ReportTop v-bind:currentReport="currentReport" :reportType=2 linkTo="/MAReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" reportType="ma" @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=2 @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-card title="Prayer Requests & Comments">
@@ -72,7 +72,7 @@
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
 					reportId = this.$router.currentRoute.params.reportId;
-					this.$router.push({ path: 'maReport', query: { reportId: reportId}});
+					this.$router.replace({ path: 'MAReport', query: { reportId: reportId}});
 				} else {
 					reportId = this.$router.currentRoute.query.reportId;
 				}

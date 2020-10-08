@@ -19,19 +19,19 @@ export const sidebarSections = {
 			},
 			{
 				report: 4,
-				route: "/maReports",
+				route: "/MAReports",
 				childMsg: 'MA Reports' 
 			},
 			{
 				report: 5,
+				route: "/SDRReports",
+				childMsg: 'SDR Reports' 
+			},
+			{
+				report: 6,
 				route: "/contactGroups",
 				childMsg: 'Contact Groups' 
 			},
-			// {
-			// 	report: 5,
-			// 	route: "/reportName",
-			// 	childMsg: 'make isti report' 
-			// },
 		]
 	},
 

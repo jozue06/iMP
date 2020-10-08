@@ -12,6 +12,9 @@ import ItinerationReportCard from './components/itinerationReports/ItinerationRe
 import MAReportList from './components/maReports/MAReportList.vue';
 import MAReportCard from './components/maReports/MAReportCard.vue';
 
+import SDRReportList from './components/sdrReports/SDRReportList.vue';
+import SDRReportCard from './components/sdrReports/SDRReportCard.vue';
+
 import Login from './components/Globals/Login.vue';
 import Forgot from './components/Globals/Forgot.vue';
 import Reset from './components/Globals/Reset.vue';
@@ -109,6 +112,22 @@ export default [
 		path: "/MAReport",
 		name: "MAReport",
 		component: MAReportCard,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/SDRReports",
+		name: "SDRReports",
+		component: SDRReportList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/SDRReport",
+		name: "SDRReport",
+		component: SDRReportCard,
 		meta: {
 			requiresAuth: true
 		}
