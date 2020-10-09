@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=3 linkTo="/SDRReports"/>
+				<ReportTop v-bind:currentReport="currentReport" :reportType=4 linkTo="/institutionalReports"/>
 			</div>
 
 			<b-row class="justify-content-around">

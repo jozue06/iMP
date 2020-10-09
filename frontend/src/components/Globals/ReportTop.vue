@@ -33,7 +33,7 @@
 				</b-form-group>
 			</b-col>
 
-			<b-col cols="4">
+			<b-col cols="2">
 				<b-form-group class="mr-1" label="Date Completed">
 					<b-form-datepicker
 						required
@@ -44,6 +44,26 @@
 						@change="saveReport"
 					></b-form-datepicker>
 				</b-form-group> 
+			</b-col>
+
+			<b-col v-if="reportType === 4" cols="4">
+				<b-form-group label="Beginning work funds Amount">
+					<b-input-group prepend="$">
+						<b-form-input
+							class="text-right"
+							type="text" 
+							v-model="currentReport.beginningAmount" 
+							required
+							placeholder="0.00"
+							name="beginningAmount"
+							lazy-formatter
+							:formatter="$formatMoney"
+						></b-form-input>
+						<b-input-group-append>
+							<b-button variant="outline-secondary" :disabled="true">Get Previous Funds</b-button>
+						</b-input-group-append>
+					</b-input-group>
+				</b-form-group>
 			</b-col>
 		</b-row>
 	</div>	

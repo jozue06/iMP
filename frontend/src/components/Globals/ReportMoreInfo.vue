@@ -529,6 +529,23 @@
 
 			<!-- ***  *** -->
 
+			<b-row v-if='reportType === 4' class="ml-2 mr-2 justify-content-between">
+				<b-col cols="4" class="my-2">
+					<b-form-group class="mr-1" label="Institution">
+						institution (name plus account number)
+					</b-form-group> 
+				</b-col>
+				<b-col cols="3" class="my-2">
+					<b-form-group label="Field">
+						<b-form-select
+							:options="countries"
+							v-model="currentReport.field"
+							name="field"
+						></b-form-select>
+					</b-form-group> 
+				</b-col>
+			</b-row>
+
 			<b-row v-if='reportType === 4' class="mx-2 justify-content-around">
 				<b-col cols="2" class="my-2">
 					<b-form-group class="mr-1" label="US Bank Funds">
@@ -593,9 +610,7 @@
 						</b-input-group>
 					</b-form-group> 
 				</b-col>
-			</b-row>
-			<b-row class="ml-2 mr-2">
-				<b-col cols="4" class="my-2">
+				<b-col cols="2" class="my-2">
 					<b-form-group class="mr-1" label="non-LFTL SDR Balance">
 						<b-input-group prepend="$">
 							<b-form-input 
@@ -611,39 +626,8 @@
 						</b-input-group>
 					</b-form-group> 
 				</b-col>
-				<b-col cols="4" class="my-2">
-					<b-form-group class="mr-1" label="Deficit Reimbursement">
-						<b-input-group prepend="$">
-							<b-form-input 
-								v-model="currentReport.deficitReimbursement"
-								class="text-right"
-								type="text"
-								name="deficitReimbursement"
-								lazy-formatter
-								:formatter="$formatMoney"
-								@blur="saveReport"
-							>
-							</b-form-input>
-						</b-input-group>
-					</b-form-group> 
-				</b-col>
-				<b-col cols="4" class="my-2">
-					<b-form-group class="mr-1" label="Other AGWM Income">
-						<b-input-group prepend="$">
-							<b-form-input 
-								v-model="currentReport.otherAGWMIncome"
-								class="text-right"
-								type="text"
-								name="otherAGWMIncome"
-								lazy-formatter
-								:formatter="$formatMoney"
-								@blur="saveReport"
-							>
-							</b-form-input>
-						</b-input-group>
-					</b-form-group> 
-				</b-col>
 			</b-row>
+			
 			<b-row class="mx-2">
 				<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 					<label>
@@ -699,6 +683,7 @@
 
 <script>
 	import StatementModal from "../Modals/StatementModal";
+	import { COUNTRIES } from "@/constants/statesAndCountries";
 	export default  {
 		name: 'reportMoreInfo',
 
@@ -713,6 +698,7 @@
 
 		data() {
 			return {
+				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 			}
 		},
 
@@ -727,6 +713,13 @@
 		},
 
 		computed: {
+			statement() {
+				if (this.currentReport.statement) {
+					return this.currentReport.statement;
+				}
+				return {}
+			},
+
 			statementReimbursementTotal() {
 				let amt = 0;
 				if (this.statement.reimbursementOne) {
