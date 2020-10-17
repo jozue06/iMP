@@ -30,7 +30,7 @@ export class ExpenseLineController {
 			}
 
 			if (req.body.expenseLineType === 4) {
-				InstitutionalReport.findOneAndUpdate({ _id: req.body.expenseLine.reportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+				InstitutionalReport.findOneAndUpdate({ _id: req.body.expenseLine.institutionalReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			}

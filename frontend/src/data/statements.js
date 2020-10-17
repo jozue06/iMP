@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
 
-const baseURL = `${getApi()}qtrReports/statements`;
+const baseURL = `${getApi()}statements`;
 
 const handleError = fn => (...params) =>
 	fn(...params).catch(e => {

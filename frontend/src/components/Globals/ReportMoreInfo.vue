@@ -530,10 +530,33 @@
 			<!-- ***  *** -->
 
 			<b-row v-if='reportType === 4' class="ml-2 mr-2 justify-content-between">
-				<b-col cols="4" class="my-2">
+				<b-col cols="2" class="my-2">
 					<b-form-group class="mr-1" label="Institution">
-						institution (name plus account number)
-					</b-form-group> 
+						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF ACCOUNT NAME AND ACCOUNT NUMBER -->
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="currentReport.institution" 
+									name="institution"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</b-col>
+					<b-col cols="2" class="my-2">
+						<b-form-group class="mr-1" label="Account">
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="currentReport.account" 
+									required
+									name="account"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
 				</b-col>
 				<b-col cols="3" class="my-2">
 					<b-form-group label="Field">

@@ -8,10 +8,10 @@ export interface InstitutionalReportInterface {
 	user: string,
 
 	institution: string,
-	account?: string,
+	account: string,
 	field?: string,
 
-	quarterNumber: number,
+	month: number,
 	year: string,
 	beginningAmount?: number,
 
@@ -36,7 +36,7 @@ const InstitutionalReportSchema = new Schema({
 		required: true,
 	},
 
-	quarterNumber: {
+	month: {
 		type: Number,
 		required: true,
 	},
@@ -53,7 +53,7 @@ const InstitutionalReportSchema = new Schema({
 
 	account: {
 		type: String,
-		required: false,
+		required: true,
 	},
 
 	field: {

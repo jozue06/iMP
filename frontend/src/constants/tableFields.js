@@ -95,5 +95,11 @@ export const allowedFields = {
 		"year",
 		"active",
 		"default",
-	]
+	],
+
+	institutionalReports: [
+		"institution",
+		"year",
+		"usBankFunds",
+	],
 }

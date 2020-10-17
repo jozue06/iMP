@@ -7,9 +7,12 @@ export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const statement = new Statement(req.body.statement);
 		statement.save().then(savedStatement => {
-			QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId },{statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+
+			// fix add Itinerationrpt, MArpt, SDRrepot, institutional rpt (like expenselines)
+			QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 				res.send(saved);
 			});
+
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(JSON.stringify(e.errors)));

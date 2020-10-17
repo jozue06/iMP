@@ -7,7 +7,7 @@
 		
 			<div v-if="reports.length > 0">
 				<router-link
-					to="/MAReport"
+					to="/SDRReport"
 					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">

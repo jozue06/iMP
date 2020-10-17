@@ -240,6 +240,10 @@
 					this.expenseLine.sdrReportId = this.currentReport._id;
 				}
 
+				if (this.expenseLineType == 4) {
+					this.expenseLine.institutionalReportId = this.currentReport._id;
+				}
+
 				ExpenseLines.save(this.expenseLine, this.expenseLineType).then(res => {
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
