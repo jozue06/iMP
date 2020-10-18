@@ -201,9 +201,7 @@
 					this.statement.institutionalReportId = this.currentReport._id;
 				}
 
-				this.statement.reportType = this.reportType;
-				console.log('saving statement' , this.statement);
-				
+				this.statement.reportType = this.reportType;				
 				this.loading = true;
 				Statements.save(this.statement).then(res => {
 					this.$refs.statementModal.hide();

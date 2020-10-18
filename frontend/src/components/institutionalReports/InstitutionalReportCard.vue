@@ -171,9 +171,7 @@
 					institution: "-",
 					account: "-",
 					year: moment().format("YYYY"),
-				};
-				console.log('currentReport to save: ', currentReport);
-				
+				};				
 				InstitutionalReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'institutionalReport', query: { reportId: res._id}});
