@@ -29,6 +29,7 @@ export class MAReportController {
 
 	public getMAReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		MAReport.findById(req.params.id)
+			.populate("statement")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {

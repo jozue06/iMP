@@ -1,4 +1,5 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
+import { StatementDocument } from "./statement";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 
 export interface MAReportInterface {
@@ -25,7 +26,7 @@ export interface MAReportInterface {
 
 	receiptBooksNeeded?: number,
 	commitmentFormsNeeded?: number,
-	
+	statement?: StatementDocument,
 	comments?: string,
 }
 
@@ -98,6 +99,13 @@ const MAReportSchema = new Schema({
 		type: Number,
 		default: 0,
 	},
+
+	statement: {
+		type: Schema.Types.ObjectId,
+		ref: 'statement',
+		defaut: []
+	},
+
 	comments: {
 		type: String,
 	},	

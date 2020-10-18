@@ -189,6 +189,10 @@
 					this.statement.itinReportId = this.currentReport._id;
 				}  
 
+				if (this.reportType == 2) {
+					this.statement.maReportId = this.currentReport._id;
+				}
+
 				if (this.reportType == 3) {
 					this.statement.sdrReportId = this.currentReport._id;
 				}

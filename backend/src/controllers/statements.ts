@@ -5,6 +5,7 @@ import { InstitutionalReport } from "../models/institutionalReport";
 import { Statement } from "../models/statement";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
+import { MAReport } from "../models/maReport";
 
 export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {		
@@ -20,6 +21,11 @@ export class StatementController {
 
 			if (reportType === 1) {
 				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			}
+			if (reportType === 2) {
+				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			}

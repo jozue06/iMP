@@ -35,6 +35,11 @@ const StatementSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: "sdrReport",
 	},
+
+	maReportId: {
+		type: Schema.Types.ObjectId,
+		ref: "maReport",
+	},
 	
 	user: {
 		type: Schema.Types.ObjectId,
