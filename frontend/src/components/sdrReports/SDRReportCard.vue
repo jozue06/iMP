@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=3 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=3 @saveReport="saveReport"/>
 			</b-collapse>
 			
 			<b-tabs pills card end>
@@ -144,6 +144,7 @@
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
 				expenseLines: [],
+				statement: {},
 			};
 		},
 
@@ -160,14 +161,20 @@
 				SDRReports.getSDRReport(reportId).then(res => {
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
+					this.statement = res.statement;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
 			} else {
-				this.currentReport = {
+				let currentReport = {
 					month: 1,
 					year: moment().format("YYYY"),
 				};
+
+				SDRReports.save(currentReport).then(res => {
+					this.currentReport = res;
+					this.$router.replace({ path: 'SDRReport', query: { reportId: res._id}});
+				});
 			}
 		},
 		computed: {

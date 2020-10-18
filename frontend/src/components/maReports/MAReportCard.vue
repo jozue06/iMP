@@ -90,7 +90,7 @@
 					year: moment().format("YYYY"),
 				};
 
-				MAReports.save(currentReport).then(res => {					
+				MAReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'MAReport', query: { reportId: res._id}});
 				});
