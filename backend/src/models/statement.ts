@@ -16,16 +16,26 @@ export interface IStatement {
 }
 
 const StatementSchema = new Schema({
-	qtrReport: {
+	qtrReportId: {
 		type: Schema.Types.ObjectId,
 		ref: "qtrReport",
 	},
 
-	institutionalReport: {
+	institutionalReportId: {
 		type: Schema.Types.ObjectId,
 		ref: "institutionalReport",
 	},
-
+	
+	itinReportId: {
+		type: Schema.Types.ObjectId,
+		ref: "itinerationReport",
+	},
+	
+	sdrReportId: {
+		type: Schema.Types.ObjectId,
+		ref: "sdrReport",
+	},
+	
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "user",

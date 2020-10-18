@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" @saveReport="saveReport"/>				
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -273,7 +273,7 @@
 					quarterNumber: 1,
 					year: moment().format("YYYY"),
 				};
-				QuarterlyReports.save(currentReport).then(res => {
+				QuarterlyReports.save(currentReport).then(res => {					
 					this.currentReport = res;
 					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});
 				});

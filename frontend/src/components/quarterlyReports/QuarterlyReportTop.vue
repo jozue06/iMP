@@ -103,6 +103,7 @@
 				QuarterlyReports.save(this.quarterlyReport).then(res => {
 					this.$Notification("Success!", "Successfully Saved the Quarterly Report");
 					this.loading = false;
+					this.quarterlyReport = res
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.loading = false;

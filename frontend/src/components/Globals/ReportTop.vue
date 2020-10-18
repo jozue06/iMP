@@ -73,6 +73,7 @@
 	import { ItinReports } from "../../data/itinReports";
 	import { MAReports } from "../../data/maReports";
 	import { SDRReports } from "../../data/sdrReports";
+	import { InstitutionalReports } from "../../data/institutionalReports";
 	import { months } from "../../constants/months";
 
 	export default {
@@ -127,6 +128,7 @@
 					ItinReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
+						this.currentReport = res;
 					}).catch(e => {
 						console.error('eeek ', e);
 						this.loading = false;
@@ -138,6 +140,7 @@
 					MAReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
+						this.currentReport = res;
 					}).catch(e => {
 						console.error('eeek ', e);
 						this.loading = false;
@@ -149,6 +152,19 @@
 					SDRReports.save(this.currentReport).then(res => {
 						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
 						this.loading = false;
+						this.currentReport = res;
+					}).catch(e => {
+						console.error('eeek ', e);
+						this.loading = false;
+						throw e;
+					});
+				}
+
+				if (this.reportType === 4) {
+					InstitutionalReports.save(this.currentReport).then(res => {
+						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
+						this.loading = false;
+						this.currentReport = res;
 					}).catch(e => {
 						console.error('eeek ', e);
 						this.loading = false;

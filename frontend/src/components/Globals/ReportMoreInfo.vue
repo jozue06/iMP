@@ -700,7 +700,13 @@
 				</b-col>
 			</b-row>
 		</div>
-		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" v-bind:statementReimbursementTotal="statementReimbursementTotal"/>
+		<StatementModal 
+			ref="statementModal" 
+			v-bind:currentReport="currentReport" 
+			v-bind:statement="statement" 
+			v-bind:statementReimbursementTotal="statementReimbursementTotal"
+			v-bind:reportType="reportType"
+		/>
 	</div>	
 </template>
 
