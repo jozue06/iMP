@@ -6,7 +6,7 @@ import ValidationException from '../exceptions/ValidationException';
 export class InstitutionalReportController {
 	public createInstitutionalReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		User.findById(userId).then(user => {
-			const institutionalReport = req.body.institutionalReport;
+			const institutionalReport = req.body.institutionalReport;			
 			institutionalReport.user = user._id;
 			const newInstitutionalReport = new InstitutionalReport(institutionalReport);
 			newInstitutionalReport.save().then((report: InstitutionalReportDocument) => {

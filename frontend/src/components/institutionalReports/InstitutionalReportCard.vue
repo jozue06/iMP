@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=4 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=4 @saveReport="saveReport"/>
 			</b-collapse>
 			
 			<b-tabs pills card end>
@@ -143,6 +143,7 @@
 				currentReport: {},
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
+				statement: {},
 				expenseLines: [],
 			};
 		},
@@ -160,14 +161,23 @@
 				InstitutionalReports.getInstitutionalReport(reportId).then(res => {
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
+					this.statement = res.statement;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
 			} else {
-				this.currentReport = {
+				let currentReport = {
 					month: 1,
+					institution: "-",
+					account: "-",
 					year: moment().format("YYYY"),
 				};
+				console.log('currentReport to save: ', currentReport);
+				
+				InstitutionalReports.save(currentReport).then(res => {
+					this.currentReport = res;
+					this.$router.replace({ path: 'institutionalReport', query: { reportId: res._id}});
+				});
 			}
 		},
 		computed: {
