@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=1 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=1 @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -322,7 +322,7 @@
 				selectedExpenseLine: {},
 				selectedMileageLog: {},
 				selectedOfferingLine: {},
-
+				statement: {},
 				currentReport: {},
 			};
 		},
@@ -342,14 +342,20 @@
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;
 					this.offeringLines = res.offeringLines;
+					this.statement = res.statement;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
 			} else {
-				this.currentReport = {
+				let currentReport = {
 					month: 1,
 					year: moment().format("YYYY"),
 				};
+
+				ItinReports.save(currentReport).then(res => {					
+					this.currentReport = res;
+					this.$router.replace({ path: 'itinerationReport', query: { reportId: res._id}});
+				});
 			}
 		},
 

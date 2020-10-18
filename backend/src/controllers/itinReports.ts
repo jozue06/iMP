@@ -33,6 +33,7 @@ export class ItinReportController {
 			.populate("mileageLogs")
 			.populate("offeringLines")
 			.populate("contact")
+			.populate("statement")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {

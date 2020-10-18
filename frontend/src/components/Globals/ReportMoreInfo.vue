@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-bind:statement="statement">
 		<div class="sub-card">
 			<b-row v-if='reportType === 1' class="justify-content-around">
 				<b-col cols="2" class="my-2">
@@ -657,7 +657,7 @@
 						Statment Info
 					</label>
 					<b-col>				
-						<b-row v-if="statement.dateOne || statement.dateTwo || statement.dateThree" @click="showStatementModal(statement)" class="align-items-center mt-2">
+						<b-row v-if="statement && (statement.dateOne || statement.dateTwo || statement.dateThree)" @click="showStatementModal(statement)" class="align-items-center mt-2">
 							<b-col cols='4'>
 								{{statement.dateOne}}
 								<br>
@@ -723,6 +723,7 @@
 		props: {
 			currentReport: Object,
 			reportType: Number,
+			statement: Object,
 		},
 
 		data() {
@@ -742,25 +743,20 @@
 		},
 
 		computed: {
-			statement() {
-				if (this.currentReport.statement) {
-					return this.currentReport.statement;
-				}
-				return {}
-			},
-
 			statementReimbursementTotal() {
 				let amt = 0;
-				if (this.statement.reimbursementOne) {
-					amt += this.statement.reimbursementOne;
-				}
+				if (this.statement) {
+					if (this.statement.reimbursementOne) {
+						amt += this.statement.reimbursementOne;
+					}
 
-				if (this.statement.reimbursementTwo) {
-					amt += this.statement.reimbursementTwo;
-				}
+					if (this.statement.reimbursementTwo) {
+						amt += this.statement.reimbursementTwo;
+					}
 
-				if (this.statement.reimbursementThree) {
-					amt += this.statement.reimbursementThree;
+					if (this.statement.reimbursementThree) {
+						amt += this.statement.reimbursementThree;
+					}
 				}
 				
 				return "$" + this.$formatMoney(amt);
@@ -768,18 +764,19 @@
 
 			statementAmountTotal() {
 				let amt = 0;
-				if (this.statement.amountOne) {
-					amt += this.statement.amountOne;
-				}
+				if (this.statement) {
+					if (this.statement.amountOne) {
+						amt += this.statement.amountOne;
+					}
 
-				if (this.statement.amountTwo) {
-					amt += this.statement.amountTwo;
-				}
+					if (this.statement.amountTwo) {
+						amt += this.statement.amountTwo;
+					}
 
-				if (this.statement.amountThree) {
-					amt += this.statement.amountThree;
+					if (this.statement.amountThree) {
+						amt += this.statement.amountThree;
+					}
 				}
-				
 				return "$" + this.$formatMoney(amt);
 			},
 
