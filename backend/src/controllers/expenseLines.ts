@@ -1,6 +1,7 @@
 import { QtrReport } from "../models/qrtReport";
 import { SDRReport } from "../models/sdrReport";
 import { ItinReport } from "../models/itinerationReport";
+import { InstitutionalReport } from "../models/institutionalReport";
 import { ExpenseLine } from "../models/expenseLine";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
@@ -10,18 +11,26 @@ export class ExpenseLineController {
 		const expenseLine = new ExpenseLine(req.body.expenseLine);
 
 		expenseLine.save().then((savedExpenseLine) => {
-			if (req.body.expenseLineType == 0) {
+			if (req.body.expenseLineType === 0) {
 				QtrReport.findOneAndUpdate({ _id: req.body.expenseLine.qtrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			} 
-			if (req.body.expenseLineType == 1) {
+			
+			if (req.body.expenseLineType === 1) {
 				ItinReport.findOneAndUpdate({ _id: req.body.expenseLine.itinReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			}
-			if (req.body.expenseLineType == 3) {
+
+			if (req.body.expenseLineType === 3) {
 				SDRReport.findOneAndUpdate({ _id: req.body.expenseLine.sdrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					res.send(saved);
+				});
+			}
+
+			if (req.body.expenseLineType === 4) {
+				InstitutionalReport.findOneAndUpdate({ _id: req.body.expenseLine.institutionalReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 				});
 			}

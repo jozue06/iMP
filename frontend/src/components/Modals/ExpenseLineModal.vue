@@ -1,10 +1,10 @@
 <template>
 	<section class="add-line-modal">
-		<b-modal size="lg" top ref="expenseLineModal" title="add-line-modal Component" hide-footer v-bind:currentReport="currentReport" v-bind:expenseLine="expenseLine">
+		<b-modal size="lg" top ref="expenseLineModal" title="Add Expense Line" hide-footer v-bind:currentReport="currentReport" v-bind:expenseLine="expenseLine">
 			<b-tabs content-class="mt-3">
-				<b-tab title="First" active>
+				<b-tab title="Expense Info" active>
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="date">
+						<b-form-group class="mr-1" label="Date">
 							<b-form-datepicker
 								v-model="expenseLine.date"
 								required
@@ -14,7 +14,7 @@
 							></b-form-datepicker>
 						</b-form-group> 
 
-						<b-form-group class="mr-1" label="method">
+						<b-form-group class="mr-1" label="Method">
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
@@ -29,7 +29,7 @@
 					</div>
 
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="code">
+						<b-form-group class="mr-1" label="Code">
 						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF NUMBER CODE AND DESCRIPTION -->
 							<b-input-group>
 								<b-form-input 
@@ -44,7 +44,7 @@
 							</b-input-group>
 						</b-form-group> 
 
-						<b-form-group class="mr-1" label="code description">
+						<b-form-group class="mr-1" label="Code Description">
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
@@ -59,7 +59,7 @@
 					</div>
 
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="currency">
+						<b-form-group class="mr-1" label="Currency">
 							<b-form-select 
 								v-model="expenseLine.currency" 
 								:options="currencyOptions"
@@ -67,7 +67,7 @@
 							</b-form-select>
 						</b-form-group>
 
-						<b-form-group class="mr-1" label="exchange rate">
+						<b-form-group class="mr-1" label="Exchange Rate">
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
@@ -85,7 +85,7 @@
 					</div>
 
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="foreign moneys">
+						<b-form-group class="mr-1" label="Foreign Amount">
 							<b-input-group prepend="$">
 								<b-form-input 
 									class="text-right"
@@ -101,7 +101,7 @@
 							</b-input-group>
 						</b-form-group> 
 
-						<b-form-group class="mr-1" label="merica moneys">
+						<b-form-group class="mr-1" label="Dollar Amount">
 							<b-input-group prepend="$">
 								<b-form-input 
 									class="text-right"
@@ -238,6 +238,10 @@
 
 				if (this.expenseLineType == 3) {
 					this.expenseLine.sdrReportId = this.currentReport._id;
+				}
+
+				if (this.expenseLineType == 4) {
+					this.expenseLine.institutionalReportId = this.currentReport._id;
 				}
 
 				ExpenseLines.save(this.expenseLine, this.expenseLineType).then(res => {

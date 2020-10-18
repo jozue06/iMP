@@ -1,5 +1,6 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
+import { StatementDocument } from "./statement";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 
 export interface SDRReportInterface {
@@ -24,6 +25,7 @@ export interface SDRReportInterface {
 	sdrAmount?: number,
 	
 	comments?: string,
+	statement?: StatementDocument,
 	expenseLines?: ExpenseLineDocument[],
 }
 
@@ -112,6 +114,12 @@ const SDRReportSchema = new Schema({
 	comments: { 
 		type: String,
 		required: false,
+	},
+
+	statement: {
+		type: Schema.Types.ObjectId,
+		ref: 'statement',
+		defaut: []
 	},
 
 	expenseLines: [{

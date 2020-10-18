@@ -13,8 +13,12 @@ import { QtrReportRoutes } from "./routes/qtrReportRoutes";
 import { ItinReportRoutes } from "./routes/itinReportRoutes";
 import { MAReportRoutes } from "./routes/maReportRoutes";
 import { SDRReportRoutes } from "./routes/sdrReportRoutes";
+import { InstitutionalReportRoutes } from "./routes/institutionalReportRoutes";
 import { SettingsRoutes } from "./routes/settingsRoutes";
 import { VehicleRoutes } from "./routes/vehicleRoutes";
+import { ExpenseLineRoutes } from "./routes/expenseLineRoutes";
+import { MileageLogRoutes } from "./routes/mileageLogRoutes";
+import { StatementRoutes } from "./routes/statementRoutes";
 
 dotenv.config();
 class Server {
@@ -38,6 +42,10 @@ class Server {
 		this.app.use("/", new SettingsRoutes().router);
 		this.app.use("/", new VehicleRoutes().router);
 		this.app.use("/", new SDRReportRoutes().router);
+		this.app.use("/", new InstitutionalReportRoutes().router);
+		this.app.use("/", new ExpenseLineRoutes().router);
+		this.app.use("/", new MileageLogRoutes().router);
+		this.app.use("/", new StatementRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
 		});

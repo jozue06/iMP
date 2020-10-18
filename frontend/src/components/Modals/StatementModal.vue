@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<b-modal top ref="statementModal" title="Statements" hide-footer v-bind:currentReport="currentReport"  v-bind:statement="statement">
+		<b-modal top ref="statementModal" title="Statements" hide-footer v-bind:currentReport="currentReport" v-bind:statement="statement">			
 			<div>
 				<h5>first qtr</h5>
 				<b-row class="ml-4 mr-4 justify-content-between">
@@ -167,10 +167,10 @@
 			statement: Object,
 			currentReport: Object,
 			statementReimbursementTotal: String,
+			reportType: Number,
 		},
 
-		mounted() {
-
+		mounted() {			
 		},
 
 		data() {
@@ -181,12 +181,33 @@
 
 		methods: {
 			saveStatement() {
+				if (this.reportType == 0) {
+					this.statement.qtrReportId = this.currentReport._id;
+				}
+
+				if (this.reportType == 1) {
+					this.statement.itinReportId = this.currentReport._id;
+				}  
+
+				if (this.reportType == 2) {
+					this.statement.maReportId = this.currentReport._id;
+				}
+
+				if (this.reportType == 3) {
+					this.statement.sdrReportId = this.currentReport._id;
+				}
+
+				if (this.reportType == 4) {
+					this.statement.institutionalReportId = this.currentReport._id;
+				}
+
+				this.statement.reportType = this.reportType;				
 				this.loading = true;
-				this.statement.qtrReportId = this.currentReport._id;
 				Statements.save(this.statement).then(res => {
 					this.$refs.statementModal.hide();
 					this.$Notification("Success!", "Successfully Added the Statement", "primary");
 					this.loading = false;
+					this.$emit("refresh", res);
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.$Notification("Error", `Error Saving Mileage Log: ${e}`, "warning", "", 3000);

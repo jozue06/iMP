@@ -33,6 +33,7 @@ export class ItinReportController {
 			.populate("mileageLogs")
 			.populate("offeringLines")
 			.populate("contact")
+			.populate("statement")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -43,6 +44,10 @@ export class ItinReportController {
 
 	public updateItinReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		ItinReport.findOneAndUpdate({"_id": req.body.itinReport._id}, {...req.body.itinReport}).then((r: ItinReportDocument) => {
+			r.populate("expenseLines")
+			.populate("mileageLogs")
+			.populate("offeringLines")
+			.populate("contact")
 			res.send(r);
 		}).catch(e => {
 			console.error('eeek ', e);

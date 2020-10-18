@@ -1,5 +1,5 @@
 <template>
-	<div class="sub-card" v-bind:currentReport="currentReport">		
+	<div class="sub-card" v-bind:currentReport="currentReport" v-bind:statement="statement">				
 		<b-row class="mx-2 justify-content-around">
 			<b-col cols="2" class="my-2">
 				<b-form-group class="mr-1" label="non-AGWM Income">
@@ -118,8 +118,8 @@
 				<label>
 					Statment Info
 				</label>
-				<b-col>				
-					<b-row v-if="statement.dateOne || statement.dateTwo || statement.dateThree" @click="showStatementModal(statement)" class="align-items-center mt-2">
+				<b-col>							
+					<b-row v-if="statement && (statement.dateOne || statement.dateTwo || statement.dateThree)" @click="showStatementModal(statement)" class="align-items-center mt-2">
 						<b-col cols='4'>
 							{{statement.dateOne}}
 							<br>
@@ -207,7 +207,13 @@
 			</b-col>
 		</b-row>
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
-		<StatementModal ref="statementModal" v-bind:currentReport="currentReport" v-bind:statement="statement" v-bind:statementReimbursementTotal="statementReimbursementTotal"/>
+		<StatementModal 
+			ref="statementModal" 
+			v-bind:currentReport="currentReport" 
+			v-bind:statement="statement"
+			v-bind:statementReimbursementTotal="statementReimbursementTotal"
+			v-bind:reportType="0"
+		/>
 		<ConfirmModal 
 			id="confirmDeleteOtherLine" 
 			title="Delete Misc Lines?" 
@@ -236,6 +242,7 @@
 
 		props: {
 			currentReport: Object,
+			statement: Object,
 		},
 
 		mounted() {
@@ -271,30 +278,38 @@
 			},
 
 			showStatementModal(statement) {
+				if (statement) {
+					this.statement = statement;
+				} else {
+					this.statement = {};
+				}
 				this.$refs.statementModal.$refs.statementModal.show();
 			},
 
-			saveReport() {
+			saveReport() {				
 				this.$emit("saveReport");
-			}
+			},
 		},
 
 		computed: {
-			fields1() {				
-				let keys = Object.keys(this.statement).map(f => {
-					let tmp = {};
-					tmp.sortable = true;
+			fields1() {			
+				if (this.statement) {
+					let keys = Object.keys(this.statement).map(f => {
+						let tmp = {};
+						tmp.sortable = true;
 
-					if (allowedFields.commsList.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
+						if (allowedFields.commsList.includes(f)) {
+							tmp.key = f;
+						} else { 
+							tmp.key = "";
+						}
 
-					return tmp;
-				});
+						return tmp;
+					});
 
-				return keys;
+					return keys;
+				}
+				return "";
 			},
 
 			fields2() {
@@ -314,29 +329,25 @@
 				return keys;
 			},
 
-			statement() {
-				if (this.currentReport.statement) {
-					return this.currentReport.statement;
-				}
-				return {}
-			},
-
 			otherIncomeLines() {
 				return this.currentReport.otherIncomeLines;
 			},
 
 			statementReimbursementTotal() {
 				let amt = 0;
-				if (this.statement.reimbursementOne) {
-					amt += this.statement.reimbursementOne;
-				}
+				if (this.statement) {
 
-				if (this.statement.reimbursementTwo) {
-					amt += this.statement.reimbursementTwo;
-				}
+					if (this.statement.reimbursementOne) {
+						amt += this.statement.reimbursementOne;
+					}
 
-				if (this.statement.reimbursementThree) {
-					amt += this.statement.reimbursementThree;
+					if (this.statement.reimbursementTwo) {
+						amt += this.statement.reimbursementTwo;
+					}
+
+					if (this.statement.reimbursementThree) {
+						amt += this.statement.reimbursementThree;
+					}
 				}
 				
 				return "$" + this.$formatMoney(amt);
@@ -344,18 +355,19 @@
 
 			statementAmountTotal() {
 				let amt = 0;
-				if (this.statement.amountOne) {
-					amt += this.statement.amountOne;
-				}
+				if (this.statement) {
+					if (this.statement.amountOne) {
+						amt += this.statement.amountOne;
+					}
 
-				if (this.statement.amountTwo) {
-					amt += this.statement.amountTwo;
-				}
+					if (this.statement.amountTwo) {
+						amt += this.statement.amountTwo;
+					}
 
-				if (this.statement.amountThree) {
-					amt += this.statement.amountThree;
+					if (this.statement.amountThree) {
+						amt += this.statement.amountThree;
+					}
 				}
-				
 				return "$" + this.$formatMoney(amt);
 			},
 

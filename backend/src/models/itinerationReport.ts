@@ -2,6 +2,7 @@ import { Document, Model, model, Schema, Types, } from "mongoose";
 import { ExpenseLineDocument } from "./expenseLine";
 import { MileageLogDocument } from "./mileageLog";
 import { OfferingDocument } from "./offeringLine";
+import { StatementDocument } from "./statement";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 
 export interface ItinerationReportInterface {
@@ -33,7 +34,7 @@ export interface ItinerationReportInterface {
 	endReceiptNo?: string,
 	personaNotes?: string,
 	comments?: string,
-
+	statement?: StatementDocument,
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
 	offeringLines?: OfferingDocument[],
@@ -126,6 +127,12 @@ const ItinReportSchema = new Schema({
 
 	personalNotes: {
 		type: String,
+	},
+
+	statement: {
+		type: Schema.Types.ObjectId,
+		ref: 'statement',
+		defaut: []
 	},
 
 	expenseLines: [{

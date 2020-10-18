@@ -29,6 +29,11 @@ export const sidebarSections = {
 			},
 			{
 				report: 6,
+				route: "/institutionalReports",
+				childMsg: 'Institutional Reports' 
+			},
+			{
+				report: 7,
 				route: "/contactGroups",
 				childMsg: 'Contact Groups' 
 			},

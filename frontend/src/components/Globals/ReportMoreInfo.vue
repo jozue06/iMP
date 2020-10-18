@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-bind:statement="statement">
 		<div class="sub-card">
 			<b-row v-if='reportType === 1' class="justify-content-around">
 				<b-col cols="2" class="my-2">
@@ -214,6 +214,8 @@
 				</b-col>
 			</b-row>
 
+			<!-- ***  *** -->
+			
 			<b-row v-if='reportType === 2' class="mx-2">
 				<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 					<label>
@@ -347,6 +349,7 @@
 					</b-row>
 				</b-col>
 			</b-row>
+
 			<!-- ***  *** -->
 		
 			<b-row v-if='reportType === 3' class="mt-2 mx-2 justify-content-around">
@@ -450,103 +453,334 @@
 					></b-form-datepicker>
 				</b-form-group> 
 			</b-row>
-		</div>
-		
-		<div class="sub-card">
-			<b-row v-if='reportType === 3' class="mx-2 justify-content-around">
-				<b-col cols="12" class="mt-2">
-					<p class="text-center">
-						SDR Account Info
-					</p>
-				</b-col>
 
-				<b-form-group class="mr-1" label="Purpose">
-					<b-form-input 
-						v-model="currentReport.purpose"
-						class="text-right"
-						type="text"
-						name="purpose"
-						@blur="saveReport"
-					>
-					</b-form-input>
-				</b-form-group> 
+			<div v-if='reportType === 3' class="sub-card">
+				<b-row v-if='reportType === 3' class="mx-2 justify-content-around">
+					<b-col cols="12" class="mt-2">
+						<p class="text-center">
+							SDR Account Info
+						</p>
+					</b-col>
 
-				<b-form-group class="mr-1" label="Account Charged">
-					<b-form-input 
-						v-model="currentReport.accountCharged"
-						class="text-right"
-						type="text"
-						name="accountCharged"
-						@blur="saveReport"
-					>
-					</b-form-input>
-				</b-form-group> 
-
-				<b-col cols="2">
-					<b-form-group class="mr-1" label="Class">
+					<b-form-group class="mr-1" label="Purpose">
 						<b-form-input 
-							v-model="currentReport.class"
+							v-model="currentReport.purpose"
 							class="text-right"
 							type="text"
-							name="class"
+							name="purpose"
 							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-form-group> 
-				</b-col>
 
-				<b-col cols="2">
-					<b-form-group class="mr-1" label="Source">
+					<b-form-group class="mr-1" label="Account Charged">
 						<b-form-input 
-							v-model="currentReport.source"
+							v-model="currentReport.accountCharged"
 							class="text-right"
 							type="text"
-							name="source"
+							name="accountCharged"
 							@blur="saveReport"
 						>
 						</b-form-input>
 					</b-form-group> 
-				</b-col>
 
-				<b-form-group class="mr-1" label="Amount">
-					<b-input-group prepend="$">
-						<b-form-input 
-							v-model="currentReport.sdrAmount"
-							class="text-right"
-							type="text"
-							name="sdrAmount"
-							lazy-formatter
-							:formatter="$formatMoney"
-							@blur="saveReport"
-						>
-						</b-form-input>
-					</b-input-group> 
-				</b-form-group> 
+					<b-col cols="2">
+						<b-form-group class="mr-1" label="Class">
+							<b-form-input 
+								v-model="currentReport.class"
+								class="text-right"
+								type="text"
+								name="class"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-form-group> 
+					</b-col>
+
+					<b-col cols="2">
+						<b-form-group class="mr-1" label="Source">
+							<b-form-input 
+								v-model="currentReport.source"
+								class="text-right"
+								type="text"
+								name="source"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-form-group> 
+					</b-col>
+
+					<b-form-group class="mr-1" label="Amount">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.sdrAmount"
+								class="text-right"
+								type="text"
+								name="sdrAmount"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group> 
+					</b-form-group> 
+				</b-row>
+			</div>
+
+			<!-- ***  *** -->
+
+			<b-row v-if='reportType === 4' class="ml-2 mr-2 justify-content-between">
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="Institution">
+						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF ACCOUNT NAME AND ACCOUNT NUMBER -->
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="currentReport.institution" 
+									name="institution"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+					</b-col>
+					<b-col cols="2" class="my-2">
+						<b-form-group class="mr-1" label="Account">
+							<b-input-group>
+								<b-form-input 
+									class="text-right"
+									type="text" 
+									v-model="currentReport.account" 
+									required
+									name="account"
+								>
+								</b-form-input>
+							</b-input-group>
+						</b-form-group> 
+				</b-col>
+				<b-col cols="3" class="my-2">
+					<b-form-group label="Field">
+						<b-form-select
+							:options="countries"
+							v-model="currentReport.field"
+							name="field"
+						></b-form-select>
+					</b-form-group> 
+				</b-col>
+			</b-row>
+
+			<b-row v-if='reportType === 4' class="mx-2 justify-content-around">
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="US Bank Funds">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.usBankFunds"
+								class="text-right"
+								type="text"
+								name="usBankFunds"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group>
+					</b-form-group> 
+				</b-col>
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="Local Bank Funds">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.localBankFunds"
+								class="text-right"
+								type="text"
+								name="localBankFunds"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group>
+					</b-form-group> 
+				</b-col>
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="Petty Cash Funds">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.pettyCashFunds"
+								class="text-right"
+								type="text" 
+								name="pettyCashFunds"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group>
+					</b-form-group> 
+				</b-col>
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="LFTL SDR Balance">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.LFTLsdrBalance"
+								class="text-right"
+								type="text"
+								name="LFTLsdrBalance"
+								lazy-formatter
+								:formatter="$formatMoney"
+							>
+							</b-form-input>
+						</b-input-group>
+					</b-form-group> 
+				</b-col>
+				<b-col cols="2" class="my-2">
+					<b-form-group class="mr-1" label="non-LFTL SDR Balance">
+						<b-input-group prepend="$">
+							<b-form-input 
+								v-model="currentReport.nonLFTLsdrBalance"
+								class="text-right"
+								type="text"
+								name="nonLFTLsdrBalance"
+								lazy-formatter
+								:formatter="$formatMoney"
+								@blur="saveReport"
+							>
+							</b-form-input>
+						</b-input-group>
+					</b-form-group> 
+				</b-col>
+			</b-row>
+			
+			<b-row class="mx-2">
+				<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
+					<label>
+						Statment Info
+					</label>
+					<b-col>				
+						<b-row v-if="statement && (statement.dateOne || statement.dateTwo || statement.dateThree)" @click="showStatementModal(statement)" class="align-items-center mt-2">
+							<b-col cols='4'>
+								{{statement.dateOne}}
+								<br>
+								${{statement.amountOne}}
+								<br>
+								${{statement.reimbursementOne}}
+							</b-col>
+							
+							<b-col cols='4'>
+								{{statement.dateTwo}}
+								<br>
+								${{statement.amountTwo}}
+								<br>
+								${{statement.reimbursementTwo}}
+							</b-col>
+
+							<b-col cols='4'>
+								{{statement.dateThree}}
+								<br>
+								${{statement.amountThree}}
+								<br>
+								${{statement.reimbursementThree}}
+							</b-col>
+							<b-row class="mt-2 mb-2 text-right">
+								<b-col cols="12" class="text-right">
+									Totals
+									<br>
+									Statements Total: {{statementAmountTotal}}
+									<br>
+									Reimbursement Total: {{statementReimbursementTotal}}
+								</b-col>
+							</b-row>
+						</b-row>
+						<b-row v-else class="align-items-center">
+							<b-col cols="12">
+								<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statment info</b-button>
+							</b-col>
+						</b-row>
+					</b-col>
+				</b-col>
 			</b-row>
 		</div>
+		<StatementModal 
+			ref="statementModal" 
+			v-bind:currentReport="currentReport" 
+			v-bind:statement="statement" 
+			v-bind:statementReimbursementTotal="statementReimbursementTotal"
+			v-bind:reportType="reportType"
+		/>
 	</div>	
 </template>
 
 <script>
+	import StatementModal from "../Modals/StatementModal";
+	import { COUNTRIES } from "@/constants/statesAndCountries";
 	export default  {
-
 		name: 'reportMoreInfo',
+
+		components: {
+			StatementModal,
+		},
 
 		props: {
 			currentReport: Object,
 			reportType: Number,
+			statement: Object,
 		},
 
 		data() {
 			return {
+				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 			}
 		},
 
 		methods: {
 			saveReport() {
 				this.$emit("saveReport");
-			}
+			},
+
+			showStatementModal(statement) {
+				this.$refs.statementModal.$refs.statementModal.show();
+			},
 		},
+
+		computed: {
+			statementReimbursementTotal() {
+				let amt = 0;
+				if (this.statement) {
+					if (this.statement.reimbursementOne) {
+						amt += this.statement.reimbursementOne;
+					}
+
+					if (this.statement.reimbursementTwo) {
+						amt += this.statement.reimbursementTwo;
+					}
+
+					if (this.statement.reimbursementThree) {
+						amt += this.statement.reimbursementThree;
+					}
+				}
+				
+				return "$" + this.$formatMoney(amt);
+			},
+
+			statementAmountTotal() {
+				let amt = 0;
+				if (this.statement) {
+					if (this.statement.amountOne) {
+						amt += this.statement.amountOne;
+					}
+
+					if (this.statement.amountTwo) {
+						amt += this.statement.amountTwo;
+					}
+
+					if (this.statement.amountThree) {
+						amt += this.statement.amountThree;
+					}
+				}
+				return "$" + this.$formatMoney(amt);
+			},
+
+		}
 	}
 
 </script>

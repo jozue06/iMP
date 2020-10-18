@@ -29,7 +29,9 @@ export class SDRReportController {
 
 	public getSDRReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		SDRReport.findById(req.params.id)
-			.populate("expenseLines").then(report => {
+			.populate("expenseLines")
+			.populate("statement")
+			.then(report => {
 				res.send(report);
 			}).catch(e => {
 				console.error('ee', e);

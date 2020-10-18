@@ -1,7 +1,7 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
 
-const baseURL = `${getApi()}mileageLogs`;
+const baseURL = `${getApi()}institutionalReports`;
 
 const handleError = fn => (...params) =>
 	fn(...params).catch(e => {
@@ -10,50 +10,49 @@ const handleError = fn => (...params) =>
 		throw new Error(newmess.replace(",", '\n'));
 });
 
-export const MileageLogs = {
-	getMileageLog: handleError(async id => {
+export const InstitutionalReports = {
+	getInstitutionalReport: handleError(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
-
-		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
+		
+		const res = await axios.get(baseURL + `/${id}`, { "headers" : headers } );
 		return res.data;
 	}),
 	
-	getMileageLogs: handleError(async () => {
+	getInstitutionalReports: handleError(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
-
-		const res = await axios.get(baseURL, {"headers": headers});
+		
+		const res = await axios.get(baseURL, { "headers" : headers } );
 		return res.data;
 	}),
 
-	deleteMileageLogs: handleError(async ids => {
+	deleteInstitutionalReport: handleError(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
-
+		
 		let body = {
-			mileageLogIds: ids
+			institutionalReportIds: ids
 		}
 		
 		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	save: handleError(async (payload, isQtrReport) => {
+	save: handleError(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
-			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+			authorization: `Bearer ${localStorage.getItem("jwt")}`
 		}
 		
 		let body = {
-			mileageLog: payload,
-			isQtrReport: isQtrReport,
+			institutionalReport: payload
 		}
 
 		if (payload._id) {
@@ -63,5 +62,15 @@ export const MileageLogs = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
+	}),
+
+	deleteLine: handleError(async payload => {		
+		let body = {
+			institutionalReport: payload
+		}
+
+		const res = await axios.post(baseURL + `/deleteLine/${payload._id}`, body, {"headers": headers});
+		return res.data;
+	
 	})
 };

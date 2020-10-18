@@ -12,7 +12,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=2 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=2 @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-card title="Prayer Requests & Comments">
@@ -64,6 +64,7 @@
 			return {
 				loading: false,
 				currentReport: {},
+				statement: {},
 			};
 		},
 
@@ -79,14 +80,20 @@
 				
 				MAReports.getMaReport(reportId).then(res => {
 					this.currentReport = res;
+					this.statement = res.statement;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
 				});
 			} else {
-				this.currentReport = {
+				let currentReport = {
 					month: 1,
 					year: moment().format("YYYY"),
 				};
+
+				MAReports.save(currentReport).then(res => {
+					this.currentReport = res;
+					this.$router.replace({ path: 'MAReport', query: { reportId: res._id}});
+				});
 			}
 		},
 

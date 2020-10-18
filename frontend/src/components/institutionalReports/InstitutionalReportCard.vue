@@ -2,7 +2,7 @@
 	<section>
 		<div class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=3 linkTo="/SDRReports"/>
+				<ReportTop v-bind:currentReport="currentReport" :reportType=4 linkTo="/institutionalReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -12,12 +12,12 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=3 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=4 @saveReport="saveReport"/>
 			</b-collapse>
 			
 			<b-tabs pills card end>
-				<b-tab title="SDR ExpenseLines" active>
-					<h4>SDR Expense Lines</h4>
+				<b-tab title="ExpenseLines" active>
+					<h4>Expense Lines</h4>
 					<b-table
 						v-if="expenseLines && expenseLines.length > 0"
 						striped 
@@ -70,7 +70,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				v-bind:expenseLineType=3
+				v-bind:expenseLineType=4
 			/>
 			<ConfirmModal 
 				id="confirmDeleteExpenseLine" 
@@ -88,7 +88,7 @@
 	import ReportMoreInfo from "../Globals/ReportMoreInfo";
 	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import { SDRReports  } from '../../data/sdrReports'
+	import { InstitutionalReports  } from '../../data/institutionalReports'
 	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default {
@@ -105,8 +105,8 @@
 			},
 
 			saveReport() {
-				SDRReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved the SDR Report", "primary");
+				InstitutionalReports.save(this.currentReport).then(res => {
+					this.$Notification("Success", "Succesfully Saved the Institutional Report", "primary");
 				}).catch(e => {
 					console.error('eeek error saving report', e);
 					throw e;
@@ -143,8 +143,8 @@
 				currentReport: {},
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
-				expenseLines: [],
 				statement: {},
+				expenseLines: [],
 			};
 		},
 
@@ -153,12 +153,12 @@
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
 					reportId = this.$router.currentRoute.params.reportId;
-					this.$router.replace({ path: 'SDRReport', query: { reportId: reportId}});
+					this.$router.replace({ path: 'institutionalReport', query: { reportId: reportId}});
 				} else {
 					reportId = this.$router.currentRoute.query.reportId;
 				}
 				
-				SDRReports.getSDRReport(reportId).then(res => {
+				InstitutionalReports.getInstitutionalReport(reportId).then(res => {
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
 					this.statement = res.statement;
@@ -168,18 +168,19 @@
 			} else {
 				let currentReport = {
 					month: 1,
+					institution: "-",
+					account: "-",
 					year: moment().format("YYYY"),
-				};
-
-				SDRReports.save(currentReport).then(res => {
+				};				
+				InstitutionalReports.save(currentReport).then(res => {
 					this.currentReport = res;
-					this.$router.replace({ path: 'SDRReport', query: { reportId: res._id}});
+					this.$router.replace({ path: 'institutionalReport', query: { reportId: res._id}});
 				});
 			}
 		},
 		computed: {
 			confirmDeleteExpenseLineMessage() {
-				return "Are you sure you would like to delete the selected SDR Expense Line(s)?";
+				return "Are you sure you would like to delete the selected Expense Line(s)?";
 			},
 			expenseFields() {
 				if (this.expenseLines[0]) {
