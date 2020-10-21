@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/contacts">
 				<h1>{{ currentContact.firstName }}</h1>
@@ -40,8 +41,7 @@
 	import ContactCommsTab from "./ContactCommsTab";
 	import ContactTasksTab from "./ContactTasksTab";
 	import ContactEventsTab from "./ContactEventsTab";
-	// import { Task } from "../../data/models/taskModel";
-	// import { Event } from "../../data/models/contactEventModel";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default  {
 		components: {
@@ -52,7 +52,8 @@
 			ContactLowerCards,
 			ContactCommsTab,
 			ContactTasksTab,
-			ContactEventsTab
+			ContactEventsTab,
+			LoadingSpinner,
 		},
 
 		name: 'contact-full-view',
@@ -65,6 +66,7 @@
 
 		data() {
 			return {
+				loading: false,
 				currentContact: {},
 				taskLines: [],
 				eventLines: [],
@@ -74,20 +76,23 @@
 
 		created() {
 			if (this.$router.currentRoute.params.contactId) {
+				this.loading = true;
 				Contacts.getContact(this.$router.currentRoute.params.contactId).then(res => {
 					this.currentContact = res;
 					this.eventLines = res.events;
 					this.taskLines = res.tasks;
 					this.commsLines = res.comms;
+					this.loading = false
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false
 					throw e;
 				});
 			}
 		},
 
 		methods: {
-			saveContact() {			
+			saveContact() {
 				Contacts.save(this.currentContact).then(res => {
 					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
 				}).catch(e => {
@@ -117,9 +122,5 @@
 				});
 			}
 		},
-
-		computed: {
-
-		}
 	}
 </script>

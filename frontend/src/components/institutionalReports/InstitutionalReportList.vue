@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Institutional Reports</h1>
@@ -70,27 +71,24 @@
 </template>
 
 <script>
-	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../Globals/NoResults'
-	import { InstitutionalReports  } from '../../data/institutionalReports'
+	import ConfirmModal from '../Modals/ConfirmModal';
+	import NoResults from '../Globals/NoResults';
+	import { InstitutionalReports  } from '../../data/institutionalReports';
 	import { allowedFields } from "../../constants/tableFields";
-		
+	import LoadingSpinner from "../Globals/LoadingSpinner";
+
 	export default  {
+		name: 'institutionalReportsList',
+
 		components: {
 			ConfirmModal,
 			NoResults,
-		},
-
-		name: 'institutionalReportsList',
-
-		props: [],
-
-		mounted () {
-
+			LoadingSpinner,
 		},
 
 		data() {
 			return {
+				loading: "",
 				reports: this.loadReports(),
 				confirmDeleteMessage: "Are you sure you want to delete this Institutional Report? This cannot be un-done",
 				selected: "",
@@ -101,10 +99,6 @@
 		},
 
 		methods: {
-			showReportModal() {
-
-			},
-
 			onRowSelected(report) {
 				this.selected = report;
 			},
@@ -129,6 +123,7 @@
 			},
 
 			loadReports() {
+				this.loading = true;
 				let reports = []; 
 				InstitutionalReports.getInstitutionalReports().then(res => {
 					res.forEach(report => {
@@ -137,6 +132,7 @@
 							reports.push({...report});
 						}
 					});
+					this.loading = false;
 				});
 				return reports;
 			},

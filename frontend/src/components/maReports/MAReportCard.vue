@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<div class="mt-4">
 				<ReportTop v-bind:currentReport="currentReport" :reportType=2 linkTo="/MAReports"/>
@@ -36,13 +37,14 @@
 	import ReportTop from "../Globals/ReportTop";
 	import ReportMoreInfo from "../Globals/ReportMoreInfo";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import { MAReports } from "../../data/maReports"
-
+	import { MAReports } from "../../data/maReports";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default {
 		components: {
 			ReportTop,
 			ReportMoreInfo,
+			LoadingSpinner,
 		},
 
 		methods: {
@@ -69,6 +71,7 @@
 		},
 
 		created() {
+			this.loading = true;
 			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
@@ -81,8 +84,11 @@
 				MAReports.getMaReport(reportId).then(res => {
 					this.currentReport = res;
 					this.statement = res.statement;
+					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
 				});
 			} else {
 				let currentReport = {
@@ -93,11 +99,9 @@
 				MAReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'MAReport', query: { reportId: res._id}});
+					this.loading = false;
 				});
 			}
 		},
-
-		computed: {
-		}
 	}
 </script>
