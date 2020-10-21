@@ -13,7 +13,7 @@ export class UserController {
 
 	public async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
 		if (!req.body.username || req.body.username == "") {
-			next(new ValidationException("Please Enter a Valid User Name"));
+			next(new ValidationException("Please Enter a Valid User Name and Password"));
 		}
 
 		const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
@@ -30,7 +30,7 @@ export class UserController {
 
 	public async loginUser(req: Request, res: Response, next: NextFunction): Promise<void> {
 		if (!req.body.username || req.body.username == "" || !req.body.password || req.body.password == "") {
-			return next(new ValidationException("Please Enter a Valid User Name"));
+			return next(new ValidationException("Please Enter a Valid User Name and Password"));
 		}
 
 		const username = req.body.username
@@ -47,7 +47,7 @@ export class UserController {
 					const token = jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRETE);
 					return res.status(200).send({ token });
 				} else {
-					return next(new ValidationException(`Username or password incorrect not found.`));
+					return next(new ValidationException(`Username or password incorrect.`));
 				}
 			});
 		});
@@ -55,7 +55,7 @@ export class UserController {
 
 	public postForgot = async (req: Request, res: Response, next: NextFunction) => {		
 		if (!req.body.username || req.body.username == "") {
-			return next(new ValidationException("Please Enter a Valid User Name"));
+			return next(new ValidationException("Please Enter a Valid User Name and Password"));
 		}
 		async.waterfall([
 			
@@ -84,43 +84,36 @@ export class UserController {
 				});
 			},
 
-			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {				
-				// sgMail.setApiKey(GRID_SEND_KEY);
+			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
+				if (!user.settings || !user.settings.email || user.settings.email == "") {
+					return next(new ValidationException(`You have not setup an e-mail address for this account. Please email us at imp.app.info@gmail.com to reset your account`)); 
+				}
 				let options = { service: 'gmail',
 					auth: {
-						user: 'jozue06@gmail.com',
-						pass: 'Magnolia14!'
+						user: 'imp.app.info@gmail.com',
+						pass: 'My4p3t^t4WMKTxqy'
 					}
 				}
-				let transport = nodemailer.createTransport(options, )
+				let transport = nodemailer.createTransport(options);
+				
 				const msg = {
-					to: "jozue06@gmail.com",
-					from: 'jozue06@gmail.com',
-					subject: 'Sending with Twilio SendGrid is Fun',
+					to: user.settings.email,
+					from: 'noreply@gmail.com',
+					subject: 'Imp APP Info',
 					html: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
 						Please click on the following link, or paste this into your browser to complete the process:\n\n
 						http://localhost:8080/#/user/reset/${token}\n\n
-						If you did not request this, please ignore this email and your password will remain unchanged.\n
-						<strong>and easy to do anywhere, even with Node.js</strong>`,
+						<strong>If you did not request this, please contact us at imp.app.info@gmail.com .</strong>\n`,
 				};
 
-				transport.sendMail(msg)
-				.then(()	=> {
+				transport.sendMail(msg).then(() => {
 					return res.sendStatus(200);
-				})
-				.catch((e:any) => console.error('err', e));
-
-				// sgMail.send(msg).then(() => {					
-				// 	return res.sendStatus(200);
-				// })
-				// .catch((e:any) => console.error('err', e));
+				}).catch((e:any) => console.error('err', e));
 			},
 		], (err) => {
 			if (err) { 
-			
 				return next(err); 
 			}
-			// res.redirect("/forgot");
 		});
 	};
 
@@ -152,14 +145,27 @@ export class UserController {
 			},
 
 			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
-				const msg = {
-					to: "jozue06@gmail.com",
-					from: 'jozue06@gmail.com',
-					subject: "Your password has been changed",
-					text: `Hello,\n\nThis is a confirmation that the password for your account ${user.settings.email} has just been changed.\n`
-				};
-			},
-		], (err) => {
+			let options = { service: 'gmail',
+				auth: {
+					user: 'imp.app.info@gmail.com',
+					pass: 'My4p3t^t4WMKTxqy'
+				}
+			}
+			let transport = nodemailer.createTransport(options);
+			
+			const msg = {
+				to: user.settings.email,
+				from: 'noreply@gmail.com',
+				subject: "Your Imp APP password has been changed",
+				html: `Hello,\n\nThis is a confirmation that the password for your account ${user.settings.email} has just been changed.\n
+					<strong>If you did not request this, please contact us at imp.app.info@gmail.com .</strong>\n`,
+			};
+
+			transport.sendMail(msg).then(() => {
+				return res.sendStatus(200);
+			}).catch((e:any) => console.error('err', e));
+
+		}], (err) => {
 			if (err) { return next(err); }
 			res.redirect("/");
 		});
