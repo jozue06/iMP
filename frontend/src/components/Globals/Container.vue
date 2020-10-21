@@ -1,8 +1,8 @@
 <template>
 	<div class="main-container">
 		<LoadingSpinner v-bind:loading="loading" />
-		<TopBar />
-		<router-view />
+		<TopBar v-if="!loading"/>
+		<router-view v-if="!loading" />
 	</div>
 </template>
 <script>

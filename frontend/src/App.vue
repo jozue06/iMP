@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Sidebar sidebarTitle="iMP"/>
+		<Sidebar v-if="!loading" sidebarTitle="iMP"/>
 		<Container v-bind:loading="loading"/>
 	</div>
 </template>

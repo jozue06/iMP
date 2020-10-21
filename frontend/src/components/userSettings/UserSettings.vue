@@ -1,7 +1,7 @@
 <template>
 	<section class="mt-3">
 		<LoadingSpinner v-bind:loading="loading" />
-		<div class="main-card">
+		<div v-if="!loading" class="main-card">
 			<b-tabs small card>
 				<b-tab title="Personal Info" active>
 					<PersonalInfo v-bind:currentSettings="currentSettings" @refresh="refresh"/>

@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
-		<div class="main-card">
+		<div v-if="!loading" class="main-card">
 			<h1>{{currentGroup.name}}</h1>
 			<div v-if="contactLines.length > 0">
 				<b-table

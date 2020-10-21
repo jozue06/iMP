@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
-		<div class="main-card">
+		<div v-if="!loading" class="main-card">
 			<router-link to="/contacts">
 				<h1>{{ currentContact.firstName }}</h1>
 			</router-link>	

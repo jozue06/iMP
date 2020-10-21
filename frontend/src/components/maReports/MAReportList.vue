@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
-		<div class="main-card">
+		<div v-if="!loading" class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">MA Reports</h1>
 			</router-link>

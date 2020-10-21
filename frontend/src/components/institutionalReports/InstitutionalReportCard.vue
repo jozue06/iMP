@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
-		<div class="main-card">
+		<div v-if="!loading" class="main-card">
 			<div class="mt-4">
 				<ReportTop v-bind:currentReport="currentReport" :reportType=4 linkTo="/institutionalReports"/>
 			</div>
