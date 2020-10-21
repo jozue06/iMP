@@ -53,7 +53,6 @@
 	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default  {
-
 		name: 'contact-group-view',
 
 		components: {
@@ -90,7 +89,7 @@
 
 		data() {
 			return {
-				loading: "",
+				loading: true,
 				contactLines: [],
 				currentGroup: {},
 				sortBy: 'groupName',

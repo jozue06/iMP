@@ -94,10 +94,14 @@
 			LoadingSpinner,
 		},
 
+		mounted () {
+			this.loadReports()
+		},
+
 		data() {
 			return {
-				loading: "",
-				reports: this.loadReports(),
+				loading: true,
+				reports: [],
 				confirmDeleteMessage: "Are you sure you want to delete this Itineration Report? This cannot be un-done",
 				selected: "",
 				sortBy: '',
@@ -142,7 +146,7 @@
 					});
 					this.loading = false;
 				});
-				return reports;
+				this.reports = reports;
 			},
 
 			refresh() {

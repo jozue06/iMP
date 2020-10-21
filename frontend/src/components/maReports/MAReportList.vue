@@ -98,7 +98,7 @@
 
 		data() {
 			return {
-				loading: "",
+				loading: true,
 				reports: [],
 				confirmDeleteMessage: "Are you sure you want to delete this MA Report? This cannot be un-done",
 				selected: "",
