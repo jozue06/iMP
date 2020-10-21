@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Groups</h1>
@@ -75,7 +76,7 @@
 	import ConfirmModal from '../Modals/ConfirmModal';
 	import ContactGroupModal from '../Modals/ContactGroupModal';
 	import NoResults from '../Globals/NoResults';
-
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 	export default  {
 
 		name: 'contact-groups-list',
@@ -88,18 +89,16 @@
 			ConfirmModal,
 			NoResults,
 			ContactGroupModal,
+			LoadingSpinner,
 		},
 
 		mounted () {
 			this.findAllGroups();
 		},
 		
-		created() {
-			// this.findAllGroups();
-		},
-
 		data() {
 			return {
+				loading: true,
 				groups: [],
 				sortBy: 'groupName',
 				sortDesc: false,
@@ -112,6 +111,7 @@
 
 		methods: {
 			findAllGroups() {
+				this.loading = true;
 				let groups = []; 
 				ContactGroups.getContactGroups().then((data) => {
 					data.forEach(g => {
@@ -120,6 +120,7 @@
 							groups.push({...g});
 						}
 					});
+					this.loading = false;
 				});
 
 				this.groups = groups;

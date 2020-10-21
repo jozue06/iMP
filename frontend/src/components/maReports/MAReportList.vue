@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">MA Reports</h1>
@@ -82,16 +83,14 @@
 	import NoResults from '../Globals/NoResults'
 	import { MAReports  } from '../../data/maReports'
 	import { allowedFields } from "../../constants/tableFields";
-		
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 	export default  {
+		name: 'MAReportList',
 		components: {
 			ConfirmModal,
 			NoResults,
+			LoadingSpinner,
 		},
-
-		name: 'MAReportList',
-
-		props: [],
 
 		mounted () {
 			this.loadReports()
@@ -99,6 +98,7 @@
 
 		data() {
 			return {
+				loading: "",
 				reports: [],
 				confirmDeleteMessage: "Are you sure you want to delete this MA Report? This cannot be un-done",
 				selected: "",
@@ -109,10 +109,6 @@
 		},
 
 		methods: {
-			showReportModal() {
-
-			},
-
 			onRowSelected(report) {
 				this.selected = report;
 			},
@@ -137,9 +133,11 @@
 			},
 
 			loadReports() {
+				this.loading = true;
 				let reports = []; 
 				MAReports.getMaReports().then(res => {
-					this.reports = res
+					this.reports = res;
+					this.loading = false;
 				});
 			},
 

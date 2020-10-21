@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Quarterly Reports</h1>
@@ -74,23 +75,19 @@
 	import NoResults from '../Globals/NoResults'
 	import { QuarterlyReports  } from '../../data/quarterlyReports'
 	import { allowedFields } from "../../constants/tableFields";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 		
 	export default  {
+		name: 'quarterlyReportsList',
 		components: {
 			ConfirmModal,
 			NoResults,
-		},
-
-		name: 'quarterlyReportsList',
-
-		props: [],
-
-		mounted () {
-
+			LoadingSpinner,
 		},
 
 		data() {
 			return {
+				loading: "",
 				reports: this.loadReports(),
 				confirmDeleteMessage: "Are you sure you want to delete this Quarterly Report? This cannot be un-done",
 				selected: "",
@@ -101,10 +98,6 @@
 		},
 
 		methods: {
-			showReportModal() {
-
-			},
-
 			onRowSelected(report) {
 				this.selected = report;
 			},
@@ -129,6 +122,7 @@
 			},
 
 			loadReports() {
+				this.loading = true;
 				let reports = []; 
 				QuarterlyReports.getQuarterlyReports().then(res => {
 					res.forEach(report => {
@@ -137,6 +131,7 @@
 							reports.push({...report});
 						}
 					});
+					this.loading = false;
 				});
 				return reports;
 			},

@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<Sidebar sidebarTitle="iMP"/>
-		<Container />
+		<Container v-bind:loading="loading"/>
 	</div>
 </template>
 
@@ -27,12 +27,16 @@
 		},
 
 		mounted() {
-			if (this.$router.currentRoute.params && !this.$router.currentRoute.params.token) {
+			if (this.$router.currentRoute.params && !this.$router.currentRoute.params.token) {				
 				getSession().then(res => {
 					if (res == false) {
+						this.loading = false;
 						this.$router.push("/login");
-					}
+					} else {this.loading = false}
 				});
+				
+			} else {
+				this.loading = false;
 			}
 		},
 	}

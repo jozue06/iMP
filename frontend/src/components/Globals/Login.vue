@@ -85,12 +85,11 @@
 						this.$router.replace("/contacts");
 
 					})
-					.catch(e => {						
+					.catch(e => {
 						this.loading = false;
-						if (e.response.status == 401) {
-							this.$Notification("Error", `No User Found`, "warning", "", 3000);
-							this.input = {}
-						}
+						this.$Notification("Error", `${e.response.data.message}` , "warning", "", 3000);
+						this.input = {}
+
 					});
 				} else {
 					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
@@ -134,6 +133,7 @@
 		margin: auto;
 		margin-top: 200px;
 		padding: 20px;
-		border-radius: 0.25em
+		border-radius: 0.25em;
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 	}
 </style>

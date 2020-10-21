@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<div class="mt-4">
 				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
@@ -102,14 +103,6 @@
 				</b-tab>
 			</b-tabs>
 
-			<!-- <div class="card-footer">
-				<b-row class="justify-content-end">
-					<b-col cols="2" class="my-2">
-						
-					</b-col>
-				</b-row>
-			</div> -->
-
 			<ExpenseLineModal 
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
@@ -148,6 +141,7 @@
 	import { QuarterlyReports } from "../../data/quarterlyReports"
 	import { ExpenseLines } from "../../data/expenseLines";
 	import { MileageLogs } from "../../data/mileageLogs";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default {
 		components: {
@@ -156,6 +150,7 @@
 			QuarterlyReportTop,
 			ConfirmModal,
 			QuarterlyReportMoreInfo,
+			LoadingSpinner,
 		},
 
 		methods: {
@@ -251,6 +246,7 @@
 		},
 
 		created() {
+			this.loading = true;
 			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
@@ -265,8 +261,11 @@
 					this.expenseLines = res.expenseLines;
 					this.mileageLogs = res.mileageLogs;
 					this.statement = res.statement;
+					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
 				});
 			} else {
 				let currentReport = {
@@ -276,6 +275,7 @@
 				QuarterlyReports.save(currentReport).then(res => {					
 					this.currentReport = res;
 					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});
+					this.loading = false;
 				});
 			}
 		},

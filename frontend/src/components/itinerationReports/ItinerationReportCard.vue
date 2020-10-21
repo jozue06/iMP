@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<div class="mt-4">
 				<ReportTop v-bind:currentReport="currentReport" :reportType=1 linkTo="/itinerationReports"/>
@@ -141,14 +142,6 @@
 				</b-tab>
 			</b-tabs>
 
-			<!-- <div class="card-footer">
-				<b-row class="justify-content-end">
-					<b-col cols="2" class="my-2">
-						
-					</b-col>
-				</b-row>
-			</div> -->
-
 			<ExpenseLineModal 
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
@@ -201,6 +194,7 @@
 	import { MileageLogs } from "../../data/mileageLogs";
 	import { OfferingLines } from "../../data/offeringLines";
 	import { allowedFields } from "../../constants/tableFields";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default {
 		components: {
@@ -210,6 +204,7 @@
 			ReportTop,
 			ReportMoreInfo,
 			ConfirmModal,
+			LoadingSpinner,
 		},
 
 		methods: {
@@ -328,6 +323,7 @@
 		},
 
 		created() {
+			this.loading = true;
 			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
@@ -343,8 +339,11 @@
 					this.mileageLogs = res.mileageLogs;
 					this.offeringLines = res.offeringLines;
 					this.statement = res.statement;
+					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
 				});
 			} else {
 				let currentReport = {
@@ -355,6 +354,7 @@
 				ItinReports.save(currentReport).then(res => {					
 					this.currentReport = res;
 					this.$router.replace({ path: 'itinerationReport', query: { reportId: res._id}});
+					this.loading = false;
 				});
 			}
 		},

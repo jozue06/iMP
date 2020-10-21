@@ -1,5 +1,6 @@
 <template>
 	<section class="mt-3">
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<b-tabs small card>
 				<b-tab title="Personal Info" active>
@@ -35,22 +36,21 @@
 	import { Settings } from "../../data/userSettings";
 	import { Currencies } from "../../data/currenciesExternalApi";
 	import supportedCurrencies from "../../constants/supportedCurrencies";
-	export default  {
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
+	export default  {
 		name: 'userSettings',
 
 		components: {
 			PersonalInfo,
 			VehiclesTab,
 			ItinerationSettingsTab,
-			CurrencySettingsTab
-		},
-
-		props: {
-
+			CurrencySettingsTab,
+			LoadingSpinner,
 		},
 
 		mounted() {
+			this.loading = true;
 			Settings.getSettings().then(settings => {
 				this.currentSettings = settings ? settings : {};
 				if (settings) {
@@ -61,6 +61,7 @@
 					// 	}
 					// });
 				}
+				this.loading = false;
 			});
 			
 		},
@@ -94,10 +95,6 @@
 				});
 			}
 		},
-
-		computed: {
-
-		}
-}
+	}
 
 </script>

@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<div class="mt-4">
 				<ReportTop v-bind:currentReport="currentReport" :reportType=3 linkTo="/SDRReports"/>
@@ -88,8 +89,9 @@
 	import ReportMoreInfo from "../Globals/ReportMoreInfo";
 	import ExpenseLineModal from "../Modals/ExpenseLineModal";
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import { SDRReports  } from '../../data/sdrReports'
+	import { SDRReports  } from '../../data/sdrReports';
 	import { ExpenseLines } from "../../data/expenseLines";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default {
 		components: {
@@ -97,6 +99,7 @@
 			ReportMoreInfo,
 			ExpenseLineModal,
 			ConfirmModal,
+			LoadingSpinner,
 		},
 
 		methods: {
@@ -134,7 +137,6 @@
 			onExpenseLineRowSelected(expenseLine) {
 				this.selectedExpenseLines = expenseLine;
 			},
-
 		},
 		
 		data() {
@@ -149,6 +151,7 @@
 		},
 
 		created() {
+			this.loading = true;
 			if (this.$router.currentRoute.params.reportId || this.$router.currentRoute.query.reportId) {
 				let reportId;
 				if (this.$router.currentRoute.params.reportId) {
@@ -162,8 +165,11 @@
 					this.currentReport = res;
 					this.expenseLines = res.expenseLines;
 					this.statement = res.statement;
+					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
 				});
 			} else {
 				let currentReport = {
@@ -174,13 +180,16 @@
 				SDRReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'SDRReport', query: { reportId: res._id}});
+					this.loading = false;
 				});
 			}
 		},
+
 		computed: {
 			confirmDeleteExpenseLineMessage() {
 				return "Are you sure you would like to delete the selected SDR Expense Line(s)?";
 			},
+
 			expenseFields() {
 				if (this.expenseLines[0]) {
 					return Object.keys(this.expenseLines[0]).map(f => {

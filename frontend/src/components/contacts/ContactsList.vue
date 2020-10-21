@@ -1,5 +1,6 @@
 <template>
 	<section class="contacts">
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Contacts</h1>
@@ -68,18 +69,19 @@
 </template>
 
 <script>
-	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../Globals/NoResults'
-	import ContactModal from '../Modals/ContactModal'
-	// import ContactSearchComponent from '../Globals/ContactSearchComponent'
-	import { Contacts } from '../../data/contacts'
+	import ConfirmModal from '../Modals/ConfirmModal';
+	import NoResults from '../Globals/NoResults';
+	import ContactModal from '../Modals/ContactModal';
+	// import ContactSearchComponent from '../Globals/ContactSearchComponent';
+	import { Contacts } from '../../data/contacts';
 	import { allowedFields } from '@/constants/tableFields';
-	
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 	export default {
 		components: {
 			ConfirmModal,
 			NoResults,
 			ContactModal,
+			LoadingSpinner,
 			// ContactSearchComponent,
 		},
 
@@ -120,14 +122,16 @@
 			},
 
 			findAllContacts() {
-				let contacts = []; 				
-				Contacts.getContacts().then((data) => {	
+				this.loading = true;
+				let contacts = []; 
+				Contacts.getContacts().then((data) => {
 					data.forEach(c => {
 						if (c.firstName && c.lastName) {
 							c.id = c._id;
 							contacts.push({...c});
 						}
 					});
+					this.loading = false;
 				});
 
 				return contacts;
@@ -144,6 +148,7 @@
 
 		data() {
 			return {
+				loading: true,
 				contacts: [],
 				sortBy: 'firstName',
 				sortDesc: false,

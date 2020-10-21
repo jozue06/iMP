@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<h1>{{currentGroup.name}}</h1>
 			<div v-if="contactLines.length > 0">
@@ -49,6 +50,7 @@
 	import { allowedFields } from '@/constants/tableFields';
 	import NoResults from '../Globals/NoResults'
 	import ContactModal from '../Modals/ContactModal'
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 
 	export default  {
 
@@ -57,6 +59,7 @@
 		components: {
 			NoResults,
 			ContactModal,
+			LoadingSpinner,
 		},
 
 		props: {
@@ -64,12 +67,22 @@
 		},
 
 		created() {
-			if (this.$router.currentRoute.params.groupId) {
-				ContactGroups.getContactGroup(this.$router.currentRoute.params.groupId).then(res => {
+			if (this.$router.currentRoute.params.groupId || this.$router.currentRoute.query.groupId) {
+				this.loading = true;
+				let groupId;
+				if (this.$router.currentRoute.params.groupId) {
+					groupId = this.$router.currentRoute.params.groupId;
+					this.$router.replace({ path: 'groupView', query: { groupId: groupId}});
+				} else {
+					groupId = this.$router.currentRoute.query.groupId;
+				}
+				ContactGroups.getContactGroup(groupId).then(res => {
 					this.currentGroup = res;					
 					this.contactLines = this.currentGroup.contacts;
+					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
+					this.loading = false;
 					throw e;
 				});
 			}
@@ -77,6 +90,7 @@
 
 		data() {
 			return {
+				loading: "",
 				contactLines: [],
 				currentGroup: {},
 				sortBy: 'groupName',
@@ -101,11 +115,11 @@
 			},
 			
 			showContactModal() {
-
+				this.$refs.contactModal.$refs.contactModal.show()
 			},
 
 			refresh() {
-
+				this.$emit("refresh");
 			},
 		},
 

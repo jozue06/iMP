@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<LoadingSpinner v-bind:loading="loading" />
 		<div class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Itineration Reports</h1>
@@ -11,7 +12,7 @@
 					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
-						New Itineration Report
+						+ New Itineration Report
 					</b-button>
 				</router-link>
 				<b-table
@@ -64,7 +65,7 @@
 				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
-					New Itineration Report
+					+ New Itineration Report
 				</b-button>
 			</router-link>
 			<ConfirmModal 
@@ -82,23 +83,20 @@
 	import NoResults from '../Globals/NoResults'
 	import { ItinReports  } from '../../data/itinReports'
 	import { allowedFields } from "../../constants/tableFields";
+	import LoadingSpinner from "../Globals/LoadingSpinner";
 		
 	export default  {
+		name: 'itinerationReportList',
+
 		components: {
 			ConfirmModal,
 			NoResults,
-		},
-
-		name: 'itinerationReportList',
-
-		props: [],
-
-		mounted () {
-
+			LoadingSpinner,
 		},
 
 		data() {
 			return {
+				loading: "",
 				reports: this.loadReports(),
 				confirmDeleteMessage: "Are you sure you want to delete this Itineration Report? This cannot be un-done",
 				selected: "",
@@ -109,10 +107,6 @@
 		},
 
 		methods: {
-			showReportModal() {
-
-			},
-
 			onRowSelected(report) {
 				this.selected = report;
 			},
@@ -137,6 +131,7 @@
 			},
 
 			loadReports() {
+				this.loading = true;
 				let reports = []; 
 				ItinReports.getItinReports().then(res => {
 					res.forEach(report => {
@@ -145,6 +140,7 @@
 							reports.push({...report});
 						}
 					});
+					this.loading = false;
 				});
 				return reports;
 			},
