@@ -56,8 +56,7 @@
 							required
 							placeholder="0.00"
 							name="beginningAmount"
-							lazy-formatter
-							:formatter="$formatMoney"
+							@blur="saveReport"
 						></b-form-input>
 						<b-input-group-append>
 							<b-button variant="outline-secondary" :disabled="true">Get Previous Funds</b-button>
@@ -78,7 +77,7 @@
 
 	export default {
 		props: {
-			currentReport: Object,
+			report: Object,
 			linkTo: String,
 			reportType: Number,
 		},
@@ -92,15 +91,6 @@
 			formatYearForSave(value) {
 				this.currentReport.year = value.format('YYYY');
 				this.saveReport();
-			},
-
-			formatMoney(amount) {
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				this.saveReport();
-				return Number(value);
 			},
 
 			formatDate(dateTimeObject) {
@@ -123,54 +113,7 @@
 			},
 
 			saveReport() {				
-				this.loading = true;
-				if (this.reportType === 1) {
-					ItinReports.save(this.currentReport).then(res => {
-						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
-						this.loading = false;
-						this.currentReport = res;
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.loading = false;
-						throw e;
-					});
-				}
-
-				if (this.reportType === 2) {
-					MAReports.save(this.currentReport).then(res => {
-						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
-						this.loading = false;
-						this.currentReport = res;
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.loading = false;
-						throw e;
-					});
-				}
-
-				if (this.reportType === 3) {
-					SDRReports.save(this.currentReport).then(res => {
-						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
-						this.loading = false;
-						this.currentReport = res;
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.loading = false;
-						throw e;
-					});
-				}
-
-				if (this.reportType === 4) {
-					InstitutionalReports.save(this.currentReport).then(res => {
-						this.$Notification("Success!", `Successfully Saved the ${this.reportName} Report`);
-						this.loading = false;
-						this.currentReport = res;
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.loading = false;
-						throw e;
-					});
-				}
+				this.$emit("saveReport");
 			},
 		},
 		
@@ -179,7 +122,8 @@
 				monthOptions: months,
 				selectedQuarterOption: null,
 				selectedYear: this.$Moment(this.$Moment.now()).format("YYYY"),
-				loading: false
+				loading: false,
+				currentReport: this.report,
 			};
 		},
 

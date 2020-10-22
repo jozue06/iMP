@@ -1,13 +1,13 @@
 <template>
-	<section>
-		<b-modal top ref="statementModal" title="Statements" hide-footer v-bind:currentReport="currentReport" v-bind:statement="statement">			
-			<div>
+	<section>		
+		<b-modal top ref="statementModal" title="Statements" hide-footer v-bind:currentReport="currentReport">	
+			<div v-if="currentReport.statement">
 				<h5>first qtr</h5>
 				<b-row class="ml-4 mr-4 justify-content-between">
 					<b-col cols="12">
 						<b-form-group label="Statement Date">
 							<b-form-datepicker
-								v-model="statement.dateOne"
+								v-model="currentReport.statement.dateOne"
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
@@ -23,7 +23,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.amountOne" 
+									v-model="currentReport.statement.amountOne" 
 									placeholder="0.00"
 									name="amountOne"
 									lazy-formatter
@@ -38,7 +38,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.reimbursementOne" 
+									v-model="currentReport.statement.reimbursementOne" 
 									placeholder="0.00"
 									name="reimbursementOne"
 									lazy-formatter
@@ -50,13 +50,13 @@
 				</b-row>
 			</div>
 
-			<div>
+			<div v-if="currentReport.statement">
 				<h5>second qtr</h5>
 				<b-row class="ml-4 mr-4 justify-content-between">
 					<b-col cols="12">
 						<b-form-group label="Statement Date">
 							<b-form-datepicker
-								v-model="statement.dateTwo"
+								v-model="currentReport.statement.dateTwo"
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
@@ -72,7 +72,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.amountTwo" 
+									v-model="currentReport.statement.amountTwo" 
 									placeholder="0.00"
 									name="amountTwo"
 									lazy-formatter
@@ -87,7 +87,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.reimbursementTwo" 
+									v-model="currentReport.statement.reimbursementTwo" 
 									placeholder="0.00"
 									name="reimbursementTwo"
 									lazy-formatter
@@ -98,13 +98,13 @@
 					</b-col>
 				</b-row>
 			</div>
-			<div>
+			<div v-if="currentReport.statement">
 				<h5>third qtr</h5>
 				<b-row class="ml-4 mr-4 justify-content-between">
 					<b-col cols="12">
 						<b-form-group label="Statement Date">
 							<b-form-datepicker
-								v-model="statement.dateThree"
+								v-model="currentReport.statement.dateThree"
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
@@ -120,7 +120,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.amountThree" 
+									v-model="currentReport.statement.amountThree" 
 									placeholder="0.00"
 									name="amountThree"
 									lazy-formatter
@@ -135,7 +135,7 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.reimbursementThree" 
+									v-model="currentReport.statement.reimbursementThree" 
 									placeholder="0.00"
 									name="reimbursementThree"
 									lazy-formatter
@@ -164,7 +164,6 @@
 		name: 'statementModal',
 
 		props: {
-			statement: Object,
 			currentReport: Object,
 			statementReimbursementTotal: String,
 			reportType: Number,
@@ -182,28 +181,29 @@
 		methods: {
 			saveStatement() {
 				if (this.reportType == 0) {
-					this.statement.qtrReportId = this.currentReport._id;
+					this.currentReport.statement.qtrReportId = this.currentReport._id;
 				}
 
 				if (this.reportType == 1) {
-					this.statement.itinReportId = this.currentReport._id;
+					this.currentReport.statement.itinReportId = this.currentReport._id;
 				}  
 
 				if (this.reportType == 2) {
-					this.statement.maReportId = this.currentReport._id;
+					this.currentReport.statement.maReportId = this.currentReport._id;
 				}
 
 				if (this.reportType == 3) {
-					this.statement.sdrReportId = this.currentReport._id;
+					this.currentReport.statement.sdrReportId = this.currentReport._id;
 				}
 
 				if (this.reportType == 4) {
-					this.statement.institutionalReportId = this.currentReport._id;
+					this.currentReport.statement.institutionalReportId = this.currentReport._id;
 				}
 
-				this.statement.reportType = this.reportType;				
+				this.currentReport.statement.reportType = this.reportType;				
 				this.loading = true;
-				Statements.save(this.statement).then(res => {
+				
+				Statements.save(this.currentReport.statement).then(res => {
 					this.$refs.statementModal.hide();
 					this.$Notification("Success!", "Successfully Added the Statement", "primary");
 					this.loading = false;

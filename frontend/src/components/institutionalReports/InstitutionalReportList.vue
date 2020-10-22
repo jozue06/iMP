@@ -6,7 +6,7 @@
 				<h1 class="pt-2">Institutional Reports</h1>
 			</router-link>
 		
-			<div v-if="reports.length > 0">
+			<div v-if="reports && reports.length > 0">
 				<router-link
 					to="/institutionalReport"
 					v-slot="{ href, navigate}"
@@ -52,7 +52,7 @@
 				</b-button>
 			</div>
 			<router-link
-				v-else-if="reports.length == 0" 
+				v-else-if="!reports || reports.length == 0" 
 				to="/institutionalReport"
 				v-slot="{ href, navigate}"
 			>
@@ -117,7 +117,7 @@
 			
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
-				InstitutionalReports.deleteInstitutionalReport(ids).then(res => {					
+				InstitutionalReports.deleteInstitutionalReport(ids).then(res => {
 					this.refresh();
 					this.$Notification("Deleted", "Deleted the Selected Institutional Reports", "warning", "", 3000);
 				}).catch(e => {

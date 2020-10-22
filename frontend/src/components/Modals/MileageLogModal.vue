@@ -105,7 +105,7 @@
 
 		methods: {
 			saveMilageLog() {
-				this.loading = true;			
+				this.loading = true;
 				if (!this.currentReport.mileageLogs) {
 					this.currentReport.mileageLogs = [];
 					this.currentReport.mileageLogs.push(this.mileageLog);
@@ -137,10 +137,6 @@
 				return Number(string);
 			},
 		},
-
-		computed: {
-
-		}
-}
+	}
 
 </script>

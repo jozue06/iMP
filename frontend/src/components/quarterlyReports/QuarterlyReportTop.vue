@@ -40,7 +40,7 @@
 							placeholder="0.00"
 							name="baseAmount"
 							lazy-formatter
-							:formatter="formatMoney"
+							:formatter="$formatMoney"
 						></b-form-input>
 						<b-input-group-append>
 							<b-button variant="outline-secondary" :disabled="true">get funds</b-button>
@@ -56,7 +56,7 @@
 	import { QuarterlyReports } from "../../data/quarterlyReports"
 	export default {
 		props: {
-			quarterlyReport: Object,
+			report: Object,
 		},
 
 		methods: {
@@ -68,15 +68,6 @@
 			formatYearForSave(value) {
 				this.quarterlyReport.year = value.format('YYYY');
 				this.saveReport();
-			},
-
-			formatMoney(amount) {
-				if (isNaN(Number(amount))) {
-					return 0;
-				}
-				let value = Number(amount).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
-				this.saveReport();
-				return Number(value);
 			},
 
 			formatDate(dateTimeObject) {
@@ -99,16 +90,7 @@
 			},
 
 			saveReport() {
-				this.loading = true;
-				QuarterlyReports.save(this.quarterlyReport).then(res => {
-					this.$Notification("Success!", "Successfully Saved the Quarterly Report");
-					this.loading = false;
-					this.quarterlyReport = res
-				}).catch(e => {
-					console.error('eeek ', e);
-					this.loading = false;
-					throw e;
-				});
+				this.$emit("saveReport");
 			},
 		},
 		
@@ -124,7 +106,8 @@
 				],
 				selectedQuarterOption: null,
 				selectedYear: this.$Moment(this.$Moment.now()).format("YYYY"),
-				loading: false
+				loading: false,
+				quarterlyReport: this.report
 			};
 		},
 

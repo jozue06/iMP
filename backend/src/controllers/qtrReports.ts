@@ -2,6 +2,7 @@ import { QtrReport, QtrReportDocument } from "../models/qrtReport"
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
+import { Statement } from "../models/statement";
 
 export class QtrReportController {
 	public createQtrReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -9,6 +10,8 @@ export class QtrReportController {
 			const qtrReport = req.body.qtrReport;
 			qtrReport.user = user._id;
 			const newQtrReport = new QtrReport(qtrReport);
+			newQtrReport.statement = new Statement();
+			newQtrReport.statement.save();
 			newQtrReport.save().then((report: QtrReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
