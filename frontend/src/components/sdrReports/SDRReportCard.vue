@@ -2,8 +2,8 @@
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
 		<div v-if="!loading" class="main-card">
-			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=3 @saveReport="saveReport" linkTo="/SDRReports"/>
+			<div class="mt-4">				
+				<ReportTop v-bind:report="currentReport" :reportType=3 @saveReport="saveReport" linkTo="/SDRReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -142,7 +142,7 @@
 		data() {
 			return {
 				loading: false,
-				currentReport: {},
+				currentReport: "",
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
 			};
@@ -169,8 +169,7 @@
 				});
 			} else {
 				let currentReport = {
-					month: 1,
-					year: moment().format("YYYY"),
+					sdrDate: moment()
 				};
 
 				SDRReports.save(currentReport).then(res => {
