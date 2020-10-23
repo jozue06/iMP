@@ -3,7 +3,7 @@
 		<LoadingSpinner v-bind:loading="loading" />
 		<div v-if="!loading" class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=4 linkTo="/institutionalReports"/>
+				<ReportTop v-bind:report="currentReport" :reportType=4 @saveReport="saveReport" linkTo="/institutionalReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -13,18 +13,18 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=4 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=4 @saveReport="saveReport"/>
 			</b-collapse>
 			
 			<b-tabs pills card end>
 				<b-tab title="ExpenseLines" active>
 					<h4>Expense Lines</h4>
 					<b-table
-						v-if="expenseLines && expenseLines.length > 0"
+						v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
-						:items="expenseLines" 
+						:items="currentReport.expenseLines" 
 						ref="expenseLinesTable"
 						responsive="sm"
 						selectable
@@ -37,7 +37,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -145,8 +145,6 @@
 				currentReport: {},
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
-				statement: {},
-				expenseLines: [],
 			};
 		},
 
@@ -163,8 +161,6 @@
 				
 				InstitutionalReports.getInstitutionalReport(reportId).then(res => {
 					this.currentReport = res;
-					this.expenseLines = res.expenseLines;
-					this.statement = res.statement;
 					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
@@ -193,8 +189,8 @@
 			},
 
 			expenseFields() {
-				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {
+				if (this.currentReport.expenseLines[0]) {
+					return Object.keys(this.currentReport.expenseLines[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						

@@ -2,8 +2,8 @@
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
 		<div v-if="!loading" class="main-card">
-			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=3 linkTo="/SDRReports"/>
+			<div class="mt-4">				
+				<ReportTop v-bind:report="currentReport" :reportType=3 @saveReport="saveReport" linkTo="/SDRReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -13,18 +13,18 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=3 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=3 @saveReport="saveReport"/>
 			</b-collapse>
 			
 			<b-tabs pills card end>
 				<b-tab title="SDR ExpenseLines" active>
 					<h4>SDR Expense Lines</h4>
 					<b-table
-						v-if="expenseLines && expenseLines.length > 0"
+						v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
-						:items="expenseLines" 
+						:items="currentReport.expenseLines" 
 						ref="expenseLinesTable"
 						responsive="sm"
 						selectable
@@ -37,7 +37,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -142,11 +142,9 @@
 		data() {
 			return {
 				loading: false,
-				currentReport: {},
+				currentReport: "",
 				selectedExpenseLines: [],
 				selectedExpenseLine: {},
-				expenseLines: [],
-				statement: {},
 			};
 		},
 
@@ -163,8 +161,6 @@
 				
 				SDRReports.getSDRReport(reportId).then(res => {
 					this.currentReport = res;
-					this.expenseLines = res.expenseLines;
-					this.statement = res.statement;
 					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
@@ -173,8 +169,7 @@
 				});
 			} else {
 				let currentReport = {
-					month: 1,
-					year: moment().format("YYYY"),
+					sdrDate: moment()
 				};
 
 				SDRReports.save(currentReport).then(res => {
@@ -191,8 +186,8 @@
 			},
 
 			expenseFields() {
-				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {
+				if (this.currentReport.expenseLines[0]) {
+					return Object.keys(this.currentReport.expenseLines[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						

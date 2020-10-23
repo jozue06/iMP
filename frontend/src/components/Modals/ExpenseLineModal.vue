@@ -172,12 +172,6 @@
 </template>
 
 <script>
-	// import { insertQuarterlyReport } from '@/data/data';
-	// import { remote } from 'electron';
-
-	// var path = require('path');
-	// var fs = require('fs');
-	// const URL = require('url');
 	import { ExpenseLines } from "../../data/expenseLines";
 
 	export default  {
@@ -205,21 +199,7 @@
 		
 		methods: {
 			fileSelected(evt) {
-				// let file = evt.target.files[0];
-				// this.expenseReceiptFile = file;
 
-				// let oldPath = file.path
-				// let fileName = path.basename(oldPath);
-				// let newPath = remote.app.getPath('userData') + '-' + fileName;
-
-				// var readStream = fs.createReadStream(oldPath);
-				// var writeStream = fs.createWriteStream(newPath);
-				// readStream.on('close', function () {
-				// 	let fileName = path.basename(newPath);
-				// });
-				// readStream.pipe(writeStream);
-
-				// this.previewPath = URL.pathToFileURL(newPath);
 			},
 
 			onSubmit() {

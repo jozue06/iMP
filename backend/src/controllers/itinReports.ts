@@ -2,6 +2,7 @@ import { ItinReport, ItinReportDocument } from "../models/itinerationReport"
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
+import { Statement } from "../models/statement";
 
 export class ItinReportController {
 	public createItinReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -9,6 +10,8 @@ export class ItinReportController {
 			const itinReport = req.body.itinReport;
 			itinReport.user = user._id;
 			const newItinReport = new ItinReport(itinReport);
+			newItinReport.statement = new Statement();
+			newItinReport.statement.save();
 			newItinReport.save().then((report: ItinReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {

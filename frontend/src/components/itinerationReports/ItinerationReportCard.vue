@@ -13,18 +13,18 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=1 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" :reportType=1 @saveReport="saveReport"/>
 			</b-collapse>
 
 			<b-tabs pills card end>
 				<b-tab title="Itineration ExpenseLines" active>
 					<h4>Itineration Expense Lines</h4>
 					<b-table
-						v-if="expenseLines && expenseLines.length > 0"
+						v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
-						:items="expenseLines" 
+						:items="currentReport.expenseLines" 
 						ref="expenseLinesTable"
 						responsive="sm"
 						selectable
@@ -37,7 +37,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -56,11 +56,11 @@
 				<b-tab title="Itineration Offerings">
 					<h4>Itineration Offerings</h4>
 					<b-table
-						v-if="offeringLines && offeringLines.length > 0"
+						v-if="currentReport.offeringLines && currentReport.offeringLines.length > 0"
 						striped 
 						hover 
 						:fields="offeringFields"
-						:items="offeringLines" 
+						:items="currentReport.offeringLines" 
 						ref="offeringLinesTable"
 						responsive="sm"
 						selectable
@@ -76,7 +76,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="offeringLines && offeringLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.offeringLines && currentReport.offeringLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -95,11 +95,11 @@
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
-						v-if="mileageLogs && mileageLogs.length > 0"
+						v-if="currentReport.mileageLogs && currentReport.mileageLogs.length > 0"
 						striped 
 						hover 
 						:fields="mileageLogFields"
-						:items="mileageLogs" 
+						:items="currentReport.mileageLogs" 
 						ref="mileageLogsTable"
 						responsive="sm"
 						selectable
@@ -111,7 +111,7 @@
 						</template>
 					</b-table>
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="mileageLogs && mileageLogs.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.mileageLogs && currentReport.mileageLogs.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -310,14 +310,9 @@
 				selectedMileageLogs: "",
 				selectedOfferingLines: "",
 
-				expenseLines: [],
-				mileageLogs: [],
-				offeringLines: [],
-
 				selectedExpenseLine: {},
 				selectedMileageLog: {},
 				selectedOfferingLine: {},
-				statement: {},
 				currentReport: {},
 			};
 		},
@@ -335,10 +330,6 @@
 				
 				ItinReports.getItinReport(reportId).then(res => {
 					this.currentReport = res;
-					this.expenseLines = res.expenseLines;
-					this.mileageLogs = res.mileageLogs;
-					this.offeringLines = res.offeringLines;
-					this.statement = res.statement;
 					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
@@ -361,8 +352,8 @@
 
 		computed: {
 			expenseFields() {				
-				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {						
+				if (this.currentReport.expenseLines[0]) {
+					return Object.keys(this.currentReport.expenseLines[0]).map(f => {						
 						let tmp = {};
 						tmp.sortable = false;
 						
@@ -379,8 +370,8 @@
 			},
 
 			mileageLogFields() {
-				if (this.mileageLogs[0]) {
-					return Object.keys(this.mileageLogs[0]).map(f => {
+				if (this.currentReport.mileageLogs[0]) {
+					return Object.keys(this.currentReport.mileageLogs[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						
