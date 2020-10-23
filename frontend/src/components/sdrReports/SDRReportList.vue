@@ -103,7 +103,7 @@
 			return {
 				loading: "",
 				reports: [],
-				confirmDeleteMessage: "Are you sure you want to delete this MA Report? This cannot be un-done",
+				confirmDeleteMessage: "Are you sure you want to delete this SDR Report? This cannot be un-done",
 				selected: "",
 				sortBy: '',
 				sortDesc: false,
@@ -128,7 +128,7 @@
 				let ids = this.selected.map(ele => ele._id);
 				SDRReports.deleteSDRReport(ids).then(res => {					
 					this.refresh();
-					this.$Notification("Deleted", "Deleted the Selected MA Reports", "warning", "", 3000);
+					this.$Notification("Deleted", "Deleted the Selected SDR Reports", "warning", "", 3000);
 				}).catch(e => {
 					console.error('e', e);
 					throw e;
