@@ -3,7 +3,7 @@
 		<LoadingSpinner v-bind:loading="loading" />
 		<div v-if="!loading" class="main-card">
 			<div class="mt-4">
-				<QuarterlyReportTop v-bind:quarterlyReport="currentReport"/>
+				<QuarterlyReportTop v-bind:report="currentReport" @saveReport="saveReport"/>
 			</div>
 
 			<b-row class="justify-content-around">
@@ -13,18 +13,18 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" @saveReport="saveReport"/>				
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>				
 			</b-collapse>
 
 			<b-tabs pills card end>
 				<b-tab title="Expense Lines" active>
 					<h4>Expense Lines</h4>
 					<b-table
-						v-if="expenseLines && expenseLines.length > 0"
+						v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0"
 						striped 
 						hover 
 						:fields="expenseFields"
-						:items="expenseLines" 
+						:items="currentReport.expenseLines" 
 						ref="expenseLinesTable"
 						responsive="sm"
 						selectable
@@ -37,7 +37,7 @@
 					</b-table>
 				
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="expenseLines && expenseLines.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.expenseLines && currentReport.expenseLines.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -56,11 +56,11 @@
 				<b-tab title="Mileage logs">
 					<h4>Mileage logs</h4>
 					<b-table
-						v-if="mileageLogs && mileageLogs.length > 0"
+						v-if="currentReport.mileageLogs && currentReport.mileageLogs.length > 0"
 						striped 
 						hover 
 						:fields="mileageLogFields"
-						:items="mileageLogs" 
+						:items="currentReport.mileageLogs" 
 						ref="mileageLogsTable"
 						responsive="sm"
 						selectable
@@ -72,7 +72,7 @@
 						</template>
 					</b-table>
 					<b-row class="justify-content-around">
-						<b-col cols="10" class="my-2" v-if="mileageLogs && mileageLogs.length > 0">
+						<b-col cols="10" class="my-2" v-if="currentReport.mileageLogs && currentReport.mileageLogs.length > 0">
 							<b-button 
 								variant="danger" 
 								size="sm" 
@@ -107,7 +107,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
-				v-bind:isQtrReportexpenseLineType=0
+				v-bind:expenseLineType=0
 			/>
 			<MileageLogModal 
 				v-bind:mileageLog="selectedMileageLog" 
@@ -218,6 +218,7 @@
 
 			saveReport() {
 				QuarterlyReports.save(this.currentReport).then(res => {
+					this.currentReport = res;
 					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
 					console.error('eeek error saving report', e);
@@ -233,15 +234,10 @@
 				selectedExpenseLines: "",
 				selectedMileageLogs: "",
 
-				expenseLines: [],
-				mileageLogs: [],
-
 				selectedExpenseLine: {},
 				selectedMileageLog: {},
 
 				currentReport: {},
-				statement: {},
-				otherIncomeLines: [],
 			};
 		},
 
@@ -258,9 +254,6 @@
 				
 				QuarterlyReports.getQuarterlyReport(reportId).then(res => {
 					this.currentReport = res;
-					this.expenseLines = res.expenseLines;
-					this.mileageLogs = res.mileageLogs;
-					this.statement = res.statement;
 					this.loading = false;
 				}).catch(e => {
 					console.error(' Report.find eek ', e);
@@ -272,7 +265,7 @@
 					quarterNumber: 1,
 					year: moment().format("YYYY"),
 				};
-				QuarterlyReports.save(currentReport).then(res => {					
+				QuarterlyReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});
 					this.loading = false;
@@ -282,8 +275,8 @@
 
 		computed: {
 			expenseFields() {
-				if (this.expenseLines[0]) {
-					return Object.keys(this.expenseLines[0]).map(f => {
+				if (this.currentReport.expenseLines[0]) {
+					return Object.keys(this.currentReport.expenseLines[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						
@@ -300,8 +293,8 @@
 			},
 
 			mileageLogFields() {
-				if (this.mileageLogs[0]) {
-					return Object.keys(this.mileageLogs[0]).map(f => {
+				if (this.currentReport.mileageLogs[0]) {
+					return Object.keys(this.currentReport.mileageLogs[0]).map(f => {
 						let tmp = {};
 						tmp.sortable = false;
 						
@@ -324,7 +317,6 @@
 			confirmDeleteMileageLogMessage() {
 				return "Are you sure you want to Delete the Selected Mileage Logs? This cannot be un-done";
 			}
-
 		}
 	}
 </script>

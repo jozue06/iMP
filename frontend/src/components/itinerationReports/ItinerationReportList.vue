@@ -6,7 +6,7 @@
 				<h1 class="pt-2">Itineration Reports</h1>
 			</router-link>
 		
-			<div v-if="reports.length > 0">
+			<div v-if="reports && reports.length > 0">
 				<router-link
 					to="/itinerationReport"
 					v-slot="{ href, navigate}"
@@ -60,7 +60,7 @@
 				</b-button>
 			</div>
 			<router-link
-				v-else-if="reports.length == 0" 
+				v-else-if="!reports || reports.length == 0" 
 				to="/itinerationReport"
 				v-slot="{ href, navigate}"
 			>

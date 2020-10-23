@@ -8,11 +8,11 @@ import ValidationException from '../exceptions/ValidationException';
 import { MAReport } from "../models/maReport";
 
 export class StatementController {
-	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {		
-		const reportType = req.body.statement.reportType;		
+	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
+		const reportType = req.body.statement.reportType;
 		const statement = new Statement(req.body.statement);
 		statement.save().then(savedStatement => {
-
+			
 			if (reportType === 0) {
 				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);

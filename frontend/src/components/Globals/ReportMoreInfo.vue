@@ -1,5 +1,5 @@
 <template>
-	<div v-bind:statement="statement">
+	<div>
 		<div class="sub-card">
 			<b-row v-if='reportType === 1' class="justify-content-around">
 				<b-col cols="2" class="my-2">
@@ -657,29 +657,29 @@
 						Statment Info
 					</label>
 					<b-col>				
-						<b-row v-if="statement && (statement.dateOne || statement.dateTwo || statement.dateThree)" @click="showStatementModal(statement)" class="align-items-center mt-2">
+						<b-row v-if="currentReport.statement && (currentReport.statement.dateOne || currentReport.statement.dateTwo || currentReport.statement.dateThree)" @click="showStatementModal(currentReport.statement)" class="align-items-center mt-2">
 							<b-col cols='4'>
-								{{statement.dateOne}}
+								{{currentReport.statement.dateOne}}
 								<br>
-								${{statement.amountOne}}
+								${{currentReport.statement.amountOne}}
 								<br>
-								${{statement.reimbursementOne}}
+								${{currentReport.statement.reimbursementOne}}
 							</b-col>
 							
 							<b-col cols='4'>
-								{{statement.dateTwo}}
+								{{currentReport.statement.dateTwo}}
 								<br>
-								${{statement.amountTwo}}
+								${{currentReport.statement.amountTwo}}
 								<br>
-								${{statement.reimbursementTwo}}
+								${{currentReport.statement.reimbursementTwo}}
 							</b-col>
 
 							<b-col cols='4'>
-								{{statement.dateThree}}
+								{{currentReport.statement.dateThree}}
 								<br>
-								${{statement.amountThree}}
+								${{currentReport.statement.amountThree}}
 								<br>
-								${{statement.reimbursementThree}}
+								${{currentReport.statement.reimbursementThree}}
 							</b-col>
 							<b-row class="mt-2 mb-2 text-right">
 								<b-col cols="12" class="text-right">
@@ -703,7 +703,6 @@
 		<StatementModal 
 			ref="statementModal" 
 			v-bind:currentReport="currentReport" 
-			v-bind:statement="statement" 
 			v-bind:statementReimbursementTotal="statementReimbursementTotal"
 			v-bind:reportType="reportType"
 		/>
@@ -723,7 +722,6 @@
 		props: {
 			currentReport: Object,
 			reportType: Number,
-			statement: Object,
 		},
 
 		data() {
@@ -737,7 +735,7 @@
 				this.$emit("saveReport");
 			},
 
-			showStatementModal(statement) {
+			showStatementModal() {
 				this.$refs.statementModal.$refs.statementModal.show();
 			},
 		},
@@ -745,17 +743,17 @@
 		computed: {
 			statementReimbursementTotal() {
 				let amt = 0;
-				if (this.statement) {
-					if (this.statement.reimbursementOne) {
-						amt += this.statement.reimbursementOne;
+				if (this.currentReport.statement) {
+					if (this.currentReport.statement.reimbursementOne) {
+						amt += this.currentReport.statement.reimbursementOne;
 					}
 
-					if (this.statement.reimbursementTwo) {
-						amt += this.statement.reimbursementTwo;
+					if (this.currentReport.statement.reimbursementTwo) {
+						amt += this.currentReport.statement.reimbursementTwo;
 					}
 
-					if (this.statement.reimbursementThree) {
-						amt += this.statement.reimbursementThree;
+					if (this.currentReport.statement.reimbursementThree) {
+						amt += this.currentReport.statement.reimbursementThree;
 					}
 				}
 				
@@ -764,17 +762,17 @@
 
 			statementAmountTotal() {
 				let amt = 0;
-				if (this.statement) {
-					if (this.statement.amountOne) {
-						amt += this.statement.amountOne;
+				if (this.currentReport.statement) {
+					if (this.currentReport.statement.amountOne) {
+						amt += this.currentReport.statement.amountOne;
 					}
 
-					if (this.statement.amountTwo) {
-						amt += this.statement.amountTwo;
+					if (this.currentReport.statement.amountTwo) {
+						amt += this.currentReport.statement.amountTwo;
 					}
 
-					if (this.statement.amountThree) {
-						amt += this.statement.amountThree;
+					if (this.currentReport.statement.amountThree) {
+						amt += this.currentReport.statement.amountThree;
 					}
 				}
 				return "$" + this.$formatMoney(amt);

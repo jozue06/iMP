@@ -97,7 +97,7 @@ const QtrReportSchema = new Schema({
 	statement: {
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		defaut: []
+		defaut: [],
 	},
 
 	otherIncomeLines: [{
