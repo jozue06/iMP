@@ -3,7 +3,7 @@
 		<LoadingSpinner v-bind:loading="loading" />
 		<div v-if="!loading" class="main-card">
 			<div class="mt-4">
-				<ReportTop v-bind:currentReport="currentReport" :reportType=1 linkTo="/itinerationReports"/>
+				<ReportTop v-bind:report="currentReport" :reportType=1 @saveReport="saveReport" linkTo="/itinerationReports"/>
 			</div>
 
 			<b-row class="justify-content-around">
