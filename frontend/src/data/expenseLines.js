@@ -63,5 +63,14 @@ export const ExpenseLines = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	})
+	}),
+
+	uploadPhoto: handleError(async (payload) => {		
+		const headers = {
+			"Content-Type": "multipart/form-data",
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}		
+		const res = await axios.post(baseURL + "/uploadImage",  payload, {"headers": headers});		
+		return res.data;
+	}),
 };

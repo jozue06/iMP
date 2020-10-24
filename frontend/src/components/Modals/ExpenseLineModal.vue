@@ -131,7 +131,7 @@
 							
 				</b-tab>
 
-				<!-- <b-tab title="Second">
+				<b-tab title="Second">
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="multiPart">
 							<b-form-select 
@@ -156,15 +156,15 @@
 				>
 					<div class="row sub-section">
 						<b-form-group class="mr-1" label="Receipt Image">
-							<b-form-file 
-								@change="fileSelected"
+							<b-form-file
 								v-model="expenseReceiptFile"
 								accept=".jpg, .png">
 							</b-form-file>
-							<img v-if="previewPath" src="previewPath">
+							<b-button v-if="expenseReceiptFile" class="float-right" type="submit" @click="upload" variant="primary">Upload</b-button>
 						</b-form-group>
+						<img v-if="previewPath" :src=previewPath alt="left">
 					</div>
-				</b-tab> -->
+				</b-tab>
 			</b-tabs>
 			<b-button class="float-right" type="submit" @click="onSubmit" variant="primary">Submit</b-button>
 		</b-modal>
@@ -198,8 +198,15 @@
 		},
 		
 		methods: {
-			fileSelected(evt) {
 
+			upload() {
+				const formData = new FormData();
+				formData.append('file', this.expenseReceiptFile, this.expenseReceiptFile.name);
+				ExpenseLines.uploadPhoto(formData).then(res => {
+					this.previewPath = res.Location;
+				}).catch(e => {
+					console.log(' eeeek the cat', e);
+				});
 			},
 
 			onSubmit() {
