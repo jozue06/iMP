@@ -29,14 +29,14 @@ export const allowedFields = {
 	],
 
 	taskLines: [
-		"date",
+		"completed",
 		"type",
-		"time",
+		"date",
 		"details",
-		"completed"
 	],
 
 	eventLines: [
+		"completed",
 		"date",
 		"type",
 		"time",

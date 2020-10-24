@@ -35,6 +35,17 @@
 						></b-form-textarea>
 					</b-col>
 				</b-row>
+				<b-row class="ml-4 mr-4 justify-content-start" align-v="center">
+					<b-col cols="4" class="mt-4">
+						Completed
+					</b-col>	
+					<b-col cols="2" class="mt-4">
+						<span @click="toggleTaskComplete(taskLine)">
+							<b-icon class="h4" v-if='taskLine.completed === true' icon="check-circle" variant="info"></b-icon>
+							<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
+						</span>
+					</b-col>
+				</b-row>
 				<b-button variant="primary" class="float-right m-2" size="sm" :disabled="loading" @click="saveTask">
 					Save
 					<b-spinner v-if="loading" small type="grow"></b-spinner>
@@ -82,6 +93,10 @@
 					this.loading = false;
 					throw e;
 				});
+			},
+
+			toggleTaskComplete(taskLine) {
+				this.taskLine.completed = !taskLine.completed;
 			}
 		},
 

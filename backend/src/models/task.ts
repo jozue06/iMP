@@ -28,7 +28,8 @@ export const TaskSchema = new Schema({
 
 	completed: {
 		type: Boolean,
-		required: false
+		required: false,
+		default: false
 	},
 
 	contact: {

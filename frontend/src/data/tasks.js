@@ -63,5 +63,20 @@ export const Tasks = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	})
+	}),
+
+	toggleMany: handleError(async (tasks, completedToSet) => {	
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
+		let body = {
+			tasks: tasks,
+			completedToSet: completedToSet,
+		}
+
+		const res = await axios.post(baseURL + "/massToggle", body, {"headers": headers});
+		return res.data;
+	}),
 };

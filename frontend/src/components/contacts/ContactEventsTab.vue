@@ -23,9 +23,11 @@
 				<template v-slot:cell()="data">	
 					<span @click="showEventModal(data.item)" class="text-info"> {{ data.value }} </span>
 				</template>
-				<template v-slot:cell(isCompleted)="data">
-					<b-icon class="h4" v-if='data.item.isCompleted === true' icon="check-circle" variant="info"></b-icon>
-					<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
+				<template v-slot:cell(completed)="data">
+					<span @click="mutate(data.item)">
+						<b-icon class="h4" v-if='data.item.isCompleted === true' icon="check-circle" variant="info"></b-icon>
+						<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
+					</span>
 				</template>
 			</b-table>
 			<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
@@ -140,28 +142,43 @@
 				});
 			},
 
+			mutate(selectedEvent) {
+				selectedEvent.isCompleted = !selectedEvent.isCompleted;
+				Events.save(selectedEvent).then(() => {
+					this.$Notification("Success!", "Successfully Toggled the Event Completed", "primary");
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
+			},
+
 			toggleComplete() {			
 				this.selected.forEach(sel => {
 					sel.isCompleted = !sel.isCompleted;
 				});
+
+				let completedToSet = this.selected[0].isCompleted;
+				
+				Events.toggleMany(this.selected, completedToSet).then(res => {
+					this.$Notification("Success!", "Successfully Saved the Events", "primary");
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
+
 				this.$refs.eventsTable.clearSelected();
 			}
 		},
 
 		computed: {
 			fields() {
-				let keys = Object.keys(this.eventLines[0]).map(f => {
+				let keys = allowedFields.eventLines.map(al => {
 					let tmp = {};
 					tmp.sortable = true;
-					if (allowedFields.eventLines.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
-
+					tmp.key = al;
 					return tmp;
 				});
-				keys.push("isCompleted");
+
 				return keys;
 			},
 

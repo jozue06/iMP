@@ -69,25 +69,20 @@
 						</b-form-group>
 					</b-col>
 				</b-row>
-				<b-row class="ml-4 mr-4 justify-content-between" align-v="center">
-					<b-col cols="6" class="mt-4">
-						<b-form-checkbox
-							class="float-left"
-							id="eventComplete"
-							v-model="eventLine.isCompleted"
-							name="checkboxforEvent"
-							value=true
-							unchecked-value=false
-							@change="toggleEventComplete"
-						>
-							<label class="mt-1"> 
-								Completed
-							</label>
-						</b-form-checkbox>
+				<b-row class="ml-4 mr-4 justify-content-start" align-v="center">
+					<b-col cols="4" class="mt-4">
+						Completed
+					</b-col>	
+					<b-col cols="2" class="mt-4">
+						<span @click="toggleEventComplete(eventLine)">
+							<b-icon class="h4" v-if='eventLine.isCompleted === true' icon="check-circle" variant="info"></b-icon>
+							<b-icon class="h4" v-else icon="circle" variant="danger"></b-icon>
+						</span>
 					</b-col>
 				</b-row>
-					<b-button variant="primary" class="float-right m-2" size="sm" :disabled="loading" @click="saveEvent">
-						Save
+
+				<b-button variant="primary" class="float-right m-2" size="sm" :disabled="loading" @click="saveEvent">
+					Save
 					<b-spinner v-if="loading" small type="grow"></b-spinner>
 				</b-button>
 			</div>
@@ -141,13 +136,8 @@
 				this.formattedValue = ctx.formatted
 			},
 
-			toggleEventComplete(value) {
-
-				if (value == "true") {
-					this.eventLine.isCompleted = true;
-				} else {
-					this.eventLine.isCompleted = false;
-				}				
+			toggleEventComplete(eventLine) {
+				this.eventLine.isCompleted = !eventLine.isCompleted;
 			},
 		},
 
