@@ -19,11 +19,12 @@ import { VehicleRoutes } from "./routes/vehicleRoutes";
 import { ExpenseLineRoutes } from "./routes/expenseLineRoutes";
 import { MileageLogRoutes } from "./routes/mileageLogRoutes";
 import { StatementRoutes } from "./routes/statementRoutes";
+import multer, { Multer } from 'multer';
 
 dotenv.config();
 class Server {
 	public app: express.Application;
-
+	private upload = multer();
 	constructor() {
 		this.app = express();
 		this.config();
@@ -57,6 +58,7 @@ class Server {
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cors());
 		this.app.use(passport.initialize());
+		this.app.use(this.upload.single("file"));
 	}
 
 	private mongo() {

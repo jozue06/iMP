@@ -23,3 +23,4 @@ yarn-error.log*
 /dist_electron
 TODO.md
 /build
+backend/.env

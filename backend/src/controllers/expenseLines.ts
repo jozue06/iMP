@@ -4,7 +4,8 @@ import { ItinReport } from "../models/itinerationReport";
 import { InstitutionalReport } from "../models/institutionalReport";
 import { ExpenseLine } from "../models/expenseLine";
 import { Request, Response, NextFunction } from "express";
-import ValidationException from '../exceptions/ValidationException';
+import ValidationException from "../exceptions/ValidationException";
+import { uploadToS3 } from "../controllers/awsController";
 
 export class ExpenseLineController {
 	public createExpenseLine = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -55,6 +56,16 @@ export class ExpenseLineController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};
+
+	public uploadExpensePhoto = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		uploadToS3(userId, req.file.originalname, req.file.buffer).then(re => 
+			{console.log('res ', re)
+			res.send(re);
+		}).catch(e => {
+			console.log("eee ", e)
+			next(new ValidationException(JSON.stringify(e.errors)));
+		});
+	}
 
 	public updateExpenseLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		ExpenseLine.findOneAndUpdate({"_id": req.body.expenseLine._id}, { ...req.body.expenseLine }, { useFindAndModify: true }).then(r => {
