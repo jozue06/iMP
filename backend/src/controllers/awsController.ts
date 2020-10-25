@@ -5,10 +5,10 @@ const s3bucket = new AWS.S3({
 	secretAccessKey: IAM_USER_SECRET
 });
 
-export function uploadToS3(userIdKey: string, fileName: string, buffer: Buffer): Promise<any> {
+export function uploadToS3(userIdKey: string, fileName: string, buffer: Buffer): Promise<any> {	
 	const params = {
 		Bucket: BUCKET_NAME,
-		Key: userIdKey + "/" + new Date() + "_" + fileName ,
+		Key: userIdKey + "/" + new Date() + "_" + fileName,
 		Body: buffer
 		
 	};

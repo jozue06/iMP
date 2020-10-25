@@ -102,4 +102,16 @@ export const allowedFields = {
 		"year",
 		"usBankFunds",
 	],
+
+	expensLines: [
+		"date",
+		"paymentMethod",
+		"code",
+		"codeDescription",
+		"foreignAmount",
+		"currency",
+		"exchangeRate",
+		"dollarAmount",
+		"description",
+	],
 }

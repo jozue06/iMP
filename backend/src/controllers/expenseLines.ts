@@ -2,43 +2,38 @@ import { QtrReport } from "../models/qrtReport";
 import { SDRReport } from "../models/sdrReport";
 import { ItinReport } from "../models/itinerationReport";
 import { InstitutionalReport } from "../models/institutionalReport";
-import { ExpenseLine } from "../models/expenseLine";
+import { ExpenseLine, ExpenseLineDocument } from "../models/expenseLine";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from "../exceptions/ValidationException";
 import { uploadToS3 } from "../controllers/awsController";
 
 export class ExpenseLineController {
-	public createExpenseLine = (userId: String, req: Request, res: Response, next: NextFunction) => {
-		const expenseLine = new ExpenseLine(req.body.expenseLine);
+	public createExpenseLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		let type = Number(req.body.expenseLineType);
+		if (req.file) {
+			const expenseLine = new ExpenseLine(JSON.parse(req.body.expenseLine));
+			expenseLine.validate().catch(e => {
+				console.error("expenseLine.validate error ", e)
+				return next(new ValidationException(JSON.stringify(e.errors)));
+			});
 
-		expenseLine.save().then((savedExpenseLine) => {
-			if (req.body.expenseLineType === 0) {
-				QtrReport.findOneAndUpdate({ _id: req.body.expenseLine.qtrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
-					res.send(saved);
+			uploadToS3(userId, req.file.originalname, req.file.buffer).then(re => {
+				expenseLine.imageURL = re.Location;
+				this.saveExpenseLineAndUpdateReport(type, expenseLine, res, next).catch(e => {
+					console.error("saveExpenseLine ", e)
+					next(new ValidationException(JSON.stringify(e.errors)));
 				});
-			} 
-			
-			if (req.body.expenseLineType === 1) {
-				ItinReport.findOneAndUpdate({ _id: req.body.expenseLine.itinReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
-					res.send(saved);
-				});
-			}
+			}).catch(e => {
+				console.error("uploadToS3 ", e)
+				next(new ValidationException(JSON.stringify(e.errors)));
+			});
+		} else {
+			const expenseLine = new ExpenseLine(req.body.expenseLine);
 
-			if (req.body.expenseLineType === 3) {
-				SDRReport.findOneAndUpdate({ _id: req.body.expenseLine.sdrReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
-					res.send(saved);
-				});
-			}
-
-			if (req.body.expenseLineType === 4) {
-				InstitutionalReport.findOneAndUpdate({ _id: req.body.expenseLine.institutionalReportId }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
-					res.send(saved);
-				});
-			}
-		}).catch(e => {
-			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
-		});
+			this.saveExpenseLineAndUpdateReport(type, expenseLine, res, next).catch(e => {
+				next(new ValidationException(JSON.stringify(e.errors)));
+			});
+		}
 	};
 
 	// public getAllExpenseLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
@@ -57,22 +52,13 @@ export class ExpenseLineController {
 		});
 	};
 
-	public uploadExpensePhoto = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		uploadToS3(userId, req.file.originalname, req.file.buffer).then(re => 
-			{console.log('res ', re)
-			res.send(re);
-		}).catch(e => {
-			console.log("eee ", e)
-			next(new ValidationException(JSON.stringify(e.errors)));
-		});
-	}
-
 	public updateExpenseLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		ExpenseLine.findOneAndUpdate({"_id": req.body.expenseLine._id}, { ...req.body.expenseLine }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e));
 		});
+
 	};
 
 	public deleteExpenseLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
@@ -82,4 +68,55 @@ export class ExpenseLineController {
 			next(new ValidationException(JSON.stringify(e.errors)));
 		});
 	};
+
+	public uploadExpensePhoto = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		ExpenseLine.findOne({"_id": req.params.id}).then(found => {
+			let foundExpenseLine: ExpenseLineDocument = found;
+
+			uploadToS3(userId, req.file.originalname, req.file.buffer).then(re => {
+				foundExpenseLine.imageURL = re.Location;
+				foundExpenseLine.save().then(r => {
+					res.send(r);
+				}).catch(e => {
+					next(new ValidationException(e));
+				});
+			}).catch(e => {
+				console.error("uploadToS3 ", e)
+				next(new ValidationException(e));
+			});
+		}).catch(e => {
+			next(new ValidationException(e));
+		});
+	}
+
+	private saveExpenseLineAndUpdateReport = async (expenseLineType: number, expenseLine: ExpenseLineDocument, res: Response, next: NextFunction) => {
+		await expenseLine.save().then(async (savedExpenseLine: ExpenseLineDocument) => {
+			if (expenseLineType === 0) {
+				
+				await QtrReport.findOneAndUpdate({ _id: expenseLine.qtrReport }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {					
+					return res.send(savedExpenseLine);
+				});
+			} 
+			
+			if (expenseLineType === 1) {
+				await ItinReport.findOneAndUpdate({ _id: expenseLine.itinReport }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					return res.send(savedExpenseLine);
+				});
+			}
+
+			if (expenseLineType === 3) {
+				await SDRReport.findOneAndUpdate({ _id: expenseLine.sdrReport }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					return res.send(savedExpenseLine);
+				});
+			}
+
+			if (expenseLineType === 4) {
+				await InstitutionalReport.findOneAndUpdate({ _id: expenseLine.institutionalReport }, {$push: {expenseLines: savedExpenseLine._id}}, { useFindAndModify: true, new: true }).then(saved => {
+					return res.send(savedExpenseLine);
+				});
+			}
+		}).catch(e => {
+			next(new ValidationException(e));
+		});
+	}
 }

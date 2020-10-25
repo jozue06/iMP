@@ -130,7 +130,7 @@
 					</div>
 							
 				</b-tab>
-
+<!-- 
 				<b-tab title="Second">
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="multiPart">
@@ -148,21 +148,29 @@
 							</b-form-select>
 						</b-form-group>
 					</div>
-				</b-tab>
+				</b-tab> -->
 
 				<b-tab 
 					title="Image" 
 					:disabled="expenseLine.receiptReq == 'No'"
 				>
 					<div class="row sub-section">
-						<b-form-group class="mr-1" label="Receipt Image">
+						<b-form-group v-if="!previewPath" class="mr-1" label="Receipt Image">
 							<b-form-file
 								v-model="expenseReceiptFile"
 								accept=".jpg, .png">
 							</b-form-file>
-							<b-button v-if="expenseReceiptFile" class="float-right" type="submit" @click="upload" variant="primary">Upload</b-button>
 						</b-form-group>
-						<img v-if="previewPath" :src=previewPath alt="left">
+						<img v-else :src=previewPath alt="left">
+						<b-button 
+							v-if="expenseReceiptFile && expenseLine._id && !previewPath" 
+							class="float-right" 
+							type="submit" 
+							@click="upload" 
+							variant="primary"
+						>
+							Upload
+						</b-button>
 					</div>
 				</b-tab>
 			</b-tabs>
@@ -176,20 +184,24 @@
 
 	export default  {
 		name: 'expenseLineModal',
+
 		props: {
 			expenseLine: Object,
 			currentReport: Object,
 			expenseLineType: Number,
 		},
-		mounted () {
 
+		updated () {
+			if (this.expenseLine && this.expenseLine.imageURL) {
+				this.previewPath = this.expenseLine.imageURL;
+			}
 		},
 
 		data() {
 			return {
 				expenseReceiptFile: null,
-				previewPath: null,
-
+				didUpload: false,
+				previewPath: "",
 				currencyOptions: [
 					{ value: "USD", text: 'USD' },
 					{ value: 'CAN', text: 'CAN' },
@@ -198,44 +210,30 @@
 		},
 		
 		methods: {
-
 			upload() {
-				const formData = new FormData();
-				formData.append('file', this.expenseReceiptFile, this.expenseReceiptFile.name);
-				ExpenseLines.uploadPhoto(formData).then(res => {
-					this.previewPath = res.Location;
+				ExpenseLines.uploadPhoto(this.expenseLine._id, this.expenseReceiptFile).then(res => {
+					this.previewPath = res.imageURL;
+					this.didUpload = true;
 				}).catch(e => {
-					console.log(' eeeek the cat', e);
+					console.error(' uploadPhoto error ', e);
 				});
 			},
 
 			onSubmit() {
+				if (this.expenseReceiptFile && !this.didUpload) {
+					return alert("You Have not uploaded your Photo, please click upload or remove the photo before saving");
+				}
+
 				this.loading = true;
-				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
-					this.currentReport.expenseLines.push(this.expenseLine);
-				}	
 
-				if (this.expenseLineType == 0) {
-					this.expenseLine.qtrReportId = this.currentReport._id;
-				}
-
-				if (this.expenseLineType == 1) {
-					this.expenseLine.itinReportId = this.currentReport._id;
-				}  
-
-				if (this.expenseLineType == 3) {
-					this.expenseLine.sdrReportId = this.currentReport._id;
-				}
-
-				if (this.expenseLineType == 4) {
-					this.expenseLine.institutionalReportId = this.currentReport._id;
-				}
-
-				ExpenseLines.save(this.expenseLine, this.expenseLineType).then(res => {
+				ExpenseLines.save(this.expenseLine, this.expenseLineType, this.expenseReceiptFile, this.currentReport._id).then(res => {
 					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
 					this.loading = false;
-
+					
+					if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(res)) {
+						this.currentReport.expenseLines.push(res);
+					}
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
@@ -250,7 +248,6 @@
 		},
 
 		computed: {
-
 		},
 	}
 </script>

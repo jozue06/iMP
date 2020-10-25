@@ -17,6 +17,7 @@ export interface IExpenseLine {
 	description?: string,
 	multiPart?: boolean,
 	receiptReq?: boolean,
+	imageURL?: string,
 }
 
 const ExpenseLineSchema = new Schema({
@@ -94,6 +95,11 @@ const ExpenseLineSchema = new Schema({
 		type: Boolean,
 		required: false,
 	},
+
+	imageURL: {
+		type: String,
+		required: false,
+	}
 
 });
 
