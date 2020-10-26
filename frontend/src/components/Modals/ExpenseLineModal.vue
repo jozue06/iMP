@@ -157,13 +157,15 @@
 					<div class="row sub-section">
 						<b-form-group v-if="!previewPath" class="mr-1" label="Receipt Image">
 							<b-form-file
+								@change="selectFile"
 								v-model="expenseReceiptFile"
 								accept=".jpg, .png">
 							</b-form-file>
 						</b-form-group>
-						<img v-else :src=previewPath alt="left">
+						
+						<img v-else :src=previewPath alt="left" style="max-width:350px; max-height:350px">
 						<b-button 
-							v-if="expenseReceiptFile && expenseLine._id && !previewPath" 
+							v-if="showUploadBtn && !previewPath" 
 							class="float-right" 
 							type="submit" 
 							@click="upload" 
@@ -191,17 +193,12 @@
 			expenseLineType: Number,
 		},
 
-		updated () {
-			if (this.expenseLine && this.expenseLine.imageURL) {
-				this.previewPath = this.expenseLine.imageURL;
-			}
-		},
-
 		data() {
 			return {
 				expenseReceiptFile: null,
-				didUpload: false,
-				previewPath: "",
+				needsUpload: false,
+				fileSelected: false,
+				showUploadBtn: false,
 				currencyOptions: [
 					{ value: "USD", text: 'USD' },
 					{ value: 'CAN', text: 'CAN' },
@@ -210,30 +207,42 @@
 		},
 		
 		methods: {
+			selectFile() {
+				this.fileSelected = true;
+				if (this.expenseLine._id) {
+					this.needsUpload = true;
+					this.showUploadBtn = true;
+				}
+			},
+			
 			upload() {
 				ExpenseLines.uploadPhoto(this.expenseLine._id, this.expenseReceiptFile).then(res => {
-					this.previewPath = res.imageURL;
-					this.didUpload = true;
+					this.expenseLine = res;
+					this.needsUpload = false;
+					this.expenseReceiptFile = null;
+					this.showUploadBtn = false;
 				}).catch(e => {
 					console.error(' uploadPhoto error ', e);
 				});
 			},
 
 			onSubmit() {
-				if (this.expenseReceiptFile && !this.didUpload) {
+				if (this.fileSelected && this.needsUpload) {
 					return alert("You Have not uploaded your Photo, please click upload or remove the photo before saving");
 				}
 
 				this.loading = true;
 
-				ExpenseLines.save(this.expenseLine, this.expenseLineType, this.expenseReceiptFile, this.currentReport._id).then(res => {
-					this.$refs.expenseLineModal.hide();
-					this.$Notification("Success!", "Successfully Added the Expense Line");
-					this.loading = false;
-					
-					if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(res)) {
+				ExpenseLines.save(this.expenseLine, this.expenseLineType, this.expenseReceiptFile, this.currentReport._id).then(res => {					
+					if (this.currentReport.expenseLines && !this.currentReport.expenseLines.find(l => l._id === res._id)) {
 						this.currentReport.expenseLines.push(res);
 					}
+
+					this.$Notification("Success!", "Successfully Added the Expense Line");
+					this.$refs.expenseLineModal.hide();
+					this.loading = false;
+					this.expenseReceiptFile = null;
+					this.$emit("saved");
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
@@ -248,6 +257,13 @@
 		},
 
 		computed: {
+			previewPath() {
+				if (this.expenseLine.imageURL) {
+					return this.expenseLine.imageURL;
+				}
+
+				return "";
+			}
 		},
 	}
 </script>
