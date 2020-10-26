@@ -186,7 +186,7 @@
 
 <script>
 	import { ExpenseLines } from "../../data/expenseLines";
-
+	import { Settings } from "../../data/userSettings";
 	export default  {
 		name: 'expenseLineModal',
 
@@ -194,6 +194,12 @@
 			expenseLine: Object,
 			currentReport: Object,
 			expenseLineType: Number,
+		},
+
+		created() {
+			Settings.getSettings().then(settings => {
+				console.log('settings?? ', settings);
+			});
 		},
 
 		data() {
