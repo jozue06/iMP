@@ -105,13 +105,10 @@ export const allowedFields = {
 
 	expensLines: [
 		"date",
+		"description",
 		"paymentMethod",
 		"code",
 		"codeDescription",
-		"foreignAmount",
-		"currency",
-		"exchangeRate",
 		"dollarAmount",
-		"description",
 	],
 }

@@ -66,8 +66,9 @@
 							>
 							</b-form-select>
 						</b-form-group>
-
-						<b-form-group class="mr-1" label="Exchange Rate">
+						{{ $consoleLog('expenseLine.currency ' , expenseLine.currency) }}
+						
+						<b-form-group v-if="expenseLine.currency !== 'USD'" class="mr-1" label="Exchange Rate">
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
@@ -85,8 +86,8 @@
 					</div>
 
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="Foreign Amount">
-							<b-input-group prepend="$">
+						<b-form-group v-if="expenseLine.currency !== 'USD'"  class="mr-1" label="Foreign Amount">
+							<b-input-group :prepend=expenseLine.currency>
 								<b-form-input 
 									class="text-right"
 									type="text" 
@@ -198,7 +199,7 @@
 
 		created() {
 			Settings.getSettings().then(settings => {
-				console.log('settings?? ', settings);
+				this.userSettings = settings;
 			});
 		},
 
@@ -208,10 +209,7 @@
 				needsUpload: false,
 				fileSelected: false,
 				showUploadBtn: false,
-				currencyOptions: [
-					{ value: "USD", text: 'USD' },
-					{ value: 'CAN', text: 'CAN' },
-				]
+				userSettings: {},
 			};
 		},
 		
@@ -282,6 +280,18 @@
 				}
 
 				return "";
+			},
+
+			currencyOptions() {
+				if (this.userSettings && this.userSettings.userCurrencies) {
+					return this.userSettings.userCurrencies.map(c => {
+						return {value: c.code, text: c.code}
+					});
+				}
+				return [
+					{ value: "USD", text: 'USD' },
+					{ value: 'CAN', text: 'CAN' },
+				]
 			}
 		},
 	}

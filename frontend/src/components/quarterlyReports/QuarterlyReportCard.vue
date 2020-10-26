@@ -32,8 +32,11 @@
 						sort-icon-left
 						@row-selected="onExpenseLineRowSelected"
 					>
-						<template v-slot:cell()="data">							
+						<template v-slot:cell()="data">
 							<b @click="showExpenseLineModal(data.item)" class="text-info">{{ data.value }}</b>
+						</template>
+						<template v-slot:cell(dollarAmount)="data">							
+							<b @click="showExpenseLineModal(data.item)" class="text-info">${{ data.value }}</b>
 						</template>
 					</b-table>
 				
