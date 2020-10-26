@@ -28,6 +28,7 @@
 						ref="expenseLinesTable"
 						responsive="sm"
 						selectable
+						sort-icon-left
 						selected-variant="danger"
 						@row-selected="onExpenseLineRowSelected"
 					>
@@ -146,6 +147,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
+				@saved="saved"
 				v-bind:expenseLineType=1
 			/>
 			<MileageLogModal 
@@ -299,6 +301,19 @@
 					console.error('eeek error saving report', e);
 					throw e;
 				});
+			},
+
+			saved() {
+				this.loading = true;
+				let reportId = this.$router.currentRoute.query.reportId;
+				ItinReports.getItinReport(reportId).then(res => {
+					this.currentReport = res;
+					this.loading = false;
+				}).catch(e => {
+					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
+				});
 			}
 		},
 		
@@ -351,22 +366,14 @@
 		},
 
 		computed: {
-			expenseFields() {				
-				if (this.currentReport.expenseLines[0]) {
-					return Object.keys(this.currentReport.expenseLines[0]).map(f => {						
-						let tmp = {};
-						tmp.sortable = false;
-						
-						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
-							tmp.key = "";
-						} else {
-							tmp.key = f;
-						}
-						return tmp;
-					});
-				} else {
-					return [];
-				}
+			expenseFields() {
+				let keys = allowedFields.expensLines.map(al => {
+					let tmp = {};
+					tmp.sortable = true;
+					tmp.key = al;
+					return tmp;
+				});
+				return keys;
 			},
 
 			mileageLogFields() {

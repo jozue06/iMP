@@ -230,6 +230,7 @@
 			},
 
 			saved() {
+				this.loading = true;
 				let reportId = this.$router.currentRoute.query.reportId;
 				QuarterlyReports.getQuarterlyReport(reportId).then(res => {
 					this.currentReport = res;
