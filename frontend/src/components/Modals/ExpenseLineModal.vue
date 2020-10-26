@@ -162,8 +162,11 @@
 								accept=".jpg, .png">
 							</b-form-file>
 						</b-form-group>
-						
-						<img v-else :src=previewPath alt="left" style="max-width:350px; max-height:350px">
+						<div v-else>
+							<img :src=previewPath alt="left" style="max-width:350px; max-height:350px">
+							<b-button @click="deleteImage" class="float-right" variant="danger"> X </b-button>
+						</div>
+
 						<b-button 
 							v-if="showUploadBtn && !previewPath" 
 							class="float-right" 
@@ -254,6 +257,16 @@
 			formatToNumber(string) {
 				return Number(string);
 			},
+
+			deleteImage() {
+				console.log('this.expenseLine.imageURL' , this.expenseLine);
+				ExpenseLines.deletePhoto(this.expenseLine).then(res => {
+					console.log('yaay' , res);
+					this.expenseLine.imageURL = "";
+				}).catch(e => {
+					console.log('eek ', e);
+				});
+			}
 		},
 
 		computed: {

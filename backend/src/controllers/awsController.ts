@@ -8,13 +8,31 @@ const s3bucket = new AWS.S3({
 export function uploadToS3(userIdKey: string, fileName: string, buffer: Buffer): Promise<any> {	
 	const params = {
 		Bucket: BUCKET_NAME,
-		Key: userIdKey + "/" + new Date() + "_" + fileName,
+		Key: userIdKey + "/" + new Date().getTime() + "_" + fileName,
 		Body: buffer
 		
 	};
 
 	return new Promise((resolve, reject) => {
 		s3bucket.upload(params, function(err: any, data: any) {
+			if (err) {
+				console.error('aws S3 error', err);
+				return reject(err);
+			}
+			return resolve(data);
+		});
+	});
+}
+
+export function removeFromS3(urlString: string): Promise<any> {	
+	let key = urlString.split("https://imp-user-uploaded-images.s3.us-west-2.amazonaws.com/")[1];
+	const params = {
+		Bucket: BUCKET_NAME,
+		Key: key,	
+	};
+
+	return new Promise((resolve, reject) => {
+		s3bucket.deleteObject(params, function(err: any, data: any) {
 			if (err) {
 				console.error('aws S3 error', err);
 				return reject(err);

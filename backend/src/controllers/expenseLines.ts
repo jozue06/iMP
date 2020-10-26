@@ -5,7 +5,7 @@ import { InstitutionalReport } from "../models/institutionalReport";
 import { ExpenseLine, ExpenseLineDocument } from "../models/expenseLine";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from "../exceptions/ValidationException";
-import { uploadToS3 } from "../controllers/awsController";
+import { uploadToS3, removeFromS3 } from "../controllers/awsController";
 
 export class ExpenseLineController {
 	public createExpenseLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
@@ -85,6 +85,21 @@ export class ExpenseLineController {
 				next(new ValidationException(e));
 			});
 		}).catch(e => {
+			next(new ValidationException(e));
+		});
+	}
+
+	public deleteExpensePhoto = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		let expenseLineId = req.body.expenseLine._id;
+		removeFromS3(req.body.expenseLine.imageURL).then(re => {
+			req.body.expenseLine.imageURL = "";
+			ExpenseLine.findOneAndUpdate({"_id": expenseLineId}, { ...req.body.expenseLine }, { useFindAndModify: true }).then(r => {
+				res.send("Image Deleted and Removed from S3");
+			}).catch(e => {
+				next(new ValidationException(e));
+			});			
+		}).catch(e => {
+			console.error('eeek removeFromS3 error ', e);
 			next(new ValidationException(e));
 		});
 	}

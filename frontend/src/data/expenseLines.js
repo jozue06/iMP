@@ -110,4 +110,20 @@ export const ExpenseLines = {
 		const res = await axios.post(baseURL + "/uploadImage" + `/${expenseLineId}`, formData, {"headers": formHeaders});		
 		return res.data;
 	}),
+
+	deletePhoto: handleError(async expenseLine => {
+		console.log('here ?? ', expenseLine);
+		
+		const headers = {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+		}
+
+		let body = {
+			expenseLine: expenseLine,
+		}
+
+		const res = await axios.post(baseURL + "/deleteImage", body, {"headers": headers});		
+		return res.data;
+	}),
 };
