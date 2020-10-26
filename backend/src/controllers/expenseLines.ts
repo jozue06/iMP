@@ -90,7 +90,7 @@ export class ExpenseLineController {
 	}
 
 	public deleteExpensePhoto = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		let expenseLineId = req.body.expenseLine._id;
+		let expenseLineId = req.body.expenseLine._id;		
 		removeFromS3(req.body.expenseLine.imageURL).then(re => {
 			req.body.expenseLine.imageURL = "";
 			ExpenseLine.findOneAndUpdate({"_id": expenseLineId}, { ...req.body.expenseLine }, { useFindAndModify: true }).then(r => {

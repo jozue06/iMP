@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { url } from "inspector";
 import { BUCKET_NAME, IAM_USER_KEY, IAM_USER_SECRET } from "../utils/secret";
 const s3bucket = new AWS.S3({
 	accessKeyId: IAM_USER_KEY,
@@ -24,8 +25,22 @@ export function uploadToS3(userIdKey: string, fileName: string, buffer: Buffer):
 	});
 }
 
-export function removeFromS3(urlString: string): Promise<any> {	
-	let key = urlString.split("https://imp-user-uploaded-images.s3.us-west-2.amazonaws.com/")[1];
+export function removeFromS3(urlString: string): Promise<any> {
+	let key = null;
+	if (urlString.startsWith("https://imp-user-uploaded-images.s3.us-west-2.amazonaws.com/")) {
+		key = urlString.split("https://imp-user-uploaded-images.s3.us-west-2.amazonaws.com/")[1];
+	}
+
+	if (urlString.startsWith("https://imp-user-uploaded-images.s3.amazonaws.com/")) {
+		key = urlString.split("https://imp-user-uploaded-images.s3.amazonaws.com/")[1];
+	}
+
+	if (key == null) {
+		return new Promise((resolve, reject) => {
+			reject("Missing required key. Key is null");
+		})
+	}
+
 	const params = {
 		Bucket: BUCKET_NAME,
 		Key: key,	
