@@ -111,9 +111,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	deletePhoto: handleError(async expenseLine => {
-		console.log('here ?? ', expenseLine);
-		
+	deletePhoto: handleError(async expenseLine => {		
 		const headers = {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${localStorage.getItem("jwt")}`,

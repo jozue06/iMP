@@ -26,7 +26,7 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 
 Vue.prototype.$Notification = notification;
-Vue.prototype.$consoleLog = console.error;
+Vue.prototype.$consoleLog = console.log;
 Vue.prototype.$GetStatus = getStatusFromCode;
 Vue.prototype.$GetStatusColor = getStatusColor;
 Vue.prototype.$GetMonth = getMonthFromCode;

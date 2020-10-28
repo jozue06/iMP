@@ -263,12 +263,11 @@
 			},
 
 			deleteImage() {
-				console.log('this.expenseLine.imageURL' , this.expenseLine);
 				ExpenseLines.deletePhoto(this.expenseLine).then(res => {
-					console.log('yaay' , res);
 					this.expenseLine.imageURL = "";
 				}).catch(e => {
-					console.log('eek ', e);
+					console.error('eek ', e);
+					throw e;
 				});
 			}
 		},
