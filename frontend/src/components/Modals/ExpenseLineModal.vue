@@ -65,9 +65,7 @@
 								:options="currencyOptions"
 							>
 							</b-form-select>
-						</b-form-group>
-						{{ $consoleLog('expenseLine.currency ' , expenseLine.currency) }}
-						
+						</b-form-group>						
 						<b-form-group v-if="expenseLine.currency !== 'USD'" class="mr-1" label="Exchange Rate">
 							<b-input-group>
 								<b-form-input 
