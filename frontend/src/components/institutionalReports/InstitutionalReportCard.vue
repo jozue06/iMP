@@ -205,7 +205,7 @@
 			},
 
 			expenseFields() {
-				let keys = allowedFields.expensLines.map(al => {
+				let keys = allowedFields.expenseLines.map(al => {
 					let tmp = {};
 					tmp.sortable = true;
 					tmp.key = al;

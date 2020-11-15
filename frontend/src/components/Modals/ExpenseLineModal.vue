@@ -77,6 +77,7 @@
 									name="exchangeRate"
 									lazy-formatter
 									:formatter="$formatMoney"
+									@blur="setDollarAmount()"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -95,6 +96,7 @@
 									name="foreignAmount"
 									lazy-formatter
 									:formatter="$formatMoney"
+									@blur="setDollarAmount()"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -212,6 +214,9 @@
 		},
 		
 		methods: {
+			setDollarAmount() {
+				this.expenseLine.dollarAmount = (this.expenseLine.foreignAmount * this.expenseLine.exchangeRate).toFixed(2);
+			},
 			selectFile() {
 				this.fileSelected = true;
 				if (this.expenseLine._id) {

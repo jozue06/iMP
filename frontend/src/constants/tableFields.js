@@ -103,7 +103,7 @@ export const allowedFields = {
 		"usBankFunds",
 	],
 
-	expensLines: [
+	expenseLines: [
 		"date",
 		"description",
 		"paymentMethod",
