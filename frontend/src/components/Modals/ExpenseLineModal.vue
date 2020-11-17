@@ -28,35 +28,7 @@
 						</b-form-group> 
 					</div>
 
-					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="Code">
-						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF NUMBER CODE AND DESCRIPTION -->
-							<b-input-group>
-								<b-form-input 
-									class="text-right"
-									type="text" 
-									v-model="expenseLine.code" 
-									name="code"
-									lazy-formatter
-									:formatter="formatToNumber"
-								>
-								</b-form-input>
-							</b-input-group>
-						</b-form-group> 
-
-						<b-form-group class="mr-1" label="Code Description">
-							<b-input-group>
-								<b-form-input 
-									class="text-right"
-									type="text" 
-									v-model="expenseLine.codeDescription" 
-									required
-									name="codeDescription"
-								>
-								</b-form-input>
-							</b-input-group>
-						</b-form-group> 
-					</div>
+					<ExpenseCodeSelector :expenseLine="expenseLine" :expenseLineType="expenseLineType" />
 
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="Currency">
@@ -110,7 +82,7 @@
 									v-model="expenseLine.dollarAmount" 
 									required
 									placeholder="0.00"
-									name="dollarAmout"
+									name="dollarAmount"
 									lazy-formatter
 									:formatter="$formatMoney"
 								>
@@ -186,9 +158,11 @@
 </template>
 
 <script>
+	import ExpenseCodeSelector from '../Globals/ExpenseCodeSelector.vue';
 	import { ExpenseLines } from "../../data/expenseLines";
 	import { Settings } from "../../data/userSettings";
 	export default  {
+  components: { ExpenseCodeSelector },
 		name: 'expenseLineModal',
 
 		props: {
@@ -298,15 +272,3 @@
 		},
 	}
 </script>
-
-<style scoped lang="scss">
-	.sub-section {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-
-		.description {
-			width: 500px;
-		}
-	} 
-</style>

@@ -46,7 +46,7 @@ export const ExpenseLines = {
 			expenseLineIds: ids
 		}
 		
-		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
+		const res = await axios.post(baseURL + "Delete", body, {"headers": headers});
 		return res.data;
 	}),
 

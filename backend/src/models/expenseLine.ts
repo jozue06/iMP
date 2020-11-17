@@ -8,7 +8,7 @@ export interface IExpenseLine {
 	
 	date: string,
 	paymentMethod: string,
-	code: number,
+	code: string,
 	codeDescription: string,
 	currency: string,
 	exchangeRate?: number,
@@ -52,7 +52,7 @@ const ExpenseLineSchema = new Schema({
 	},
 
 	code: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 
