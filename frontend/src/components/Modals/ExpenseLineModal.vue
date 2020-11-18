@@ -259,7 +259,7 @@
 			},
 
 			currencyOptions() {
-				if (this.userSettings && this.userSettings.userCurrencies) {
+				if (this.userSettings && this.userSettings.userCurrencies && this.userSettings.userCurrencies.length) {
 					return this.userSettings.userCurrencies.map(c => {
 						return {value: c.code, text: c.code}
 					});
