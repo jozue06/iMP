@@ -8,7 +8,7 @@ export interface IExpenseLine {
 	
 	date: string,
 	paymentMethod: string,
-	code: number,
+	code: string,
 	codeDescription: string,
 	currency: string,
 	exchangeRate?: number,
@@ -17,6 +17,7 @@ export interface IExpenseLine {
 	description?: string,
 	multiPart?: boolean,
 	receiptReq?: boolean,
+	imageURL?: string,
 }
 
 const ExpenseLineSchema = new Schema({
@@ -51,7 +52,7 @@ const ExpenseLineSchema = new Schema({
 	},
 
 	code: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 
@@ -94,6 +95,11 @@ const ExpenseLineSchema = new Schema({
 		type: Boolean,
 		required: false,
 	},
+
+	imageURL: {
+		type: String,
+		required: false,
+	}
 
 });
 

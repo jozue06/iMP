@@ -17,7 +17,8 @@ export class ExpenseLineRoutes {
 	routes() {
 		this.router.post("/expenseLines", this.authController.authenticateJWT, this.expenseLineController.createExpenseLine);
 		this.router.put("/expenseLines/:id", this.authController.authenticateJWT, this.expenseLineController.updateExpenseLine);
-		this.router.post("/expenseLines/uploadImage", this.authController.authenticateJWT, this.expenseLineController.uploadExpensePhoto);
+		this.router.post("/expenseLines/uploadImage/:id", this.authController.authenticateJWT, this.expenseLineController.uploadExpensePhoto);
+		this.router.post("/expenseLines/deleteImage", this.authController.authenticateJWT, this.expenseLineController.deleteExpensePhoto);
 		this.router.post("/expenseLinesDelete", this.authController.authenticateJWT, this.expenseLineController.deleteExpenseLines);
 	}
 }

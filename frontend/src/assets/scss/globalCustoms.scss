@@ -137,3 +137,13 @@ label {
 	border-radius: 0.25em !important;
 	background-color: #ebf1f4;
 }
+
+.sub-section {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+
+	.description {
+		width: 500px;
+	}
+} 
