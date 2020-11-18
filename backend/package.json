@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "node ."
+    "build": "tsc --max_old_space_size=4096",
+    "prestart": "npm run build --max_old_space_size=4096",
+    "start": "node . --max_old_space_size=4096"
   },
   "author": "jm6",
   "license": "ISC",
