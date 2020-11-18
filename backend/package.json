@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
+    "build": "tsc",
     "start": "ts-node ."
   },
   "author": "jm6",
