@@ -29,10 +29,14 @@
 						responsive="sm"
 						selectable
 						selected-variant="danger"
+						sort-icon-left
 						@row-selected="onExpenseLineRowSelected"
 					>
 						<template v-slot:cell()="data">
 							<b @click="showExpenseLineModal(data.item)" class="text-info">{{ data.value }}</b>
+						</template>
+						<template v-slot:cell(dollarAmount)="data">							
+							<b @click="showExpenseLineModal(data.item)" class="text-info">${{ data.value }}</b>
 						</template>
 					</b-table>
 				
@@ -107,6 +111,7 @@
 				v-bind:expenseLine="selectedExpenseLine" 
 				v-bind:currentReport="currentReport"
 				ref="expenseLineModal"
+				@saved="saved"
 				v-bind:expenseLineType=0
 			/>
 			<MileageLogModal 
@@ -142,6 +147,7 @@
 	import { ExpenseLines } from "../../data/expenseLines";
 	import { MileageLogs } from "../../data/mileageLogs";
 	import LoadingSpinner from "../Globals/LoadingSpinner";
+	import { allowedFields } from "../../constants/tableFields";
 
 	export default {
 		components: {
@@ -224,6 +230,19 @@
 					console.error('eeek error saving report', e);
 					throw e;
 				});
+			},
+
+			saved() {
+				this.loading = true;
+				let reportId = this.$router.currentRoute.query.reportId;
+				QuarterlyReports.getQuarterlyReport(reportId).then(res => {
+					this.currentReport = res;
+					this.loading = false;
+				}).catch(e => {
+					console.error(' Report.find eek ', e);
+					this.loading = false;
+					throw e;
+				});
 			}
 		},
 		
@@ -275,21 +294,13 @@
 
 		computed: {
 			expenseFields() {
-				if (this.currentReport.expenseLines[0]) {
-					return Object.keys(this.currentReport.expenseLines[0]).map(f => {
-						let tmp = {};
-						tmp.sortable = false;
-						
-						if (f == "_id" || f == "_schema" || f == "expenseLines" || f == "__v") {
-							tmp.key = "";
-						} else {
-							tmp.key = f;
-						}
-						return tmp;
-					});
-				} else {
-					return [];
-				}
+				let keys = allowedFields.expenseLines.map(al => {
+					let tmp = {};
+					tmp.sortable = true;
+					tmp.key = al;
+					return tmp;
+				});
+				return keys;
 			},
 
 			mileageLogFields() {

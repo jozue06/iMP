@@ -28,35 +28,7 @@
 						</b-form-group> 
 					</div>
 
-					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="Code">
-						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF NUMBER CODE AND DESCRIPTION -->
-							<b-input-group>
-								<b-form-input 
-									class="text-right"
-									type="text" 
-									v-model="expenseLine.code" 
-									name="code"
-									lazy-formatter
-									:formatter="formatToNumber"
-								>
-								</b-form-input>
-							</b-input-group>
-						</b-form-group> 
-
-						<b-form-group class="mr-1" label="Code Description">
-							<b-input-group>
-								<b-form-input 
-									class="text-right"
-									type="text" 
-									v-model="expenseLine.codeDescription" 
-									required
-									name="codeDescription"
-								>
-								</b-form-input>
-							</b-input-group>
-						</b-form-group> 
-					</div>
+					<ExpenseCodeSelector :expenseLine="expenseLine" :expenseLineType="expenseLineType" />
 
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="Currency">
@@ -65,9 +37,8 @@
 								:options="currencyOptions"
 							>
 							</b-form-select>
-						</b-form-group>
-
-						<b-form-group class="mr-1" label="Exchange Rate">
+						</b-form-group>						
+						<b-form-group v-if="expenseLine.currency !== 'USD'" class="mr-1" label="Exchange Rate">
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
@@ -78,6 +49,7 @@
 									name="exchangeRate"
 									lazy-formatter
 									:formatter="$formatMoney"
+									@blur="setDollarAmount()"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -85,8 +57,8 @@
 					</div>
 
 					<div class="row sub-section text-center">
-						<b-form-group class="mr-1" label="Foreign Amount">
-							<b-input-group prepend="$">
+						<b-form-group v-if="expenseLine.currency !== 'USD'"  class="mr-1" label="Foreign Amount">
+							<b-input-group :prepend=expenseLine.currency>
 								<b-form-input 
 									class="text-right"
 									type="text" 
@@ -96,6 +68,7 @@
 									name="foreignAmount"
 									lazy-formatter
 									:formatter="$formatMoney"
+									@blur="setDollarAmount()"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -109,7 +82,7 @@
 									v-model="expenseLine.dollarAmount" 
 									required
 									placeholder="0.00"
-									name="dollarAmout"
+									name="dollarAmount"
 									lazy-formatter
 									:formatter="$formatMoney"
 								>
@@ -130,7 +103,7 @@
 					</div>
 							
 				</b-tab>
-
+<!-- 
 				<b-tab title="Second">
 					<div class="row sub-section text-center">
 						<b-form-group class="mr-1" label="multiPart">
@@ -148,21 +121,34 @@
 							</b-form-select>
 						</b-form-group>
 					</div>
-				</b-tab>
+				</b-tab> -->
 
 				<b-tab 
 					title="Image" 
 					:disabled="expenseLine.receiptReq == 'No'"
 				>
 					<div class="row sub-section">
-						<b-form-group class="mr-1" label="Receipt Image">
+						<b-form-group v-if="!previewPath" class="mr-1" label="Receipt Image">
 							<b-form-file
+								@change="selectFile"
 								v-model="expenseReceiptFile"
 								accept=".jpg, .png">
 							</b-form-file>
-							<b-button v-if="expenseReceiptFile" class="float-right" type="submit" @click="upload" variant="primary">Upload</b-button>
 						</b-form-group>
-						<img v-if="previewPath" :src=previewPath alt="left">
+						<div v-else>
+							<img :src=previewPath alt="left" style="max-width:350px; max-height:350px">
+							<b-button @click="deleteImage" class="float-right" variant="danger"> X </b-button>
+						</div>
+
+						<b-button 
+							v-if="showUploadBtn && !previewPath" 
+							class="float-right" 
+							type="submit" 
+							@click="upload" 
+							variant="primary"
+						>
+							Upload
+						</b-button>
 					</div>
 				</b-tab>
 			</b-tabs>
@@ -172,70 +158,75 @@
 </template>
 
 <script>
+	import ExpenseCodeSelector from '../Globals/ExpenseCodeSelector.vue';
 	import { ExpenseLines } from "../../data/expenseLines";
-
+	import { Settings } from "../../data/userSettings";
 	export default  {
+  components: { ExpenseCodeSelector },
 		name: 'expenseLineModal',
+
 		props: {
 			expenseLine: Object,
 			currentReport: Object,
 			expenseLineType: Number,
 		},
-		mounted () {
 
+		created() {
+			Settings.getSettings().then(settings => {
+				this.userSettings = settings;
+			});
 		},
 
 		data() {
 			return {
 				expenseReceiptFile: null,
-				previewPath: null,
-
-				currencyOptions: [
-					{ value: "USD", text: 'USD' },
-					{ value: 'CAN', text: 'CAN' },
-				]
+				needsUpload: false,
+				fileSelected: false,
+				showUploadBtn: false,
+				userSettings: {},
 			};
 		},
 		
 		methods: {
-
+			setDollarAmount() {
+				this.expenseLine.dollarAmount = (this.expenseLine.foreignAmount * this.expenseLine.exchangeRate).toFixed(2);
+			},
+			selectFile() {
+				this.fileSelected = true;
+				if (this.expenseLine._id) {
+					this.needsUpload = true;
+					this.showUploadBtn = true;
+				}
+			},
+			
 			upload() {
-				const formData = new FormData();
-				formData.append('file', this.expenseReceiptFile, this.expenseReceiptFile.name);
-				ExpenseLines.uploadPhoto(formData).then(res => {
-					this.previewPath = res.Location;
+				ExpenseLines.uploadPhoto(this.expenseLine._id, this.expenseReceiptFile).then(res => {
+					this.expenseLine = res;
+					this.needsUpload = false;
+					this.expenseReceiptFile = null;
+					this.showUploadBtn = false;
 				}).catch(e => {
-					console.log(' eeeek the cat', e);
+					console.error(' uploadPhoto error ', e);
 				});
 			},
 
 			onSubmit() {
+				if (this.fileSelected && this.needsUpload) {
+					return alert("You Have not uploaded your Photo, please click upload or remove the photo before saving");
+				}
+
 				this.loading = true;
-				if (this.currentReport.expenseLines && !this.currentReport.expenseLines.includes(this.expenseLine)) {
-					this.currentReport.expenseLines.push(this.expenseLine);
-				}	
 
-				if (this.expenseLineType == 0) {
-					this.expenseLine.qtrReportId = this.currentReport._id;
-				}
+				ExpenseLines.save(this.expenseLine, this.expenseLineType, this.expenseReceiptFile, this.currentReport._id).then(res => {					
+					if (this.currentReport.expenseLines && !this.currentReport.expenseLines.find(l => l._id === res._id)) {
+						this.currentReport.expenseLines.push(res);
+					}
 
-				if (this.expenseLineType == 1) {
-					this.expenseLine.itinReportId = this.currentReport._id;
-				}  
-
-				if (this.expenseLineType == 3) {
-					this.expenseLine.sdrReportId = this.currentReport._id;
-				}
-
-				if (this.expenseLineType == 4) {
-					this.expenseLine.institutionalReportId = this.currentReport._id;
-				}
-
-				ExpenseLines.save(this.expenseLine, this.expenseLineType).then(res => {
-					this.$refs.expenseLineModal.hide();
 					this.$Notification("Success!", "Successfully Added the Expense Line");
+					this.$refs.expenseLineModal.hide();
 					this.loading = false;
-
+					this.expenseReceiptFile = null;
+					this.$emit("saved");
 				}).catch(e => {
 					console.error('eeek ', e);
 					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
@@ -247,22 +238,37 @@
 			formatToNumber(string) {
 				return Number(string);
 			},
+
+			deleteImage() {
+				ExpenseLines.deletePhoto(this.expenseLine).then(res => {
+					this.expenseLine.imageURL = "";
+				}).catch(e => {
+					console.error('eek ', e);
+					throw e;
+				});
+			}
 		},
 
 		computed: {
+			previewPath() {
+				if (this.expenseLine.imageURL) {
+					return this.expenseLine.imageURL;
+				}
 
+				return "";
+			},
+
+			currencyOptions() {
+				if (this.userSettings && this.userSettings.userCurrencies) {
+					return this.userSettings.userCurrencies.map(c => {
+						return {value: c.code, text: c.code}
+					});
+				}
+				return [
+					{ value: "USD", text: 'USD' },
+					{ value: 'CAN', text: 'CAN' },
+				]
+			}
 		},
 	}
 </script>
-
-<style scoped lang="scss">
-	.sub-section {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-
-		.description {
-			width: 500px;
-		}
-	} 
-</style>

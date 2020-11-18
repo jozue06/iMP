@@ -56,6 +56,8 @@
 				if (settings) {
 					this.vehicles = settings.vehicles;
 					// Currencies.fetchSupportedSymbols().then(res => {
+
+						
 					// 	if (res) {
 					// 		this.currencyList = res;
 					// 	}
