@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "postinstall": "tsc",
-    "start": "node ."
+    "start": "ts-node ."
   },
   "author": "jm6",
   "license": "ISC",
