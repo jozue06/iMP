@@ -5,9 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc --skipLibCheck",
-    "prestart": "npm run build --max_old_space_size=4096",
-    "start": "node . --max_old_space_size=4096"
+    "postinstall": "tsc",
+    "start": "node ."
   },
   "author": "jm6",
   "license": "ISC",
