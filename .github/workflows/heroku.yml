@@ -9,5 +9,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      run: | cd frontend
+      - run: | cd frontend
         npm run build
