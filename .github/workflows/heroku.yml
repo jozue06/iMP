@@ -9,17 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      name: build frontend
+      - name: build frontend
       working-directory: ./frontend
-      - run:
+      run:
         npm run build
-      name: build backend
+      - name: build backend
       working-directory: ./backend
-      - run:
+      run:
         npm run build
-      name: deploying
-        - uses: actions/checkout@v2
-        - uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
+      - name: deploying
+        uses: actions/checkout@v2
+        uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
           with:
             heroku_api_key: ${{secrets.HEROKU_API_KEY}}
             heroku_app_name: "app-imp" #Must be unique in Heroku
