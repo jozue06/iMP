@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: build frontend
         working-directory: ./frontend
-        run: 
+        - run: 
           npm run build
       - name: build backend    
         working-directory: ./backend
-        run:
+        - run:
           npm run build
       - name: deploying    
       - uses: actions/checkout@v2
