@@ -9,11 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      working-directory: ./frontend
-      run: 
+      - working-directory: ./frontend
+      - run: 
           npm run build
-      working-directory: ./backend
-      run:
+      - working-directory: ./backend
+      - run:
           npm run build
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
