@@ -11,5 +11,4 @@ jobs:
     steps:
       - name: build front
         run: | 
-          cd frontend
           npm run build

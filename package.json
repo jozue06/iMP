@@ -6,5 +6,6 @@
   "license": "ISC",
   "scripts": {
     "start": "npm i --prefix ./backend && npm run start --prefix ./backend",
+    "build": "echo 'what'"
   }
 }
