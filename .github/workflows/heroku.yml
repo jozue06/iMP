@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       name: build frontend
-        working-directory: ./frontend
+      working-directory: ./frontend
         - run:
           npm run build
       name: build backend
-        working-directory: ./backend
+      working-directory: ./backend
         - run:
           npm run build
       name: deploying
