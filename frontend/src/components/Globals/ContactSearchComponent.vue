@@ -1,139 +1,70 @@
 <template>
 	<section>
-		<label>Contact Search</label>
-		 <b-form-input v-model="textValue" type="text" @change="onChange" debounce="1000"></b-form-input>
-			 <b-table
-				striped 
-				hover 
-				:items="results"
-				:fields="fields"
-				ref="searchResultsTable"
-				sort-icon-left
-				responsive="sm"
-			>
-				<template v-slot:cell()="data">
-					<span @click="rowClicked(data.item)" class="text-info"> {{ data.value }} </span>
+		<b-form-group label="Contact Search">
+			<b-input-group >
+				<template #append>
+					<b-input-group-text v-if="searchLoading"><b-spinner></b-spinner></b-input-group-text>
+					<b-input-group-text v-else><b-icon icon="search"></b-icon></b-input-group-text>
 				</template>
-			</b-table>
+				
+				<b-form-input class="no-glow" v-model="textValue" type="text" @update="onChange" debounce="1000"></b-form-input>
+			</b-input-group>
+		</b-form-group>
+		<div v-if="results.length == 0 && textValue && !searchLoading && !selectedContact">
+			<span class="text-info"> No Results Found </span>
+		</div>
+		
+		<b-table
+			striped 
+			hover 
+			:items="results"
+			:fields="fields"
+			ref="searchResultsTable"
+			sort-icon-left
+			responsive="sm"
+		>
+			<template v-slot:cell()="data">
+				<span @click="rowClicked(data.item)" class="text-info"> {{ data.value }} </span>
+			</template>
+		</b-table>
 	</section>
 </template>
 
 <script>
-	// import { Contact } from "../data/models/contactModel";
+	import { Contacts } from "../../data/contacts";
 	import { allowedFields } from '@/constants/tableFields';
 	export default  {
-		
 		name: 'contactSearchComponent',
-
-		components: {
-
-		},
-
-		props: {
-
-		},
-
-		mounted() {
-
-		},
 
 		data() {
 			return {
 				results: [],
-				textValue: ""
+				textValue: "",
+				searchLoading: false,
+				selectedContact: false,
 			}
 		},
 
 		methods: {
 			rowClicked(rowItem) {
 				this.$emit("rowClicked", rowItem);
+				this.selectedContact = true;
 				this.results = [];
 			},
 			
 			onChange() {
-				setTimeout(this.find(), 5000);
+				this.searchLoading = true;
+				setTimeout(this.find(), 1000);
 			},
 
 			find() {
-				let orArray = [
-					{
-						firstName: this.textValue.toLowerCase(),
-					},
-					{
-						firstName: this.textValue.toUpperCase(),
-					},
-					{
-						firstName: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						lastName: this.textValue.toLowerCase(),
-					},
-					{
-						lastName: this.textValue.toUpperCase(),
-					},
-					{
-						lastName: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						city: this.textValue.toLowerCase(),
-					},
-					{
-						city: this.textValue.toUpperCase(),
-					},
-					{
-						city: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						country: this.textValue.toLowerCase(),
-					},
-					{
-						country: this.textValue.toUpperCase(),
-					},
-					{
-						country: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						address: this.textValue.toLowerCase(),
-					},
-					{
-						address: this.textValue.toUpperCase(),
-					},
-					{
-						address: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						email: this.textValue.toLowerCase(),
-					},
-					{
-						email: this.textValue.toUpperCase(),
-					},
-					{
-						email: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						phone: this.textValue.toLowerCase(),
-					},
-					{
-						phone: this.textValue.toUpperCase(),
-					},
-					{
-						phone: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					},
-					{
-						orgName: this.textValue.toLowerCase(),
-					},
-					{
-						orgName: this.textValue.toUpperCase(),
-					},
-					{
-						orgName: this.textValue[0].toUpperCase() + this.textValue.slice(1),
-					}
-				];
-				// Contact.find({ $or: orArray }).then(res => {
-				// 	this.results = res;
-				// }).catch(e => {
-				// 	console.error('eeee' , e);
-				// });
+				Contacts.search(this.textValue).then(foundContacts => {
+					this.results = foundContacts;
+					this.searchLoading = false;
+				}).catch(e => {
+					console.error('eel ', e);
+					this.searchLoading = false;
+				});
 			}
 		},
 
@@ -160,3 +91,9 @@
 		}
 	}
 </script>
+
+<style lang="scss" scoped>
+	.input-group-text {
+		height: 38px;
+	}
+</style>

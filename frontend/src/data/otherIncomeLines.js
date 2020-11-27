@@ -16,9 +16,11 @@ export const OtherIncomeLines = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
-		
-		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
-		return res.data;
+		if (id != "" && id != "0") {
+			const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
+			return res.data;
+		}
+		return [];
 	}),
 	
 	getOtherIncomeLines: handleError(async () => {

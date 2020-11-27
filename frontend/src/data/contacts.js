@@ -6,8 +6,8 @@ const baseURL = `${getApi()}contacts`;
 const handleError = fn => (...params) =>
 fn(...params).catch(e => {
 	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-	throw new Error(newmess.replace(",", '\n'));
+	let newMessages = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
+	throw new Error(newMessages.replace(",", '\n'));
 });
 
 export const Contacts = {
@@ -30,12 +30,15 @@ export const Contacts = {
 		return res.data;
 	}),
 
-	deleteContact: handleError(async id => {
+	deleteContact: handleError(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
-		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
+		let body = {
+			contactIds: ids
+		}
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
@@ -55,5 +58,19 @@ export const Contacts = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	})
+	}),
+
+	search: handleError(async textValue => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
+		let body = {
+			textValue: textValue,
+		}
+
+		const res = await axios.post(baseURL + "/search", body, {"headers": headers});
+		return res.data;
+	}),
 };

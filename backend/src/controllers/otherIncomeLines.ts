@@ -17,7 +17,7 @@ export class OtherIncomeLineController {
 	};
 
 	public getAllOtherIncomeLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		OtherIncomeLine.find({ "userId": userId }).then(lines => {
+		OtherIncomeLine.find({ "userId": userId }).populate("contact").then(lines => {
 			res.send(lines);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
@@ -25,7 +25,7 @@ export class OtherIncomeLineController {
 	};
 
 	public getOtherIncomeLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		OtherIncomeLine.findById(req.params.id).then(line => {
+		OtherIncomeLine.findById(req.params.id).populate("contact").then(line => {
 			res.send(line);
 		}).catch(e => {
 			next(new ValidationException(JSON.stringify(e.errors)));
