@@ -54,10 +54,9 @@
 
 			saveReport() {
 				MAReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved the MA Report", "primary");
+					this.$Notification("Success", "Successfully Saved the MA Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
-					throw e;
+					this.$Notification("Error", `Error Saving MA Report: ${e.message}`, "warning", "", 6000);
 				});
 			}
 		},
@@ -91,14 +90,13 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {
-					month: 1,
-					year: moment().format("YYYY"),
-				};
-
+				let currentReport = {};
 				MAReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'MAReport', query: { reportId: res._id}});
+					this.loading = false;
+				}).catch(e => {
+					this.$Notification("Error", `Error Saving MA Report: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
 				});
 			}

@@ -296,10 +296,9 @@
 
 			saveReport() {
 				ItinReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved The Itineration Report", "primary");
+					this.$Notification("Success", "Successfully Saved The Itineration Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
-					throw e;
+					this.$Notification("Error", `Error Saving Itineration Report: ${e.message}`, "warning", "", 6000);
 				});
 			},
 
@@ -352,11 +351,7 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {
-					month: 1,
-					year: moment().format("YYYY"),
-				};
-
+				let currentReport = {};
 				ItinReports.save(currentReport).then(res => {					
 					this.currentReport = res;
 					this.$router.replace({ path: 'itinerationReport', query: { reportId: res._id}});

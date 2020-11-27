@@ -8,8 +8,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface ItinerationReportInterface {
 	user: string,
 
-	month: string,
-	year: string,
+	month?: string,
+	year?: string,
 	dateCompleted?: string,
 
 	carMiles?: number,
@@ -34,7 +34,7 @@ export interface ItinerationReportInterface {
 	endReceiptNo?: string,
 	personaNotes?: string,
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
 	offeringLines?: OfferingDocument[],
@@ -49,12 +49,10 @@ const ItinReportSchema = new Schema({
 
 	month: {
 		type: String,
-		required: true,
 	},
 
 	year: {
 		type: String,
-		required: true,
 	},
 
 	dateCompleted: {
@@ -130,7 +128,7 @@ const ItinReportSchema = new Schema({
 	},
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
 		default: []
 	},
@@ -183,6 +181,8 @@ ItinReportSchema.path("commitmentAmount").set((num: string) => formatNumber(num)
 
 ItinReportSchema.path("cashAmount").get((num: number) => unformatNumber(num));
 ItinReportSchema.path("cashAmount").set((num: string) => formatNumber(num));
+
+ItinReportSchema.index({ user:1, month:1, year: 1 }, {unique: true});
 
 export interface ItinReportDocument extends ItinerationReportInterface, Document {}
 export interface ItinReportModel extends Model<ItinReportDocument> { }

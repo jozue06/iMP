@@ -112,10 +112,9 @@
 
 			saveReport() {
 				InstitutionalReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved the Institutional Report", "primary");
+					this.$Notification("Success", "Successfully Saved the Institutional Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
-					throw e;
+					this.$Notification("Error", `Error Saving Institutional Report: ${e.message}`, "warning", "", 6000);
 				});
 			},
 
@@ -184,13 +183,7 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {
-					month: 1,
-					institution: "-",
-					account: "-",
-					year: moment().format("YYYY"),
-				};
-
+				let currentReport = {};
 				InstitutionalReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'institutionalReport', query: { reportId: res._id}});

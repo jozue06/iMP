@@ -7,8 +7,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface InstitutionalReportInterface {
 	user: string,
 
-	institution: string,
-	account: string,
+	institution?: string,
+	account?: string,
 	field?: string,
 
 	month: number,
@@ -24,7 +24,7 @@ export interface InstitutionalReportInterface {
 	dateCompleted?: Date,
 
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 	incomeLines?: IncomeDocument[],
 }
@@ -38,22 +38,18 @@ const InstitutionalReportSchema = new Schema({
 
 	month: {
 		type: Number,
-		required: true,
 	},
 
 	year: {
 		type: String,
-		required: true,
 	},
 
 	institution: {
 		type: String,
-		required: true,
 	},
 
 	account: {
 		type: String,
-		required: true,
 	},
 
 	field: {
@@ -106,7 +102,7 @@ const InstitutionalReportSchema = new Schema({
 	}],
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
 		default: []
 	},
@@ -117,9 +113,7 @@ const InstitutionalReportSchema = new Schema({
 	}
 );
 
-export interface InstitutionalReportDocument extends InstitutionalReportInterface, Document {}
-export interface InstitutionalReportModel extends Model<InstitutionalReportDocument> { }
-export const InstitutionalReport = model<InstitutionalReportDocument>("institutionalReport", InstitutionalReportSchema);
+InstitutionalReportSchema.index({ user: 1, institution: 1, account: 1, month: 1, year: 1 }, {unique: true});
 
 InstitutionalReportSchema.path("beginningAmount").get((num: number) => unformatNumber(num));
 InstitutionalReportSchema.path("beginningAmount").set((num: string) => formatNumber(num));
@@ -138,3 +132,7 @@ InstitutionalReportSchema.path("LFTLsdrBalance").set((num: string) => formatNumb
 
 InstitutionalReportSchema.path("nonLFTLsdrBalance").get((num: number) => unformatNumber(num));
 InstitutionalReportSchema.path("nonLFTLsdrBalance").set((num: string) => formatNumber(num));
+
+export interface InstitutionalReportDocument extends InstitutionalReportInterface, Document {}
+export interface InstitutionalReportModel extends Model<InstitutionalReportDocument> { }
+export const InstitutionalReport = model<InstitutionalReportDocument>("institutionalReport", InstitutionalReportSchema);

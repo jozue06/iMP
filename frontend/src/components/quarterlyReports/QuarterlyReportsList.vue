@@ -147,19 +147,12 @@
 
 		computed: {
 			fields() {
-				let keys = Object.keys(this.reports[0]).map(f => {
+				let keys = allowedFields.qtrReports.map(al => {
 					let tmp = {};
 					tmp.sortable = true;
-
-					if (allowedFields.qtrReports.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
-
+					tmp.key = al;
 					return tmp;
 				});
-
 				return keys;
 			}
 		}

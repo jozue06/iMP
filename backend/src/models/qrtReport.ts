@@ -6,8 +6,8 @@ import { OtherIncomeDocument } from "./otherIncomeLine";
 
 export interface QtrReportInterface {
 	user: string,
-	quarterNumber: number,
-	year: string,
+	quarterNumber?: number,
+	year?: string,
 	dateCompleted?: Date,
 	baseAmount?: number,
 	comments?: string,
@@ -21,7 +21,7 @@ export interface QtrReportInterface {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	otherIncomeLines?: OtherIncomeDocument[],
 }
 
@@ -34,12 +34,12 @@ const QtrReportSchema = new Schema({
 
 	quarterNumber: {
 		type: Number,
-		required: true,
+		// required: true,
 	},
 
 	year: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 
 	dateCompleted: {
@@ -95,7 +95,7 @@ const QtrReportSchema = new Schema({
 	}],
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
 		default: [],
 	},
@@ -106,6 +106,8 @@ const QtrReportSchema = new Schema({
 		default: []
 	}],
 });
+
+QtrReportSchema.index({ user: 1, quarterNumber: 1, year: 1}, {unique: true});
 
 export interface QtrReportDocument extends QtrReportInterface, Document {}
 export interface QtrReportModel extends Model<QtrReportDocument> { }

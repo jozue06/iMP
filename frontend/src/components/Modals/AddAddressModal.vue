@@ -107,7 +107,6 @@
 				}).catch(e => {
 					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
-					throw e;
 				});
 
 			},

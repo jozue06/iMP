@@ -383,12 +383,11 @@
 
 				<b-form-group class="mr-1" label="SDR Date">
 					<b-form-datepicker
-						required
 						v-model="currentReport.sdrDate"
 						:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 						locale="en"
 						name="sdrDate"
-						@change="saveReport"
+						@input="saveReport"
 					></b-form-datepicker>
 				</b-form-group> 
 
@@ -532,13 +531,14 @@
 			<b-row v-if='reportType === 4' class="ml-2 mr-2 justify-content-between">
 				<b-col cols="2" class="my-2">
 					<b-form-group class="mr-1" label="Institution">
-						<!-- NEED TO CHAGNE THIS TO AN INPUT SELECT OF ACCOUNT NAME AND ACCOUNT NUMBER -->
+						<!-- NEED TO CHANGE THIS TO AN INPUT SELECT OF ACCOUNT NAME AND ACCOUNT NUMBER -->
 							<b-input-group>
 								<b-form-input 
 									class="text-right"
 									type="text" 
 									v-model="currentReport.institution" 
 									name="institution"
+									@blur="saveReport"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -551,8 +551,8 @@
 									class="text-right"
 									type="text" 
 									v-model="currentReport.account" 
-									required
 									name="account"
+									@blur="saveReport"
 								>
 								</b-form-input>
 							</b-input-group>
@@ -654,7 +654,7 @@
 			<b-row class="mx-2">
 				<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 					<label>
-						Statment Info
+						Statement Info
 					</label>
 					<b-col>				
 						<b-row v-if="currentReport.statement && (currentReport.statement.dateOne || currentReport.statement.dateTwo || currentReport.statement.dateThree)" @click="showStatementModal(currentReport.statement)" class="align-items-center mt-2">

@@ -5,8 +5,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface MAReportInterface {
 	user: string,
 
-	month: string,
-	year: string,
+	month?: string,
+	year?: string,
 	dateCompleted?: string,
 
 	expectedDateToField?: string,
@@ -26,7 +26,7 @@ export interface MAReportInterface {
 
 	receiptBooksNeeded?: number,
 	commitmentFormsNeeded?: number,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	comments?: string,
 }
 
@@ -39,12 +39,10 @@ const MAReportSchema = new Schema({
 
 	month: {
 		type: String,
-		required: true,
 	},
 
 	year: {
 		type: String,
-		required: true,
 	},
 
 	dateCompleted: {
@@ -101,7 +99,7 @@ const MAReportSchema = new Schema({
 	},
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
 		default: []
 	},
@@ -115,6 +113,8 @@ const MAReportSchema = new Schema({
 		toJSON: {getters: true},
 	}
 );
+
+MAReportSchema.index({ user: 1, month: 1, year: 1 }, {unique: true});
 
 MAReportSchema.path("totalOfferings").get((num: number) => unformatNumber(num));
 MAReportSchema.path("totalOfferings").set((num: string) => formatNumber(num));

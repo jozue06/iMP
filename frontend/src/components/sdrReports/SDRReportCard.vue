@@ -112,10 +112,9 @@
 
 			saveReport() {
 				SDRReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved the SDR Report", "primary");
+					this.$Notification("Success", "Successfully Saved the SDR Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
-					throw e;
+					this.$Notification("Error", `Error Saving SDR Report: ${e.message}`, "warning", "", 6000);
 				});
 			},
 
@@ -184,15 +183,17 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {
-					sdrDate: moment()
-				};
+				let currentReport = {};
 
 				SDRReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'SDRReport', query: { reportId: res._id}});
 					this.loading = false;
-				});
+				}).catch(e => {
+					this.$Notification("Error", `Error Saving SDR Report: ${e.message}`, "warning", "", 6000);
+					this.loading = false;
+					throw e;
+				})
 			}
 		},
 

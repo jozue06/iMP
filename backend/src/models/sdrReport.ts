@@ -6,17 +6,17 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface SDRReportInterface {
 	user: string,
 	reportLocationType?: number, // US = 0, Foreign = 1;
-	dateCompleted?: Date,
+	dateCompleted?: string,
 
 	sdrNumber?: string,
 	field?: string,
-	sdrDate?: Date,
-	disbursementDate?: Date,
+	sdrDate?: string,
+	disbursementDate?: string,
 	
 	receivingFunds?: number,
 	receivingFundsDescription?: string,
 	sdrReferenceNumber?: string,
-	specialCheckDate?: Date,
+	specialCheckDate?: string,
 
 	purpose?: string,
 	accountCharged?: string,
@@ -25,7 +25,7 @@ export interface SDRReportInterface {
 	sdrAmount?: number,
 	
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 }
 
@@ -42,7 +42,7 @@ const SDRReportSchema = new Schema({
 	},
 
 	dateCompleted: { 
-		type: Date,
+		type: String,
 		required: false,
 	},
 
@@ -57,12 +57,11 @@ const SDRReportSchema = new Schema({
 	},
 
 	sdrDate: { 
-		type: Date,
-		required: false,
+		type: String,
 	},
 
 	disbursementDate: { 
-		type: Date,
+		type: String,
 		required: false,
 	},
 	
@@ -82,7 +81,7 @@ const SDRReportSchema = new Schema({
 	},
 
 	specialCheckDate: { 
-		type: Date,
+		type: String,
 		required: false,
 	},
 
@@ -117,7 +116,7 @@ const SDRReportSchema = new Schema({
 	},
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
 		default: []
 	},
@@ -134,12 +133,14 @@ const SDRReportSchema = new Schema({
 	}
 );
 
-export interface SDRReportDocument extends SDRReportInterface, Document {}
-export interface SDRReportModel extends Model<SDRReportDocument> { }
-export const SDRReport = model<SDRReportDocument>("sdrReport", SDRReportSchema);
-
 SDRReportSchema.path("receivingFunds").get((num: number) => unformatNumber(num));
 SDRReportSchema.path("receivingFunds").set((num: string) => formatNumber(num));
 
 SDRReportSchema.path("sdrAmount").get((num: number) => unformatNumber(num));
 SDRReportSchema.path("sdrAmount").set((num: string) => formatNumber(num));
+
+SDRReportSchema.index({ user:1, sdrDate:1 }, {unique: true});
+
+export interface SDRReportDocument extends SDRReportInterface, Document {}
+export interface SDRReportModel extends Model<SDRReportDocument> { }
+export const SDRReport = model<SDRReportDocument>("sdrReport", SDRReportSchema);
