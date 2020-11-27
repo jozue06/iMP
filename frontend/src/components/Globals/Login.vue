@@ -26,7 +26,7 @@
 						</b-form-group>
 					</b-col>
 				</b-row>
-				<div v-if="logginIn">
+				<div v-if="loggingIn">
 					<b-button variant="primary" class="mr-4" :disabled="loading" @click="login">
 						Login
 						<b-spinner v-if="loading" small type="grow"></b-spinner>
@@ -62,7 +62,7 @@
 		name: 'Login',
 		data() {
 			return {
-				logginIn: true,
+				loggingIn: true,
 				loading: false,
 				input: {
 					username: "",
@@ -87,12 +87,12 @@
 					})
 					.catch(e => {
 						this.loading = false;
-						this.$Notification("Error", `${e.response.data.message}` , "warning", "", 3000);
+						this.$Notification("Error", `${e.response.data.message}` , "warning", "", 6000);
 						this.input = {}
 
 					});
 				} else {
-					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
+					this.$Notification("Error", `A username and password must be present`, "warning", "", 6000);
 				}
 			},
 
@@ -110,16 +110,16 @@
 						this.$router.replace("/contacts");
 					}).catch(e => {
 						this.input = {}
-						this.$Notification("Error", `${e.response.data.message}`, "warning", "", 3000);
+						this.$Notification("Error", `${e.response.data.message}`, "warning", "", 6000);
 						this.loading = false;
 					});
 				} else {
-					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
+					this.$Notification("Error", `A username and password must be present`, "warning", "", 6000);
 				}
 			},
 
 			switchToSignUp() {
-				this.logginIn = !this.logginIn;
+				this.loggingIn = !this.loggingIn;
 			}
 		}
 	}

@@ -14,7 +14,7 @@ export class TaskController {
 
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -22,7 +22,7 @@ export class TaskController {
 		Task.find({ "userId": userId }).then((tasks: TaskDocument[]) => {
 			res.send(tasks);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -30,7 +30,7 @@ export class TaskController {
 		Task.findById(req.params.id).then((task: TaskDocument) => {
 			res.send(task);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -38,7 +38,7 @@ export class TaskController {
 		Task.findOneAndUpdate({"_id": req.body.task._id}, {...req.body.task }, { useFindAndModify: true }).then((r: TaskDocument) => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -48,7 +48,7 @@ export class TaskController {
 		Task.updateMany({"_id": { $in: ids } }, { completed: completedToSet }, { useFindAndModify: true }).then((r: TaskDocument[]) => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -56,7 +56,7 @@ export class TaskController {
 		Task.deleteMany( {"_id": { $in: req.body.taskIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

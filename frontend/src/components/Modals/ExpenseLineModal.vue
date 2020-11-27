@@ -228,8 +228,7 @@
 					this.expenseReceiptFile = null;
 					this.$emit("saved");
 				}).catch(e => {
-					console.error('eeek ', e);
-					this.$Notification("Error", `Error Saving Expense Line: ${e}`, "warning", "", 3000);
+					this.$Notification("Error", `Error Saving Expense Line: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
 					throw e;
 				});

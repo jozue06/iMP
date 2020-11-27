@@ -105,7 +105,7 @@
 					this.loading = false;
 					this.$emit("saveContact");
 				}).catch(e => {
-					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 3000);
+					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
 					throw e;
 				});

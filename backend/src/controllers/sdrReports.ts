@@ -15,10 +15,10 @@ export class SDRReportController {
 			newSDRReport.save().then((report: SDRReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -26,7 +26,7 @@ export class SDRReportController {
 		SDRReport.find({ "user": userId }).then(sdrReports => {
 			res.send(sdrReports);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -38,7 +38,7 @@ export class SDRReportController {
 				res.send(report);
 			}).catch(e => {
 				console.error('ee', e);
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 	};
 
@@ -48,7 +48,7 @@ export class SDRReportController {
 		}).catch(e => {
 			console.error('eeek ', e);
 
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		})
 	};
 
@@ -56,7 +56,7 @@ export class SDRReportController {
 		SDRReport.deleteMany( {"_id": { $in: req.body.sdrReportIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

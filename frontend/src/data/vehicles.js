@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi"
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}vehicles`;
 
-const handleError = fn => (...params) =>
-fn(...params).catch(e => {
-	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-	throw new Error(newmess.replace(",", '\n'));
-});
-
 export const Vehicles = {
-	getVehicles: handleError(async () => {
+	getVehicles: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -21,7 +15,7 @@ export const Vehicles = {
 		return res.data;
 	}),
 
-	deleteVehicles: handleError(async ids => {
+	deleteVehicles: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -35,7 +29,7 @@ export const Vehicles = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`

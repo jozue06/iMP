@@ -96,8 +96,7 @@
 				Contacts.save(this.currentContact).then(res => {
 					this.$Notification("Success!", "Successfully Saved the Contact", "primary");
 				}).catch(e => {
-					console.error('eek', e);
-					this.$Notification("Error", `Error Saving contact: ${e}`, "warning", "", 5000);
+					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 6000);
 					throw e;
 				});
 			},

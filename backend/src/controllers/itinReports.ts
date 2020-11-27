@@ -15,10 +15,10 @@ export class ItinReportController {
 			newItinReport.save().then((report: ItinReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -26,7 +26,7 @@ export class ItinReportController {
 		ItinReport.find({ "user": userId }).then(itinReports => {
 			res.send(itinReports);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -41,7 +41,7 @@ export class ItinReportController {
 				res.send(report);
 			}).catch(e => {
 				console.error('ee', e);
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 	};
 
@@ -55,7 +55,7 @@ export class ItinReportController {
 		}).catch(e => {
 			console.error('eeek ', e);
 
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		})
 	};
 
@@ -63,7 +63,7 @@ export class ItinReportController {
 		ItinReport.deleteMany( {"_id": { $in: req.body.itinReportIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

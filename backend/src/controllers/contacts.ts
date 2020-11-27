@@ -5,12 +5,25 @@ import ValidationException from '../exceptions/ValidationException';
 export class ContactController {
 	public createContact = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		const incomingContact = req.body.contact;
-		incomingContact.userId = userId;
+		incomingContact.userId = userId;		
 		const contact = new Contact(incomingContact);
 		contact.save().then(() => {
 			res.send(contact);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			
+			if (e.code == 11000) {
+				let message = "";
+				if (e.keyValue.orgName) {
+					message = `A Contact for ${e.keyValue.firstName} ${e.keyValue.lastName} and ${e.keyValue.orgName} already exists`;
+				} else {
+					message = `A Contact for ${e.keyValue.firstName} ${e.keyValue.lastName} already exists`;
+				}
+				console.log('message ?? ', message);
+				
+				return next(new ValidationException({"message":message}));
+			}
+
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -18,7 +31,7 @@ export class ContactController {
 		Contact.find({ "userId": userId }).then(contacts => {
 			res.send(contacts);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -27,7 +40,7 @@ export class ContactController {
 			res.send(contact);
 		}).catch(e => {
 			console.error('ee', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -35,17 +48,15 @@ export class ContactController {
 		Contact.findOneAndUpdate({"_id": req.body.contact._id}, {...req.body.contact }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
 	public deleteContacts = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		console.log('req.body.contactIds', req.body.contactIds);
-		
 		Contact.deleteMany( { "_id": { $in: req.body.contactIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -159,7 +170,7 @@ export class ContactController {
 			res.send(results);
 		}).catch(e => {
 			console.error('eeee' , e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

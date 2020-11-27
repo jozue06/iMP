@@ -13,7 +13,7 @@ export class EventController {
 			});
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -21,7 +21,7 @@ export class EventController {
 		Event.find({ "userId": userId }).then((events: EventDocument[]) => {
 			res.send(events);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -29,7 +29,7 @@ export class EventController {
 		Event.findById(req.params.id).then(event => {
 			res.send(event);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -37,7 +37,7 @@ export class EventController {
 		Event.findOneAndUpdate({"_id": req.body.event._id}, {...req.body.event }, { useFindAndModify: true }).then((savedEvent: EventDocument) => {
 			res.send(savedEvent);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -47,7 +47,7 @@ export class EventController {
 		Event.updateMany({"_id": { $in: ids } }, { isCompleted: completedToSet }, { useFindAndModify: true }).then((r: EventDocument[]) => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -55,7 +55,7 @@ export class EventController {
 		Event.deleteMany( {"_id": { $in: req.body.eventIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

@@ -178,9 +178,11 @@ const ContactSchema = new Schema({
 	contactGroups: [{
 		type: Schema.Types.ObjectId,
 		ref: 'contactGroup',
-		defaut: []
+		default: []
 	}],
 });
+
+ContactSchema.index({ userId: 1, firstName: 1, lastName: 1, orgName: 1}, {unique: true});
 
 export interface ContactDocument extends IContact, Document { }
 export interface ContactModel extends Model<ContactDocument> { }

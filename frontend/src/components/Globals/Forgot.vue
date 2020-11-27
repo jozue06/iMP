@@ -63,7 +63,7 @@
 						this.input = {}
 					});
 				} else {
-					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
+					this.$Notification("Error", `A username and password must be present`, "warning", "", 6000);
 				}
 			},
 		}

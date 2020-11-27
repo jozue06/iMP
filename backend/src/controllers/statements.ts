@@ -44,7 +44,7 @@ export class StatementController {
 
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -52,7 +52,7 @@ export class StatementController {
 		Statement.find({ "userId": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -60,7 +60,7 @@ export class StatementController {
 		Statement.findById(req.params.id).then(line => {
 			res.send(line);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -68,7 +68,7 @@ export class StatementController {
 		Statement.findOneAndUpdate({"_id": req.body.statement._id}, { ...req.body.statement }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -76,7 +76,7 @@ export class StatementController {
 		Statement.deleteMany( {"_id": { $in: req.body.statementIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}qtrReports`;
 
-const handleError = fn => (...params) =>
-	fn(...params).catch(e => {
-		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-		throw new Error(newmess.replace(",", '\n'));
-});
-
 export const QuarterlyReports = {
-	getQuarterlyReport: handleError(async id => {
+	getQuarterlyReport: errorHandler(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -21,7 +15,7 @@ export const QuarterlyReports = {
 		return res.data;
 	}),
 	
-	getQuarterlyReports: handleError(async () => {
+	getQuarterlyReports: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -31,7 +25,7 @@ export const QuarterlyReports = {
 		return res.data;
 	}),
 
-	deleteQuarterlyReport: handleError(async ids => {
+	deleteQuarterlyReport: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -45,7 +39,7 @@ export const QuarterlyReports = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -64,7 +58,7 @@ export const QuarterlyReports = {
 		}
 	}),
 
-	deleteLine: handleError(async payload => {		
+	deleteLine: errorHandler(async payload => {		
 		let body = {
 			qtrReport: payload
 		}

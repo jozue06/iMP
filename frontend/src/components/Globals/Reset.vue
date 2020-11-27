@@ -54,12 +54,12 @@
 					.catch(e => {						
 						this.loading = false;
 						if (e.response.status == 401) {
-							this.$Notification("Error", `No User Found`, "warning", "", 3000);
+							this.$Notification("Error", `No User Found`, "warning", "", 6000);
 							this.input = {}
 						}
 					});
 				} else {
-					this.$Notification("Error", `A username and password must be present`, "warning", "", 3000);
+					this.$Notification("Error", `A username and password must be present`, "warning", "", 6000);
 				}
 			},
 		}

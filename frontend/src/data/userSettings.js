@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi"
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}settings`;
 
-const handleError = fn => (...params) =>
-fn(...params).catch(e => {
-	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-	throw new Error(newmess.replace(",", '\n'));
-});
-
 export const Settings = {
-	getSettings: handleError(async () => {
+	getSettings: errorHandler(async () => {
 		const header = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -20,7 +14,7 @@ export const Settings = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 

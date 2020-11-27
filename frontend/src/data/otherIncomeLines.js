@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}qtrReports/otherIncomeLines`;
 
-const handleError = fn => (...params) =>
-	fn(...params).catch(e => {
-		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-		throw new Error(newmess.replace(",", '\n'));
-});
-
 export const OtherIncomeLines = {
-	getOtherIncomeLine: handleError(async id => {
+	getOtherIncomeLine: errorHandler(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -23,7 +17,7 @@ export const OtherIncomeLines = {
 		return [];
 	}),
 	
-	getOtherIncomeLines: handleError(async () => {
+	getOtherIncomeLines: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -33,7 +27,7 @@ export const OtherIncomeLines = {
 		return res.data;
 	}),
 
-	deleteOtherIncomeLines: handleError(async ids => {
+	deleteOtherIncomeLines: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -47,7 +41,7 @@ export const OtherIncomeLines = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {		
+	save: errorHandler(async payload => {		
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
