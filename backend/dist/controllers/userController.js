@@ -44,7 +44,7 @@ class UserController {
     constructor() {
         this.postForgot = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             if (!req.body.username || req.body.username == "") {
-                return next(new ValidationException_1.default("Please Enter a Valid User Name and Password"));
+                return next(new ValidationException_1.default({ "message": "Please Enter a Valid User Name and Password" }));
             }
             async_1.default.waterfall([
                 function createRandomToken(done) {
@@ -59,7 +59,7 @@ class UserController {
                             return done(err);
                         }
                         if (!user) {
-                            return next(new ValidationException_1.default(`User with user name  ${req.body.username} not found.`));
+                            return next(new ValidationException_1.default({ "message": `User with user name  ${req.body.username} not found.` }));
                         }
                         user.passwordResetToken = token;
                         user.passwordResetExpires = Date.now() + 3600000; // 1 hour
@@ -70,7 +70,7 @@ class UserController {
                 },
                 function sendForgotPasswordEmail(token, user, done) {
                     if (!user.settings || !user.settings.email || user.settings.email == "") {
-                        return next(new ValidationException_1.default(`You have not setup an e-mail address for this account. Please email us at imp.app.info@gmail.com to reset your account`));
+                        return next(new ValidationException_1.default({ "message": `You have not setup an e-mail address for this account. Please email us at imp.app.info@gmail.com to reset your account` }));
                     }
                     let options = { service: 'gmail',
                         auth: {
@@ -100,7 +100,7 @@ class UserController {
         });
         this.postReset = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             if (!req.body.token || req.body.token == "") {
-                return next(new ValidationException_1.default("An error occured"));
+                return next(new ValidationException_1.default({ "message": "An error occurred" }));
             }
             async_1.default.waterfall([
                 function resetPassword(done) {
@@ -111,7 +111,7 @@ class UserController {
                             return next(err);
                         }
                         if (!user) {
-                            return next(new ValidationException_1.default("Password reset token is invalid or has expired."));
+                            return next(new ValidationException_1.default({ "message": "Password reset token is invalid or has expired." }));
                         }
                         user.password = bcrypt_nodejs_1.default.hashSync(req.body.password, bcrypt_nodejs_1.default.genSaltSync(10));
                         user.passwordResetToken = undefined;
@@ -154,7 +154,7 @@ class UserController {
     registerUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.body.username || req.body.username == "") {
-                next(new ValidationException_1.default("Please Enter a Valid User Name and Password"));
+                next(new ValidationException_1.default({ "message": "Please Enter a Valid User Name and Password" }));
             }
             const hashedPassword = bcrypt_nodejs_1.default.hashSync(req.body.password, bcrypt_nodejs_1.default.genSaltSync(10));
             const userCreated = userModel_1.User.create({
@@ -168,7 +168,7 @@ class UserController {
     loginUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.body.username || req.body.username == "" || !req.body.password || req.body.password == "") {
-                return next(new ValidationException_1.default("Please Enter a Valid User Name and Password"));
+                return next(new ValidationException_1.default({ "message": "Please Enter a Valid User Name and Password" }));
             }
             const username = req.body.username;
             yield userModel_1.User.findOne({ username }, (err, user) => __awaiter(this, void 0, void 0, function* () {
@@ -176,7 +176,7 @@ class UserController {
                     return next(err);
                 }
                 if (!user) {
-                    return next(new ValidationException_1.default(`User with user name  ${username} not found.`));
+                    return next(new ValidationException_1.default({ "message": `User with user name  ${username} not found.` }));
                 }
                 yield user.comparePassword(req.body.password, (err, isMatch) => {
                     if (err) {
@@ -187,7 +187,7 @@ class UserController {
                         return res.status(200).send({ token });
                     }
                     else {
-                        return next(new ValidationException_1.default(`Username or password incorrect.`));
+                        return next(new ValidationException_1.default({ "message": "Username or password incorrect." }));
                     }
                 });
             }));

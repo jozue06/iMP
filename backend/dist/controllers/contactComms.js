@@ -18,35 +18,35 @@ class CommsController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllComms = (userId, req, res, next) => {
             contactComms_1.Comm.find({ "userId": userId }).then(comms => {
                 res.send(comms);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getComm = (userId, req, res, next) => {
             contactComms_1.Comm.findById(req.params.id).then(comm => {
                 res.send(comm);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateCommsInfo = (userId, req, res, next) => {
             contactComms_1.Comm.findOneAndUpdate({ "_id": req.body.comm._id }, Object.assign({}, req.body.comm), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteComs = (userId, req, res, next) => {
             contactComms_1.Comm.deleteMany({ "_id": { $in: req.body.commsIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

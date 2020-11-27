@@ -20,17 +20,17 @@ class ItinReportController {
                 newItinReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllItinReports = (userId, req, res, next) => {
             itinerationReport_1.ItinReport.find({ "user": userId }).then(itinReports => {
                 res.send(itinReports);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getItinReport = (userId, req, res, next) => {
@@ -44,7 +44,7 @@ class ItinReportController {
                 res.send(report);
             }).catch(e => {
                 console.error('ee', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateItinReport = (userId, req, res, next) => {
@@ -56,14 +56,14 @@ class ItinReportController {
                 res.send(r);
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteItinReports = (userId, req, res, next) => {
             itinerationReport_1.ItinReport.deleteMany({ "_id": { $in: req.body.itinReportIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

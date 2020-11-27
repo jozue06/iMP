@@ -25,35 +25,35 @@ class MileageLogController {
                 }
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllMileageLogs = (userId, req, res, next) => {
             mileageLog_1.MileageLog.find({ "userId": userId }).then(lines => {
                 res.send(lines);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getMileageLog = (userId, req, res, next) => {
             mileageLog_1.MileageLog.findById(req.params.id).then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateMileageLog = (userId, req, res, next) => {
             mileageLog_1.MileageLog.findOneAndUpdate({ "_id": req.body.mileageLog._id }, Object.assign({}, req.body.mileageLog), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteMileageLogs = (userId, req, res, next) => {
             mileageLog_1.MileageLog.deleteMany({ "_id": { $in: req.body.mileageLogIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

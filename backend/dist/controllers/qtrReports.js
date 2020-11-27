@@ -20,17 +20,17 @@ class QtrReportController {
                 newQtrReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllQtrReports = (userId, req, res, next) => {
             qrtReport_1.QtrReport.find({ "user": userId }).then(qtrReports => {
                 res.send(qtrReports);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getQtrReport = (userId, req, res, next) => {
@@ -42,7 +42,7 @@ class QtrReportController {
                 res.send(report);
             }).catch(e => {
                 console.error('ee', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateQtrReport = (userId, req, res, next) => {
@@ -50,14 +50,14 @@ class QtrReportController {
                 res.send(r);
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteQtrReports = (userId, req, res, next) => {
             qrtReport_1.QtrReport.deleteMany({ "_id": { $in: req.body.qtrReportIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

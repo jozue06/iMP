@@ -18,28 +18,28 @@ class EventController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllEvents = (userId, req, res, next) => {
             contactEvent_1.Event.find({ "userId": userId }).then((events) => {
                 res.send(events);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getEvent = (userId, req, res, next) => {
             contactEvent_1.Event.findById(req.params.id).then(event => {
                 res.send(event);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateEventInfo = (userId, req, res, next) => {
             contactEvent_1.Event.findOneAndUpdate({ "_id": req.body.event._id }, Object.assign({}, req.body.event), { useFindAndModify: true }).then((savedEvent) => {
                 res.send(savedEvent);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.toggleMany = (userId, req, res, next) => {
@@ -48,14 +48,14 @@ class EventController {
             contactEvent_1.Event.updateMany({ "_id": { $in: ids } }, { isCompleted: completedToSet }, { useFindAndModify: true }).then((r) => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteEvents = (userId, req, res, next) => {
             contactEvent_1.Event.deleteMany({ "_id": { $in: req.body.eventIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

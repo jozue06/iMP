@@ -28,23 +28,23 @@ class ExpenseLineController {
                 const expenseLine = new expenseLine_1.ExpenseLine(JSON.parse(req.body.expenseLine));
                 expenseLine.validate().catch(e => {
                     console.error("expenseLine.validate error ", e);
-                    return next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    return next(new ValidationException_1.default(e.errors));
                 });
                 awsController_1.uploadToS3(userId, req.file.originalname, req.file.buffer).then(re => {
                     expenseLine.imageURL = re.Location;
                     this.saveExpenseLineAndUpdateReport(type, expenseLine, res, next).catch(e => {
                         console.error("saveExpenseLine ", e);
-                        next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                        next(new ValidationException_1.default(e.errors));
                     });
                 }).catch(e => {
                     console.error("uploadToS3 ", e);
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }
             else {
                 const expenseLine = new expenseLine_1.ExpenseLine(req.body.expenseLine);
                 this.saveExpenseLineAndUpdateReport(type, expenseLine, res, next).catch(e => {
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }
         };
@@ -52,14 +52,14 @@ class ExpenseLineController {
         // 	ExpenseLine.find({ "userId": userId }).then(lines => {
         // 		res.send(lines);
         // 	}).catch(e => {
-        // 		next(new ValidationException(JSON.stringify(e.errors)));
+        // 		next(new ValidationException(e.errors));
         // 	});
         // };
         this.getExpenseLine = (userId, req, res, next) => {
             expenseLine_1.ExpenseLine.findById(req.params.id).then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateExpenseLine = (userId, req, res, next) => {
@@ -73,7 +73,7 @@ class ExpenseLineController {
             expenseLine_1.ExpenseLine.deleteMany({ "_id": { $in: req.body.expenseLineIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.uploadExpensePhoto = (userId, req, res, next) => {

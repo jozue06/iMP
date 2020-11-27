@@ -17,35 +17,35 @@ class OfferingLineController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllOfferingLines = (userId, req, res, next) => {
             offeringLine_1.OfferingLine.find({ "userId": userId }).then(lines => {
                 res.send(lines);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getOfferingLine = (userId, req, res, next) => {
             offeringLine_1.OfferingLine.findById(req.params.id).then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateOfferingLine = (userId, req, res, next) => {
             offeringLine_1.OfferingLine.findOneAndUpdate({ "_id": req.body.offeringLine._id }, Object.assign({}, req.body.offeringLine), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteOfferingLines = (userId, req, res, next) => {
             offeringLine_1.OfferingLine.deleteMany({ "_id": { $in: req.body.offeringLineIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

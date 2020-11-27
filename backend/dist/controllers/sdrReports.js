@@ -20,17 +20,17 @@ class SDRReportController {
                 newSDRReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllSDRReports = (userId, req, res, next) => {
             sdrReport_1.SDRReport.find({ "user": userId }).then(sdrReports => {
                 res.send(sdrReports);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getSDRReport = (userId, req, res, next) => {
@@ -41,7 +41,7 @@ class SDRReportController {
                 res.send(report);
             }).catch(e => {
                 console.error('ee', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateSDRReport = (userId, req, res, next) => {
@@ -49,14 +49,14 @@ class SDRReportController {
                 res.send(r);
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteSDRReports = (userId, req, res, next) => {
             sdrReport_1.SDRReport.deleteMany({ "_id": { $in: req.body.sdrReportIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

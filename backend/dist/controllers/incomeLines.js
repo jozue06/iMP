@@ -17,35 +17,35 @@ class IncomeLineController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllIncomeLines = (userId, req, res, next) => {
             incomeLine_1.IncomeLine.find({ "userId": userId }).then(lines => {
                 res.send(lines);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getIncomeLine = (userId, req, res, next) => {
             incomeLine_1.IncomeLine.findById(req.params.id).then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateIncomeLine = (userId, req, res, next) => {
             incomeLine_1.IncomeLine.findOneAndUpdate({ "_id": req.body.incomeLine._id }, Object.assign({}, req.body.incomeLine), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteIncomeLines = (userId, req, res, next) => {
             incomeLine_1.IncomeLine.deleteMany({ "_id": { $in: req.body.incomeLineIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }
