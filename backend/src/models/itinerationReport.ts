@@ -132,25 +132,25 @@ const ItinReportSchema = new Schema({
 	statement: {
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 
 	offeringLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'offeringLine',
-		defaut: []
+		default: []
 	}],
 	
 	mileageLogs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
-		defaut: []
+		default: []
 	}],
 	
 },

@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 
-export interface IOtherIncome {
+export interface OtherIncomeInterface {
 	qtrReport: string,
 	contact?: string,
 	type: number, // can be 'direct donor', or 'personal
@@ -61,6 +61,6 @@ const OtherIncomeSchema = new Schema({
 
 });
 
-export interface OtherIncomeDocument extends IOtherIncome, Document { }
+export interface OtherIncomeDocument extends OtherIncomeInterface, Document { }
 export interface OtherIncomeModel extends Model<OtherIncomeDocument> { }
 export const OtherIncomeLine = model<OtherIncomeDocument>("otherIncomeLine", OtherIncomeSchema);

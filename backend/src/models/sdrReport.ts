@@ -11,7 +11,7 @@ export interface SDRReportInterface {
 	sdrNumber?: string,
 	field?: string,
 	sdrDate?: Date,
-	disbursmentDate?: Date,
+	disbursementDate?: Date,
 	
 	receivingFunds?: number,
 	receivingFundsDescription?: string,
@@ -61,7 +61,7 @@ const SDRReportSchema = new Schema({
 		required: false,
 	},
 
-	disbursmentDate: { 
+	disbursementDate: { 
 		type: Date,
 		required: false,
 	},
@@ -119,13 +119,13 @@ const SDRReportSchema = new Schema({
 	statement: {
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 },
 	{

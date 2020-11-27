@@ -1,7 +1,7 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { VehicleDocument } from "./vehicle";
 
-export interface IMileageLog {
+export interface MileageLogInterface {
 	qtrReport: string,
 	date: string,
 	odometerStart: number,
@@ -49,6 +49,6 @@ const MileageLogSchema = new Schema({
 	},
 });
 
-export interface MileageLogDocument extends IMileageLog, Document { }
+export interface MileageLogDocument extends MileageLogInterface, Document { }
 export interface MileageLogModel extends Model<MileageLogDocument> { }
 export const MileageLog = model<MileageLogDocument>("mileageLog", MileageLogSchema);

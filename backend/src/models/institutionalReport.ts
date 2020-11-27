@@ -96,19 +96,19 @@ const InstitutionalReportSchema = new Schema({
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 
 	incomeLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'incomeLine',
-		defaut: []
+		default: []
 	}],
 
 	statement: {
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 },
 	{

@@ -1,6 +1,7 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
-export interface IStatement {
+
+export interface StatementInterface {
 	qtrReport?: string,
 	institutionalReport?: string,
 	user: string,
@@ -101,6 +102,6 @@ StatementSchema.path("reimbursementTwo").set((num: string) => formatNumber(num))
 StatementSchema.path("reimbursementThree").get((num: number) => unformatNumber(num));
 StatementSchema.path("reimbursementThree").set((num: string) => formatNumber(num));
 
-export interface StatementDocument extends IStatement, Document { }
+export interface StatementDocument extends StatementInterface, Document { }
 export interface StatementModel extends Model<StatementDocument> { }
 export const Statement = model<StatementDocument>("statement", StatementSchema);

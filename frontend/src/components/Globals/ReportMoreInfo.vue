@@ -395,10 +395,10 @@
 				<b-form-group class="mr-1" label="Date of Disbursement">
 					<b-form-datepicker
 						required
-						v-model="currentReport.disbursmentDate"
+						v-model="currentReport.disbursementDate"
 						:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 						locale="en"
-						name="disbursmentDate"
+						name="disbursementDate"
 						@change="saveReport"
 					></b-form-datepicker>
 				</b-form-group> 

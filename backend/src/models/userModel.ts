@@ -2,7 +2,7 @@ import { Document, Schema, Model, model, Error, Types } from "mongoose";
 import { SettingsDocument } from "./settings"
 import bcrypt from "bcrypt-nodejs";
 
-export interface IUser {
+export interface UserInterface {
 	username: string;
 	password: string;
 	passwordResetToken?: string;
@@ -31,6 +31,9 @@ UserSchema.methods.comparePassword = function (candidatePassword: string, callba
 		callback(err, isMatch);
 	});
 };
-export interface UserDocument extends IUser, Document { }
+
+UserSchema.index({username: 1, password: 1}, {unique: true});
+
+export interface UserDocument extends UserInterface, Document { }
 export interface UserModel extends Model<UserDocument> { }
 export const User = model<UserDocument>("user", UserSchema);

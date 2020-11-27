@@ -103,7 +103,7 @@ const MAReportSchema = new Schema({
 	statement: {
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 
 	comments: {

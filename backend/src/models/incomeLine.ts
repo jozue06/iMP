@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 
-export interface IncomeInterface {
+export interface IncomeLineInterface {
 	reportId: string,
 	date: string,
 	code: number,
@@ -32,6 +32,6 @@ const IncomeSchema = new Schema({
 
 });
 
-export interface IncomeDocument extends IncomeInterface, Document { }
+export interface IncomeDocument extends IncomeLineInterface, Document { }
 export interface IncomeModel extends Model<IncomeDocument> { }
 export const IncomeLine = model<IncomeDocument>("incomeLine", IncomeSchema);

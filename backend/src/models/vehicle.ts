@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 
-export interface IVehicle {
+export interface VehicleInterface {
 	user: string,
 	name: string,
 	active?: boolean,
@@ -108,6 +108,8 @@ const VehicleSchema = new Schema({
 
 });
 
-export interface VehicleDocument extends IVehicle, Document { }
+VehicleSchema.index({user: 1, name: 1}, {unique: true});
+
+export interface VehicleDocument extends VehicleInterface, Document { }
 export interface VehicleModel extends Model<VehicleDocument> { }
 export const Vehicle = model<VehicleDocument>("vehicle", VehicleSchema);
