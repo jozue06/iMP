@@ -15,7 +15,7 @@ export class VehiclesController {
 		Vehicle.deleteMany( {"_id": { $in: req.body.vehicleIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -24,7 +24,7 @@ export class VehiclesController {
 		await Vehicle.findOneAndUpdate({_id: vehicle._id}, {...vehicle}).then(savedVehicle => {
 			res.send(savedVehicle);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	}
 

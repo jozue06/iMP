@@ -120,8 +120,9 @@ const ContactSchema = new mongoose_1.Schema({
     contactGroups: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'contactGroup',
-            defaut: []
+            default: []
         }],
 });
+ContactSchema.index({ userId: 1, firstName: 1, lastName: 1, orgName: 1 }, { unique: true });
 exports.Contact = mongoose_1.model("contact", ContactSchema);
 //# sourceMappingURL=contact.js.map

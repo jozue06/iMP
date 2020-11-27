@@ -4,7 +4,7 @@
 		<div v-if="!loading" class="main-card">
 			<router-link to="/">
 				<h1 class="pt-2">Contacts</h1>
-			</router-link>				
+			</router-link>
 			<div v-if="contacts.length > 0">
 				<b-button variant="primary" class="float-right m-2" size="sm" @click="showContactModal(null)">+ Add Contact</b-button>
 				<b-table
@@ -64,17 +64,15 @@
 				@refresh="refresh"
 			/>
 		</div>
-		<!-- <ContactSearchComponent /> -->
 	</section>
 </template>
 
 <script>
-	import ConfirmModal from '../Modals/ConfirmModal';
-	import NoResults from '../Globals/NoResults';
-	import ContactModal from '../Modals/ContactModal';
-	// import ContactSearchComponent from '../Globals/ContactSearchComponent';
-	import { Contacts } from '../../data/contacts';
-	import { allowedFields } from '@/constants/tableFields';
+	import ConfirmModal from "../Modals/ConfirmModal";
+	import NoResults from "../Globals/NoResults";
+	import ContactModal from "../Modals/ContactModal";
+	import { Contacts } from "../../data/contacts";
+	import { allowedFields } from "@/constants/tableFields";
 	import LoadingSpinner from "../Globals/LoadingSpinner";
 	export default {
 		components: {
@@ -82,7 +80,6 @@
 			NoResults,
 			ContactModal,
 			LoadingSpinner,
-			// ContactSearchComponent,
 		},
 
 		name: "Contacts",
@@ -102,18 +99,17 @@
 
 			handleConfirmDelete() {
 				let ids = this.selected.map(ele => ele._id);
-				
-				// Contact.deleteMany({ _id: { $in: ids} }).then(res => {					
-				// 	this.refresh();
-				// 	this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
-				// }).catch(e => {
-				// 	console.error('e', e);
-				// 	throw e;
-				// });
+				Contacts.deleteContact(ids).then(res => {
+					this.refresh();
+					this.$Notification("Deleted", "Deleted the Selected Contacts", "warning", "", 3000);
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
 			},
 
-			showContactModal(item) {			
-				if (item) {				
+			showContactModal(item) {
+				if (item) {
 					this.selectedContact = item;
 				} else {
 					this.selectedContact = {};
@@ -150,10 +146,10 @@
 			return {
 				loading: true,
 				contacts: [],
-				sortBy: 'firstName',
+				sortBy: "firstName",
 				sortDesc: false,
 				selected: "",
-				selectMode: 'multi',
+				selectMode: "multi",
 				selectedContact: {},
 				confirmDeleteMessage: "Are you sure you want to delete the selected contacts?",
 			};

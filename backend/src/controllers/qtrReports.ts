@@ -15,10 +15,10 @@ export class QtrReportController {
 			newQtrReport.save().then((report: QtrReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -26,7 +26,7 @@ export class QtrReportController {
 		QtrReport.find({ "user": userId }).then(qtrReports => {
 			res.send(qtrReports);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -39,7 +39,7 @@ export class QtrReportController {
 				res.send(report);
 			}).catch(e => {
 				console.error('ee', e);
-				next(new ValidationException(JSON.stringify(e.errors)));
+				next(new ValidationException(e.errors));
 			});
 	};
 
@@ -49,7 +49,7 @@ export class QtrReportController {
 		}).catch(e => {
 			console.error('eeek ', e);
 
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		})
 	};
 
@@ -57,7 +57,7 @@ export class QtrReportController {
 		QtrReport.deleteMany( {"_id": { $in: req.body.qtrReportIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}contacts`;
 
-const handleError = fn => (...params) =>
-fn(...params).catch(e => {
-	let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-	let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-	throw new Error(newmess.replace(",", '\n'));
-});
-
 export const Contacts = {
-	getContact: handleError(async id => {
+	getContact: errorHandler(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -20,7 +14,7 @@ export const Contacts = {
 		return res.data;
 	}),
 	
-	getContacts: handleError(async () => {
+	getContacts: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -30,16 +24,19 @@ export const Contacts = {
 		return res.data;
 	}),
 
-	deleteContact: handleError(async id => {
+	deleteContact: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
-		const res = await axios.delete(baseURL + `/${id}`, {"headers": headers});
+		let body = {
+			contactIds: ids
+		}
+		const res = await axios.post(baseURL +"Delete", body, {"headers": headers});
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -55,5 +52,19 @@ export const Contacts = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	})
+	}),
+
+	search: errorHandler(async textValue => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+
+		let body = {
+			textValue: textValue,
+		}
+
+		const res = await axios.post(baseURL + "/search", body, {"headers": headers});
+		return res.data;
+	}),
 };

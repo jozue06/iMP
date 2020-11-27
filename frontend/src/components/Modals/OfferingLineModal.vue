@@ -10,9 +10,6 @@
 			v-bind:currentReport="currentReport"
 		>
 			<b-row class="mb-4">
-				<!-- <b-col cols="6">
-					<ContactSearchComponent @rowClicked="selected" />
-				</b-col> -->
 				<b-col cols="6" class="text-center">
 					<label>Date</label>
 					<b-form-datepicker
@@ -127,18 +124,26 @@
 					</b-input-group>
 				</b-col>
 			</b-row>
+
 			<b-row class="justify-content-around">
+				<b-col cols="6" class="text-center">
+					<ContactSearchComponent @rowClicked="selected" />
+				</b-col>
+			</b-row>
+
+			<b-row v-if="!currentContact" class="justify-content-around">
 				<b-col cols="6" class="text-center m-4">
 					<label>Contact Type</label>
 					<b-form-select v-model="offeringLine.contactType">
 						<option value=0>Personal</option>
-						<option value=1>Church / Orginization</option>
+						<option value=1>Church / Organization</option>
 					</b-form-select>
 				</b-col>
 			</b-row>
+			
 			<b-row class="align-items-center">
 				<b-col cols="4">
-					<div v-if="offeringLine.contactType == 0">
+					<div v-if="offeringLine.contactType == 0 || currentContact.isIndividual">
 						<b-form-group label="First Name">
 							<b-form-input
 								type="text"
@@ -156,7 +161,7 @@
 							></b-form-input>
 						</b-form-group> 
 					</div>
-					<div v-else-if="offeringLine.contactType == 1">
+					<div v-else-if="offeringLine.contactType == 1 && !currentContact.isIndividual">
 						<b-form-group label="Church / Organization Name">
 							<b-form-input
 								type="text"
@@ -218,14 +223,16 @@
 
 <script>
 	import { COUNTRIES, STATES, PROVINCES } from "@/constants/statesAndCountries";
-	import { OfferingLines } from "../../data/offeringLines"
-	import DistrictSelector from '../Globals/DistrictSelector'
+	import { OfferingLines } from "../../data/offeringLines";
+	import DistrictSelector from "../Globals/DistrictSelector";
+	import ContactSearchComponent from "../Globals/ContactSearchComponent";
 	export default  {
 
-		name: 'offeringLineModal',
+		name: "offeringLineModal",
 
 		components: {
-			DistrictSelector
+			DistrictSelector,
+			ContactSearchComponent
 		},
 
 		props: {

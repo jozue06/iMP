@@ -1,22 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}expenseLines`;
 
-const handleError = fn => (...params) =>
-	fn(...params).catch(e => {
-		console.error('eeeeeeek expenseLines error ', e);
-		if (typeof e.response.data.message === 'string') {
-			throw new Error(e.response.data.message);
-		}
-
-		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));		
-		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-		throw new Error(newmess.replace(",", '\n'));
-});
-
 export const ExpenseLines = {
-	getExpenseLine: handleError(async id => {
+	getExpenseLine: errorHandler(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -26,7 +15,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 	
-	getExpenseLines: handleError(async () => {
+	getExpenseLines: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -36,7 +25,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	deleteExpenseLines: handleError(async ids => {
+	deleteExpenseLines: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -50,7 +39,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	save: handleError(async (expenseLine, expenseLineType, expenseReceiptFile, currentReportId) => {
+	save: errorHandler(async (expenseLine, expenseLineType, expenseReceiptFile, currentReportId) => {
 
 		if (expenseLineType == 0) {
 			expenseLine.qtrReport = currentReportId;
@@ -99,7 +88,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	uploadPhoto: handleError(async (expenseLineId, expenseReceiptFile) => {		
+	uploadPhoto: errorHandler(async (expenseLineId, expenseReceiptFile) => {		
 		const formHeaders = {
 			"Content-Type": "multipart/form-data",
 			Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -111,7 +100,7 @@ export const ExpenseLines = {
 		return res.data;
 	}),
 
-	deletePhoto: handleError(async expenseLine => {		
+	deletePhoto: errorHandler(async expenseLine => {		
 		const headers = {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${localStorage.getItem("jwt")}`,

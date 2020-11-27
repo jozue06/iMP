@@ -267,6 +267,8 @@
 			showOtherIncomeModal(otherIncomeLine) {
 				if (otherIncomeLine) {
 					this.otherIncomeLine = otherIncomeLine;
+				} else {
+					this.otherIncomeLine = {};
 				}
 
 				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();

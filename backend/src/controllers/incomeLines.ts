@@ -12,7 +12,7 @@ export class IncomeLineController {
 			});
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -20,7 +20,7 @@ export class IncomeLineController {
 		IncomeLine.find({ "userId": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -28,7 +28,7 @@ export class IncomeLineController {
 		IncomeLine.findById(req.params.id).then(line => {
 			res.send(line);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -36,7 +36,7 @@ export class IncomeLineController {
 		IncomeLine.findOneAndUpdate({"_id": req.body.incomeLine._id}, { ...req.body.incomeLine }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -44,7 +44,7 @@ export class IncomeLineController {
 		IncomeLine.deleteMany( {"_id": { $in: req.body.incomeLineIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

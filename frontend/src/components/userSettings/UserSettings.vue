@@ -92,7 +92,7 @@
 					this.$Notification("Success!", "Successfully Saved the Settings", "primary");
 				}).catch(e => {
 					console.error('eek', e);
-					this.$Notification("Error", `Error Saving Settings: ${e}`, "warning", "", 5000);
+					this.$Notification("Error", `Error Saving Settings: ${e.message}`, "warning", "", 6000);
 					throw e;
 				});
 			}

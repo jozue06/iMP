@@ -44,35 +44,35 @@ class StatementController {
                 }
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllStatements = (userId, req, res, next) => {
             statement_1.Statement.find({ "userId": userId }).then(lines => {
                 res.send(lines);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getStatement = (userId, req, res, next) => {
             statement_1.Statement.findById(req.params.id).then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateStatement = (userId, req, res, next) => {
             statement_1.Statement.findOneAndUpdate({ "_id": req.body.statement._id }, Object.assign({}, req.body.statement), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteStatements = (userId, req, res, next) => {
             statement_1.Statement.deleteMany({ "_id": { $in: req.body.statementIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

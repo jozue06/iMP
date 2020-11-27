@@ -14,7 +14,7 @@ export class CommsController {
 
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -22,7 +22,7 @@ export class CommsController {
 		Comm.find({ "userId": userId }).then(comms => {
 			res.send(comms);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -30,7 +30,7 @@ export class CommsController {
 		Comm.findById(req.params.id).then(comm => {
 			res.send(comm);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -38,7 +38,7 @@ export class CommsController {
 		Comm.findOneAndUpdate({"_id": req.body.comm._id}, {...req.body.comm }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -46,7 +46,7 @@ export class CommsController {
 		Comm.deleteMany( {"_id": { $in: req.body.commsIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

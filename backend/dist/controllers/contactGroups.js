@@ -15,35 +15,35 @@ class ContactGroupController {
                 res.send(savedGroup);
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllContactGroups = (userId, req, res, next) => {
             contactGroup_1.ContactGroup.find({ "user": userId }).then(comms => {
                 res.send(comms);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getContactGroup = (userId, req, res, next) => {
             contactGroup_1.ContactGroup.findById(req.params.id).populate("contacts").then(group => {
                 res.send(group);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateContactGroup = (userId, req, res, next) => {
             contactGroup_1.ContactGroup.findOneAndUpdate({ "_id": req.body.contactGroup._id }, Object.assign({}, req.body.contactGroup), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteContactGroup = (userId, req, res, next) => {
             contactGroup_1.ContactGroup.deleteMany({ "_id": { $in: req.body.contactGroupIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

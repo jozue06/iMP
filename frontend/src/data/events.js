@@ -1,17 +1,11 @@
 import axios from 'axios';
 import getApi from "../utils/getApi";
+import { errorHandler } from "../utils/errorHandler";
 
 const baseURL = `${getApi()}contactEvents`;
 
-const handleError = fn => (...params) =>
-	fn(...params).catch(e => {
-		let messages = Object.entries(JSON.parse(e.response.data.message)).map(val => val.map(v => v.message));
-		let newmess = messages.map(e => e[1].replace("Path ", "")).toString().replace(",", '\n');
-		throw new Error(newmess.replace(",", '\n'));
-});
-
 export const Events = {
-	getEvent: handleError(async id => {
+	getEvent: errorHandler(async id => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -21,7 +15,7 @@ export const Events = {
 		return res.data;
 	}),
 	
-	getEvents: handleError(async () => {
+	getEvents: errorHandler(async () => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -31,7 +25,7 @@ export const Events = {
 		return res.data;
 	}),
 
-	deleteEvents: handleError(async ids => {
+	deleteEvents: errorHandler(async ids => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -45,7 +39,7 @@ export const Events = {
 		return res.data;
 	}),
 
-	save: handleError(async payload => {
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -64,7 +58,7 @@ export const Events = {
 		}
 	}),
 
-	toggleMany: handleError(async (events, completedToSet) => {	
+	toggleMany: errorHandler(async (events, completedToSet) => {	
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 

@@ -12,23 +12,23 @@ export class OtherIncomeLineController {
 			});
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
 	public getAllOtherIncomeLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		OtherIncomeLine.find({ "userId": userId }).then(lines => {
+		OtherIncomeLine.find({ "userId": userId }).populate("contact").then(lines => {
 			res.send(lines);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
 	public getOtherIncomeLine = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		OtherIncomeLine.findById(req.params.id).then(line => {
+		OtherIncomeLine.findById(req.params.id).populate("contact").then(line => {
 			res.send(line);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -36,7 +36,7 @@ export class OtherIncomeLineController {
 		OtherIncomeLine.findOneAndUpdate({"_id": req.body.otherIncomeLine._id}, { ...req.body.otherIncomeLine }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -44,7 +44,7 @@ export class OtherIncomeLineController {
 		OtherIncomeLine.deleteMany( {"_id": { $in: req.body.otherIncomeLineIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

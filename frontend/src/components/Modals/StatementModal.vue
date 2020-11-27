@@ -210,7 +210,7 @@
 					this.$emit("refresh", res);
 				}).catch(e => {
 					console.error('eeek ', e);
-					this.$Notification("Error", `Error Saving Mileage Log: ${e}`, "warning", "", 3000);
+					this.$Notification("Error", `Error Saving Mileage Log: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
 					throw e;
 				});

@@ -17,35 +17,35 @@ class OtherIncomeLineController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllOtherIncomeLines = (userId, req, res, next) => {
-            otherIncomeLine_1.OtherIncomeLine.find({ "userId": userId }).then(lines => {
+            otherIncomeLine_1.OtherIncomeLine.find({ "userId": userId }).populate("contact").then(lines => {
                 res.send(lines);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getOtherIncomeLine = (userId, req, res, next) => {
-            otherIncomeLine_1.OtherIncomeLine.findById(req.params.id).then(line => {
+            otherIncomeLine_1.OtherIncomeLine.findById(req.params.id).populate("contact").then(line => {
                 res.send(line);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateOtherIncomeLine = (userId, req, res, next) => {
             otherIncomeLine_1.OtherIncomeLine.findOneAndUpdate({ "_id": req.body.otherIncomeLine._id }, Object.assign({}, req.body.otherIncomeLine), { useFindAndModify: true }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteOtherIncomeLines = (userId, req, res, next) => {
             otherIncomeLine_1.OtherIncomeLine.deleteMany({ "_id": { $in: req.body.otherIncomeLineIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

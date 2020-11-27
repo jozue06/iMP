@@ -20,17 +20,17 @@ class InstitutionalReportController {
                 newInstitutionalReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
-                    next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                    next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllInstitutionalReports = (userId, req, res, next) => {
             institutionalReport_1.InstitutionalReport.find({ "user": userId }).then(institutionalReports => {
                 res.send(institutionalReports);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getInstitutionalReport = (userId, req, res, next) => {
@@ -41,7 +41,7 @@ class InstitutionalReportController {
                 res.send(report);
             }).catch(e => {
                 console.error('ee', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateInstitutionalReport = (userId, req, res, next) => {
@@ -49,14 +49,14 @@ class InstitutionalReportController {
                 res.send(r);
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteInstitutionalReports = (userId, req, res, next) => {
             institutionalReport_1.InstitutionalReport.deleteMany({ "_id": { $in: req.body.institutionalReportIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

@@ -19,7 +19,7 @@ export class MileageLogController {
 			}
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -27,7 +27,7 @@ export class MileageLogController {
 		MileageLog.find({ "userId": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -35,7 +35,7 @@ export class MileageLogController {
 		MileageLog.findById(req.params.id).then(line => {
 			res.send(line);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -43,7 +43,7 @@ export class MileageLogController {
 		MileageLog.findOneAndUpdate({"_id": req.body.mileageLog._id}, { ...req.body.mileageLog }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -51,7 +51,7 @@ export class MileageLogController {
 		MileageLog.deleteMany( {"_id": { $in: req.body.mileageLogIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

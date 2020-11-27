@@ -27,7 +27,7 @@ class VehiclesController {
             vehicle_1.Vehicle.deleteMany({ "_id": { $in: req.body.vehicleIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.saveVehicle = (userId, req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -35,7 +35,7 @@ class VehiclesController {
             yield vehicle_1.Vehicle.findOneAndUpdate({ _id: vehicle._id }, Object.assign({}, vehicle)).then(savedVehicle => {
                 res.send(savedVehicle);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         });
         this.createVehicle = (userId, req, res, next) => __awaiter(this, void 0, void 0, function* () {

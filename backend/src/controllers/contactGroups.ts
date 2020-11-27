@@ -11,7 +11,7 @@ export class ContactGroupController {
 			res.send(savedGroup);
 		}).catch(e => {
 			console.error('eeek ', e);
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -19,7 +19,7 @@ export class ContactGroupController {
 		ContactGroup.find({ "user": userId }).then(comms => {
 			res.send(comms);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -27,7 +27,7 @@ export class ContactGroupController {
 		ContactGroup.findById(req.params.id).populate("contacts").then(group => {
 			res.send(group);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -35,7 +35,7 @@ export class ContactGroupController {
 		ContactGroup.findOneAndUpdate({ "_id": req.body.contactGroup._id }, { ...req.body.contactGroup }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 
@@ -43,7 +43,7 @@ export class ContactGroupController {
 		ContactGroup.deleteMany( {"_id": { $in: req.body.contactGroupIds } } ).then(r => {
 			res.send(r);
 		}).catch(e => {
-			next(new ValidationException(JSON.stringify(e.errors)));
+			next(new ValidationException(e.errors));
 		});
 	};
 }

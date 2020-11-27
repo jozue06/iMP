@@ -18,28 +18,28 @@ class TaskController {
                 });
             }).catch(e => {
                 console.error('eeek ', e);
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getAllTasks = (userId, req, res, next) => {
             task_1.Task.find({ "userId": userId }).then((tasks) => {
                 res.send(tasks);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.getTask = (userId, req, res, next) => {
             task_1.Task.findById(req.params.id).then((task) => {
                 res.send(task);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.updateTaskInfo = (userId, req, res, next) => {
             task_1.Task.findOneAndUpdate({ "_id": req.body.task._id }, Object.assign({}, req.body.task), { useFindAndModify: true }).then((r) => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.toggleMany = (userId, req, res, next) => {
@@ -48,14 +48,14 @@ class TaskController {
             task_1.Task.updateMany({ "_id": { $in: ids } }, { completed: completedToSet }, { useFindAndModify: true }).then((r) => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
         this.deleteTasks = (userId, req, res, next) => {
             task_1.Task.deleteMany({ "_id": { $in: req.body.taskIds } }).then(r => {
                 res.send(r);
             }).catch(e => {
-                next(new ValidationException_1.default(JSON.stringify(e.errors)));
+                next(new ValidationException_1.default(e.errors));
             });
         };
     }

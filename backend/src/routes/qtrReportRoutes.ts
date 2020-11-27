@@ -22,6 +22,7 @@ export class QtrReportRoutes {
 		this.router.put("/qtrReports/:id", this.authController.authenticateJWT, this.qtrReportController.updateQtrReport);
 		this.router.post("/qtrReportsDelete", this.authController.authenticateJWT, this.qtrReportController.deleteQtrReports);
 
+		this.router.get("/qtrReports/otherIncomeLines/:id", this.authController.authenticateJWT, this.otherIncomeLineController.getOtherIncomeLine);
 		this.router.post("/qtrReports/otherIncomeLines", this.authController.authenticateJWT, this.otherIncomeLineController.createOtherIncomeLine);
 		this.router.put("/qtrReports/otherIncomeLines/:id", this.authController.authenticateJWT, this.otherIncomeLineController.updateOtherIncomeLine);
 		this.router.post("/qtrReports/otherIncomeLinesDelete", this.authController.authenticateJWT, this.otherIncomeLineController.deleteOtherIncomeLines);

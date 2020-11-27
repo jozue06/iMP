@@ -122,7 +122,7 @@
 					this.$emit("refresh");
 				})
 				.catch(e => {
-					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 3000);
+					this.$Notification("Error", `Error Saving contact: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
 					throw e;
 				});
@@ -142,7 +142,7 @@
 		},
 		computed: {
 			title() {
-				return this.contact.firstName ? "Update Contact" : "Add Contact";
+				return this.contact._id ? `Update ${this.contact.firstName}` : "Add Contact";
 			}
 		}
 	};
