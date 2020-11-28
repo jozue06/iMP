@@ -6,6 +6,6 @@
   "license": "ISC",
   "scripts": {
     "start": "npm i --prefix ./backend && npm run start --prefix ./backend",
-    "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
+    "buildForPush": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
   }
 }
