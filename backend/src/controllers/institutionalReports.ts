@@ -7,14 +7,19 @@ import { Statement } from "../models/statement";
 export class InstitutionalReportController {
 	public createInstitutionalReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
 		User.findById(userId).then(user => {
-			const institutionalReport = req.body.institutionalReport;			
+			const institutionalReport = req.body.institutionalReport;
 			institutionalReport.user = user._id;
 			const newInstitutionalReport = new InstitutionalReport(institutionalReport);
-			newInstitutionalReport.statement = new Statement();
-			newInstitutionalReport.statement.save();
+			let statement = new Statement();
+			statement.save();
+			newInstitutionalReport.statement.push(statement);
 			newInstitutionalReport.save().then((report: InstitutionalReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
+				if (e.code == 11000) {
+					let message = `An Institutional Report for institution ${e.keyValue.institution}, account ${e.keyValue.account}, month ${e.keyValue.month} year ${e.keyValue.year} already exists`;
+					return next(new ValidationException({"message":message}));
+				}
 				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
@@ -46,7 +51,10 @@ export class InstitutionalReportController {
 		InstitutionalReport.findOneAndUpdate({"_id": req.body.institutionalReport._id}, {... req.body.institutionalReport}).then((r: InstitutionalReportDocument) => {
 			res.send(r);
 		}).catch(e => {
-			console.error('eeek ', e);
+			if (e.code == 11000) {
+				let message = `An Institutional Report for institution ${e.keyValue.institution}, account ${e.keyValue.account}, month ${e.keyValue.month} year ${e.keyValue.year} already exists`;
+				return next(new ValidationException({"message":message}));
+			}
 
 			next(new ValidationException(e.errors));
 		})

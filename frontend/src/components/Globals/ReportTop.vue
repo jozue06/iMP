@@ -2,7 +2,7 @@
 	<div class="card-header mt-4">
 		<router-link :to=linkTo>
 			<h3 v-if="reportType != 3" class="pt-2">Report for {{ $GetMonth(currentReport.month) }} {{ formatDate(currentReport.year) }} </h3>
-			<h3 v-if="reportType == 3" class="pt-2">Report for {{ formatDate(currentReport.sdrDate) }} </h3>
+			<h3 v-if="reportType == 3 && currentReport.sdrDate" class="pt-2">Report for {{ currentReport.sdrDate }} </h3>
 		</router-link>
 		<b-row>
 			<b-col v-if="reportType != 3">
@@ -26,7 +26,10 @@
 
 			<b-col cols="4" v-if="reportType === 3">
 				<b-form-group label="Foreign or US based SDR?">
-					<b-form-select v-model="currentReport.reportLocationType">
+					<b-form-select 
+						@change="saveReport"
+						v-model="currentReport.reportLocationType"
+					>
 						<option value=0>US</option>
 						<option value=1>Foreign</option>
 					</b-form-select>

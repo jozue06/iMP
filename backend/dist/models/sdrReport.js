@@ -14,7 +14,7 @@ const SDRReportSchema = new mongoose_1.Schema({
         required: false,
     },
     dateCompleted: {
-        type: Date,
+        type: String,
         required: false,
     },
     sdrNumber: {
@@ -26,11 +26,10 @@ const SDRReportSchema = new mongoose_1.Schema({
         required: false,
     },
     sdrDate: {
-        type: Date,
-        required: false,
+        type: String,
     },
-    disbursmentDate: {
-        type: Date,
+    disbursementDate: {
+        type: String,
         required: false,
     },
     receivingFunds: {
@@ -46,7 +45,7 @@ const SDRReportSchema = new mongoose_1.Schema({
         required: false,
     },
     specialCheckDate: {
-        type: Date,
+        type: String,
         required: false,
     },
     purpose: {
@@ -74,22 +73,22 @@ const SDRReportSchema = new mongoose_1.Schema({
         required: false,
     },
     statement: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'statement',
-        defaut: []
+        default: []
     },
     expenseLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'expenseLine',
-            defaut: []
+            default: []
         }],
 }, {
     toObject: { getters: true },
     toJSON: { getters: true },
 });
-exports.SDRReport = mongoose_1.model("sdrReport", SDRReportSchema);
 SDRReportSchema.path("receivingFunds").get((num) => moneyUtils_1.unformatNumber(num));
 SDRReportSchema.path("receivingFunds").set((num) => moneyUtils_1.formatNumber(num));
 SDRReportSchema.path("sdrAmount").get((num) => moneyUtils_1.unformatNumber(num));
 SDRReportSchema.path("sdrAmount").set((num) => moneyUtils_1.formatNumber(num));
+exports.SDRReport = mongoose_1.model("sdrReport", SDRReportSchema);
 //# sourceMappingURL=sdrReport.js.map

@@ -296,10 +296,9 @@
 
 			saveReport() {
 				ItinReports.save(this.currentReport).then(res => {
-					this.$Notification("Success", "Succesfully Saved The Itineration Report", "primary");
+					this.$Notification("Success", "Successfully Saved The Itineration Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
-					throw e;
+					this.$Notification("Error", `Error Saving Itineration Report: ${e.message}`, "warning", "", 6000);
 				});
 			},
 
@@ -353,7 +352,7 @@
 				});
 			} else {
 				let currentReport = {
-					month: 1,
+					month: 0,
 					year: moment().format("YYYY"),
 				};
 

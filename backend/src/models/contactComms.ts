@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 
-export interface IComm {
+export interface CommInterface {
 	contact: Types.ObjectId,
 	date: string,
 	time: string
@@ -60,6 +60,8 @@ export const CommSchema = new Schema({
 	},
 });
 
-export interface CommDocument extends IComm, Document {}
+CommSchema.index({contact: 1, date: 1, time: 1}, {unique: true});
+
+export interface CommDocument extends CommInterface, Document {}
 export interface CommModel extends Model<CommDocument> {}
 export const Comm = model<CommDocument>("comm", CommSchema);

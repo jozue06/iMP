@@ -4,7 +4,7 @@ import { MileageLogDocument } from "./mileageLog";
 import { StatementDocument } from "./statement";
 import { OtherIncomeDocument } from "./otherIncomeLine";
 
-export interface IQtrReport {
+export interface QtrReportInterface {
 	user: string,
 	quarterNumber: number,
 	year: string,
@@ -21,7 +21,7 @@ export interface IQtrReport {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	otherIncomeLines?: OtherIncomeDocument[],
 }
 
@@ -85,28 +85,29 @@ const QtrReportSchema = new Schema({
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 
 	mileageLogs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
-		defaut: []
+		default: []
 	}],
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
-		defaut: [],
+		default: [],
 	},
 
 	otherIncomeLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'otherIncomeLine',
-		defaut: []
+		default: []
 	}],
 });
 
-export interface QtrReportDocument extends IQtrReport, Document {}
+
+export interface QtrReportDocument extends QtrReportInterface, Document {}
 export interface QtrReportModel extends Model<QtrReportDocument> { }
 export const QtrReport = model<QtrReportDocument>("qtrReport", QtrReportSchema);

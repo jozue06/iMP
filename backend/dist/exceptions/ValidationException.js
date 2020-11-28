@@ -29,7 +29,6 @@ class ValidationException extends HttpException_1.default {
                 errors.push(v);
             }
         });
-        console.log('errors', errors);
         super(422, errors);
     }
 }

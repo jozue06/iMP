@@ -10,11 +10,16 @@ export class QtrReportController {
 			const qtrReport = req.body.qtrReport;
 			qtrReport.user = user._id;
 			const newQtrReport = new QtrReport(qtrReport);
-			newQtrReport.statement = new Statement();
-			newQtrReport.statement.save();
+			let statement = new Statement();
+			statement.save();
+			newQtrReport.statement.push(statement);
 			newQtrReport.save().then((report: QtrReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
+				if (e.code == 11000) {
+					let message = `A Quarterly Report for quarter ${e.keyValue.quarterNumber} and year ${e.keyValue.year} already exists`;					
+					return next(new ValidationException({"message":message}));
+				}
 				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
@@ -47,7 +52,10 @@ export class QtrReportController {
 		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
-			console.error('eeek ', e);
+			if (e.code == 11000) {
+				let message = `A Quarterly Report for quarter ${e.keyValue.quarterNumber} and year ${e.keyValue.year} already exists`;					
+				return next(new ValidationException({"message":message}));
+			}
 
 			next(new ValidationException(e.errors));
 		})

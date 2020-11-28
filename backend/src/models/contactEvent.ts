@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types, } from "mongoose";
 
-export interface IEvent {
+export interface EventInterface {
 	contact: Types.ObjectId,
 	date: string,
 	time: string
@@ -50,6 +50,8 @@ export const EventSchema = new Schema({
 	},
 });
 
-export interface EventDocument extends IEvent, Document {}
+EventSchema.index({contact: 1, date: 1, time: 1}, {unique: true});
+
+export interface EventDocument extends EventInterface, Document {}
 export interface EventModel extends Model<EventDocument> {}
 export const Event = model<EventDocument>("event", EventSchema);

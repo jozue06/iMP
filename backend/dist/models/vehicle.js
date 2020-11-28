@@ -73,5 +73,6 @@ const VehicleSchema = new mongoose_1.Schema({
         required: false,
     },
 });
+VehicleSchema.index({ user: 1, name: 1 }, { unique: true });
 exports.Vehicle = mongoose_1.model("vehicle", VehicleSchema);
 //# sourceMappingURL=vehicle.js.map

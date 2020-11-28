@@ -137,7 +137,7 @@
 
 			handleConfirmDelete() {				
 				if (this.selected.find(sel => sel.contacts.length > 0)) {
-					return this.$Notification("Deleted", "Cannot delte the Selected Contact Groups", "warning", "There are contacts assigned to one or more of the selected Groups", 3000);
+					return this.$Notification("Deleted", "Cannot delete the Selected Contact Groups", "warning", "There are contacts assigned to one or more of the selected Groups", 3000);
 				}
 				let ids = this.selected.map(ele => ele._id);
 				

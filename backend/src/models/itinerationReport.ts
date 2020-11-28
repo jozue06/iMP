@@ -34,7 +34,7 @@ export interface ItinerationReportInterface {
 	endReceiptNo?: string,
 	personaNotes?: string,
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
 	offeringLines?: OfferingDocument[],
@@ -130,27 +130,27 @@ const ItinReportSchema = new Schema({
 	},
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 
 	offeringLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'offeringLine',
-		defaut: []
+		default: []
 	}],
 	
 	mileageLogs: [{
 		type: Schema.Types.ObjectId,
 		ref: 'mileageLog' ,
-		defaut: []
+		default: []
 	}],
 	
 },

@@ -16,5 +16,6 @@ exports.ContactGroupSchema = new mongoose_1.Schema({
         required: true,
     },
 });
+exports.ContactGroupSchema.index({ user: 1, name: 1 }, { unique: true });
 exports.ContactGroup = mongoose_1.model("contactGroup", exports.ContactGroupSchema);
 //# sourceMappingURL=contactGroup.js.map

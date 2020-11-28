@@ -1,4 +1,4 @@
-import { Task, TaskDocument } from "../models/task"
+import { Task, TaskDocument } from "../models/contactTask";
 import { Contact, ContactDocument } from '../models/contact';
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';

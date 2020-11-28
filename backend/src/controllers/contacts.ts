@@ -18,7 +18,6 @@ export class ContactController {
 				} else {
 					message = `A Contact for ${e.keyValue.firstName} ${e.keyValue.lastName} already exists`;
 				}
-				console.log('message ?? ', message);
 				
 				return next(new ValidationException({"message":message}));
 			}
@@ -48,6 +47,17 @@ export class ContactController {
 		Contact.findOneAndUpdate({"_id": req.body.contact._id}, {...req.body.contact }, { useFindAndModify: true }).then(r => {
 			res.send(r);
 		}).catch(e => {
+			if (e.code == 11000) {
+				let message = "";
+				if (e.keyValue.orgName) {
+					message = `A Contact for ${e.keyValue.firstName} ${e.keyValue.lastName} and ${e.keyValue.orgName} already exists`;
+				} else {
+					message = `A Contact for ${e.keyValue.firstName} ${e.keyValue.lastName} already exists`;
+				}
+				
+				return next(new ValidationException({"message":message}));
+			}
+
 			next(new ValidationException(e.errors));
 		});
 	};

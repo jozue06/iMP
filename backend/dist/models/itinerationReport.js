@@ -73,24 +73,24 @@ const ItinReportSchema = new mongoose_1.Schema({
         type: String,
     },
     statement: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'statement',
-        defaut: []
+        default: []
     },
     expenseLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'expenseLine',
-            defaut: []
+            default: []
         }],
     offeringLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'offeringLine',
-            defaut: []
+            default: []
         }],
     mileageLogs: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'mileageLog',
-            defaut: []
+            default: []
         }],
 }, {
     toObject: { getters: true },

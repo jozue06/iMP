@@ -225,9 +225,9 @@
 			saveReport() {
 				QuarterlyReports.save(this.currentReport).then(res => {
 					this.currentReport = res;
-					this.$Notification("Success", "Succesfully Saved The Quarterly Report", "primary");
+					this.$Notification("Success", "Successfully Saved The Quarterly Report", "primary");
 				}).catch(e => {
-					console.error('eeek error saving report', e);
+					this.$Notification("Error", `Error Saving Quarterly Report: ${e.message}`, "warning", "", 6000);
 					throw e;
 				});
 			},
@@ -284,6 +284,7 @@
 					quarterNumber: 1,
 					year: moment().format("YYYY"),
 				};
+				
 				QuarterlyReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});

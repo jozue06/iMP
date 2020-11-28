@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema } from "mongoose";
 
-export interface IContact {
+export interface ContactInterface {
 	userId: string,
 	firstName?: string,
 	lastName?: string,
@@ -184,6 +184,6 @@ const ContactSchema = new Schema({
 
 ContactSchema.index({ userId: 1, firstName: 1, lastName: 1, orgName: 1}, {unique: true});
 
-export interface ContactDocument extends IContact, Document { }
+export interface ContactDocument extends ContactInterface, Document { }
 export interface ContactModel extends Model<ContactDocument> { }
 export const Contact = model<ContactDocument>("contact", ContactSchema);

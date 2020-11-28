@@ -230,7 +230,6 @@
 				}).catch(e => {
 					this.$Notification("Error", `Error Saving Expense Line: ${e.message}`, "warning", "", 6000);
 					this.loading = false;
-					throw e;
 				});
 			},
 

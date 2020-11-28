@@ -49,22 +49,22 @@ const QtrReportSchema = new mongoose_1.Schema({
     expenseLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'expenseLine',
-            defaut: []
+            default: []
         }],
     mileageLogs: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'mileageLog',
-            defaut: []
+            default: []
         }],
     statement: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'statement',
-        defaut: [],
+        default: [],
     },
     otherIncomeLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'otherIncomeLine',
-            defaut: []
+            default: []
         }],
 });
 exports.QtrReport = mongoose_1.model("qtrReport", QtrReportSchema);

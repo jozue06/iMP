@@ -21,5 +21,6 @@ exports.UserSchema.methods.comparePassword = function (candidatePassword, callba
         callback(err, isMatch);
     });
 };
+exports.UserSchema.index({ username: 1, password: 1 }, { unique: true });
 exports.User = mongoose_1.model("user", exports.UserSchema);
 //# sourceMappingURL=userModel.js.map

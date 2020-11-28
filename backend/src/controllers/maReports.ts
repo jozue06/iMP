@@ -10,11 +10,16 @@ export class MAReportController {
 			const maReport = req.body.maReport;
 			maReport.user = user._id;
 			const newMaReport = new MAReport(maReport);
-			newMaReport.statement = new Statement();
-			newMaReport.statement.save();
+			let statement = new Statement();
+			statement.save();
+			newMaReport.statement.push(statement);
 			newMaReport.save().then((report: MAReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
+				if (e.code == 11000) {
+					let message = `An MA Report for month ${e.keyValue.month} and year ${e.keyValue.year} already exists`;					
+					return next(new ValidationException({"message":message}));
+				}
 				next(new ValidationException(e.errors));
 			});
 		}).catch(e => {
@@ -45,8 +50,10 @@ export class MAReportController {
 		MAReport.findOneAndUpdate({"_id": req.body.maReport._id}, {...req.body.maReport}).then((r: MAReportDocument) => {
 			res.send(r);
 		}).catch(e => {
-			console.error('eeek ', e);
-
+			if (e.code == 11000) {
+				let message = `An MA Report for month ${e.keyValue.month} and year ${e.keyValue.year} already exists`;					
+				return next(new ValidationException({"message":message}));
+			}
 			next(new ValidationException(e.errors));
 		})
 	};

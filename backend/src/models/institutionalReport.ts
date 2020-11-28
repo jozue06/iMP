@@ -24,7 +24,7 @@ export interface InstitutionalReportInterface {
 	dateCompleted?: Date,
 
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 	incomeLines?: IncomeDocument[],
 }
@@ -96,19 +96,19 @@ const InstitutionalReportSchema = new Schema({
 	expenseLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'expenseLine',
-		defaut: []
+		default: []
 	}],
 
 	incomeLines: [{
 		type: Schema.Types.ObjectId,
 		ref: 'incomeLine',
-		defaut: []
+		default: []
 	}],
 
 	statement: {
-		type: Schema.Types.ObjectId,
+		type: [Schema.Types.ObjectId],
 		ref: 'statement',
-		defaut: []
+		default: []
 	},
 },
 	{
@@ -116,10 +116,6 @@ const InstitutionalReportSchema = new Schema({
 		toJSON: {getters: true},
 	}
 );
-
-export interface InstitutionalReportDocument extends InstitutionalReportInterface, Document {}
-export interface InstitutionalReportModel extends Model<InstitutionalReportDocument> { }
-export const InstitutionalReport = model<InstitutionalReportDocument>("institutionalReport", InstitutionalReportSchema);
 
 InstitutionalReportSchema.path("beginningAmount").get((num: number) => unformatNumber(num));
 InstitutionalReportSchema.path("beginningAmount").set((num: string) => formatNumber(num));
@@ -138,3 +134,7 @@ InstitutionalReportSchema.path("LFTLsdrBalance").set((num: string) => formatNumb
 
 InstitutionalReportSchema.path("nonLFTLsdrBalance").get((num: number) => unformatNumber(num));
 InstitutionalReportSchema.path("nonLFTLsdrBalance").set((num: string) => formatNumber(num));
+
+export interface InstitutionalReportDocument extends InstitutionalReportInterface, Document {}
+export interface InstitutionalReportModel extends Model<InstitutionalReportDocument> { }
+export const InstitutionalReport = model<InstitutionalReportDocument>("institutionalReport", InstitutionalReportSchema);

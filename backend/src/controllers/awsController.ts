@@ -1,5 +1,4 @@
 import * as AWS from "aws-sdk";
-import { url } from "inspector";
 import { BUCKET_NAME, IAM_USER_KEY, IAM_USER_SECRET } from "../utils/secret";
 const s3bucket = new AWS.S3({
 	accessKeyId: IAM_USER_KEY,

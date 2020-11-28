@@ -60,9 +60,9 @@ const MAReportSchema = new mongoose_1.Schema({
         default: 0,
     },
     statement: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'statement',
-        defaut: []
+        default: []
     },
     comments: {
         type: String,

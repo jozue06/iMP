@@ -15,11 +15,16 @@ class InstitutionalReportController {
                 const institutionalReport = req.body.institutionalReport;
                 institutionalReport.user = user._id;
                 const newInstitutionalReport = new institutionalReport_1.InstitutionalReport(institutionalReport);
-                newInstitutionalReport.statement = new statement_1.Statement();
-                newInstitutionalReport.statement.save();
+                let statement = new statement_1.Statement();
+                statement.save();
+                newInstitutionalReport.statement.push(statement);
                 newInstitutionalReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
+                    if (e.code == 11000) {
+                        let message = `An Institutional Report for institution ${e.keyValue.institution}, account ${e.keyValue.account}, month ${e.keyValue.month} year ${e.keyValue.year} already exists`;
+                        return next(new ValidationException_1.default({ "message": message }));
+                    }
                     next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
@@ -48,7 +53,10 @@ class InstitutionalReportController {
             institutionalReport_1.InstitutionalReport.findOneAndUpdate({ "_id": req.body.institutionalReport._id }, Object.assign({}, req.body.institutionalReport)).then((r) => {
                 res.send(r);
             }).catch(e => {
-                console.error('eeek ', e);
+                if (e.code == 11000) {
+                    let message = `An Institutional Report for institution ${e.keyValue.institution}, account ${e.keyValue.account}, month ${e.keyValue.month} year ${e.keyValue.year} already exists`;
+                    return next(new ValidationException_1.default({ "message": message }));
+                }
                 next(new ValidationException_1.default(e.errors));
             });
         };

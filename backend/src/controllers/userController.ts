@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt-nodejs";
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import { User, AuthToken, IUser} from "../models/userModel";
+import { User, AuthToken, UserInterface} from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 import ValidationException from '../exceptions/ValidationException';
 import { WriteError } from "mongodb";
@@ -84,7 +84,7 @@ export class UserController {
 				});
 			},
 
-			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
+			function sendForgotPasswordEmail(token: AuthToken, user: UserInterface, done: Function) {
 				if (!user.settings || !user.settings.email || user.settings.email == "") {
 					return next(new ValidationException({"message":`You have not setup an e-mail address for this account. Please email us at imp.app.info@gmail.com to reset your account`})); 
 				}
@@ -144,7 +144,7 @@ export class UserController {
 					});
 			},
 
-			function sendForgotPasswordEmail(token: AuthToken, user: IUser, done: Function) {
+			function sendForgotPasswordEmail(token: AuthToken, user: UserInterface, done: Function) {
 			let options = { service: 'gmail',
 				auth: {
 					user: 'imp.app.info@gmail.com',

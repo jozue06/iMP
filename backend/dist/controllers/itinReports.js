@@ -15,11 +15,16 @@ class ItinReportController {
                 const itinReport = req.body.itinReport;
                 itinReport.user = user._id;
                 const newItinReport = new itinerationReport_1.ItinReport(itinReport);
-                newItinReport.statement = new statement_1.Statement();
-                newItinReport.statement.save();
+                let statement = new statement_1.Statement();
+                statement.save();
+                newItinReport.statement.push(statement);
                 newItinReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
+                    if (e.code == 11000) {
+                        let message = `A Quarterly Report for month ${e.keyValue.month} and year ${e.keyValue.year} already exists`;
+                        return next(new ValidationException_1.default({ "message": message }));
+                    }
                     next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
@@ -55,7 +60,10 @@ class ItinReportController {
                     .populate("contact");
                 res.send(r);
             }).catch(e => {
-                console.error('eeek ', e);
+                if (e.code == 11000) {
+                    let message = `A Quarterly Report for month ${e.keyValue.month} and year ${e.keyValue.year} already exists`;
+                    return next(new ValidationException_1.default({ "message": message }));
+                }
                 next(new ValidationException_1.default(e.errors));
             });
         };

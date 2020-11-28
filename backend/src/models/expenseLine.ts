@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema } from "mongoose";
 
-export interface IExpenseLine {
+export interface ExpenseLineInterface {
 	qtrReport?: string,
 	itinReport?: string,
 	sdrReport?: string,
@@ -103,6 +103,6 @@ const ExpenseLineSchema = new Schema({
 
 });
 
-export interface ExpenseLineDocument extends IExpenseLine, Document { }
+export interface ExpenseLineDocument extends ExpenseLineInterface, Document { }
 export interface ExpenseLineModel extends Model<ExpenseLineDocument> { }
 export const ExpenseLine = model<ExpenseLineDocument>("expenseLine", ExpenseLineSchema);
