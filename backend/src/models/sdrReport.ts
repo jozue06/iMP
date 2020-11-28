@@ -139,8 +139,6 @@ SDRReportSchema.path("receivingFunds").set((num: string) => formatNumber(num));
 SDRReportSchema.path("sdrAmount").get((num: number) => unformatNumber(num));
 SDRReportSchema.path("sdrAmount").set((num: string) => formatNumber(num));
 
-SDRReportSchema.index({ user:1, sdrDate:1 }, {unique: true});
-
 export interface SDRReportDocument extends SDRReportInterface, Document {}
 export interface SDRReportModel extends Model<SDRReportDocument> { }
 export const SDRReport = model<SDRReportDocument>("sdrReport", SDRReportSchema);

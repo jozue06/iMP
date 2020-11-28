@@ -114,8 +114,6 @@ const MAReportSchema = new Schema({
 	}
 );
 
-MAReportSchema.index({ user: 1, month: 1, year: 1 }, {unique: true});
-
 MAReportSchema.path("totalOfferings").get((num: number) => unformatNumber(num));
 MAReportSchema.path("totalOfferings").set((num: string) => formatNumber(num));
 

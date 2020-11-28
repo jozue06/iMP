@@ -183,7 +183,13 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {};
+				let currentReport = {
+					month: 0,
+					institution: "-",
+					account: "-",
+					year: moment().format("YYYY"),
+				};
+
 				InstitutionalReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'institutionalReport', query: { reportId: res._id}});

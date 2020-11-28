@@ -7,8 +7,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface InstitutionalReportInterface {
 	user: string,
 
-	institution?: string,
-	account?: string,
+	institution: string,
+	account: string,
 	field?: string,
 
 	month: number,
@@ -38,18 +38,22 @@ const InstitutionalReportSchema = new Schema({
 
 	month: {
 		type: Number,
+		required: true,
 	},
 
 	year: {
 		type: String,
+		required: true,
 	},
 
 	institution: {
 		type: String,
+		required: true,
 	},
 
 	account: {
 		type: String,
+		required: true,
 	},
 
 	field: {
@@ -112,8 +116,6 @@ const InstitutionalReportSchema = new Schema({
 		toJSON: {getters: true},
 	}
 );
-
-InstitutionalReportSchema.index({ user: 1, institution: 1, account: 1, month: 1, year: 1 }, {unique: true});
 
 InstitutionalReportSchema.path("beginningAmount").get((num: number) => unformatNumber(num));
 InstitutionalReportSchema.path("beginningAmount").set((num: string) => formatNumber(num));

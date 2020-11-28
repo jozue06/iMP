@@ -107,7 +107,6 @@ const QtrReportSchema = new Schema({
 	}],
 });
 
-QtrReportSchema.index({ user: 1, quarterNumber: 1, year: 1}, {unique: true});
 
 export interface QtrReportDocument extends QtrReportInterface, Document {}
 export interface QtrReportModel extends Model<QtrReportDocument> { }
