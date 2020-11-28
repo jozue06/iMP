@@ -280,7 +280,11 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {};
+				let currentReport = {
+					quarterNumber: 1,
+					year: moment().format("YYYY"),
+				};
+				
 				QuarterlyReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'quarterlyReport', query: { reportId: res._id}});

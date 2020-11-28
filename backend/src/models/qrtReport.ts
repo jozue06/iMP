@@ -6,8 +6,8 @@ import { OtherIncomeDocument } from "./otherIncomeLine";
 
 export interface QtrReportInterface {
 	user: string,
-	quarterNumber?: number,
-	year?: string,
+	quarterNumber: number,
+	year: string,
 	dateCompleted?: Date,
 	baseAmount?: number,
 	comments?: string,
@@ -34,12 +34,12 @@ const QtrReportSchema = new Schema({
 
 	quarterNumber: {
 		type: Number,
-		// required: true,
+		required: true,
 	},
 
 	year: {
 		type: String,
-		// required: true,
+		required: true,
 	},
 
 	dateCompleted: {

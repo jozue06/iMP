@@ -8,8 +8,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface ItinerationReportInterface {
 	user: string,
 
-	month?: string,
-	year?: string,
+	month: string,
+	year: string,
 	dateCompleted?: string,
 
 	carMiles?: number,
@@ -49,10 +49,12 @@ const ItinReportSchema = new Schema({
 
 	month: {
 		type: String,
+		required: true,
 	},
 
 	year: {
 		type: String,
+		required: true,
 	},
 
 	dateCompleted: {

@@ -351,7 +351,11 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {};
+				let currentReport = {
+					month: 0,
+					year: moment().format("YYYY"),
+				};
+
 				ItinReports.save(currentReport).then(res => {					
 					this.currentReport = res;
 					this.$router.replace({ path: 'itinerationReport', query: { reportId: res._id}});

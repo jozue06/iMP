@@ -5,8 +5,8 @@ import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 export interface MAReportInterface {
 	user: string,
 
-	month?: string,
-	year?: string,
+	month: string,
+	year: string,
 	dateCompleted?: string,
 
 	expectedDateToField?: string,
@@ -39,10 +39,12 @@ const MAReportSchema = new Schema({
 
 	month: {
 		type: String,
+		required: true,
 	},
 
 	year: {
 		type: String,
+		required: true,
 	},
 
 	dateCompleted: {

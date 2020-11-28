@@ -90,7 +90,12 @@
 					throw e;
 				});
 			} else {
-				let currentReport = {};
+
+				let currentReport = {
+					month: 0,
+					year: moment().format("YYYY"),
+				};
+				
 				MAReports.save(currentReport).then(res => {
 					this.currentReport = res;
 					this.$router.replace({ path: 'MAReport', query: { reportId: res._id}});
