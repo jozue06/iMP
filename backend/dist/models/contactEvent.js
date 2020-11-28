@@ -35,5 +35,6 @@ exports.EventSchema = new mongoose_1.Schema({
         default: 0,
     },
 });
+exports.EventSchema.index({ contact: 1, date: 1, time: 1 }, { unique: true });
 exports.Event = mongoose_1.model("event", exports.EventSchema);
 //# sourceMappingURL=contactEvent.js.map

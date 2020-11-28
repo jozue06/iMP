@@ -41,5 +41,6 @@ exports.CommSchema = new mongoose_1.Schema({
         required: false,
     },
 });
+exports.CommSchema.index({ contact: 1, date: 1, time: 1 }, { unique: true });
 exports.Comm = mongoose_1.model("comm", exports.CommSchema);
 //# sourceMappingURL=contactComms.js.map

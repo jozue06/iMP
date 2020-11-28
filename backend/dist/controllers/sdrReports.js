@@ -15,11 +15,16 @@ class SDRReportController {
                 const sdrReport = req.body.sdrReport;
                 sdrReport.user = user._id;
                 const newSDRReport = new sdrReport_1.SDRReport(sdrReport);
-                newSDRReport.statement = new statement_1.Statement();
-                newSDRReport.statement.save();
+                let statement = new statement_1.Statement();
+                statement.save();
+                newSDRReport.statement.push(statement);
                 newSDRReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
+                    if (e.code == 11000) {
+                        let message = `An SDR Report for the date of ${e.keyValue.sdrDate} already exists`;
+                        return next(new ValidationException_1.default({ "message": message }));
+                    }
                     next(new ValidationException_1.default(e.errors));
                 });
             }).catch(e => {
@@ -48,7 +53,10 @@ class SDRReportController {
             sdrReport_1.SDRReport.findOneAndUpdate({ "_id": req.body.sdrReport._id }, Object.assign({}, req.body.sdrReport)).then((r) => {
                 res.send(r);
             }).catch(e => {
-                console.error('eeek ', e);
+                if (e.code == 11000) {
+                    let message = `An SDR Report for the date of ${e.keyValue.sdrDate} already exists`;
+                    return next(new ValidationException_1.default({ "message": message }));
+                }
                 next(new ValidationException_1.default(e.errors));
             });
         };

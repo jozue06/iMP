@@ -56,23 +56,22 @@ const InstitutionalReportSchema = new mongoose_1.Schema({
     expenseLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'expenseLine',
-            defaut: []
+            default: []
         }],
     incomeLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'incomeLine',
-            defaut: []
+            default: []
         }],
     statement: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'statement',
-        defaut: []
+        default: []
     },
 }, {
     toObject: { getters: true },
     toJSON: { getters: true },
 });
-exports.InstitutionalReport = mongoose_1.model("institutionalReport", InstitutionalReportSchema);
 InstitutionalReportSchema.path("beginningAmount").get((num) => moneyUtils_1.unformatNumber(num));
 InstitutionalReportSchema.path("beginningAmount").set((num) => moneyUtils_1.formatNumber(num));
 InstitutionalReportSchema.path("usBankFunds").get((num) => moneyUtils_1.unformatNumber(num));
@@ -85,4 +84,5 @@ InstitutionalReportSchema.path("LFTLsdrBalance").get((num) => moneyUtils_1.unfor
 InstitutionalReportSchema.path("LFTLsdrBalance").set((num) => moneyUtils_1.formatNumber(num));
 InstitutionalReportSchema.path("nonLFTLsdrBalance").get((num) => moneyUtils_1.unformatNumber(num));
 InstitutionalReportSchema.path("nonLFTLsdrBalance").set((num) => moneyUtils_1.formatNumber(num));
+exports.InstitutionalReport = mongoose_1.model("institutionalReport", InstitutionalReportSchema);
 //# sourceMappingURL=institutionalReport.js.map
