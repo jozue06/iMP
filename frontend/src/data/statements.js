@@ -56,5 +56,17 @@ export const Statements = {
 			const res = await axios.post(baseURL, body, {"headers": headers});
 			return res.data;
 		}
-	})
+	}),
+
+	uploadStatementCsv: errorHandler(async statementFile => {		
+		const formHeaders = {
+			"Content-Type": "multipart/form-data",
+			Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+		}
+
+		const formData = new FormData();
+		formData.append('file', statementFile, statementFile.name);
+		const res = await axios.post(baseURL + "/uploadStatementCsv", formData, {"headers": formHeaders});		
+		return res.data;
+	}),
 };

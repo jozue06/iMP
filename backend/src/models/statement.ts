@@ -1,5 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
+import { StatementLineDocument } from "./statementLine";
 
 export interface StatementInterface {
 	user: string,
@@ -14,6 +15,7 @@ export interface StatementInterface {
 	dateThree?: string;
 	amountThree?: number;
 	reimbursementThree?: number;
+	statementLines?: StatementLineDocument[]
 }
 
 const StatementSchema = new Schema({
@@ -83,6 +85,11 @@ const StatementSchema = new Schema({
 	reimbursementThree: {
 		type: Number,
 	},
+
+	statementLines: [{
+		type: Schema.Types.ObjectId,
+		ref: "statementLine"
+	}]
 });
 
 StatementSchema.path("amountOne").get((num: number) => unformatNumber(num));

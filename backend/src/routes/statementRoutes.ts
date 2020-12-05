@@ -20,5 +20,6 @@ export class StatementRoutes {
 
 		this.router.get("/statements", this.authController.authenticateJWT, this.statementController.getAllStatements);
 		this.router.get("/statements/:id", this.authController.authenticateJWT, this.statementController.getStatement);
+		this.router.post("/statements/uploadStatementCsv", this.authController.authenticateJWT, this.statementController.uploadStatementCsv);
 	}
 }

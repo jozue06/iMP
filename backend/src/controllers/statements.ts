@@ -6,6 +6,7 @@ import { Statement } from "../models/statement";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 import { MAReport } from "../models/maReport";
+import { parseCsv } from "../utils/statementParser";
 
 export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -86,4 +87,12 @@ export class StatementController {
 			next(new ValidationException(e.errors));
 		});
 	};
+
+	public uploadStatementCsv = (userId: string, req: Request, res: Response, next: NextFunction) => {			
+		parseCsv(userId, req.file.buffer, req.body.createContacts).then(() => {
+			res.sendStatus(200);
+		}).catch(e => {
+			next(new ValidationException(e.errors));
+		});
+	}
 }
