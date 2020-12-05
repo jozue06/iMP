@@ -9,6 +9,7 @@ import { MAReport } from "../models/maReport";
 
 export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
+		req.body.statement.user = userId;
 		const reportType = req.body.statement.reportType;
 		const statement = new Statement(req.body.statement);
 		statement.save().then(savedStatement => {
@@ -16,29 +17,34 @@ export class StatementController {
 			if (reportType === 0) {
 				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
+					return;
 				});
 			}
 
 			if (reportType === 1) {
 				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
+					return;
 				});
 			}
 			if (reportType === 2) {
 				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
+					return;
 				});
 			}
 
 			if (reportType === 3) {
 				SDRReport.findOneAndUpdate({ _id: req.body.statement.sdrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
+					return;
 				});
 			}
 
 			if (reportType === 4) {
 				InstitutionalReport.findOneAndUpdate({ _id: req.body.statement.institutionalReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
+					return;
 				});
 			}
 
@@ -46,6 +52,7 @@ export class StatementController {
 			console.error('eeek ', e);
 			next(new ValidationException(e.errors));
 		});
+		return;
 	};
 
 	public getAllStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {

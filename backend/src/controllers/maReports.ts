@@ -2,7 +2,6 @@ import { MAReport, MAReportDocument } from "../models/maReport";
 import { User } from "../models/userModel";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { Statement } from "../models/statement";
 
 export class MAReportController {
 	public createMAReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,7 @@ export class MAReportController {
 			const maReport = req.body.maReport;
 			maReport.user = user._id;
 			const newMaReport = new MAReport(maReport);
-			let statement = new Statement();
-			statement.save();
-			newMaReport.statement.push(statement);
+
 			newMaReport.save().then((report: MAReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {

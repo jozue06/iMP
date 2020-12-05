@@ -48,7 +48,7 @@ export const Statements = {
 		let body = {
 			statement: payload
 		}
-
+		
 		if (payload._id) {
 			const res = await axios.put(baseURL + `/${payload._id}`, body, {"headers": headers});
 			return res.data;

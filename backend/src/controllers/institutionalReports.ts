@@ -2,7 +2,6 @@ import { InstitutionalReport, InstitutionalReportDocument } from "../models/inst
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { Statement } from "../models/statement";
 
 export class InstitutionalReportController {
 	public createInstitutionalReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,7 @@ export class InstitutionalReportController {
 			const institutionalReport = req.body.institutionalReport;
 			institutionalReport.user = user._id;
 			const newInstitutionalReport = new InstitutionalReport(institutionalReport);
-			let statement = new Statement();
-			statement.save();
-			newInstitutionalReport.statement.push(statement);
+
 			newInstitutionalReport.save().then((report: InstitutionalReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {

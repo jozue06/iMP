@@ -2,9 +2,9 @@ import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
 
 export interface StatementInterface {
+	user: string,
 	qtrReport?: string,
 	institutionalReport?: string,
-	user: string,
 	dateOne?: string;
 	amountOne?: number;
 	reimbursementOne?: number;
@@ -45,6 +45,7 @@ const StatementSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "user",
+		required: true,
 	},
 
 	dateOne: {

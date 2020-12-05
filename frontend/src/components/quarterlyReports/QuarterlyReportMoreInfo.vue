@@ -71,7 +71,7 @@
 							v-model="currentReport.personalOfferingsRetained"
 							class="text-right"
 							type="text"
-							name="personalPfferingsRetained"
+							name="personalOfferingsRetained"
 							lazy-formatter
 							:formatter="$formatMoney"
 							@blur="saveReport"
@@ -116,9 +116,9 @@
 		<b-row class="mx-2">
 			<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
 				<label>
-					Statment Info
+					Statement Info
 				</label>
-				<b-col>
+				<b-col>					
 					<b-row v-if="currentReport.statement && (currentReport.statement.dateOne || currentReport.statement.dateTwo || currentReport.statement.dateThree)" @click="showStatementModal(currentReport.statement)" class="align-items-center mt-2">
 						<b-col cols='4'>
 							{{currentReport.statement.dateOne}}
@@ -155,7 +155,7 @@
 					</b-row>
 					<b-row v-else class="align-items-center">
 						<b-col cols="12">
-							<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statment info</b-button>
+							<b-button @click="showStatementModal()" variant="primary" class="m-2" size="sm">+ Add statement info</b-button>
 						</b-col>
 					</b-row>
 				</b-col>
@@ -209,6 +209,7 @@
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
 		<StatementModal 
 			ref="statementModal" 
+			v-bind:statement="statement"
 			v-bind:currentReport="currentReport" 
 			v-bind:statementReimbursementTotal="statementReimbursementTotal"
 			v-bind:reportType="0"
@@ -243,8 +244,15 @@
 			currentReport: Object,
 		},
 
+		created() {
+			if (this.currentReport.statement) {
+				this.statement = this.currentReport.statement;
+			}
+		},
+
 		data() {
 			return {
+				statement: {},
 				otherIncomeLine: {},
 				selectedOtherLines: null,
 			}

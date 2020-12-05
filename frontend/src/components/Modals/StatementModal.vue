@@ -164,12 +164,18 @@
 		name: 'statementModal',
 
 		props: {
+			statement: Object,
 			currentReport: Object,
 			statementReimbursementTotal: String,
 			reportType: Number,
 		},
 
-		mounted() {			
+		created() {			
+			if (!this.statement) {
+				this.currentReport.statement = {}
+			} else {
+				this.currentReport.statement = this.statement;
+			}
 		},
 
 		data() {

@@ -702,6 +702,8 @@
 		</div>
 		<StatementModal 
 			ref="statementModal" 
+			@refresh="saveReport"
+			v-bind:statement="statement"
 			v-bind:currentReport="currentReport" 
 			v-bind:statementReimbursementTotal="statementReimbursementTotal"
 			v-bind:reportType="reportType"
@@ -724,8 +726,15 @@
 			reportType: Number,
 		},
 
+		created() {
+			if (this.currentReport.statement) {
+				this.statement = this.currentReport.statement;
+			}
+		},
+
 		data() {
 			return {
+				statement: {},
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 			}
 		},
