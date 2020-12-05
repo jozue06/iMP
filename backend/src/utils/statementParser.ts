@@ -56,6 +56,7 @@ export async function parseCsv(userId: string, buffer: Buffer, createContacts: B
 				// do contact stuff
 
 			}
+			
 			lines.push(statementLine);
 		});
 
