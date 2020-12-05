@@ -56,7 +56,7 @@ export class StatementController {
 	};
 
 	public getAllStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Statement.find({ "userId": userId }).then(lines => {
+		Statement.find({ "user": userId }).then(lines => {
 			res.send(lines);
 		}).catch(e => {
 			next(new ValidationException(e.errors));

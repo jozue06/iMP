@@ -13,9 +13,12 @@ export class StatementRoutes {
 		this.routes();
 	}
 
-	routes() {		
+	routes() {
 		this.router.post("/statements", this.authController.authenticateJWT, this.statementController.createStatement);
 		this.router.put("/statements/:id", this.authController.authenticateJWT, this.statementController.updateStatement);
 		this.router.post("/statementsDelete", this.authController.authenticateJWT, this.statementController.deleteStatements);
+
+		this.router.get("/statements", this.authController.authenticateJWT, this.statementController.getAllStatements);
+		this.router.get("/statements/:id", this.authController.authenticateJWT, this.statementController.getStatement);
 	}
 }

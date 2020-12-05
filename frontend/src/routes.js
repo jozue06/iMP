@@ -23,6 +23,9 @@ import Forgot from './components/Globals/Forgot.vue';
 import Reset from './components/Globals/Reset.vue';
 import UserSettings from './components/userSettings/UserSettings.vue';
 
+import StatementList from './components/statements/StatementList.vue'
+import StatementView from './components/statements/StatementView.vue'
+
 export default [
 	{
 		path: '/home',
@@ -171,6 +174,22 @@ export default [
 		path: "/groupView",
 		name: "groupView",
 		component: ContactGroupView,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/statementList",
+		name: "statementList",
+		component: StatementList,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/statementView",
+		name: "statementView",
+		component: StatementView,
 		meta: {
 			requiresAuth: true
 		}
