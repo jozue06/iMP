@@ -15,46 +15,17 @@
 						+ New Manual Statement
 					</b-button>
 				</router-link>
-				<b-table
-					striped 
-					hover 
-					ref="selectableTable"
-					selectable
-					:items="statements" 
-					:fields="fields"
-					:sort-by.sync="sortBy"
-					:sort-desc.sync="sortDesc"
-					:select-mode="selectMode"
-					@row-selected="onRowSelected"
-					selected-variant="danger"
-					sort-icon-left
-					responsive="sm"
-				>
-					<template v-slot:cell()="data">
-						<router-link
-							:to="{ name: 'statementView', params: { statementId: data.item._id } }"
-							v-slot="{ href, navigate}"
-						>
-							<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
-						</router-link>
-					</template>
-					<template v-slot:cell(month)="data">
-							<router-link
-							:to="{ name: 'statementView', params: { statementId: data.item._id } }"
-							v-slot="{ href, navigate}"
-						>
-							<span :href="href" @click="navigate" class="text-info"> {{ $GetMonth(data.value) }} </span>
-						</router-link>
-					</template>
-				</b-table>
+				
+				<StatementsListTable ref="statementsListTable" v-bind:statements="statements" @onRowSelected="onRowSelected" v-bind:selected="selected"/>
+
 				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
-				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>
+				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>				
+				
 				<b-button 
 					class="m-2" 
 					variant="danger" 
 					size="sm" 
-					:disabled="selected == 0" 
-					v-bind:selected="selected"
+					:disabled="selected.length == 0" 
 					v-b-modal.confirmModal>
 						Delete selected
 				</b-button>
@@ -84,6 +55,7 @@
 	import { Statements  } from '../../data/statements'
 	import { allowedFields } from "../../constants/tableFields";
 	import LoadingSpinner from "../Globals/LoadingSpinner";
+	import StatementsListTable from "../Globals/StatementsListTable";
 
 	export default  {
 		name: 'statementList',
@@ -91,6 +63,7 @@
 			ConfirmModal,
 			NoResults,
 			LoadingSpinner,
+			StatementsListTable,
 		},
 
 		mounted () {
@@ -101,25 +74,22 @@
 			return {
 				loading: true,
 				statements: [],
+				selected: [],
 				confirmDeleteMessage: "Are you sure you want to delete this Statement? This cannot be un-done",
-				selected: "",
-				sortBy: '',
-				sortDesc: false,
-				selectMode: 'multi',
 			}
 		},
 
 		methods: {
-			onRowSelected(report) {
-				this.selected = report;
+			onRowSelected(line) {
+				this.selected = line;
 			},
 
-			selectAllRows() {
-				this.$refs.selectableTable.selectAllRows();
+			selectAllRows() {			
+				this.$refs.statementsListTable.$refs.selectableTable.selectAllRows();
 			},
 
 			clearSelected() {
-				this.$refs.selectableTable.clearSelected();
+				this.$refs.statementsListTable.$refs.selectableTable.clearSelected();
 			},
 			
 			handleConfirmDelete() {
@@ -148,22 +118,6 @@
 		},
 
 		computed: {
-			fields() {
-				let keys = Object.keys(this.statements[0]).map(f => {
-					let tmp = {};
-					tmp.sortable = true;
-
-					if (allowedFields.itinReports.includes(f)) {
-						tmp.key = f;
-					} else { 
-						tmp.key = "";
-					}
-
-					return tmp;
-				});
-
-				return keys;
-			}
 		}
 	}
 </script>

@@ -111,4 +111,14 @@ export const allowedFields = {
 		"codeDescription",
 		"dollarAmount",
 	],
+
+	statements: [
+		"amountOne",
+		"dateOne",
+		"amountTwo",
+		"dateTwo",
+		"amountThree",
+		"dateThree",
+		"statementLines"
+	],
 }

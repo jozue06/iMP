@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
-import { StatementLineDocument } from "./statementLine";
+import { StatementLine, StatementLineDocument } from "./statementLine";
 
 export interface StatementInterface {
 	user: string,
@@ -89,8 +89,17 @@ const StatementSchema = new Schema({
 	statementLines: [{
 		type: Schema.Types.ObjectId,
 		ref: "statementLine"
-	}]
-});
+	}],
+
+	statementLineCount: {
+		type: Number
+	}
+},
+	{
+		toObject: {getters: true},
+		toJSON: {getters: true},
+	}
+);
 
 StatementSchema.path("amountOne").get((num: number) => unformatNumber(num));
 StatementSchema.path("amountOne").set((num: string) => formatNumber(num));
