@@ -15,7 +15,10 @@
 						+ New Manual Statement
 					</b-button>
 				</router-link>
-				
+
+				<b-button variant="primary" size="md" @click="$refs.statementCsvUploadModal.$refs.statementCsvUploadModal.show()">+ Upload CSV</b-button>
+				<StatementCsvUploadModal ref="statementCsvUploadModal" />
+
 				<StatementsListTable ref="statementsListTable" v-bind:statements="statements" @onRowSelected="onRowSelected" v-bind:selected="selected"/>
 
 				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
@@ -56,6 +59,7 @@
 	import { allowedFields } from "../../constants/tableFields";
 	import LoadingSpinner from "../Globals/LoadingSpinner";
 	import StatementsListTable from "../Globals/StatementsListTable";
+	import StatementCsvUploadModal from '../Modals/StatementCsvUploadModal';
 
 	export default  {
 		name: 'statementList',
@@ -64,6 +68,7 @@
 			NoResults,
 			LoadingSpinner,
 			StatementsListTable,
+			StatementCsvUploadModal,
 		},
 
 		mounted () {

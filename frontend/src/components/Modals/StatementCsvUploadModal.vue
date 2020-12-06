@@ -51,7 +51,6 @@
 
 			upload() {
 				Statements.uploadStatementCsv(this.selectedFile).then(res => {
-					console.log('res ? ', res);
 					this.$Notifications("Success!", "Your Statement CSV was successfully uploaded", "primary", 3000);
 					this.selectedFile = null;
 				}).catch(e => {
