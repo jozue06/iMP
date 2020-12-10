@@ -693,7 +693,7 @@
 						</b-row>
 						<b-row v-else class="align-items-center">
 							<b-col cols="12">
-								<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statment info</b-button>
+								<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statement info</b-button>
 							</b-col>
 						</b-row>
 					</b-col>

@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
-import { StatementLine, StatementLineDocument } from "./statementLine";
+import { StatementLineDocument } from "./statementLine";
 
 export interface StatementInterface {
 	user: string,

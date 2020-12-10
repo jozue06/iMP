@@ -121,4 +121,15 @@ export const allowedFields = {
 		"dateThree",
 		"statementLines"
 	],
+
+	statementLines: [
+		"churchOrg",
+		"fullName",
+		"pledgeDate",
+		"pledgeAmount",
+		"date",
+		"amount",
+		"donorAccount",
+		"class",
+	],
 }

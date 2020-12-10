@@ -3,6 +3,7 @@ import { Readable } from 'stream'
 import { Statement, StatementDocument } from "../models/statement";
 import { StatementLine, StatementLineDocument } from "../models/statementLine";
 import { Constants } from "./constants"
+import moment from "moment";
 function readCsv(buffer: Buffer, headers:any[]): Promise<any> {
 	const results: any = [];
 	return new Promise((resolve, reject) => {
@@ -35,9 +36,29 @@ async function saveAllLines(lines:StatementLineDocument[]) {
 	return savedLines;
 }
 
-export async function parseCsv(userId: string, buffer: Buffer, createContacts: Boolean): Promise<StatementDocument> {
-	let headers = createContacts ? Constants.allStatementCsvHeaders : Constants.noContactStatementCsvHeaders;
+function getDateFromFileName(fileName: string) : string {
+	let dateParts:string[] = fileName.split("-");
+	let datePart:string = dateParts[1] + "-" + dateParts[2];
 
+	return moment(datePart, "YYYY-MM").format("YYYY-MM-DD");
+}
+
+export async function parseCsv(userId: string, fileName: string, buffer: Buffer, createContacts: Boolean): Promise<StatementDocument> {
+	let date:string = getDateFromFileName(fileName);
+	
+	if (date === "Invalid date") {
+		return new Promise((resolve, reject) => {
+			let errorObject = {
+				"errors": {
+					"message":"Invalid Date"
+				}
+			}
+			return reject(errorObject);
+		});
+	}
+
+	let headers = createContacts ? Constants.allStatementCsvHeaders : Constants.noContactStatementCsvHeaders;
+	
 	return readCsv(buffer, headers).then(parsedData => {
 		let lines:StatementLineDocument[] = [];
 

@@ -14,6 +14,17 @@ export const Statements = {
 		const res = await axios.get(baseURL + `/${id}`, {"headers": headers});
 		return res.data;
 	}),
+
+	getStatementWithLines: errorHandler(async id => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+		
+		const res = await axios.get(baseURL + `/withLines/${id}`, {"headers": headers});
+		return res.data;
+	}),
+	
 	
 	getStatements: errorHandler(async () => {
 		const headers = {

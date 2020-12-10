@@ -51,11 +51,11 @@
 
 			upload() {
 				Statements.uploadStatementCsv(this.selectedFile).then(res => {
-					this.$Notifications("Success!", "Your Statement CSV was successfully uploaded", "primary", 3000);
+					this.$Notification("Success!", "Your Statement CSV was successfully uploaded", "primary", "", 3000);
 					this.selectedFile = null;
 				}).catch(e => {
 					console.error(' uploadPhoto error ', e);
-					this.$Notifications("Error", "There was an error uploading your Statement CSV", "warning", 6000);
+					this.$Notification("Error", "There was an error uploading your Statement CSV", "warning", "", 6000);
 					throw e;
 				});
 			},

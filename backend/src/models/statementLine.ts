@@ -56,7 +56,12 @@ const StatementLineSchema = new Schema({
 		type: Types.ObjectId,
 		ref: "contact"
 	},
-})
+},
+{
+	toObject: {getters: true},
+	toJSON: {getters: true},
+}
+);
 
 StatementLineSchema.path("amount").get((num: number) => unformatNumber(num));
 StatementLineSchema.path("amount").set((num: string) => formatNumber(num));

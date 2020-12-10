@@ -24,7 +24,7 @@ import Reset from './components/Globals/Reset.vue';
 import UserSettings from './components/userSettings/UserSettings.vue';
 
 import StatementList from './components/statements/StatementList.vue'
-import StatementView from './components/statements/StatementView.vue'
+import StatementCard from './components/statements/StatementCard.vue'
 
 export default [
 	{
@@ -187,9 +187,9 @@ export default [
 		}
 	},
 	{
-		path: "/statementView",
-		name: "statementView",
-		component: StatementView,
+		path: "/statementCard",
+		name: "statementCard",
+		component: StatementCard,
 		meta: {
 			requiresAuth: true
 		}

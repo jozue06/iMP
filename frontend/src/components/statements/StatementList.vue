@@ -8,7 +8,7 @@
 		
 			<div v-if="statements.length > 0">
 				<router-link
-					to="/statementView"
+					to="/statementCard"
 					v-slot="{ href, navigate}"
 				>
 					<b-button :href="href" @click="navigate" variant="primary" class="float-right m-2" size="sm">
@@ -18,9 +18,7 @@
 
 				<b-button variant="primary" size="md" @click="$refs.statementCsvUploadModal.$refs.statementCsvUploadModal.show()">+ Upload CSV</b-button>
 				<StatementCsvUploadModal ref="statementCsvUploadModal" />
-
-				<StatementsListTable ref="statementsListTable" v-bind:statements="statements" @onRowSelected="onRowSelected" v-bind:selected="selected"/>
-
+				<StatementsListTable ref="statementsListTable" v-bind:statements="statements" @onRowSelected="onRowSelected" v-bind:selected="selected" />
 				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
 				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>				
 				
@@ -35,7 +33,7 @@
 			</div>
 			<router-link
 				v-else-if="statements.length == 0" 
-				to="/statementView"
+				to="/statementCard"
 				v-slot="{ href, navigate}"
 			>
 				<b-button :href="href" @click="navigate" variant="success" class="m-2" size="sm">
@@ -58,7 +56,7 @@
 	import { Statements  } from '../../data/statements'
 	import { allowedFields } from "../../constants/tableFields";
 	import LoadingSpinner from "../Globals/LoadingSpinner";
-	import StatementsListTable from "../Globals/StatementsListTable";
+	import StatementsListTable from "./StatementsListTable";
 	import StatementCsvUploadModal from '../Modals/StatementCsvUploadModal';
 
 	export default  {

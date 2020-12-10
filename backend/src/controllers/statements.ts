@@ -72,6 +72,14 @@ export class StatementController {
 		});
 	};
 
+	public getStatementWithLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		Statement.findById(req.params.id).populate("statementLines").then(line => {
+			res.send(line);
+		}).catch(e => {
+			next(new ValidationException(e.errors));
+		});
+	};
+
 	public updateStatement = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		Statement.findOneAndUpdate({"_id": req.body.statement._id}, { ...req.body.statement }, { useFindAndModify: true }).then(r => {
 			res.send(r);
@@ -88,8 +96,8 @@ export class StatementController {
 		});
 	};
 
-	public uploadStatementCsv = (userId: string, req: Request, res: Response, next: NextFunction) => {			
-		parseCsv(userId, req.file.buffer, req.body.createContacts).then(() => {
+	public uploadStatementCsv = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		parseCsv(userId, req.file.originalname, req.file.buffer, req.body.createContacts).then(() => {
 			res.sendStatus(200);
 		}).catch(e => {
 			next(new ValidationException(e.errors));
