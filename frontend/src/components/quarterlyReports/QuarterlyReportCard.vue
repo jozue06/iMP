@@ -13,7 +13,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>				
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport" @refresh="saved"/>				
 			</b-collapse>
 
 			<b-tabs pills card end>

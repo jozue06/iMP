@@ -158,16 +158,15 @@
 
 		<b-modal v-if="statement" top ref="statementModal" title="Statements" hide-footer>	
 			<div>
-				<h5>First Month</h5>
 				<b-row class="ml-4 mr-4 justify-content-between">
 					<b-col cols="12">
 						<b-form-group label="Statement Date">
 							<b-form-datepicker
-								v-model="statement.dateOne"
+								v-model="statement.date"
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
-								name="dateOne"
+								name="date"
 							></b-form-datepicker>
 						</b-form-group>
 					</b-col>
@@ -179,9 +178,9 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.amountOne" 
+									v-model="statement.amount" 
 									placeholder="0.00"
-									name="amountOne"
+									name="amount"
 									lazy-formatter
 									:formatter="$formatMoney"
 								></b-form-input>
@@ -194,106 +193,9 @@
 								<b-form-input
 									class="text-right"
 									type="text"
-									v-model="statement.reimbursementOne" 
+									v-model="statement.reimbursementAmount" 
 									placeholder="0.00"
-									name="reimbursementOne"
-									lazy-formatter
-									:formatter="$formatMoney"
-								></b-form-input>
-							</b-input-group>
-						</b-form-group>
-					</b-col>
-				</b-row>
-			</div>
-
-			<div>
-				<h5>Second Month</h5>
-				<b-row class="ml-4 mr-4 justify-content-between">
-					<b-col cols="12">
-						<b-form-group label="Statement Date">
-							<b-form-datepicker
-								v-model="statement.dateTwo"
-								required
-								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-								locale="en"
-								name="dateTwo"
-							></b-form-datepicker>
-						</b-form-group>
-					</b-col>
-				</b-row>
-				<b-row class="ml-4 mr-4 justify-content-between" align-v="center">
-					<b-col cols="6">
-						<b-form-group label="Income Amount">
-							<b-input-group prepend="$">
-								<b-form-input
-									class="text-right"
-									type="text"
-									v-model="statement.amountTwo" 
-									placeholder="0.00"
-									name="amountTwo"
-									lazy-formatter
-									:formatter="$formatMoney"
-								></b-form-input>
-							</b-input-group>
-						</b-form-group>
-					</b-col>
-					<b-col cols="6">
-						<b-form-group label="Reimbursement Amount">
-							<b-input-group prepend="$">
-								<b-form-input
-									class="text-right"
-									type="text"
-									v-model="statement.reimbursementTwo" 
-									placeholder="0.00"
-									name="reimbursementTwo"
-									lazy-formatter
-									:formatter="$formatMoney"
-								></b-form-input>
-							</b-input-group>
-						</b-form-group>
-					</b-col>
-				</b-row>
-			</div>
-			<div>
-				<h5>Third Month</h5>
-				<b-row class="ml-4 mr-4 justify-content-between">
-					<b-col cols="12">
-						<b-form-group label="Statement Date">
-							<b-form-datepicker
-								v-model="statement.dateThree"
-								required
-								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-								locale="en"
-								name="dateThree"
-							></b-form-datepicker>
-						</b-form-group>
-					</b-col>
-				</b-row>
-				<b-row class="ml-4 mr-4 justify-content-between" align-v="center">
-					<b-col cols="6">
-						<b-form-group label="Income Amount">
-							<b-input-group prepend="$">
-								<b-form-input
-									class="text-right"
-									type="text"
-									v-model="statement.amountThree" 
-									placeholder="0.00"
-									name="amountThree"
-									lazy-formatter
-									:formatter="$formatMoney"
-								></b-form-input>
-							</b-input-group>
-						</b-form-group>
-					</b-col>
-					<b-col cols="6">
-						<b-form-group label="Reimbursement Amount">
-							<b-input-group prepend="$">
-								<b-form-input
-									class="text-right"
-									type="text"
-									v-model="statement.reimbursementThree" 
-									placeholder="0.00"
-									name="reimbursementThree"
+									name="reimbursementAmount"
 									lazy-formatter
 									:formatter="$formatMoney"
 								></b-form-input>
@@ -324,11 +226,11 @@
 		},
 
 		created() {			
-			if (!this.statement) {
-				this.currentReport.statement = {}
-			} else if (this.currentReport) {
-				this.currentReport.statement = this.statement;
-			}
+			// if (!this.statement) {
+			// 	this.currentReport.statement = {}
+			// } else if (this.currentReport) {
+			// 	this.currentReport.statement = this.statement;
+			// }
 		},
 
 		data() {
@@ -341,56 +243,39 @@
 			saveStatement() {
 				if (this.currentReport) {
 					if (this.reportType == 0) {
-						this.currentReport.statement.qtrReportId = this.currentReport._id;
+						this.statement.qtrReportId = this.currentReport._id;
 					}
 
 					if (this.reportType == 1) {
-						this.currentReport.statement.itinReportId = this.currentReport._id;
+						this.statement.itinReportId = this.currentReport._id;
 					}  
 
 					if (this.reportType == 2) {
-						this.currentReport.statement.maReportId = this.currentReport._id;
+						this.statement.maReportId = this.currentReport._id;
 					}
 
 					if (this.reportType == 3) {
-						this.currentReport.statement.sdrReportId = this.currentReport._id;
+						this.statement.sdrReportId = this.currentReport._id;
 					}
 
 					if (this.reportType == 4) {
-						this.currentReport.statement.institutionalReportId = this.currentReport._id;
+						this.statement.institutionalReportId = this.currentReport._id;
 					}
 
-					this.currentReport.statement.reportType = this.reportType;				
-					
-					
-					Statements.save(this.currentReport.statement).then(res => {
-						this.$refs.statementModal.hide();
-						this.$Notification("Success!", "Successfully Added the Statement", "primary");
-						this.loading = false;
-						this.$emit("refresh", res);
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.$Notification("Error", `Error Saving Mileage Log: ${e.message}`, "warning", "", 6000);
-						this.loading = false;
-						throw e;
-					});
+					this.statement.reportType = this.reportType;
 				}
-				console.log('this.statement ??? ', this.statement);
-				
-				if (!this.currentReport && this.statement) {
-					this.loading = true;
-					Statements.save(this.statement).then(res => {
-						this.$refs.statementModal.hide();
-						this.$Notification("Success!", "Successfully Added the Statement", "primary");
-						this.loading = false;
-						this.$emit("refresh", res);
-					}).catch(e => {
-						console.error('eeek ', e);
-						this.$Notification("Error", `Error Saving Mileage Log: ${e.message}`, "warning", "", 6000);
-						this.loading = false;
-						throw e;
-					});
-				}
+
+				Statements.save(this.statement).then(res => {
+					this.$refs.statementModal.hide();
+					this.loading = false;
+					this.$Notification("Success!", "Successfully Added the Statement", "primary");
+					this.$emit("refresh", res);
+				}).catch(e => {
+					console.error('eeek ', e);
+					this.$Notification("Error", `Error Saving Statement Log: ${e.message}`, "warning", "", 6000);
+					this.loading = false;
+					throw e;
+				});
 			},
 		},
 	}

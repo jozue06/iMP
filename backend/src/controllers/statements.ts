@@ -16,34 +16,38 @@ export class StatementController {
 		statement.save().then(savedStatement => {
 			
 			if (reportType === 0) {
-				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+				console.log('hre??');
+				
+				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, { $push: { statements: savedStatement } }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					console.log('save qttr report : ', saved);
+					
 					res.send(saved);
 					return;
 				});
 			}
 
 			if (reportType === 1) {
-				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 			if (reportType === 2) {
-				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 
 			if (reportType === 3) {
-				SDRReport.findOneAndUpdate({ _id: req.body.statement.sdrReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+				SDRReport.findOneAndUpdate({ _id: req.body.statement.sdrReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 
 			if (reportType === 4) {
-				InstitutionalReport.findOneAndUpdate({ _id: req.body.statement.institutionalReportId }, {statement: savedStatement._id}, { useFindAndModify: true, new: true }).then(saved => {
+				InstitutionalReport.findOneAndUpdate({ _id: req.body.statement.institutionalReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
 					res.send(saved);
 					return;
 				});

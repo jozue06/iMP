@@ -25,7 +25,7 @@ export interface SDRReportInterface {
 	sdrAmount?: number,
 	
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 }
 
@@ -115,10 +115,11 @@ const SDRReportSchema = new Schema({
 		required: false,
 	},
 
-	statement: {
+	statement: [{
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-	},
+		default: []
+	}],
 
 	expenseLines: [{
 		type: Schema.Types.ObjectId,

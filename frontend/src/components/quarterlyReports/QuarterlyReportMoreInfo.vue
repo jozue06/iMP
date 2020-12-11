@@ -118,30 +118,14 @@
 				<label>
 					Statement Info
 				</label>
-				<b-col>					
-					<b-row v-if="currentReport.statement && (currentReport.statement.dateOne || currentReport.statement.dateTwo || currentReport.statement.dateThree)" @click="showStatementModal(currentReport.statement)" class="align-items-center mt-2">
-						<b-col cols='4'>
-							{{currentReport.statement.dateOne}}
+				<b-col>	
+					<b-row v-if="currentReport.statements.length" class="align-items-center mt-2">
+						<b-col v-for="(statement, id) in currentReport.statements" :key="`${id}`" @click="showStatementModal(statement)" cols='4'>
+							{{statement.date}}
 							<br>
-							${{currentReport.statement.amountOne}}
+							${{statement.amount}}
 							<br>
-							${{currentReport.statement.reimbursementOne}}
-						</b-col>
-						
-						<b-col cols='4'>
-							{{currentReport.statement.dateTwo}}
-							<br>
-							${{currentReport.statement.amountTwo}}
-							<br>
-							${{currentReport.statement.reimbursementTwo}}
-						</b-col>
-
-						<b-col cols='4'>
-							{{currentReport.statement.dateThree}}
-							<br>
-							${{currentReport.statement.amountThree}}
-							<br>
-							${{currentReport.statement.reimbursementThree}}
+							${{statement.reimbursementAmount}}
 						</b-col>
 						<b-row class="mt-2 mb-2 text-right">
 							<b-col cols="12" class="text-right">
@@ -153,9 +137,9 @@
 							</b-col>
 						</b-row>
 					</b-row>
-					<b-row v-else class="align-items-center">
+					<b-row v-if="currentReport.statements.length < 3" class="align-items-center">
 						<b-col cols="12">
-							<b-button @click="showStatementModal()" variant="primary" class="m-2" size="sm">+ Add statement info</b-button>
+							<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statement info</b-button>
 						</b-col>
 					</b-row>
 				</b-col>
@@ -209,10 +193,10 @@
 		<OtherIncomeModal ref="otherIncomeModal" v-bind:otherIncomeLine="otherIncomeLine" v-bind:currentReport="currentReport" />
 		<StatementModal 
 			ref="statementModal" 
-			v-bind:statement="statement"
+			v-bind:statement="selectedStatement"
 			v-bind:currentReport="currentReport" 
-			v-bind:statementReimbursementTotal="statementReimbursementTotal"
 			v-bind:reportType="0"
+			@refresh="refresh"
 		/>
 		<ConfirmModal 
 			id="confirmDeleteOtherLine" 
@@ -245,14 +229,15 @@
 		},
 
 		created() {
-			if (this.currentReport.statement) {
-				this.statement = this.currentReport.statement;
+			if (this.currentReport.statements.length) {
+				this.statements = this.currentReport.statements;
 			}
 		},
 
 		data() {
 			return {
-				statement: {},
+				selectedStatement: {},
+				statements: [],
 				otherIncomeLine: {},
 				selectedOtherLines: null,
 			}
@@ -282,36 +267,25 @@
 				this.$refs.otherIncomeModal.$refs.otherIncomeModal.show();
 			},
 
-			showStatementModal() {
+			showStatementModal(selectedStatement) {
+				if (selectedStatement) {
+					this.selectedStatement = selectedStatement;
+				} else {
+					this.selectedStatement = {}
+				}
 				this.$refs.statementModal.$refs.statementModal.show();
 			},
 
 			saveReport() {
 				this.$emit("saveReport");
 			},
+
+			refresh(savedReport) {
+				this.currentReport = savedReport;
+			}
 		},
 
 		computed: {
-			fields1() {
-				if (this.currentReport.statement) {
-					let keys = Object.keys(this.currentReport.statement).map(f => {
-						let tmp = {};
-						tmp.sortable = true;
-
-						if (allowedFields.commsList.includes(f)) {
-							tmp.key = f;
-						} else { 
-							tmp.key = "";
-						}
-
-						return tmp;
-					});
-
-					return keys;
-				}
-				return "";
-			},
-
 			fields2() {
 				let keys = Object.keys(this.otherIncomeLines[0]).map(f => {
 					let tmp = {};
@@ -333,41 +307,26 @@
 				return this.currentReport.otherIncomeLines;
 			},
 
-			statementReimbursementTotal() {
+		
+			statementAmountTotal() {
 				let amt = 0;
-				if (this.currentReport.statement) {
-
-					if (this.currentReport.statement.reimbursementOne) {
-						amt += this.currentReport.statement.reimbursementOne;
-					}
-
-					if (this.currentReport.statement.reimbursementTwo) {
-						amt += this.currentReport.statement.reimbursementTwo;
-					}
-
-					if (this.currentReport.statement.reimbursementThree) {
-						amt += this.currentReport.statement.reimbursementThree;
-					}
+				if (this.currentReport.statements) {
+					this.currentReport.statements.forEach(statement => {
+						amt = this.$addMoney(amt, statement.amount);
+					});
 				}
 				
 				return "$" + this.$formatMoney(amt);
 			},
 
-			statementAmountTotal() {
+			statementReimbursementTotal() {
 				let amt = 0;
-				if (this.currentReport.statement) {
-					if (this.currentReport.statement.amountOne) {
-						amt += this.currentReport.statement.amountOne;
-					}
-
-					if (this.currentReport.statement.amountTwo) {
-						amt += this.currentReport.statement.amountTwo;
-					}
-
-					if (this.currentReport.statement.amountThree) {
-						amt += this.currentReport.statement.amountThree;
-					}
+				if (this.currentReport.statements) {
+					this.currentReport.statements.forEach(statement => {
+						amt = this.$addMoney(amt, statement.reimbursementAmount);
+					});
 				}
+
 				return "$" + this.$formatMoney(amt);
 			},
 

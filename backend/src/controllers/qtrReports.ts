@@ -36,7 +36,7 @@ export class QtrReportController {
 		QtrReport.findById(req.params.id)
 			.populate("expenseLines")
 			.populate("mileageLogs")
-			.populate("statement")
+			.populate("statements")
 			.populate("otherIncomeLines").then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -46,7 +46,12 @@ export class QtrReportController {
 	};
 
 	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
+		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport})
+		.populate("expenseLines")
+		.populate("mileageLogs")
+		.populate("statements")
+		.populate("otherIncomeLines")
+		.then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

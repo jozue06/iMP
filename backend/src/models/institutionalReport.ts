@@ -24,7 +24,7 @@ export interface InstitutionalReportInterface {
 	dateCompleted?: Date,
 
 	comments?: string,
-	statement?: StatementDocument,
+	statement?: StatementDocument[],
 	expenseLines?: ExpenseLineDocument[],
 	incomeLines?: IncomeDocument[],
 }
@@ -105,10 +105,11 @@ const InstitutionalReportSchema = new Schema({
 		default: []
 	}],
 
-	statement: {
+	statement: [{
 		type: Schema.Types.ObjectId,
 		ref: 'statement',
-	},
+		default: [],
+	}],
 },
 	{
 		toObject: {getters: true},

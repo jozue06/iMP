@@ -1,4 +1,4 @@
-export default function formatMoney(amountOne, amountTwo) {	
+export default (amountOne, amountTwo) => {	
 	if (isNaN(Number(amountOne)) || isNaN(Number(amountTwo)) ) {
 		return 0;
 	}

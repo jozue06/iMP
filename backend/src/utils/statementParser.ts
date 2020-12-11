@@ -19,7 +19,7 @@ function readCsv(buffer: Buffer, headers:any[]): Promise<any> {
 	});
 }
 
-async function createStatementAndSaveLines(userId: string, statementLines: StatementLineDocument[]): Promise<StatementDocument> {
+async function createStatementAndSaveLines(userId: string, date: string, statementLines: StatementLineDocument[]): Promise<StatementDocument> {
 	let statement = new Statement();
 	statement.user = userId;
 	statementLines.forEach(statementLine => {
@@ -84,7 +84,7 @@ export async function parseCsv(userId: string, fileName: string, buffer: Buffer,
 		const savedLines = saveAllLines(lines)
 		return savedLines;
 	}).then(async lines => {
-		const savedStatement = await createStatementAndSaveLines(userId, lines);
+		const savedStatement = await createStatementAndSaveLines(userId, date, lines);
 		return savedStatement;
 	});
 }
