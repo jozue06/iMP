@@ -4,8 +4,11 @@ import { StatementLineDocument } from "./statementLine";
 
 export interface StatementInterface {
 	user: string,
-	qtrReport?: string,
-	institutionalReport?: string,
+	qtrReportId?: string,
+	institutionalReportId?: string,
+	itinReportId?: string,
+	sdrReportId?: string,
+	maReportId?: string,
 	date?: string;
 	amount?: number;
 	reimbursementAmount?: number;

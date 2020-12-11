@@ -113,12 +113,9 @@ export const allowedFields = {
 	],
 
 	statements: [
-		"amountOne",
-		"dateOne",
-		"amountTwo",
-		"dateTwo",
-		"amountThree",
-		"dateThree",
+		"amount",
+		"reimbursementAmount",
+		"date",
 		"statementLines"
 	],
 

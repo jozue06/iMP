@@ -285,7 +285,7 @@
 					</b-row>
 				</b-col>
 				
-				<b-col v-if='reportType != 3' cols="6"  class="my-2">
+				<b-col cols="6"  class="my-2">
 					<label>Other</label>
 					<b-row class="align-items-center">
 						<b-col>
@@ -652,60 +652,15 @@
 			</b-row>
 			
 			<b-row class="mx-2">
-				<b-col cols="6" class="my-2" style="border-right: solid 1px #ced4da;">
-					<label>
-						Statement Info
-					</label>
-					<b-col>				
-						<b-row v-if="currentReport.statement && (currentReport.statement.dateOne || currentReport.statement.dateTwo || currentReport.statement.dateThree)" @click="showStatementModal(currentReport.statement)" class="align-items-center mt-2">
-							<b-col cols='4'>
-								{{currentReport.statement.dateOne}}
-								<br>
-								${{currentReport.statement.amountOne}}
-								<br>
-								${{currentReport.statement.reimbursementOne}}
-							</b-col>
-							
-							<b-col cols='4'>
-								{{currentReport.statement.dateTwo}}
-								<br>
-								${{currentReport.statement.amountTwo}}
-								<br>
-								${{currentReport.statement.reimbursementTwo}}
-							</b-col>
-
-							<b-col cols='4'>
-								{{currentReport.statement.dateThree}}
-								<br>
-								${{currentReport.statement.amountThree}}
-								<br>
-								${{currentReport.statement.reimbursementThree}}
-							</b-col>
-							<b-row class="mt-2 mb-2 text-right">
-								<b-col cols="12" class="text-right">
-									Totals
-									<br>
-									Statements Total: {{statementAmountTotal}}
-									<br>
-									Reimbursement Total: {{statementReimbursementTotal}}
-								</b-col>
-							</b-row>
-						</b-row>
-						<b-row v-else class="align-items-center">
-							<b-col cols="12">
-								<b-button @click="showStatementModal(null)" variant="primary" class="m-2" size="sm">+ Add statement info</b-button>
-							</b-col>
-						</b-row>
-					</b-col>
-				</b-col>
+				<StatementInfoRow v-bind:currentReport="currentReport" @showStatementModal="showStatementModal" />
 			</b-row>
 		</div>
+		
 		<StatementModal 
 			ref="statementModal" 
-			@refresh="saveReport"
-			v-bind:statement="statement"
+			@refresh="refresh"
+			v-bind:statement="selectedStatement"
 			v-bind:currentReport="currentReport" 
-			v-bind:statementReimbursementTotal="statementReimbursementTotal"
 			v-bind:reportType="reportType"
 		/>
 	</div>	
@@ -714,11 +669,13 @@
 <script>
 	import StatementModal from "../Modals/StatementModal";
 	import { COUNTRIES } from "@/constants/statesAndCountries";
+	import StatementInfoRow from '../../../StatementInfoRow.vue';
 	export default  {
 		name: 'reportMoreInfo',
 
 		components: {
 			StatementModal,
+			StatementInfoRow,
 		},
 
 		props: {
@@ -727,14 +684,15 @@
 		},
 
 		created() {
-			if (this.currentReport.statement) {
-				this.statement = this.currentReport.statement;
+			if (this.currentReport.statements.length) {
+				this.statements = this.currentReport.statements;
 			}
 		},
 
 		data() {
 			return {
-				statement: {},
+				selectedStatement: {},
+				statements: [],
 				countries: COUNTRIES.map(c => ({ value: c.name, text: c.name })),
 			}
 		},
@@ -744,49 +702,21 @@
 				this.$emit("saveReport");
 			},
 
-			showStatementModal() {
+			refresh(savedReport) {
+				this.$emit("refresh", savedReport);
+			},
+
+			showStatementModal(selectedStatement) {
+				if (selectedStatement) {
+					this.selectedStatement = selectedStatement;
+				} else {
+					this.selectedStatement = {}
+				}
 				this.$refs.statementModal.$refs.statementModal.show();
 			},
 		},
 
 		computed: {
-			statementReimbursementTotal() {
-				let amt = 0;
-				if (this.currentReport.statement) {
-					if (this.currentReport.statement.reimbursementOne) {
-						amt += this.currentReport.statement.reimbursementOne;
-					}
-
-					if (this.currentReport.statement.reimbursementTwo) {
-						amt += this.currentReport.statement.reimbursementTwo;
-					}
-
-					if (this.currentReport.statement.reimbursementThree) {
-						amt += this.currentReport.statement.reimbursementThree;
-					}
-				}
-				
-				return "$" + this.$formatMoney(amt);
-			},
-
-			statementAmountTotal() {
-				let amt = 0;
-				if (this.currentReport.statement) {
-					if (this.currentReport.statement.amountOne) {
-						amt += this.currentReport.statement.amountOne;
-					}
-
-					if (this.currentReport.statement.amountTwo) {
-						amt += this.currentReport.statement.amountTwo;
-					}
-
-					if (this.currentReport.statement.amountThree) {
-						amt += this.currentReport.statement.amountThree;
-					}
-				}
-				return "$" + this.$formatMoney(amt);
-			},
-
 		}
 	}
 

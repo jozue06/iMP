@@ -34,7 +34,7 @@ export class MAReportController {
 
 	public getMAReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		MAReport.findById(req.params.id)
-			.populate("statement")
+			.populate("statements")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -44,7 +44,7 @@ export class MAReportController {
 	};
 
 	public updateMAReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		MAReport.findOneAndUpdate({"_id": req.body.maReport._id}, {...req.body.maReport}).then((r: MAReportDocument) => {
+		MAReport.findOneAndUpdate({"_id": req.body.maReport._id}, {...req.body.maReport}).populate("statements").then((r: MAReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

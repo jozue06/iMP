@@ -35,7 +35,7 @@ export class SDRReportController {
 	public getSDRReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		SDRReport.findById(req.params.id)
 			.populate("expenseLines")
-			.populate("statement")
+			.populate("statements")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -45,7 +45,7 @@ export class SDRReportController {
 	};
 
 	public updateSDRReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		SDRReport.findOneAndUpdate({"_id": req.body.sdrReport._id}, {... req.body.sdrReport}).then((r: SDRReportDocument) => {
+		SDRReport.findOneAndUpdate({"_id": req.body.sdrReport._id}, {... req.body.sdrReport}).populate("statements").then((r: SDRReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

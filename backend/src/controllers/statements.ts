@@ -14,7 +14,6 @@ export class StatementController {
 		const reportType = req.body.statement.reportType;
 		const statement = new Statement(req.body.statement);
 		statement.save().then(savedStatement => {
-			
 			if (reportType === 0) {
 				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, { $push: { statements: savedStatement } }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {					
 					res.send(saved);
@@ -23,27 +22,27 @@ export class StatementController {
 			}
 
 			if (reportType === 1) {
-				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
+				ItinReport.findOneAndUpdate({ _id: req.body.statement.itinReportId }, { $push: {statements: savedStatement} }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 			if (reportType === 2) {
-				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
+				MAReport.findOneAndUpdate({ _id: req.body.statement.maReportId }, { $push: {statements: savedStatement} }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 
 			if (reportType === 3) {
-				SDRReport.findOneAndUpdate({ _id: req.body.statement.sdrReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
+				SDRReport.findOneAndUpdate({ _id: req.body.statement.sdrReportId }, { $push: {statements: savedStatement} }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 
 			if (reportType === 4) {
-				InstitutionalReport.findOneAndUpdate({ _id: req.body.statement.institutionalReportId }, { $push: {statements: savedStatement._id} }, { useFindAndModify: true, new: true }).then(saved => {
+				InstitutionalReport.findOneAndUpdate({ _id: req.body.statement.institutionalReportId }, { $push: {statements: savedStatement} }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
 					return;
 				});
@@ -80,12 +79,46 @@ export class StatementController {
 		});
 	};
 
-	public updateStatement = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Statement.findOneAndUpdate({"_id": req.body.statement._id}, { ...req.body.statement }, { useFindAndModify: true }).then(r => {
-			res.send(r);
-		}).catch(e => {
+	public updateStatement = async (userId: string, req: Request, res: Response, next: NextFunction) => {		
+		try {
+			const r = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement }, { useFindAndModify: true });
+			if (r.qtrReportId) {
+				QtrReport.findOne({ _id: r.qtrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					res.send(saved);
+					return;
+				});
+			}
+
+			if (r.itinReportId) {
+				ItinReport.findOne({ _id: r.itinReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_1 => {
+					res.send(saved_1);
+					return;
+				});
+			}
+			if (r.maReportId) {
+				MAReport.findOne({ _id: r.maReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_2 => {
+					res.send(saved_2);
+					return;
+				});
+			}
+
+			if (r.sdrReportId) {
+				SDRReport.findOne({ _id: r.sdrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_3 => {
+					res.send(saved_3);
+					return;
+				});
+			}
+
+			if (r.institutionalReportId) {
+				InstitutionalReport.findOne({ _id: r.institutionalReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_4 => {
+					res.send(saved_4);
+					return;
+				});
+			}
+		} catch (e) {
+			console.error('eeek ', e);
 			next(new ValidationException(e.errors));
-		});
+		}
 	};
 
 	public deleteStatements = (userId: string, req: Request, res: Response, next: NextFunction) => {

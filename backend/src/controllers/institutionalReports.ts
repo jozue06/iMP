@@ -35,7 +35,7 @@ export class InstitutionalReportController {
 	public getInstitutionalReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		InstitutionalReport.findById(req.params.id)
 			.populate("expenseLines")
-			.populate("statement")
+			.populate("statements")
 			.populate("incomeLines").then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -45,7 +45,7 @@ export class InstitutionalReportController {
 	};
 
 	public updateInstitutionalReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		InstitutionalReport.findOneAndUpdate({"_id": req.body.institutionalReport._id}, {... req.body.institutionalReport}).then((r: InstitutionalReportDocument) => {
+		InstitutionalReport.findOneAndUpdate({"_id": req.body.institutionalReport._id}, {... req.body.institutionalReport}).populate("statements").then((r: InstitutionalReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {
