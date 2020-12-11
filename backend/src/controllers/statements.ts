@@ -16,11 +16,7 @@ export class StatementController {
 		statement.save().then(savedStatement => {
 			
 			if (reportType === 0) {
-				console.log('hre??');
-				
-				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, { $push: { statements: savedStatement } }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
-					console.log('save qttr report : ', saved);
-					
+				QtrReport.findOneAndUpdate({ _id: req.body.statement.qtrReportId }, { $push: { statements: savedStatement } }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {					
 					res.send(saved);
 					return;
 				});
