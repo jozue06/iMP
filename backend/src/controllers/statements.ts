@@ -7,6 +7,7 @@ import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 import { MAReport } from "../models/maReport";
 import { parseCsv } from "../utils/statementParser";
+import { StatementLine, StatementLineDocument } from "../models/statementLine";
 
 export class StatementController {
 	public createStatement = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -71,15 +72,7 @@ export class StatementController {
 		});
 	};
 
-	public getStatementWithLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		Statement.findById(req.params.id).populate("statementLines").then(line => {
-			res.send(line);
-		}).catch(e => {
-			next(new ValidationException(e.errors));
-		});
-	};
-
-	public updateStatement = async (userId: string, req: Request, res: Response, next: NextFunction) => {		
+	public updateStatement = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		try {
 			const savedStatement = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement }, { useFindAndModify: true });
 			if (savedStatement.qtrReportId) {
@@ -136,5 +129,54 @@ export class StatementController {
 		}).catch(e => {
 			next(new ValidationException(e.errors));
 		});
-	}
+	};
+
+	public getStatementWithLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		Statement.findById(req.params.id).populate("statementLines").then(line => {
+			res.send(line);
+		}).catch(e => {
+			next(new ValidationException(e.errors));
+		});
+	};
+
+	public saveStatementLine = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+
+		const statementLine = new StatementLine(req.body.statementLine);
+
+		try {
+			const savedLine: StatementLineDocument = await statementLine.save();
+			Statement.findOneAndUpdate({"_id": savedLine.statement }, { $push: { statementLines: savedLine._id } }, { useFindAndModify: true, new: true }).populate("statementLines").then(savedStatement => {
+				res.send(savedStatement);
+			}).catch(e => {
+				next(new ValidationException(e.errors));
+			});
+		} catch (e) {
+			console.error('eeek ', e);
+			next(new ValidationException(e.errors));
+		}
+	};
+
+	public updateStatementLine = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+		const statementLine = req.body.statementLine;
+		
+		try {
+			const savedLine: StatementLineDocument = await StatementLine.findByIdAndUpdate({ "_id": statementLine._id }, { ...statementLine });
+			Statement.findById({ "_id": savedLine.statement }).populate("statementLines").then(savedStatement => {
+				res.send(savedStatement);
+			}).catch(e => {
+				next(new ValidationException(e.errors));
+			});
+		} catch (e) {
+			console.error('eeek ', e);
+			next(new ValidationException(e.errors));
+		}
+	};
+
+	public deleteStatementLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
+		StatementLine.deleteMany( {"_id": { $in: req.body.statementLineIds } } ).then(r => {
+			res.send(r);
+		}).catch(e => {
+			next(new ValidationException(e.errors));
+		});
+	};
 }

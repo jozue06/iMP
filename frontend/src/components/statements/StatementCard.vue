@@ -61,12 +61,25 @@
 				</b-col>
 			</b-row>
 		</div>
-		<StatementLinesTable ref="statementLinesTable" v-bind:statement="statement" @onRowSelected="onRowSelected" v-bind:selected="selected" @showStatementLineModal="showStatementLineModal" />
+		<StatementLinesTable 
+			ref="statementLinesTable" 
+			v-bind:statement="statement" 
+			v-bind:selected="selected" 
+			@onRowSelected="onRowSelected" 
+			@showStatementLineModal="showStatementLineModal" 
+			@handleConfirmDelete="handleConfirmDelete"
+		/>
 		<StatementModal 
 			ref="statementModal" 
 			@refresh="saveReport"
 			v-bind:statement="statement"
 			v-bind:statementReimbursementTotal="statementReimbursementTotal"
+		/>
+		<StatementLineModal
+			ref="statementLineModal"
+			v-bind:statementLine="statementLine"
+			v-bind:statement="statement"
+			@refresh="refresh"
 		/>
 	</section>
 </template>
@@ -76,6 +89,7 @@
 	import StatementModal from "../Modals/StatementModal.vue";
 	import LoadingSpinner from "../Globals/LoadingSpinner.vue";
 	import StatementLinesTable from './StatementLinesTable.vue';
+	import StatementLineModal from '../Modals/StatementLineModal.vue';
 
 	export default  {
 		name: 'statementCard',
@@ -83,7 +97,8 @@
 		components: {
 			LoadingSpinner,
 			StatementModal,
-			StatementLinesTable
+			StatementLinesTable,
+			StatementLineModal
 		},
 
 		created() {
@@ -123,6 +138,7 @@
 				loading: false,
 				statement: {},
 				selected: [],
+				statementLine: {},
 			};
 		},
 
@@ -132,16 +148,39 @@
 			},
 
 			showStatementLineModal(item) {
-
+				if (item) {
+					this.statementLine = item;
+				}
+				this.$refs.statementLineModal.$refs.statementLineModal.show();
 			},
 
 			saveReport() {
 
 			},
 			
-			onRowSelected() {
+			onRowSelected(item) {
+				this.selected = item;
+			},
 
-			}
+			refresh(statement) {
+				this.statement = statement;
+			},
+
+			onSaved() {
+				Statements.getStatementWithLines(this.statement._id).then(res => {
+					this.statement = res;
+				});
+			},
+
+			handleConfirmDelete(ids) {
+				Statements.deleteStatementLines(ids).then(res => {
+					this.onSaved();
+					this.$Notification("Deleted", "Deleted the selected Statement Lines", "warning", "", 3000);
+				}).catch(e => {
+					console.error('e', e);
+					throw e;
+				});
+			},
 		},
 
 		computed: {

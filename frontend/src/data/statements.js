@@ -21,10 +21,9 @@ export const Statements = {
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
 		
-		const res = await axios.get(baseURL + `/withLines/${id}`, {"headers": headers});
+		const res = await axios.get(baseURL + `/lines/${id}`, {"headers": headers});
 		return res.data;
 	}),
-	
 	
 	getStatements: errorHandler(async () => {
 		const headers = {
@@ -50,7 +49,7 @@ export const Statements = {
 		return res.data;
 	}),
 
-	save: errorHandler(async payload => {		
+	save: errorHandler(async payload => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
@@ -69,7 +68,41 @@ export const Statements = {
 		}
 	}),
 
-	uploadStatementCsv: errorHandler(async statementFile => {		
+	saveLine: errorHandler(async payload => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+		
+		let body = {
+			statementLine: payload
+		}
+		
+		if (payload._id) {
+			const res = await axios.put(baseURL + `/lines/${payload._id}`, body, {"headers": headers});
+			return res.data;
+		} else {
+			const res = await axios.post(baseURL + "/lines", body, {"headers": headers});
+			return res.data;
+		}
+	}),
+
+
+	deleteStatementLines: errorHandler(async ids => {
+		const headers = {
+			'Content-Type': 'application/json',
+			authorization: `Bearer ${localStorage.getItem("jwt")}` 
+		}
+		
+		let body = {
+			statementLineIds: ids
+		}
+		
+		const res = await axios.post(baseURL +"/lines/delete", body, {"headers": headers});
+		return res.data;
+	}),
+
+	uploadStatementCsv: errorHandler(async statementFile => {
 		const formHeaders = {
 			"Content-Type": "multipart/form-data",
 			Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -77,7 +110,7 @@ export const Statements = {
 
 		const formData = new FormData();
 		formData.append('file', statementFile, statementFile.name);
-		const res = await axios.post(baseURL + "/uploadStatementCsv", formData, {"headers": formHeaders});		
+		const res = await axios.post(baseURL + "/uploadStatementCsv", formData, {"headers": formHeaders});
 		return res.data;
 	}),
 };

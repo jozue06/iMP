@@ -127,7 +127,7 @@
 
 			<b-row class="justify-content-around">
 				<b-col cols="6" class="text-center">
-					<ContactSearchComponent @rowClicked="selected" />
+					<ContactSearchComponent @contactClicked="selected" />
 				</b-col>
 			</b-row>
 

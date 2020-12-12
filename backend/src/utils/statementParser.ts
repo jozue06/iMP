@@ -72,6 +72,8 @@ export async function parseCsv(userId: string, fileName: string, buffer: Buffer,
 			statementLine.class = el.ClassNo;
 			statementLine.pledgeDate = el.PledgeDate;
 			statementLine.pledgeAmount = el.PledgeAmt;
+			statementLine.yearToDateAmount = el.YTDAmt;
+			statementLine.receiptCount = el.ReceiptCount;
 
 			if (createContacts) {
 				// do contact stuff

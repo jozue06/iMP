@@ -186,7 +186,7 @@
 	import StatementModal from "../Modals/StatementModal";
 	import { OtherIncomeLines } from "../../data/otherIncomeLines"
 	import ConfirmModal from "../Modals/ConfirmModal";
-	import StatementInfoRow from '../../../StatementInfoRow.vue';
+	import StatementInfoRow from '../Globals/StatementInfoRow.vue';
 
 	export default  {
 

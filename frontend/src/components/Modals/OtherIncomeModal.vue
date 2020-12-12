@@ -4,7 +4,7 @@
 			<div>
 				<b-row>
 					<b-col cols="6">
-						<ContactSearchComponent @rowClicked="selected" />
+						<ContactSearchComponent @contactClicked="selected" />
 					</b-col>
 				</b-row>
 			</div>			

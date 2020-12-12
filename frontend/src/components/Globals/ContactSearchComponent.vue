@@ -24,7 +24,7 @@
 			responsive="sm"
 		>
 			<template v-slot:cell()="data">
-				<span @click="rowClicked(data.item)" class="text-info"> {{ data.value }} </span>
+				<span @click="contactClicked(data.item)" class="text-info"> {{ data.value }} </span>
 			</template>
 		</b-table>
 	</section>
@@ -46,8 +46,8 @@
 		},
 
 		methods: {
-			rowClicked(rowItem) {
-				this.$emit("rowClicked", rowItem);
+			contactClicked(rowItem) {
+				this.$emit("contactClicked", rowItem);
 				this.selectedContact = true;
 				this.results = [];
 			},

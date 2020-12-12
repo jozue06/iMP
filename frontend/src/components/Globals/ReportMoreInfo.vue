@@ -669,7 +669,7 @@
 <script>
 	import StatementModal from "../Modals/StatementModal";
 	import { COUNTRIES } from "@/constants/statesAndCountries";
-	import StatementInfoRow from '../../../StatementInfoRow.vue';
+	import StatementInfoRow from '../Globals/StatementInfoRow.vue';
 	export default  {
 		name: 'reportMoreInfo',
 

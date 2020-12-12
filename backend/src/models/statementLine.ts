@@ -11,6 +11,8 @@ export interface StatementLineInterface {
 	class?: string,
 	pledgeDate?: string,
 	pledgeAmount?: number
+	yearToDateAmount?: number
+	receiptCount?: number
 	contact?: Types.ObjectId,
 }
 
@@ -51,7 +53,15 @@ const StatementLineSchema = new Schema({
 	pledgeAmount: {
 		type: Number,
 	},
-	
+
+	yearToDateAmount: {
+		type: Number,
+	},
+
+	receiptCount: {
+		type: Number,
+	},
+
 	contact: {
 		type: Types.ObjectId,
 		ref: "contact"
@@ -68,6 +78,9 @@ StatementLineSchema.path("amount").set((num: string) => formatNumber(num));
 
 StatementLineSchema.path("pledgeAmount").get((num: number) => unformatNumber(num));
 StatementLineSchema.path("pledgeAmount").set((num: string) => formatNumber(num));
+
+StatementLineSchema.path("yearToDateAmount").get((num: number) => unformatNumber(num));
+StatementLineSchema.path("yearToDateAmount").set((num: string) => formatNumber(num));
 
 export interface StatementLineDocument extends StatementLineInterface, Document { }
 export interface StatementLineModel extends Model<StatementLineDocument> { }
