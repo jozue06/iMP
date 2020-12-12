@@ -88,14 +88,15 @@ export const Statements = {
 	}),
 
 
-	deleteStatementLines: errorHandler(async ids => {
+	deleteStatementLines: errorHandler(async (statement, ids) => {
 		const headers = {
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${localStorage.getItem("jwt")}` 
 		}
 		
 		let body = {
-			statementLineIds: ids
+			statementLineIds: ids,
+			statement: statement
 		}
 		
 		const res = await axios.post(baseURL +"/lines/delete", body, {"headers": headers});

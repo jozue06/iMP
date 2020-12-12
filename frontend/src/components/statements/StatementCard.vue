@@ -150,6 +150,8 @@
 			showStatementLineModal(item) {
 				if (item) {
 					this.statementLine = item;
+				} else {
+					this.statementLine = {};
 				}
 				this.$refs.statementLineModal.$refs.statementLineModal.show();
 			},
@@ -173,7 +175,7 @@
 			},
 
 			handleConfirmDelete(ids) {
-				Statements.deleteStatementLines(ids).then(res => {
+				Statements.deleteStatementLines(this.statement, ids).then(res => {
 					this.onSaved();
 					this.$Notification("Deleted", "Deleted the selected Statement Lines", "warning", "", 3000);
 				}).catch(e => {

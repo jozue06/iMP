@@ -162,7 +162,7 @@
 					this.$Notification("Success!", "Successfully saved the Statement Line", "primary");
 					this.$emit("refresh", res)
 				}).catch(e => {
-					console.log('eek');
+					console.error('eek');
 					this.$Notification("Error", `Error Saving the Statement Line: ${e.message}`, "warning", 6000);
 					this.loading = false;
 				});

@@ -2,7 +2,7 @@ import { QtrReport } from "../models/qrtReport";
 import { SDRReport } from "../models/sdrReport";
 import { ItinReport } from "../models/itinerationReport";
 import { InstitutionalReport } from "../models/institutionalReport";
-import { Statement } from "../models/statement";
+import { Statement, StatementDocument } from "../models/statement";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
 import { MAReport } from "../models/maReport";
@@ -74,7 +74,7 @@ export class StatementController {
 
 	public updateStatement = async (userId: string, req: Request, res: Response, next: NextFunction) => {
 		try {
-			const savedStatement = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement }, { useFindAndModify: true });
+			const savedStatement = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement },  { useFindAndModify: true, new: true });
 			if (savedStatement.qtrReportId) {
 				QtrReport.findOne({ _id: savedStatement.qtrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
@@ -172,11 +172,30 @@ export class StatementController {
 		}
 	};
 
-	public deleteStatementLines = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		StatementLine.deleteMany( {"_id": { $in: req.body.statementLineIds } } ).then(r => {
-			res.send(r);
-		}).catch(e => {
-			next(new ValidationException(e.errors));
-		});
+	public deleteStatementLines = async (userId: string, req: Request, res: Response, next: NextFunction) => {
+		let ids = req.body.statementLineIds;
+		try {
+			const statement = await Statement.findById({_id: req.body.statement._id});
+
+			/*** We are filtering out the ids we want to delete from the statements objects statement lines 
+			 * and then updating the statement so the statements lines length is correct
+			 * because mango doesn't have native 'remove orphaned' functionality.
+			 * We have to call "l.toString()" on the line, as its type is stored in the db as as schema.object.Id type, not a string, or a number or something else.
+			 * thanks mango. :(
+			*/
+			statement.statementLines = statement.statementLines.filter(l => !ids.includes(l.toString()));
+
+			await StatementLine.deleteMany( {"_id": { $in: ids } } ).then(r => {
+				statement.save().then((savedStatement: StatementDocument) => {
+					res.send(r);
+				}).catch((e:any) => {
+					next(new ValidationException(e.errors));
+				});
+			}).catch(e => {
+				next(new ValidationException(e.errors));
+			});
+		} catch (error) {
+			next(new ValidationException(error));
+		}
 	};
 }
