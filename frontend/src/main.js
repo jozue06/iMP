@@ -19,6 +19,8 @@ import formatMoney from "./mixins/formatMoney"
 import addMoney from "./mixins/addMoney"
 import getTotalOfferingLineAmt from "./mixins/getTotalOfferingLineAmt"
 import "./assets/scss/globalCustoms.scss";
+// import "api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css";
+
 import { getSession } from "./utils/session";
 
 Vue.use(VueRouter);

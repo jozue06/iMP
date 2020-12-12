@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<LoadingSpinner v-bind:loading="loading" />
-		<div v-if="!loading" class="main-card">
+		<div v-if="!loading" class="main-card">			
 			<h1>{{currentGroup.name}}</h1>
 			<div v-if="contactLines.length > 0">
 				<b-table
@@ -13,6 +13,9 @@
 					sort-icon-left
 					responsive="sm"
 				>
+					<template v-slot:cell(showOnMap)="data">
+						<span @click="sendToMap(data.item)" class="text-info custom-hover">show on map</span>
+					</template>
 					<template v-slot:cell(edit)="data">
 						<span @click="showContactModal(data.item)" class="text-info custom-hover">edit</span>
 					</template>
@@ -28,6 +31,7 @@
 						<b-icon icon="circle-fill" :variant="$GetStatusColor(data.item.contactStatus)"></b-icon>
 					</template>
 				</b-table>
+				<MapView ref="map" v-bind:address="address" />
 			</div>
 			<NoResults 
 				message="No Contacts assigned to this Group" 
@@ -51,6 +55,7 @@
 	import NoResults from '../Globals/NoResults'
 	import ContactModal from '../Modals/ContactModal'
 	import LoadingSpinner from "../Globals/LoadingSpinner";
+	import MapView from '../Globals/MapView.vue';
 
 	export default  {
 		name: 'contact-group-view',
@@ -59,6 +64,7 @@
 			NoResults,
 			ContactModal,
 			LoadingSpinner,
+			MapView,
 		},
 
 		props: {
@@ -97,6 +103,7 @@
 				selected: "",
 				selectedContact: {},
 				selectMode: 'multi',
+				address: "",
 			}
 		},
 
@@ -120,6 +127,11 @@
 			refresh() {
 				this.$emit("refresh");
 			},
+
+			sendToMap(item) {
+				this.address = item.address + " " + item.city + " " + item.postalCode;
+				this.$refs.map.displayOnMap(this.address);
+			}
 		},
 
 		computed: {
@@ -138,6 +150,7 @@
 				});
 
 				keys.unshift("edit");
+				keys.unshift("showOnMap");
 
 				return keys;
 			}
