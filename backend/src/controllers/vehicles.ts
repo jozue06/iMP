@@ -32,7 +32,7 @@ export class VehiclesController {
 		let vehicle = req.body.vehicle;
 		vehicle.user = userId;
 		await Vehicle.create(vehicle).then(vehicle => {
-			Settings.findOneAndUpdate({ user: userId }, { $push: {vehicles: vehicle}}).then(settings => {
+			Settings.findOneAndUpdate({ user: userId }, { $push: {vehicles: vehicle}}, { useFindAndModify: true, new: true }).then(settings => {
 				res.send(settings.vehicles);
 			});
 		});

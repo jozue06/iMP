@@ -13,7 +13,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=2 @saveReport="saveReport"/>
+				<ReportMoreInfo v-bind:currentReport="currentReport" v-bind:statement="statement" :reportType=2 @saveReport="saveReport"  @refresh="refresh" />
 			</b-collapse>
 
 			<b-card title="Prayer Requests & Comments">
@@ -48,6 +48,9 @@
 		},
 
 		methods: {
+			refresh(savedReport) {
+				this.currentReport = savedReport;
+			},
 			formatDate(dateTimeObject) {
 				return moment(dateTimeObject).format('YYYY');
 			},

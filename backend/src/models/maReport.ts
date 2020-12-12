@@ -26,7 +26,7 @@ export interface MAReportInterface {
 
 	receiptBooksNeeded?: number,
 	commitmentFormsNeeded?: number,
-	statement?: StatementDocument[],
+	statements?: StatementDocument[],
 	comments?: string,
 }
 
@@ -100,11 +100,11 @@ const MAReportSchema = new Schema({
 		default: 0,
 	},
 
-	statement: {
-		type: [Schema.Types.ObjectId],
+	statements: [{
+		type: Schema.Types.ObjectId,
 		ref: 'statement',
 		default: []
-	},
+	}],
 
 	comments: {
 		type: String,

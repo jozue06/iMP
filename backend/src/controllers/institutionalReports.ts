@@ -2,7 +2,6 @@ import { InstitutionalReport, InstitutionalReportDocument } from "../models/inst
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { Statement } from "../models/statement";
 
 export class InstitutionalReportController {
 	public createInstitutionalReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,7 @@ export class InstitutionalReportController {
 			const institutionalReport = req.body.institutionalReport;
 			institutionalReport.user = user._id;
 			const newInstitutionalReport = new InstitutionalReport(institutionalReport);
-			let statement = new Statement();
-			statement.save();
-			newInstitutionalReport.statement.push(statement);
+
 			newInstitutionalReport.save().then((report: InstitutionalReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
@@ -38,7 +35,7 @@ export class InstitutionalReportController {
 	public getInstitutionalReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		InstitutionalReport.findById(req.params.id)
 			.populate("expenseLines")
-			.populate("statement")
+			.populate("statements")
 			.populate("incomeLines").then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -48,7 +45,7 @@ export class InstitutionalReportController {
 	};
 
 	public updateInstitutionalReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		InstitutionalReport.findOneAndUpdate({"_id": req.body.institutionalReport._id}, {... req.body.institutionalReport}).then((r: InstitutionalReportDocument) => {
+		InstitutionalReport.findOneAndUpdate({"_id": req.body.institutionalReport._id}, {... req.body.institutionalReport}).populate("statements").then((r: InstitutionalReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

@@ -1,19 +1,18 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
+import { StatementLineDocument } from "./statementLine";
 
 export interface StatementInterface {
-	qtrReport?: string,
-	institutionalReport?: string,
 	user: string,
-	dateOne?: string;
-	amountOne?: number;
-	reimbursementOne?: number;
-	dateTwo?: string;
-	amountTwo?: number;
-	reimbursementTwo?: number;
-	dateThree?: string;
-	amountThree?: number;
-	reimbursementThree?: number;
+	qtrReportId?: string,
+	institutionalReportId?: string,
+	itinReportId?: string,
+	sdrReportId?: string,
+	maReportId?: string,
+	date?: string;
+	amount?: number;
+	reimbursementAmount?: number;
+	statementLines?: StatementLineDocument[]
 }
 
 const StatementSchema = new Schema({
@@ -45,62 +44,37 @@ const StatementSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "user",
+		required: true,
 	},
 
-	dateOne: {
+	date: {
 		type: String,
 	},
 
-	amountOne: {
+	amount: {
+		type: Number,
+	},
+	
+	reimbursementAmount: {
 		type: Number,
 	},
 
-	reimbursementOne: {
-		type: Number,
-	},
+	statementLines: [{
+		type: Schema.Types.ObjectId,
+		ref: "statementLine"
+	}],
+},
+	{
+		toObject: {getters: true},
+		toJSON: {getters: true},
+	}
+);
 
-	dateTwo: {
-		type: String,
-	},
+StatementSchema.path("amount").get((num: number) => unformatNumber(num));
+StatementSchema.path("amount").set((num: string) => formatNumber(num));
 
-	amountTwo: {
-		type: Number,
-	},
-
-	reimbursementTwo: {
-		type: Number,
-	},
-
-	dateThree: {
-		type: String,
-	},
-
-	amountThree: {
-		type: Number,
-	},
-
-	reimbursementThree: {
-		type: Number,
-	},
-});
-
-StatementSchema.path("amountOne").get((num: number) => unformatNumber(num));
-StatementSchema.path("amountOne").set((num: string) => formatNumber(num));
-
-StatementSchema.path("amountTwo").get((num: number) => unformatNumber(num));
-StatementSchema.path("amountTwo").set((num: string) => formatNumber(num));
-
-StatementSchema.path("amountThree").get((num: number) => unformatNumber(num));
-StatementSchema.path("amountThree").set((num: string) => formatNumber(num));
-
-StatementSchema.path("reimbursementOne").get((num: number) => unformatNumber(num));
-StatementSchema.path("reimbursementOne").set((num: string) => formatNumber(num));
-
-StatementSchema.path("reimbursementTwo").get((num: number) => unformatNumber(num));
-StatementSchema.path("reimbursementTwo").set((num: string) => formatNumber(num));
-
-StatementSchema.path("reimbursementThree").get((num: number) => unformatNumber(num));
-StatementSchema.path("reimbursementThree").set((num: string) => formatNumber(num));
+StatementSchema.path("reimbursementAmount").get((num: number) => unformatNumber(num));
+StatementSchema.path("reimbursementAmount").set((num: string) => formatNumber(num));
 
 export interface StatementDocument extends StatementInterface, Document { }
 export interface StatementModel extends Model<StatementDocument> { }

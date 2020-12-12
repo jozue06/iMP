@@ -7,7 +7,6 @@ exports.QtrReportController = void 0;
 const qrtReport_1 = require("../models/qrtReport");
 const userModel_1 = require("../models/userModel");
 const ValidationException_1 = __importDefault(require("../exceptions/ValidationException"));
-const statement_1 = require("../models/statement");
 class QtrReportController {
     constructor() {
         this.createQtrReport = (userId, req, res, next) => {
@@ -15,9 +14,6 @@ class QtrReportController {
                 const qtrReport = req.body.qtrReport;
                 qtrReport.user = user._id;
                 const newQtrReport = new qrtReport_1.QtrReport(qtrReport);
-                let statement = new statement_1.Statement();
-                statement.save();
-                newQtrReport.statement.push(statement);
                 newQtrReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
@@ -42,7 +38,7 @@ class QtrReportController {
             qrtReport_1.QtrReport.findById(req.params.id)
                 .populate("expenseLines")
                 .populate("mileageLogs")
-                .populate("statement")
+                .populate("statements")
                 .populate("otherIncomeLines").then(report => {
                 res.send(report);
             }).catch(e => {
@@ -51,7 +47,12 @@ class QtrReportController {
             });
         };
         this.updateQtrReport = (userId, req, res, next) => {
-            qrtReport_1.QtrReport.findOneAndUpdate({ "_id": req.body.qtrReport._id }, Object.assign({}, req.body.qtrReport)).then((r) => {
+            qrtReport_1.QtrReport.findOneAndUpdate({ "_id": req.body.qtrReport._id }, Object.assign({}, req.body.qtrReport))
+                .populate("expenseLines")
+                .populate("mileageLogs")
+                .populate("statements")
+                .populate("otherIncomeLines")
+                .then((r) => {
                 res.send(r);
             }).catch(e => {
                 if (e.code == 11000) {

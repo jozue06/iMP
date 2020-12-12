@@ -21,7 +21,7 @@ export interface QtrReportInterface {
 
 	expenseLines?: ExpenseLineDocument[],
 	mileageLogs?: MileageLogDocument[],
-	statement?: StatementDocument[],
+	statements?: StatementDocument[],
 	otherIncomeLines?: OtherIncomeDocument[],
 }
 
@@ -94,11 +94,11 @@ const QtrReportSchema = new Schema({
 		default: []
 	}],
 
-	statement: {
-		type: [Schema.Types.ObjectId],
+	statements: [{
+		type: Schema.Types.ObjectId,
 		ref: 'statement',
-		default: [],
-	},
+		default: []
+	}],
 
 	otherIncomeLines: [{
 		type: Schema.Types.ObjectId,

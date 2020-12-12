@@ -3,9 +3,8 @@ import HttpException from "./HttpException";
 class ValidationException extends HttpException {
 	constructor(message: any) {
 		const errors:any = [];
-		const map = new Map(Object.entries(JSON.parse(JSON.stringify(message))));		
+		const map = new Map(Object.entries(JSON.parse(JSON.stringify(message))));
 		map.forEach((v:any, k:any) => {
-			
 			if (typeof v === 'object') {
 				Object.values(v).forEach((e:any) => {
 					if (e.message) {

@@ -13,7 +13,7 @@
 			</b-row>
 
 			<b-collapse id="collapse-info">
-				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport"/>				
+				<QuarterlyReportMoreInfo v-bind:currentReport="currentReport" @saveReport="saveReport" @refresh="refresh"/>				
 			</b-collapse>
 
 			<b-tabs pills card end>
@@ -160,6 +160,10 @@
 		},
 
 		methods: {
+			refresh(savedReport) {
+				this.currentReport = savedReport;
+			},
+
 			showExpenseLineModal(rowItem) {
 				if (rowItem) {
 					this.selectedExpenseLine = rowItem;

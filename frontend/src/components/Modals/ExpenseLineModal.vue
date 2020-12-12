@@ -10,9 +10,9 @@
 								required
 								:date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
 								locale="en"
-								name="firstDate"
+								name="date"
 							></b-form-datepicker>
-						</b-form-group> 
+						</b-form-group>
 
 						<b-form-group class="mr-1" label="Method">
 							<b-input-group>
@@ -191,6 +191,7 @@
 			setDollarAmount() {
 				this.expenseLine.dollarAmount = (this.expenseLine.foreignAmount * this.expenseLine.exchangeRate).toFixed(2);
 			},
+
 			selectFile() {
 				this.fileSelected = true;
 				if (this.expenseLine._id) {
