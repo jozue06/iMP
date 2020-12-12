@@ -177,13 +177,18 @@ export class StatementController {
 		try {
 			const statement = await Statement.findById({_id: req.body.statement._id});
 
-			/*** We are filtering out the ids we want to delete from the statements objects statement lines 
+			/***<@ We are filtering out the ids we want to delete from the statements objects statement lines 
 			 * and then updating the statement so the statements lines length is correct
 			 * because mango doesn't have native 'remove orphaned' functionality.
 			 * We have to call "l.toString()" on the line, as its type is stored in the db as as schema.object.Id type, not a string, or a number or something else.
 			 * thanks mango. :(
 			*/
-			statement.statementLines = statement.statementLines.filter(l => !ids.includes(l.toString()));
+			 statement.statementLines = statement.statementLines.filter(l => !ids.includes(l.toString()));
+			/*** 
+			 * 
+			 * /@>
+			*/
+
 
 			await StatementLine.deleteMany( {"_id": { $in: ids } } ).then(r => {
 				statement.save().then((savedStatement: StatementDocument) => {

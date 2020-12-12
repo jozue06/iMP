@@ -42,7 +42,7 @@ class VehiclesController {
             let vehicle = req.body.vehicle;
             vehicle.user = userId;
             yield vehicle_1.Vehicle.create(vehicle).then(vehicle => {
-                settings_1.Settings.findOneAndUpdate({ user: userId }, { $push: { vehicles: vehicle } }).then(settings => {
+                settings_1.Settings.findOneAndUpdate({ user: userId }, { $push: { vehicles: vehicle } }, { useFindAndModify: true, new: true }).then(settings => {
                     res.send(settings.vehicles);
                 });
             });

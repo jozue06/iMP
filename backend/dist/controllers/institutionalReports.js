@@ -7,7 +7,6 @@ exports.InstitutionalReportController = void 0;
 const institutionalReport_1 = require("../models/institutionalReport");
 const userModel_1 = require("../models/userModel");
 const ValidationException_1 = __importDefault(require("../exceptions/ValidationException"));
-const statement_1 = require("../models/statement");
 class InstitutionalReportController {
     constructor() {
         this.createInstitutionalReport = (userId, req, res, next) => {
@@ -15,9 +14,6 @@ class InstitutionalReportController {
                 const institutionalReport = req.body.institutionalReport;
                 institutionalReport.user = user._id;
                 const newInstitutionalReport = new institutionalReport_1.InstitutionalReport(institutionalReport);
-                let statement = new statement_1.Statement();
-                statement.save();
-                newInstitutionalReport.statement.push(statement);
                 newInstitutionalReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
@@ -41,7 +37,7 @@ class InstitutionalReportController {
         this.getInstitutionalReport = (userId, req, res, next) => {
             institutionalReport_1.InstitutionalReport.findById(req.params.id)
                 .populate("expenseLines")
-                .populate("statement")
+                .populate("statements")
                 .populate("incomeLines").then(report => {
                 res.send(report);
             }).catch(e => {
@@ -50,7 +46,7 @@ class InstitutionalReportController {
             });
         };
         this.updateInstitutionalReport = (userId, req, res, next) => {
-            institutionalReport_1.InstitutionalReport.findOneAndUpdate({ "_id": req.body.institutionalReport._id }, Object.assign({}, req.body.institutionalReport)).then((r) => {
+            institutionalReport_1.InstitutionalReport.findOneAndUpdate({ "_id": req.body.institutionalReport._id }, Object.assign({}, req.body.institutionalReport)).populate("statements").then((r) => {
                 res.send(r);
             }).catch(e => {
                 if (e.code == 11000) {

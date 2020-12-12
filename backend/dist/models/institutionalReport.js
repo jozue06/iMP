@@ -63,11 +63,11 @@ const InstitutionalReportSchema = new mongoose_1.Schema({
             ref: 'incomeLine',
             default: []
         }],
-    statement: {
-        type: [mongoose_1.Schema.Types.ObjectId],
-        ref: 'statement',
-        default: []
-    },
+    statements: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'statement',
+            default: [],
+        }],
 }, {
     toObject: { getters: true },
     toJSON: { getters: true },

@@ -27,46 +27,28 @@ const StatementSchema = new mongoose_1.Schema({
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "user",
+        required: true,
     },
-    dateOne: {
+    date: {
         type: String,
     },
-    amountOne: {
+    amount: {
         type: Number,
     },
-    reimbursementOne: {
+    reimbursementAmount: {
         type: Number,
     },
-    dateTwo: {
-        type: String,
-    },
-    amountTwo: {
-        type: Number,
-    },
-    reimbursementTwo: {
-        type: Number,
-    },
-    dateThree: {
-        type: String,
-    },
-    amountThree: {
-        type: Number,
-    },
-    reimbursementThree: {
-        type: Number,
-    },
+    statementLines: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "statementLine"
+        }],
+}, {
+    toObject: { getters: true },
+    toJSON: { getters: true },
 });
-StatementSchema.path("amountOne").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("amountOne").set((num) => moneyUtils_1.formatNumber(num));
-StatementSchema.path("amountTwo").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("amountTwo").set((num) => moneyUtils_1.formatNumber(num));
-StatementSchema.path("amountThree").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("amountThree").set((num) => moneyUtils_1.formatNumber(num));
-StatementSchema.path("reimbursementOne").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("reimbursementOne").set((num) => moneyUtils_1.formatNumber(num));
-StatementSchema.path("reimbursementTwo").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("reimbursementTwo").set((num) => moneyUtils_1.formatNumber(num));
-StatementSchema.path("reimbursementThree").get((num) => moneyUtils_1.unformatNumber(num));
-StatementSchema.path("reimbursementThree").set((num) => moneyUtils_1.formatNumber(num));
+StatementSchema.path("amount").get((num) => moneyUtils_1.unformatNumber(num));
+StatementSchema.path("amount").set((num) => moneyUtils_1.formatNumber(num));
+StatementSchema.path("reimbursementAmount").get((num) => moneyUtils_1.unformatNumber(num));
+StatementSchema.path("reimbursementAmount").set((num) => moneyUtils_1.formatNumber(num));
 exports.Statement = mongoose_1.model("statement", StatementSchema);
 //# sourceMappingURL=statement.js.map
