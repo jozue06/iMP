@@ -47,7 +47,7 @@ export class StatementController {
 					return;
 				});
 			}
-
+			res.send(savedStatement);
 		}).catch(e => {
 			console.error('eeek ', e);
 			next(new ValidationException(e.errors));
@@ -81,40 +81,41 @@ export class StatementController {
 
 	public updateStatement = async (userId: string, req: Request, res: Response, next: NextFunction) => {		
 		try {
-			const r = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement }, { useFindAndModify: true });
-			if (r.qtrReportId) {
-				QtrReport.findOne({ _id: r.qtrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+			const savedStatement = await Statement.findOneAndUpdate({ "_id": req.body.statement._id }, { ...req.body.statement }, { useFindAndModify: true });
+			if (savedStatement.qtrReportId) {
+				QtrReport.findOne({ _id: savedStatement.qtrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
 					res.send(saved);
 					return;
 				});
 			}
 
-			if (r.itinReportId) {
-				ItinReport.findOne({ _id: r.itinReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_1 => {
-					res.send(saved_1);
+			if (savedStatement.itinReportId) {
+				ItinReport.findOne({ _id: savedStatement.itinReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					res.send(saved);
 					return;
 				});
 			}
-			if (r.maReportId) {
-				MAReport.findOne({ _id: r.maReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_2 => {
-					res.send(saved_2);
-					return;
-				});
-			}
-
-			if (r.sdrReportId) {
-				SDRReport.findOne({ _id: r.sdrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_3 => {
-					res.send(saved_3);
+			if (savedStatement.maReportId) {
+				MAReport.findOne({ _id: savedStatement.maReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					res.send(saved);
 					return;
 				});
 			}
 
-			if (r.institutionalReportId) {
-				InstitutionalReport.findOne({ _id: r.institutionalReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved_4 => {
-					res.send(saved_4);
+			if (savedStatement.sdrReportId) {
+				SDRReport.findOne({ _id: savedStatement.sdrReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					res.send(saved);
 					return;
 				});
 			}
+
+			if (savedStatement.institutionalReportId) {
+				InstitutionalReport.findOne({ _id: savedStatement.institutionalReportId }, { useFindAndModify: true, new: true }).populate("statements").then(saved => {
+					res.send(saved);
+					return;
+				});
+			}
+			res.send(savedStatement);
 		} catch (e) {
 			console.error('eeek ', e);
 			next(new ValidationException(e.errors));

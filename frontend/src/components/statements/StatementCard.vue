@@ -3,52 +3,34 @@
 		<LoadingSpinner v-bind:loading="loading" />
 
 		<div v-if="!loading" class="main-card">
-			<h1>Statement Info</h1>
-			<b-row v-if="statement && (statement.dateOne || statement.dateTwo || statement.dateThree)" @click="showStatementModal(statement)" class="align-items-center mt-2">
-				
-				<b-col cols='4'>
+			<router-link to="/statementList">
+				<h3 class="pt-2">Statement Info {{ statement.date }} </h3>
+			</router-link>
+			<h1></h1>
+			<b-row v-if="statement" align-h="start" @click="showStatementModal(statement)" class="align-items-center mt-2 mx-5">
+				<b-col cols='3'>
 					<h6>
-						First Month
+						Statement Date
 					</h6>
-					<p v-if="statement.dateOne">{{statement.dateOne}}</p>
+					<p v-if="statement.date">{{statement.date}}</p>
 					<p v-else><i>No Date</i></p>
-					Statement Amount 
-					<br>
-					${{statement.amountOne}}
-					<br>
-					Reimbursement Amount
-					<br> 
-					${{statement.reimbursementOne}}
 				</b-col>
-				
-				<b-col cols='4'>
+				<b-col cols='3'>	
 					<h6>
-						Second Month
+						Statement Amount 
 					</h6>
-					<p v-if="statement.dateTwo">{{statement.dateTwo}}</p>
-					<p v-else><i>No Date</i></p>
-					Statement Amount 
-					<br>
-					${{statement.amountTwo}}
-					<br>
-					Reimbursement Amount
-					<br> 
-					${{statement.reimbursementTwo}}
+					${{statement.amount}}
 				</b-col>
-
-				<b-col cols='4'>
+				<b-col cols='3'>
 					<h6>
-						Third Month
-					</h6>
-					<p v-if="statement.dateThree">{{statement.dateThree}}</p>
-					<p v-else><i>No Date</i></p>
-					Statement Amount
-					<br>
-					${{statement.amountThree}}
-					<br>
 					Reimbursement Amount
-					<br>
-					${{statement.reimbursementThree}}
+					</h6>
+					${{statement.reimbursementAmount}}
+				</b-col>
+			</b-row>
+			<b-row class="align-items-center">
+				<b-col cols="12">
+					<b-button @click="showStatementModal()" variant="primary" class="m-2" size="sm">+ Edit Statement Info</b-button>
 				</b-col>
 			</b-row>
 			<b-row class="mt-4 mr-2" align-h="end">
@@ -78,14 +60,8 @@
 					</tr>
 				</b-col>
 			</b-row>
-
-			<b-row class="align-items-center">
-				<b-col cols="10">
-					<b-button @click="showStatementModal()" variant="primary" class="m-2" size="sm">+ Edit Statement Info</b-button>
-				</b-col>
-			</b-row>
 		</div>
-		<StatementLinesTable ref="statementLinesTable" v-bind:statement="statement" @onRowSelected="onRowSelected" v-bind:selected="selected" />
+		<StatementLinesTable ref="statementLinesTable" v-bind:statement="statement" @onRowSelected="onRowSelected" v-bind:selected="selected" @showStatementLineModal="showStatementLineModal" />
 		<StatementModal 
 			ref="statementModal" 
 			@refresh="saveReport"
@@ -129,6 +105,16 @@
 					this.loading = false;
 					throw e;
 				});
+			} else {
+				let newStatement = {}
+				Statements.save(newStatement).then(res => {
+					this.statement = res;
+					this.loading = false;
+				}).catch(e => {
+					console.error(' Statements.save Statement eek ', e);
+					this.loading = false;
+					throw e;
+				});
 			}
 		},
 
@@ -145,6 +131,10 @@
 				this.$refs.statementModal.$refs.statementModal.show();
 			},
 
+			showStatementLineModal(item) {
+
+			},
+
 			saveReport() {
 
 			},
@@ -158,37 +148,19 @@
 			statementReimbursementTotal() {
 				let amt = 0;
 				if (this.statement) {
-					if (this.statement.reimbursementOne) {
-						amt = this.$addMoney(amt, this.statement.reimbursementOne);
-					}
-
-					if (this.statement.reimbursementTwo) {
-						amt = this.$addMoney(amt, this.statement.reimbursementTwo);
-					}
-
-					if (this.statement.reimbursementThree) {
-						amt = this.$addMoney(amt, this.statement.reimbursementThree);
+					if (this.statement.reimbursementAmount) {
+						amt = this.$addMoney(amt, this.statement.reimbursementAmount);
 					}
 				}
-				
 				return "$" + this.$formatMoney(amt);
 			},
 
 			statementAmountTotal() {
 				let amt = 0;
-				console.log('this.statement.amountOne ?? ', this.statement.amountOne);
 				
 				if (this.statement) {
-					if (this.statement.amountOne) {
-						amt = this.$addMoney(amt, this.statement.amountOne);
-					}
-
-					if (this.statement.amountTwo) {
-						amt = this.$addMoney(amt, this.statement.amountTwo);
-					}
-
-					if (this.statement.amountThree) {
-						amt = this.$addMoney(amt, this.statement.amountThree);
+					if (this.statement.amount) {
+						amt = this.$addMoney(amt, this.statement.amount);
 					}
 				}
 				

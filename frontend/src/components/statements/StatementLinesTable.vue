@@ -1,11 +1,11 @@
 <template>
-	<div class="main-card">
+	<div class="main-card" >
 		<div class="card-header mt-4">
 			<h4>
 				Statement Lines
 			</h4>
 		</div>
-		<b-table v-if="statement.statementLines"
+		<b-table v-if="statement.statementLines && statement.statementLines.length"
 			striped 
 			hover 
 			ref="selectableTable"
@@ -21,26 +21,35 @@
 			responsive="sm"
 		>
 			<template v-slot:cell()="data">
-				<span class="text-info"> {{ data.value }} </span>
+				<span @click="showStatementLineModal(data.item)" class="text-info"> {{ data.value }} </span>
 			</template>
 			<template v-slot:cell(amount)="data">
-				<span class="text-info"> ${{ $formatMoney(data.value) }} </span>
+				<span @click="showStatementLineModal(data.item)" class="text-info"> ${{ $formatMoney(data.value) }} </span>
 			</template>
 			<template v-slot:cell(pledgeAmount)="data">
-				<span class="text-info"> ${{ $formatMoney(data.value) }} </span>
+				<span @click="showStatementLineModal(data.item)" class="text-info"> ${{ $formatMoney(data.value) }} </span>
 			</template>
 		</b-table>
+
+		<NoResults 
+			v-else
+			message="No Statement Lines Found" 
+			subtitle="+ Add a Statement Line" 
+			@handleBtnClick="showStatementLineModal(null)"
+		/>
 	</div>	
 </template>
 
 <script>
 	import { allowedFields } from "../../constants/tableFields";
+		import NoResults from "../Globals/NoResults.vue";
 
 	export default  {
 
-		name: 'statementLinesTable',
+		name: "statementLinesTable",
 
 		components: {
+			NoResults
 
 		},
 
@@ -64,6 +73,10 @@
 		methods: {
 			onRowSelected(line) {
 				this.$emit("onRowSelected", line);
+			},
+
+			showStatementLineModal(item) {
+				this.$emit("showStatementLineModal", item);
 			},
 		},
 

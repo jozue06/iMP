@@ -15,62 +15,34 @@
 		sort-icon-left
 		responsive="sm"
 	>
-		<template v-slot:cell(amountOne)="data">
+		<template v-slot:cell(amount)="data">
 			<router-link
 				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
 				v-slot="{ href, navigate}"
 			>
 				<span :href="href" @click="navigate" class="text-info"> ${{ $formatMoney(data.value) }} </span>
-			</router-link>
-		</template>
-
-		<template v-slot:cell(dateOne)="data">
-			<router-link
-				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
-				v-slot="{ href, navigate}"
-			>
-				<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
-			</router-link>
-		</template>
-
-		<template v-slot:cell(amountTwo)="data">
-			<router-link
-				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
-				v-slot="{ href, navigate}"
-			>
-				<span :href="href" @click="navigate" class="text-info"> ${{ $formatMoney(data.value) }} </span>
-			</router-link>
-		</template>
-
-		<template v-slot:cell(dateTwo)="data">
-			<router-link
-				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
-				v-slot="{ href, navigate}"
-			>
-				<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
-			</router-link>
-		</template>
-
-		<template v-slot:cell(amountThree)="data">
-			<router-link
-				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
-				v-slot="{ href, navigate}"
-			>
-				<span :href="href" @click="navigate" class="text-info"> ${{ $formatMoney(data.value) }} </span>
-			</router-link>
-		</template>
-
-		<template v-slot:cell(dateThree)="data">
-			<router-link
-				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
-				v-slot="{ href, navigate}"
-			>
-				<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
 			</router-link>
 		</template>
 		
+		<template v-slot:cell(reimbursementAmount)="data">
+			<router-link
+				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
+				v-slot="{ href, navigate}"
+			>
+				<span :href="href" @click="navigate" class="text-info"> ${{ $formatMoney(data.value) }} </span>
+			</router-link>
+		</template>
+		<template v-slot:cell(date)="data">
+			<router-link
+				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
+				v-slot="{ href, navigate}"
+			>
+				<span :href="href" @click="navigate" class="text-info"> {{ data.value }} </span>
+			</router-link>
+		</template>
+
 		<template v-slot:cell(statementLines)="data">
-				<router-link
+			<router-link
 				:to="{ name: 'statementCard', params: { statementId: data.item._id } }"
 				v-slot="{ href, navigate}"
 			>

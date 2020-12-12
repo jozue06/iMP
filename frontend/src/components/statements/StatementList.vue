@@ -51,13 +51,13 @@
 </template>
 
 <script>
-	import ConfirmModal from '../Modals/ConfirmModal'
-	import NoResults from '../Globals/NoResults'
-	import { Statements  } from '../../data/statements'
+	import ConfirmModal from "../Modals/ConfirmModal.vue";
+	import NoResults from '../Globals/NoResults.vue';
+	import { Statements  } from '../../data/statements';
 	import { allowedFields } from "../../constants/tableFields";
-	import LoadingSpinner from "../Globals/LoadingSpinner";
-	import StatementsListTable from "./StatementsListTable";
-	import StatementCsvUploadModal from '../Modals/StatementCsvUploadModal';
+	import LoadingSpinner from "../Globals/LoadingSpinner.vue";
+	import StatementsListTable from "./StatementsListTable.vue";
+	import StatementCsvUploadModal from "../Modals/StatementCsvUploadModal.vue";
 
 	export default  {
 		name: 'statementList',

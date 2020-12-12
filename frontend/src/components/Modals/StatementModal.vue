@@ -264,9 +264,6 @@
 
 					this.statement.reportType = this.reportType;
 				}
-				
-				console.log('this.statement ', this.statement);
-				
 
 				Statements.save(this.statement).then(res => {
 					this.$refs.statementModal.hide();
