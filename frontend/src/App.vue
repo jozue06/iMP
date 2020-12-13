@@ -23,6 +23,8 @@
 		data() {
 			return {
 				loading: true,
+				theme: "",
+
 			}
 		},
 
@@ -32,7 +34,22 @@
 					if (res == false) {
 						this.loading = false;
 						this.$router.push("/login");
-					} else {this.loading = false}
+					} else {
+						this.loading = false
+						
+						this.theme = res.data.theme;
+						let bodyElement = document.body;
+						bodyElement.classList.add("app-background");
+						
+						let htmlElement = document.documentElement;
+						let theme = this.theme;
+
+						if (theme === 'dark') {
+							htmlElement.setAttribute('theme', 'dark')
+						} else {
+							htmlElement.setAttribute('theme', 'light');
+						}
+					}
 				});
 				
 			} else {

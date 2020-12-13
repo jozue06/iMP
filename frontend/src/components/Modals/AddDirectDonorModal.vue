@@ -203,10 +203,3 @@
 		},
 	};
 </script>
-
-<style scoped>
-	.small-contacts {
-		max-width: 10%;
-		margin-right: 10px;
-	}
-</style>
