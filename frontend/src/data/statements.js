@@ -103,7 +103,7 @@ export const Statements = {
 		return res.data;
 	}),
 
-	uploadStatementCsv: errorHandler(async statementFile => {
+	uploadStatementCsv: errorHandler(async (statementFile, useMagicMesh, createContacts) => {
 		const formHeaders = {
 			"Content-Type": "multipart/form-data",
 			Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -111,6 +111,8 @@ export const Statements = {
 
 		const formData = new FormData();
 		formData.append('file', statementFile, statementFile.name);
+		formData.append("useMagicMesh", useMagicMesh);
+		formData.append("createContacts", createContacts);
 		const res = await axios.post(baseURL + "/uploadStatementCsv", formData, {"headers": formHeaders});
 		return res.data;
 	}),

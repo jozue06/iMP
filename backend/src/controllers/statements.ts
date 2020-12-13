@@ -124,7 +124,7 @@ export class StatementController {
 	};
 
 	public uploadStatementCsv = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		parseCsv(userId, req.file.originalname, req.file.buffer, req.body.createContacts).then(() => {
+		parseCsv(userId, req.file.originalname, req.file.buffer, req.body.useMagicMesh, req.body.createContacts).then(() => {
 			res.sendStatus(200);
 		}).catch(e => {
 			next(new ValidationException(e.errors));

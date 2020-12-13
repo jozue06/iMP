@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema, Types } from "mongoose";
 import { formatNumber, unformatNumber } from "../utils/moneyUtils";
-
+import { StatementLineContact } from "./statementLineContact";
 export interface StatementLineInterface {
 	statement?: Types.ObjectId
 	date?: string,
@@ -14,6 +14,7 @@ export interface StatementLineInterface {
 	yearToDateAmount?: number
 	receiptCount?: number
 	contact?: Types.ObjectId,
+	statementLineContact?: StatementLineContact,
 }
 
 const StatementLineSchema = new Schema({
@@ -66,6 +67,10 @@ const StatementLineSchema = new Schema({
 		type: Types.ObjectId,
 		ref: "contact"
 	},
+
+	statementLineContact: {
+		type: Object,
+	}
 },
 {
 	toObject: {getters: true},

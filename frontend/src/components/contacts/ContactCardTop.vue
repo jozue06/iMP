@@ -16,7 +16,7 @@
 						@change="isIndividualChanged"
 					>
 						<label class="mt-1"> 
-							This is and Individaul Contact
+							This is and Individual Contact
 						</label>
 					</b-form-checkbox>
 				</div>

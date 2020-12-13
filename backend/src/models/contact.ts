@@ -1,34 +1,48 @@
 import { Document, Model, model, Schema } from "mongoose";
-
-export interface ContactInterface {
-	userId: string,
-	firstName?: string,
-	lastName?: string,
-	address: string,
-	city: string,
-	state: string,
-	country?: string,
-	email?: string,
-	phone?: string,
-	postalCode?: string,
-	orgName?: string,
-	isIndividual: boolean,
-	secretary?: string,
-	missionsContact?: string,
-	district?: string,
-	section?: string,
-	secondAddress?: string,
-	secondCity?: string,
-	secondCountry?: string,
-	secondEmail?: string,
-	secondPhone?: string,
-	secondPostalCode?: string,
-	contactStatus: number,
-	commitmentAmt?: number,
+import { StatementLineContact } from "../models/statementLineContact";
+export class ContactInterface {
+	userId: string;
+	firstName?: string;
+	lastName?: string;
+	address: string;
+	city: string;
+	state: string;
+	country?: string;
+	email?: string;
+	phone?: string;
+	postalCode?: string;
+	orgName?: string;
+	isIndividual: boolean;
+	secretary?: string;
+	missionsContact?: string;
+	district?: string;
+	section?: string;
+	secondAddress?: string;
+	secondCity?: string;
+	secondCountry?: string;
+	secondEmail?: string;
+	secondPhone?: string;
+	secondPostalCode?: string;
+	contactStatus: number;
+	commitmentAmt?: number;
 	accountNumber?: string
-	events: [],
-	tasks: [],
-	contactGroups: [],
+	events: [];
+	tasks: [];
+	contactGroups: [];
+	constructor (newContactFromStatement: StatementLineContact) {
+		this.firstName = newContactFromStatement.firstName,
+		this.lastName = newContactFromStatement.lastName,
+		this.address = newContactFromStatement.address,
+		this.city = newContactFromStatement.city,
+		this.state = newContactFromStatement.state,
+		this.email = newContactFromStatement.email,
+		this.phone = newContactFromStatement.phone,
+		this.postalCode = newContactFromStatement.postalCode,
+		this.orgName = newContactFromStatement.orgName,
+		this.district = newContactFromStatement.district,
+		this.section = newContactFromStatement.section,
+		this.accountNumber = newContactFromStatement.accountNumber
+	}
 }
 
 const ContactSchema = new Schema({
@@ -182,7 +196,7 @@ const ContactSchema = new Schema({
 	}],
 });
 
-ContactSchema.index({ userId: 1, firstName: 1, lastName: 1, orgName: 1}, {unique: true});
+ContactSchema.index({ userId: 1, accountNumber: 1, firstName: 1, lastName: 1, orgName: 1}, {unique: true});
 
 export interface ContactDocument extends ContactInterface, Document { }
 export interface ContactModel extends Model<ContactDocument> { }

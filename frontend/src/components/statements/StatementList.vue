@@ -5,7 +5,7 @@
 			<router-link to="/">
 				<h1 class="pt-2">Statements</h1>
 			</router-link>
-		
+
 			<div v-if="statements.length > 0">
 				<router-link
 					to="/statementCard"
@@ -16,8 +16,8 @@
 					</b-button>
 				</router-link>
 
-				<b-button variant="primary" size="md" @click="$refs.statementCsvUploadModal.$refs.statementCsvUploadModal.show()">+ Upload CSV</b-button>
-				<StatementCsvUploadModal ref="statementCsvUploadModal" />
+				
+				
 				<StatementsListTable ref="statementsListTable" v-bind:statements="statements" @onRowSelected="onRowSelected" v-bind:selected="selected" />
 				<b-button class="m-2" size="sm" @click="selectAllRows">Select all</b-button>
 				<b-button class="m-2" size="sm" @click="clearSelected">Clear selected</b-button>				
@@ -31,6 +31,7 @@
 						Delete selected
 				</b-button>
 			</div>
+			
 			<router-link
 				v-else-if="statements.length == 0" 
 				to="/statementCard"
@@ -40,6 +41,10 @@
 					+ New Manual Statement
 				</b-button>
 			</router-link>
+			<b-row class="justify-content-around mb-2">
+				<b-button variant="primary" size="md" class="my-3" @click="$refs.statementCsvUploadModal.$refs.statementCsvUploadModal.show()">+ Upload CSV</b-button>
+			</b-row>
+			<StatementCsvUploadModal ref="statementCsvUploadModal" />
 			<ConfirmModal 
 				id="confirmModal" 
 				title="Delete?" 
