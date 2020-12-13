@@ -108,6 +108,10 @@ const SettingsSchema = new mongoose_1.Schema({
         type: Array,
         required: false,
         default: [],
+    },
+    theme: {
+        type: String,
+        default: "light",
     }
 }, {
     toObject: { getters: true },
