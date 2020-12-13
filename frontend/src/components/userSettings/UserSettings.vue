@@ -23,7 +23,7 @@
 				<b-tab title="Currency Settings">
 					<CurrencySettingsTab v-bind:currentSettings="currentSettings" @saveSettings="saveSettings" v-bind:currencyList="currencyList"  @refresh="refresh"/>
 				</b-tab>
-				<b-tab title="View settings">
+				<b-tab title="View Settings">
 					<b-row class="mx-4 justify-content-around">
 						<b-col cols="3">
 							<b-form-group label="Toggle Dark Mode">
