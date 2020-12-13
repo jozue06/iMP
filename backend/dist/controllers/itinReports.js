@@ -7,7 +7,6 @@ exports.ItinReportController = void 0;
 const itinerationReport_1 = require("../models/itinerationReport");
 const userModel_1 = require("../models/userModel");
 const ValidationException_1 = __importDefault(require("../exceptions/ValidationException"));
-const statement_1 = require("../models/statement");
 class ItinReportController {
     constructor() {
         this.createItinReport = (userId, req, res, next) => {
@@ -15,9 +14,6 @@ class ItinReportController {
                 const itinReport = req.body.itinReport;
                 itinReport.user = user._id;
                 const newItinReport = new itinerationReport_1.ItinReport(itinReport);
-                let statement = new statement_1.Statement();
-                statement.save();
-                newItinReport.statement.push(statement);
                 newItinReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
@@ -43,8 +39,8 @@ class ItinReportController {
                 .populate("expenseLines")
                 .populate("mileageLogs")
                 .populate("offeringLines")
+                .populate("statements")
                 .populate("contact")
-                .populate("statement")
                 .then(report => {
                 res.send(report);
             }).catch(e => {
@@ -57,6 +53,7 @@ class ItinReportController {
                 r.populate("expenseLines")
                     .populate("mileageLogs")
                     .populate("offeringLines")
+                    .populate("statements")
                     .populate("contact");
                 res.send(r);
             }).catch(e => {

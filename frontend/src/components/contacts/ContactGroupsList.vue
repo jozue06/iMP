@@ -48,7 +48,6 @@
 					v-b-modal.confirmModal>
 						Delete selected
 				</b-button>
-				
 			</div>
 			<NoResults 
 				message="No Contacts Found" 
@@ -135,7 +134,7 @@
 				this.$refs.groupModal.$refs.groupModal.show()
 			},
 
-			handleConfirmDelete() {				
+			handleConfirmDelete() {	
 				if (this.selected.find(sel => sel.contacts.length > 0)) {
 					return this.$Notification("Deleted", "Cannot delete the Selected Contact Groups", "warning", "There are contacts assigned to one or more of the selected Groups", 3000);
 				}

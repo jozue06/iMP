@@ -59,11 +59,11 @@ const MAReportSchema = new mongoose_1.Schema({
         type: Number,
         default: 0,
     },
-    statement: {
-        type: [mongoose_1.Schema.Types.ObjectId],
-        ref: 'statement',
-        default: []
-    },
+    statements: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'statement',
+            default: []
+        }],
     comments: {
         type: String,
     },

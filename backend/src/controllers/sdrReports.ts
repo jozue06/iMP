@@ -2,7 +2,6 @@ import { SDRReport, SDRReportDocument } from "../models/sdrReport";
 import { User } from "../models/userModel";
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { Statement } from "../models/statement";
 
 export class SDRReportController {
 	public createSDRReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,7 @@ export class SDRReportController {
 			const sdrReport = req.body.sdrReport;
 			sdrReport.user = user._id;
 			const newSDRReport = new SDRReport(sdrReport);
-			let statement = new Statement();
-			statement.save();
-			newSDRReport.statement.push(statement);
+
 			newSDRReport.save().then((report: SDRReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
@@ -38,7 +35,7 @@ export class SDRReportController {
 	public getSDRReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
 		SDRReport.findById(req.params.id)
 			.populate("expenseLines")
-			.populate("statement")
+			.populate("statements")
 			.then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -48,7 +45,7 @@ export class SDRReportController {
 	};
 
 	public updateSDRReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		SDRReport.findOneAndUpdate({"_id": req.body.sdrReport._id}, {... req.body.sdrReport}).then((r: SDRReportDocument) => {
+		SDRReport.findOneAndUpdate({"_id": req.body.sdrReport._id}, {... req.body.sdrReport}).populate("statements").then((r: SDRReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

@@ -37,6 +37,11 @@ export const sidebarSections = {
 				route: "/contactGroups",
 				childMsg: 'Contact Groups' 
 			},
+			{
+				report: 8,
+				route: "/statementList",
+				childMsg: 'Statements Manager' 
+			},
 		]
 	},
 

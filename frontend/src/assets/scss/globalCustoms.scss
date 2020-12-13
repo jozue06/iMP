@@ -22,7 +22,9 @@ a {
 		text-decoration: none;
 	}
 }
-
+li {
+	list-style-type: none;
+}
 .nav-item .nav-link.active {
 	background-color: $info !important;
 	&:hover {

@@ -72,11 +72,11 @@ const ItinReportSchema = new mongoose_1.Schema({
     personalNotes: {
         type: String,
     },
-    statement: {
-        type: [mongoose_1.Schema.Types.ObjectId],
-        ref: 'statement',
-        default: []
-    },
+    statements: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'statement',
+            default: [],
+        }],
     expenseLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'expenseLine',

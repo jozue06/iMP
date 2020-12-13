@@ -56,11 +56,11 @@ const QtrReportSchema = new mongoose_1.Schema({
             ref: 'mileageLog',
             default: []
         }],
-    statement: {
-        type: [mongoose_1.Schema.Types.ObjectId],
-        ref: 'statement',
-        default: [],
-    },
+    statements: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'statement',
+            default: []
+        }],
     otherIncomeLines: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: 'otherIncomeLine',

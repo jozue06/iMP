@@ -2,7 +2,6 @@ import { QtrReport, QtrReportDocument } from "../models/qrtReport"
 import { User } from "../models/userModel"
 import { Request, Response, NextFunction } from "express";
 import ValidationException from '../exceptions/ValidationException';
-import { Statement } from "../models/statement";
 
 export class QtrReportController {
 	public createQtrReport = (userId: String, req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,7 @@ export class QtrReportController {
 			const qtrReport = req.body.qtrReport;
 			qtrReport.user = user._id;
 			const newQtrReport = new QtrReport(qtrReport);
-			let statement = new Statement();
-			statement.save();
-			newQtrReport.statement.push(statement);
+
 			newQtrReport.save().then((report: QtrReportDocument) => {
 				res.send(report);
 			}).catch((e: any) => {
@@ -39,7 +36,7 @@ export class QtrReportController {
 		QtrReport.findById(req.params.id)
 			.populate("expenseLines")
 			.populate("mileageLogs")
-			.populate("statement")
+			.populate("statements")
 			.populate("otherIncomeLines").then(report => {
 				res.send(report);
 			}).catch(e => {
@@ -49,7 +46,12 @@ export class QtrReportController {
 	};
 
 	public updateQtrReport = (userId: string, req: Request, res: Response, next: NextFunction) => {
-		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport}).then((r: QtrReportDocument) => {
+		QtrReport.findOneAndUpdate({"_id": req.body.qtrReport._id}, {... req.body.qtrReport})
+		.populate("expenseLines")
+		.populate("mileageLogs")
+		.populate("statements")
+		.populate("otherIncomeLines")
+		.then((r: QtrReportDocument) => {
 			res.send(r);
 		}).catch(e => {
 			if (e.code == 11000) {

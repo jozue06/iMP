@@ -111,4 +111,22 @@ export const allowedFields = {
 		"codeDescription",
 		"dollarAmount",
 	],
+
+	statements: [
+		"amount",
+		"reimbursementAmount",
+		"date",
+		"statementLines"
+	],
+
+	statementLines: [
+		"churchOrg",
+		"fullName",
+		"pledgeDate",
+		"pledgeAmount",
+		"date",
+		"amount",
+		"donorAccount",
+		"class",
+	],
 }

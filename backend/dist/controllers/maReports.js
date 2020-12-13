@@ -7,7 +7,6 @@ exports.MAReportController = void 0;
 const maReport_1 = require("../models/maReport");
 const userModel_1 = require("../models/userModel");
 const ValidationException_1 = __importDefault(require("../exceptions/ValidationException"));
-const statement_1 = require("../models/statement");
 class MAReportController {
     constructor() {
         this.createMAReport = (userId, req, res, next) => {
@@ -15,9 +14,6 @@ class MAReportController {
                 const maReport = req.body.maReport;
                 maReport.user = user._id;
                 const newMaReport = new maReport_1.MAReport(maReport);
-                let statement = new statement_1.Statement();
-                statement.save();
-                newMaReport.statement.push(statement);
                 newMaReport.save().then((report) => {
                     res.send(report);
                 }).catch((e) => {
@@ -40,7 +36,7 @@ class MAReportController {
         };
         this.getMAReport = (userId, req, res, next) => {
             maReport_1.MAReport.findById(req.params.id)
-                .populate("statement")
+                .populate("statements")
                 .then(report => {
                 res.send(report);
             }).catch(e => {
@@ -49,7 +45,7 @@ class MAReportController {
             });
         };
         this.updateMAReport = (userId, req, res, next) => {
-            maReport_1.MAReport.findOneAndUpdate({ "_id": req.body.maReport._id }, Object.assign({}, req.body.maReport)).then((r) => {
+            maReport_1.MAReport.findOneAndUpdate({ "_id": req.body.maReport._id }, Object.assign({}, req.body.maReport)).populate("statements").then((r) => {
                 res.send(r);
             }).catch(e => {
                 if (e.code == 11000) {
