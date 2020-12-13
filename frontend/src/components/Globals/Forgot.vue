@@ -69,15 +69,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	#login {
-		width: 500px;
-		background-color: #FFF;
-		border-top: solid 1px #fcd7c7;
-		margin: auto;
-		margin-top: 200px;
-		padding: 20px;
-		border-radius: 0.25em
-	}
-</style>

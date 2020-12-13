@@ -36,19 +36,3 @@
 		}
 	}
 </script>
-
-<style scoped lang="scss">
-	.sidebar-menu-list {
-		padding-top: 2%;
-		text-align: left;
-
-		ul {
-			list-style: none;
-			padding-left: 20%;
-		}
-		
-		h5 {
-			padding-left: 10%;
-		}
-	}
-</style>

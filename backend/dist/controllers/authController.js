@@ -29,7 +29,7 @@ class AuthController {
                 return res.status(401).json({ status: "error", code: "unauthorized" });
             }
             else {
-                return res.status(200).json({ message: "welcome back" });
+                return res.send(user.settings);
             }
         })(req, res, next);
     }

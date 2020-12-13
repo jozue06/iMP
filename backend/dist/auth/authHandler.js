@@ -39,11 +39,12 @@ passport_1.default.use(new JwtStrategy({
             return done(err, false);
         }
         if (user) {
+            user;
             return done(undefined, user, jwtToken);
         }
         else {
             return done(undefined, false);
         }
-    });
+    }).populate("settings");
 }));
 //# sourceMappingURL=authHandler.js.map

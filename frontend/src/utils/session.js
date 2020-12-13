@@ -11,7 +11,7 @@ export async function getSession() {
 			let apiAddress = getApi();
 			const res = await axios.post(apiAddress + "user/authorize", { "body": {} }, { "headers": headers });
 			if (res.status == 200) {
-				return true;
+				return res;
 			}
 			else {
 				return false;

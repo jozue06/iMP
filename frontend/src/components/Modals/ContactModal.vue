@@ -147,9 +147,3 @@
 		}
 	};
 </script>
-
-<style scoped>
-	section {
-		display: inline-block;
-	}
-</style>
