@@ -1,6 +1,6 @@
 import passport from "passport";
 import passportLocal from "passport-local";
-import { User } from "../models/userModel";
+import { User, UserDocument } from "../models/userModel";
 import { JWT_SECRETE } from "../utils/secret";
 
 import passportJwt from "passport-jwt";
@@ -33,10 +33,11 @@ passport.use(
 			if (err) { return done(err, false); }
 
 			if (user) {
+				user;
 				return done(undefined, user, jwtToken);
 			} else {
 				return done(undefined, false);
 			}
-		});
+		}).populate("settings");
 	})
 );

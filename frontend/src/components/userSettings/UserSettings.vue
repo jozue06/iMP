@@ -23,6 +23,15 @@
 				<b-tab title="Currency Settings">
 					<CurrencySettingsTab v-bind:currentSettings="currentSettings" @saveSettings="saveSettings" v-bind:currencyList="currencyList"  @refresh="refresh"/>
 				</b-tab>
+				<b-tab title="View settings">
+					<b-row class="mx-4 justify-content-around">
+						<b-col cols="3">
+							<b-form-group label="Toggle Dark Mode">
+								<b-form-checkbox @change="toggleTheme" :checked="currentSettings.theme == 'dark'" switch />
+							</b-form-group>  
+						</b-col>
+					</b-row>
+				</b-tab>
 			</b-tabs>
 		</div>
 	</section>
@@ -78,6 +87,17 @@
 		},
 
 		methods: {
+			toggleTheme(useDarkMode) {
+				let themeName = "light";
+				if (useDarkMode) {
+					themeName = "dark";
+				}
+				
+				document.documentElement.setAttribute('theme', themeName);
+				this.currentSettings.theme = themeName;	
+				Settings.save(this.currentSettings);
+			},
+
 			refresh() {
 				Settings.getSettings().then(settings => {
 					this.currentSettings = settings ? settings : {};

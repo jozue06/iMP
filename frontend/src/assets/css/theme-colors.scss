@@ -1,0 +1,44 @@
+:root {
+    --app-background-color: #FFFFFF;
+    --dynamic-title-color: #FFFFFF;
+    --dynamic-subtitle-color: #4a4a4a;
+
+    --card-background-color: #fff;
+    --box-shadow-var: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --gradient-start-color: #fcd7c7;
+    --gradient-end-color: #42b983;
+    --btn-border-color: #17a2b8;
+    --form-control-border-color: #ced4da;
+
+    --link-background-color: #17a2b8;
+    --tab-link-color: #495057;
+    --link-hover-color:#42b983;
+    --link-color: #008b8b;
+
+    --btn-hover-color: #017171;
+    --btn-hover-text-color: #4a4a4a;
+}
+
+[theme="dark"] {
+    --app-background-color: #363636;
+    --dynamic-title-color: #FFFFFF;
+    --dynamic-subtitle-color: cyan;
+
+    --btn-hover-text-color: #4a4a4a;
+    --btn-hover-color:  #00bfbf;
+    --btn-border-color:  #008b8b;
+
+    --link-color: #495057;
+    --link-hover-color: #ff7f50;
+
+    --link-background-color: #17a2b8;
+    --card-background-color:  #4a4a4a;
+    --box-shadow-var: none;
+
+    --gradient-start-color: #4a4a4a;
+    --gradient-end-color:  #008b8b;
+
+    --form-control-border-color: #363636;
+
+    --table-select-background-color:  #8f4429;
+}

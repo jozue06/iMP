@@ -28,6 +28,7 @@ export interface SettingsInterface {
 	vehicles?: [VehicleDocument]
 	defaultCurrency?: string,
 	userCurrencies?: string[],
+	theme?: string,
 }
 
 const SettingsSchema = new Schema({
@@ -158,6 +159,10 @@ const SettingsSchema = new Schema({
 		type: Array,
 		required: false,
 		default: [],
+	},
+	theme: {
+		type: String,
+		default: "light",
 	}
 },
 	{
