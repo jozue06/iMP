@@ -55,3 +55,7 @@ export function removeFromS3(urlString: string): Promise<any> {
 		});
 	});
 }
+
+// export function getCustomerSiteHtml() {
+		
+// }

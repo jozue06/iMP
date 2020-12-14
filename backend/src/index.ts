@@ -6,6 +6,13 @@ import path from "path";
 import mongoose from "mongoose";
 import { MONGO_DB_URI } from "./utils/secret";
 
+import * as AWS from "aws-sdk";
+import { BUCKET_NAME_FOR_CUSTOMER_SITES, IAM_USER_KEY, IAM_USER_SECRET } from "./utils/secret";
+const s3 = new AWS.S3({
+	accessKeyId: IAM_USER_KEY,
+	secretAccessKey: IAM_USER_SECRET
+});
+
 import errorMiddleware from './middleware/error.middleware';
 import { AuthRoutes } from "./routes/authRoutes";
 import { ContactRoutes } from "./routes/contactRoutes";
@@ -49,6 +56,23 @@ class Server {
 		this.app.use("/", new StatementRoutes().router);
 		this.app.get('/', (req,res) => {
 			res.sendFile(path.resolve(__dirname, '../../frontend', 'dist', 'index.html'))
+		});
+
+		this.app.get('/:customerSite', (req, res) => {
+			if (req.params.customerSite == "favicon.ico") {
+				return res.send();
+			}
+			let key = req.params.customerSite + "/index.html";
+			let params = {
+				Bucket: BUCKET_NAME_FOR_CUSTOMER_SITES, 
+				Key: key
+			}
+				
+			s3.getObject(params).on('httpHeaders', function (statusCode, headers) {
+				res.set('Content-Length', headers['content-length']);
+				res.set('Content-Type', headers['content-type']);
+				this.response.httpResponse.createUnbufferedStream().pipe(res);
+			}).send();
 		});
 	}
 

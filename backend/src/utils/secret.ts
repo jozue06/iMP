@@ -17,3 +17,4 @@ if (!JWT_SECRETE) {
 export const BUCKET_NAME = process.env.BUCKET_NAME;
 export const IAM_USER_KEY = process.env.IAM_USER_KEY;
 export const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+export const BUCKET_NAME_FOR_CUSTOMER_SITES = process.env.BUCKET_NAME_FOR_CUSTOMER_SITES;
