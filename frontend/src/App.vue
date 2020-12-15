@@ -58,7 +58,10 @@
 		},
 	}
 </script>
-
+<style src='grapesjs/dist/css/grapes.min.css'>
+</style>
+<style src='grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css'>
+</style>
 <style>
 	#app {
 		font-family: Avenir, Helvetica, Arial, sans-serif;

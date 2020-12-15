@@ -10,15 +10,13 @@ $danger: #ff7f50 !default;
 // $light: $gray-100 !default;
 // $dark: $gray-800 !default;
 
-
-
 body {
 	background: var(--app-background-color) !important;
 }
 .app-background {
 	background-color: var(--app-background-color);
 }
-  
+
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
